@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Arq Select | Soluções para Arquitetos</title>
+
+  <meta name="description" content="Arq Select — uma nova experiência para arquitetos encontrarem fornecedores, produtos e soluções para seus projetos. Acesso gratuito.">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #080808;
+      color: #f5f5f5;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* =========================
+       CORES
+    ========================= */
+
+    :root {
+      --gold: #c9a45c;
+      --gold-light: #e4c982;
+      --black: #080808;
+      --black-2: #111111;
+      --white: #f7f7f7;
+      --gray: #a7a7a7;
+      --border: rgba(201, 164, 92, 0.25);
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(8, 8, 8, 0.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: white;
+    }
+
+    .logo span {
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      color: #ccc;
+      font-size: 14px;
+      transition: .3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold-light);
+    }
+
+    .nav-button {
+      padding: 11px 20px;
+      border: 1px solid var(--gold);
+      color: var(--gold-light) !important;
+      border-radius: 2px;
+    }
+
+    .nav-button:hover {
+      background: var(--gold);
+      color: #000 !important;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 75% 35%, rgba(201,164,92,.14), transparent 28%),
+        radial-gradient(circle at 15% 80%, rgba(201,164,92,.07), transparent 25%),
+        #080808;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 70px 70px;
+      mask-image: linear-gradient(to bottom, black, transparent);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      width: 1200px;
+      max-width: calc(100% - 60px);
+      margin: auto;
+      padding-top: 100px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .eyebrow {
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      font-size: 12px;
+      margin-bottom: 25px;
+    }
+
+    .hero h1 {
+      max-width: 850px;
+      font-size: clamp(48px, 7vw, 86px);
+      line-height: 1.03;
+      font-weight: 500;
+      letter-spacing: -3px;
+    }
+
+    .hero h1 span {
+      color: var(--gold-light);
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin-top: 30px;
+      color: #bdbdbd;
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #d7b66c, #a9823c);
+      color: #090909;
+      padding: 17px 30px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      transition: .3s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(201,164,92,.25);
+    }
+
+    .btn-secondary {
+      border: 1px solid rgba(255,255,255,.2);
+      padding: 16px 30px;
+      color: #ddd;
+      transition: .3s;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold-light);
+    }
+
+    .hero-bottom {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #777;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       SEÇÕES
+    ========================= */
+
+    section {
+      padding: 110px 30px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .section-label {
+      color: var(--gold-light);
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+    }
+
+    .section-title {
+      font-size: clamp(35px, 5vw, 58px);
+      font-weight: 400;
+      line-height: 1.1;
+      max-width: 800px;
+    }
+
+    .section-text {
+      color: #999;
+      max-width: 650px;
+      margin-top: 20px;
+      font-size: 17px;
+    }
+
+    /* =========================
+       BENEFÍCIOS
+    ========================= */
+
+    .benefits {
+      background: #0d0d0d;
+    }
+
+    .benefit-grid {
+      margin-top: 60px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--border);
+      border-left: 1px solid var(--border);
+    }
+
+    .benefit {
+      min-height: 270px;
+      padding: 35px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      transition: .35s;
+    }
+
+    .benefit:hover {
+      background: #141414;
+      transform: translateY(-5px);
+    }
+
+    .number {
+      color: var(--gold);
+      font-size: 13px;
+      letter-spacing: 2px;
+    }
+
+    .benefit h3 {
+      margin-top: 65px;
+      font-size: 22px;
+      font-weight: 500;
+    }
+
+    .benefit p {
+      margin-top: 12px;
+      color: #888;
+      font-size: 14px;
+    }
+
+    /* =========================
+       COMO FUNCIONA
+    ========================= */
+
+    .steps {
+      background: #080808;
+    }
+
+    .steps-grid {
+      margin-top: 60px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .step {
+      padding: 35px;
+      border: 1px solid rgba(255,255,255,.1);
+      background: linear-gradient(145deg, #111, #0b0b0b);
+    }
+
+    .step-number {
+      font-size: 42px;
+      color: var(--gold);
+      font-weight: 300;
+    }
+
+    .step h3 {
+      margin-top: 30px;
+      font-size: 21px;
+    }
+
+    .step p {
+      margin-top: 12px;
+      color: #888;
+      font-size: 14px;
+    }
+
+    /* =========================
+       DESTAQUE
+    ========================= */
+
+    .highlight {
+      background:
+        linear-gradient(rgba(8,8,8,.82), rgba(8,8,8,.96)),
+        radial-gradient(circle at center, #382b16, #080808 60%);
+      text-align: center;
+    }
+
+    .highlight .container {
+      max-width: 900px;
+    }
+
+    .highlight h2 {
+      font-size: clamp(38px, 6vw, 68px);
+      font-weight: 400;
+      line-height: 1.1;
+    }
+
+    .highlight h2 span {
+      color: var(--gold-light);
+    }
+
+    .highlight p {
+      color: #999;
+      max-width: 650px;
+      margin: 25px auto 35px;
+      font-size: 17px;
+    }
+
+    /* =========================
+       CADASTRO
+    ========================= */
+
+    .cta {
+      background: #0d0d0d;
+      text-align: center;
+    }
+
+    .cta-box {
+      max-width: 900px;
+      margin: auto;
+      padding: 80px 30px;
+      border: 1px solid var(--border);
+      background:
+        radial-gradient(circle at top, rgba(201,164,92,.10), transparent 50%),
+        #101010;
+    }
+
+    .cta h2 {
+      font-size: clamp(35px, 5vw, 55px);
+      font-weight: 400;
+    }
+
+    .cta p {
+      color: #999;
+      margin: 20px auto 35px;
+      max-width: 600px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 35px 30px;
+      background: #060606;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-logo {
+      font-size: 20px;
+      letter-spacing: 3px;
+    }
+
+    .footer-logo span {
+      color: var(--gold);
+    }
+
+    footer p {
+      color: #666;
+      font-size: 12px;
+    }
+
+    /* =========================
+       ANIMAÇÃO
+    ========================= */
+
+    .fade {
+      animation: fadeUp 1s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 850px) {
+
+      .nav {
+        padding: 17px 20px;
+      }
+
+      .nav-links a:not(.nav-button) {
+        display: none;
+      }
+
+      .hero-content {
+        max-width: calc(100% - 40px);
+      }
+
+      .hero h1 {
+        letter-spacing: -2px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .benefit-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .steps-grid {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 80px 20px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 520px) {
+
+      .logo {
+        font-size: 20px;
+      }
+
+      .nav-button {
+        padding: 9px 12px;
+        font-size: 11px;
+      }
+
+      .hero h1 {
+        font-size: 48px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .hero-buttons a {
+        text-align: center;
+        width: 100%;
+      }
+
+      .benefit-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .benefit {
+        min-height: auto;
+      }
+
+      .benefit h3 {
+        margin-top: 35px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       HEADER
+  ========================= -->
+
+  <header>
+    <nav class="nav">
+
+      <a href="#" class="logo">
+        ARQ<span>SELECT</span>
+      </a>
+
+      <div class="nav-links">
+
+        <a href="#beneficios">
+          Benefícios
+        </a>
+
+        <a href="#como-funciona">
+          Como funciona
+        </a>
+
+        <a
+          href="SEU_LINK_DO_GOOGLE_FORMS"
+          target="_blank"
+          class="nav-button">
+          Acesso gratuito
+        </a>
+
+      </div>
+
+    </nav>
+  </header>
+
+
+  <!-- =========================
+       HERO
+  ========================= -->
+
+  <main>
+
+    <section class="hero">
+
+      <div class="hero-content fade">
+
+        <div class="eyebrow">
+          ARQ SELECT
+        </div>
+
+        <h1>
+          Onde grandes projetos
+          encontram <span>grandes soluções.</span>
+        </h1>
+
+        <p>
+          Uma nova experiência criada para arquitetos
+          encontrarem fornecedores, produtos e soluções
+          para seus projetos com mais praticidade,
+          eficiência e exclusividade.
+        </p>
+
+        <div class="hero-buttons">
+
+          <a
+            href="https://forms.gle/aqt5KDvz15xtTEc88"
+            target="_blank"
+            class="btn-primary">
+            QUERO ACESSO GRATUITO
+          </a>
+
+          <a
+            href="#como-funciona"
+            class="btn-secondary">
+            CONHEÇA A ARQ SELECT
+          </a>
+
+        </div>
+
+      </div>
+
+      <div class="hero-bottom">
+        Exclusividade • Conexões • Soluções
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         BENEFÍCIOS
+    ========================= -->
+
+    <section class="benefits" id="beneficios">
+
+      <div class="container">
+
+        <div class="section-label">
+          Por que Arq Select
+        </div>
+
+        <h2 class="section-title">
+          Mais possibilidades para
+          seus projetos.
+        </h2>
+
+        <p class="section-text">
+          A Arq Select foi pensada para aproximar
+          arquitetos de soluções e fornecedores,
+          simplificando uma das etapas mais importantes
+          de qualquer projeto.
+        </p>
+
+
+        <div class="benefit-grid">
+
+          <div class="benefit">
+
+            <div class="number">01</div>
+
+            <h3>
+              Fornecedores
+            </h3>
+
+            <p>
+              Encontre fornecedores e empresas
+              que podem fazer parte dos seus projetos.
+            </p>
+
+          </div>
+
+
+          <div class="benefit">
+
+            <div class="number">02</div>
+
+            <h3>
+              Novas soluções
+            </h3>
+
+            <p>
+              Descubra produtos, materiais e
+              possibilidades para seus projetos.
+            </p>
+
+          </div>
+
+
+          <div class="benefit">
+
+            <div class="number">03</div>
+
+            <h3>
+              Mais praticidade
+            </h3>
+
+            <p>
+              Reduza o tempo gasto procurando
+              soluções para cada projeto.
+            </p>
+
+          </div>
+
+
+          <div class="benefit">
+
+            <div class="number">04</div>
+
+            <h3>
+              Conexões
+            </h3>
+
+            <p>
+              Amplie sua rede profissional e descubra
+              novas oportunidades.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         COMO FUNCIONA
+    ========================= -->
+
+    <section class="steps" id="como-funciona">
+
+      <div class="container">
+
+        <div class="section-label">
+          Simples e gratuito
+        </div>
+
+        <h2 class="section-title">
+          Comece em poucos passos.
+        </h2>
+
+        <div class="steps-grid">
+
+          <div class="step">
+
+            <div class="step-number">
+              01
+            </div>
+
+            <h3>
+              Faça seu cadastro
+            </h3>
+
+            <p>
+              Preencha rapidamente seus dados
+              profissionais através do nosso formulário.
+            </p>
+
+          </div>
+
+
+          <div class="step">
+
+            <div class="step-number">
+              02
+            </div>
+
+            <h3>
+              Conheça a plataforma
+            </h3>
+
+            <p>
+              Após o cadastro, nossa equipe entrará
+              em contato para apresentar a Arq Select.
+            </p>
+
+          </div>
+
+
+          <div class="step">
+
+            <div class="step-number">
+              03
+            </div>
+
+            <h3>
+              Explore novas possibilidades
+            </h3>
+
+            <p>
+              Encontre fornecedores e soluções que
+              podem agregar aos seus projetos.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         DESTAQUE
+    ========================= -->
+
+    <section class="highlight">
+
+      <div class="container">
+
+        <div class="section-label">
+          Para arquitetos
+        </div>
+
+        <h2>
+          Seu projeto merece
+          <span>boas conexões.</span>
+        </h2>
+
+        <p>
+          Faça parte da primeira rede de profissionais
+          da Arq Select e tenha acesso gratuito à nossa
+          ferramenta.
+        </p>
+
+        <a
+          href="https://forms.gle/aqt5KDvz15xtTEc88"
+          target="_blank"
+          class="btn-primary">
+          QUERO FAZER PARTE
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CTA FINAL
+    ========================= -->
+
+    <section class="cta">
+
+      <div class="cta-box">
+
+        <div class="section-label">
+          Arq Select
+        </div>
+
+        <h2>
+          Pronto para conhecer?
+        </h2>
+
+        <p>
+          Cadastre-se gratuitamente e descubra
+          uma nova maneira de encontrar soluções
+          para seus projetos.
+        </p>
+
+        <a
+          href="https://forms.gle/aqt5KDvz15xtTEc88"
+          target="_blank"
+          class="btn-primary">
+          ACESSAR GRATUITAMENTE
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+  ========================= -->
+
+  <footer>
+
+    <div class="footer-content">
+
+      <div class="footer-logo">
+        ARQ<span>SELECT</span>
+      </div>
+
+      <p>
+        © 2026 Arq Select. Todos os direitos reservados.
+      </p>
+
+    </div>
+
+  </footer>
+
+</body>
+</html>
