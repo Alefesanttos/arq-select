@@ -9,11 +9,12 @@
     name="viewport"
     content="width=device-width, initial-scale=1.0">
 
-  <title>Arq Select | Soluções para Arquitetos</title>
+  <title>Arq Select | Arquitetura, Projetos e Soluções</title>
 
   <meta
     name="description"
-    content="Arq Select — uma nova experiência para arquitetos encontrarem fornecedores, produtos e soluções para seus projetos.">
+    content="Arq Select conecta arquitetos, projetos e fornecedores. Solicite orçamentos e encontre soluções para seus projetos."
+  >
 
   <style>
 
@@ -32,6 +33,7 @@
       background: #080808;
       color: #f5f5f5;
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     a {
@@ -46,13 +48,13 @@
       --black-2: #111111;
       --white: #f7f7f7;
       --gray: #a7a7a7;
-      --border: rgba(201, 164, 92, 0.25);
+      --border: rgba(201,164,92,0.25);
     }
 
 
-    /* =========================
+    /* ========================================
        HEADER
-    ========================= */
+    ======================================== */
 
     header {
       position: fixed;
@@ -61,34 +63,31 @@
       width: 100%;
       z-index: 1000;
 
-      background: rgba(8, 8, 8, 0.90);
+      background: rgba(8,8,8,.90);
 
       backdrop-filter: blur(18px);
 
       border-bottom:
-        1px solid rgba(255,255,255,0.07);
+        1px solid rgba(255,255,255,.07);
     }
 
     .nav {
-      max-width: 1200px;
+      max-width: 1250px;
       margin: auto;
 
-      padding: 20px 30px;
+      padding: 18px 30px;
 
       display: flex;
-
+      align-items: center;
       justify-content: space-between;
 
-      align-items: center;
+      gap: 20px;
     }
 
     .logo {
       font-size: 25px;
-
       font-weight: 700;
-
       letter-spacing: 4px;
-
       color: white;
     }
 
@@ -98,17 +97,13 @@
 
     .nav-links {
       display: flex;
-
       align-items: center;
-
-      gap: 18px;
+      gap: 12px;
     }
 
     .nav-links a {
-      color: #ccc;
-
-      font-size: 14px;
-
+      color: #cfcfcf;
+      font-size: 13px;
       transition: .3s;
     }
 
@@ -117,22 +112,20 @@
     }
 
 
-    /* =========================
-       BOTÃO ARQUITETO
-    ========================= */
+    /* BOTÃO ARQUITETO */
 
     .nav-architect {
 
-      padding: 10px 18px;
+      padding: 10px 17px;
 
       border:
         1px solid rgba(255,255,255,.18);
 
       color: #ddd !important;
 
-      font-size: 12px !important;
-
       text-transform: uppercase;
+
+      font-size: 11px !important;
 
       letter-spacing: .5px;
 
@@ -148,17 +141,13 @@
         var(--gold-light) !important;
 
       background:
-        rgba(201,164,92,.05);
+        rgba(201,164,92,.06);
     }
 
 
-    /* =========================
-       BOTÃO FORNECEDOR PREMIUM
-    ========================= */
+    /* BOTÃO FORNECEDOR */
 
     .nav-supplier {
-
-      position: relative;
 
       padding: 11px 20px;
 
@@ -171,49 +160,19 @@
       background:
         linear-gradient(
           135deg,
-          rgba(201,164,92,.12),
+          rgba(201,164,92,.14),
           rgba(201,164,92,.03)
         );
-
-      border-radius: 2px;
 
       font-weight: 600;
 
       letter-spacing: .5px;
 
       box-shadow:
-        0 0 18px rgba(201,164,92,.08);
+        0 0 20px
+        rgba(201,164,92,.08);
 
       transition: .3s;
-
-      overflow: hidden;
-    }
-
-    .nav-supplier::before {
-
-      content: "";
-
-      position: absolute;
-
-      top: 0;
-      left: -100%;
-
-      width: 100%;
-      height: 100%;
-
-      background:
-        linear-gradient(
-          90deg,
-          transparent,
-          rgba(255,255,255,.18),
-          transparent
-        );
-
-      transition: .6s;
-    }
-
-    .nav-supplier:hover::before {
-      left: 100%;
     }
 
     .nav-supplier:hover {
@@ -224,47 +183,50 @@
       color:
         #000 !important;
 
-      box-shadow:
-        0 10px 35px
-        rgba(201,164,92,.25);
-
       transform:
         translateY(-2px);
+
+      box-shadow:
+        0 12px 35px
+        rgba(201,164,92,.25);
     }
 
 
-    /* =========================
+    /* ========================================
        HERO
-    ========================= */
+    ======================================== */
 
     .hero {
 
       min-height: 100vh;
 
+      position: relative;
+
       display: flex;
 
       align-items: center;
-
-      position: relative;
 
       overflow: hidden;
 
       background:
 
         radial-gradient(
-          circle at 75% 35%,
-          rgba(201,164,92,.14),
-          transparent 28%
+          circle at 15% 70%,
+          rgba(201,164,92,.08),
+          transparent 30%
         ),
 
         radial-gradient(
-          circle at 15% 80%,
-          rgba(201,164,92,.07),
-          transparent 25%
+          circle at 70% 30%,
+          rgba(201,164,92,.12),
+          transparent 30%
         ),
 
         #080808;
     }
+
+
+    /* GRADE DE FUNDO */
 
     .hero::before {
 
@@ -299,20 +261,136 @@
       pointer-events: none;
     }
 
+
+    /* ========================================
+       IMAGEM LATERAL
+    ======================================== */
+
+    .hero-image {
+
+      position: absolute;
+
+      right: -2%;
+
+      top: 0;
+
+      width: 52%;
+
+      height: 100%;
+
+      z-index: 1;
+
+      overflow: hidden;
+
+      animation:
+        imageSlide 1.4s ease-out forwards;
+    }
+
+    .hero-image img {
+
+      width: 100%;
+
+      height: 100%;
+
+      object-fit: cover;
+
+      object-position: center;
+
+      opacity: .72;
+
+      filter:
+        brightness(.70)
+        contrast(1.08)
+        saturate(.85);
+
+      transform:
+        scale(1.08);
+
+      animation:
+        imageZoom 8s ease-out forwards;
+    }
+
+
+    /* DEGRADÊ SOBRE A IMAGEM */
+
+    .hero-image::after {
+
+      content: "";
+
+      position: absolute;
+
+      inset: 0;
+
+      background:
+
+        linear-gradient(
+          90deg,
+          #080808 0%,
+          rgba(8,8,8,.88) 18%,
+          rgba(8,8,8,.30) 65%,
+          rgba(8,8,8,.12) 100%
+        ),
+
+        linear-gradient(
+          0deg,
+          rgba(8,8,8,.55),
+          transparent 45%
+        );
+    }
+
+
+    @keyframes imageSlide {
+
+      from {
+        transform:
+          translateX(120px);
+
+        opacity: 0;
+      }
+
+      to {
+        transform:
+          translateX(0);
+
+        opacity: 1;
+      }
+    }
+
+
+    @keyframes imageZoom {
+
+      from {
+        transform:
+          scale(1.15);
+      }
+
+      to {
+        transform:
+          scale(1.03);
+      }
+    }
+
+
+    /* ========================================
+       CONTEÚDO HERO
+    ======================================== */
+
     .hero-content {
 
-      width: 1200px;
+      width: 1250px;
 
       max-width:
         calc(100% - 60px);
 
-      margin: auto;
+      margin:
+        0 auto;
 
-      padding-top: 100px;
+      padding-top:
+        100px;
 
       position: relative;
 
-      z-index: 2;
+      z-index: 5;
     }
 
     .eyebrow {
@@ -323,62 +401,85 @@
       text-transform:
         uppercase;
 
-      letter-spacing: 5px;
+      letter-spacing:
+        5px;
 
-      font-size: 12px;
+      font-size:
+        11px;
 
-      margin-bottom: 25px;
+      margin-bottom:
+        24px;
     }
 
     .hero h1 {
 
-      max-width: 850px;
+      max-width:
+        800px;
 
       font-size:
-        clamp(48px, 7vw, 86px);
+        clamp(48px, 6.5vw, 82px);
 
-      line-height: 1.03;
+      line-height:
+        1.02;
 
-      font-weight: 500;
+      font-weight:
+        500;
 
-      letter-spacing: -3px;
+      letter-spacing:
+        -3px;
     }
 
     .hero h1 span {
+
       color:
         var(--gold-light);
     }
 
     .hero p {
 
-      max-width: 650px;
+      max-width:
+        610px;
 
-      margin-top: 30px;
+      margin-top:
+        28px;
 
-      color: #bdbdbd;
+      color:
+        #bdbdbd;
 
-      font-size: 18px;
+      font-size:
+        17px;
 
-      line-height: 1.8;
+      line-height:
+        1.8;
     }
 
 
-    /* =========================
+    /* ========================================
        BOTÕES HERO
-    ========================= */
+    ======================================== */
 
     .hero-buttons {
 
-      display: flex;
+      display:
+        flex;
 
-      gap: 15px;
+      flex-wrap:
+        wrap;
 
-      margin-top: 40px;
+      gap:
+        13px;
 
-      flex-wrap: wrap;
+      margin-top:
+        38px;
     }
 
     .btn-primary {
+
+      display:
+        inline-block;
+
+      padding:
+        17px 28px;
 
       background:
         linear-gradient(
@@ -387,17 +488,17 @@
           #a9823c
         );
 
-      color: #090909;
+      color:
+        #080808;
 
-      padding: 17px 30px;
+      font-weight:
+        700;
 
-      font-weight: 700;
+      letter-spacing:
+        .5px;
 
-      letter-spacing: .5px;
-
-      transition: .3s;
-
-      display: inline-block;
+      transition:
+        .3s;
     }
 
     .btn-primary:hover {
@@ -410,18 +511,23 @@
         rgba(201,164,92,.25);
     }
 
+
     .btn-secondary {
 
+      display:
+        inline-block;
+
+      padding:
+        16px 28px;
+
       border:
-        1px solid rgba(255,255,255,.2);
+        1px solid rgba(255,255,255,.20);
 
-      padding: 16px 30px;
+      color:
+        #ddd;
 
-      color: #ddd;
-
-      transition: .3s;
-
-      display: inline-block;
+      transition:
+        .3s;
     }
 
     .btn-secondary:hover {
@@ -431,33 +537,49 @@
 
       color:
         var(--gold-light);
+
+      transform:
+        translateY(-2px);
     }
 
 
-    /* =========================
-       BOTÃO FORNECEDOR HERO
-    ========================= */
-
     .supplier-hero-button {
+
+      display:
+        inline-block;
+
+      padding:
+        13px 24px;
 
       border:
         1px solid var(--gold);
 
-      padding: 16px 30px;
-
       color:
         var(--gold-light);
 
-      display: inline-block;
-
       background:
-        rgba(201,164,92,.04);
+        rgba(201,164,92,.05);
 
-      transition: .3s;
+      transition:
+        .3s;
+    }
 
-      position: relative;
+    .supplier-hero-button small {
 
-      overflow: hidden;
+      display:
+        block;
+
+      font-size:
+        8px;
+
+      letter-spacing:
+        2px;
+
+      margin-bottom:
+        2px;
+
+      opacity:
+        .7;
     }
 
     .supplier-hero-button:hover {
@@ -473,59 +595,60 @@
 
       box-shadow:
         0 15px 40px
-        rgba(201,164,92,.20);
-    }
-
-    .supplier-hero-button small {
-
-      display: block;
-
-      font-size: 9px;
-
-      letter-spacing: 2px;
-
-      margin-bottom: 2px;
-
-      opacity: .7;
+        rgba(201,164,92,.22);
     }
 
 
     .hero-bottom {
 
-      position: absolute;
+      position:
+        absolute;
 
-      bottom: 30px;
+      bottom:
+        25px;
 
-      left: 50%;
+      left:
+        50%;
 
       transform:
         translateX(-50%);
 
-      color: #777;
+      z-index:
+        5;
 
-      font-size: 11px;
+      color:
+        #777;
 
-      letter-spacing: 3px;
+      font-size:
+        10px;
 
-      text-transform: uppercase;
+      letter-spacing:
+        3px;
 
-      white-space: nowrap;
+      text-transform:
+        uppercase;
+
+      white-space:
+        nowrap;
     }
 
 
-    /* =========================
+    /* ========================================
        SEÇÕES
-    ========================= */
+    ======================================== */
 
     section {
-      padding: 110px 30px;
+      padding:
+        110px 30px;
     }
 
     .container {
 
-      max-width: 1200px;
+      max-width:
+        1200px;
 
-      margin: auto;
+      margin:
+        auto;
     }
 
     .section-label {
@@ -533,13 +656,17 @@
       color:
         var(--gold-light);
 
-      font-size: 11px;
+      font-size:
+        11px;
 
-      letter-spacing: 4px;
+      letter-spacing:
+        4px;
 
-      text-transform: uppercase;
+      text-transform:
+        uppercase;
 
-      margin-bottom: 15px;
+      margin-bottom:
+        15px;
     }
 
     .section-title {
@@ -547,41 +674,51 @@
       font-size:
         clamp(35px, 5vw, 58px);
 
-      font-weight: 400;
+      font-weight:
+        400;
 
-      line-height: 1.1;
+      line-height:
+        1.1;
 
-      max-width: 800px;
+      max-width:
+        800px;
     }
 
     .section-text {
 
-      color: #999;
+      color:
+        #999;
 
-      max-width: 650px;
+      max-width:
+        650px;
 
-      margin-top: 20px;
+      margin-top:
+        20px;
 
-      font-size: 17px;
+      font-size:
+        17px;
     }
 
 
-    /* =========================
+    /* ========================================
        BENEFÍCIOS
-    ========================= */
+    ======================================== */
 
     .benefits {
-      background: #0d0d0d;
+      background:
+        #0d0d0d;
     }
 
     .benefit-grid {
 
-      margin-top: 60px;
+      margin-top:
+        60px;
 
-      display: grid;
+      display:
+        grid;
 
       grid-template-columns:
-        repeat(4, 1fr);
+        repeat(4,1fr);
 
       border-top:
         1px solid var(--border);
@@ -592,9 +729,11 @@
 
     .benefit {
 
-      min-height: 270px;
+      min-height:
+        270px;
 
-      padding: 35px;
+      padding:
+        35px;
 
       border-right:
         1px solid var(--border);
@@ -602,12 +741,14 @@
       border-bottom:
         1px solid var(--border);
 
-      transition: .35s;
+      transition:
+        .35s;
     }
 
     .benefit:hover {
 
-      background: #141414;
+      background:
+        #141414;
 
       transform:
         translateY(-5px);
@@ -618,53 +759,66 @@
       color:
         var(--gold);
 
-      font-size: 13px;
+      font-size:
+        13px;
 
-      letter-spacing: 2px;
+      letter-spacing:
+        2px;
     }
 
     .benefit h3 {
 
-      margin-top: 65px;
+      margin-top:
+        65px;
 
-      font-size: 22px;
+      font-size:
+        22px;
 
-      font-weight: 500;
+      font-weight:
+        500;
     }
 
     .benefit p {
 
-      margin-top: 12px;
+      margin-top:
+        12px;
 
-      color: #888;
+      color:
+        #888;
 
-      font-size: 14px;
+      font-size:
+        14px;
     }
 
 
-    /* =========================
+    /* ========================================
        COMO FUNCIONA
-    ========================= */
+    ======================================== */
 
     .steps {
-      background: #080808;
+      background:
+        #080808;
     }
 
     .steps-grid {
 
-      margin-top: 60px;
+      margin-top:
+        60px;
 
-      display: grid;
+      display:
+        grid;
 
       grid-template-columns:
-        repeat(3, 1fr);
+        repeat(3,1fr);
 
-      gap: 25px;
+      gap:
+        25px;
     }
 
     .step {
 
-      padding: 35px;
+      padding:
+        35px;
 
       border:
         1px solid rgba(255,255,255,.1);
@@ -679,34 +833,41 @@
 
     .step-number {
 
-      font-size: 42px;
+      font-size:
+        42px;
 
       color:
         var(--gold);
 
-      font-weight: 300;
+      font-weight:
+        300;
     }
 
     .step h3 {
 
-      margin-top: 30px;
+      margin-top:
+        30px;
 
-      font-size: 21px;
+      font-size:
+        21px;
     }
 
     .step p {
 
-      margin-top: 12px;
+      margin-top:
+        12px;
 
-      color: #888;
+      color:
+        #888;
 
-      font-size: 14px;
+      font-size:
+        14px;
     }
 
 
-    /* =========================
-       ÁREA FORNECEDOR
-    ========================= */
+    /* ========================================
+       FORNECEDORES
+    ======================================== */
 
     .supplier-section {
 
@@ -719,24 +880,30 @@
         );
 
       border-top:
-        1px solid rgba(201,164,92,.10);
+        1px solid
+        rgba(201,164,92,.10);
 
       border-bottom:
-        1px solid rgba(201,164,92,.10);
+        1px solid
+        rgba(201,164,92,.10);
     }
 
     .supplier-box {
 
-      max-width: 1000px;
+      max-width:
+        1000px;
 
-      margin: auto;
+      margin:
+        auto;
 
-      padding: 70px 50px;
+      padding:
+        70px 50px;
 
       border:
         1px solid var(--border);
 
       background:
+
         radial-gradient(
           circle at top right,
           rgba(201,164,92,.10),
@@ -746,29 +913,35 @@
 
     .supplier-content {
 
-      display: flex;
+      display:
+        flex;
+
+      align-items:
+        center;
 
       justify-content:
         space-between;
 
-      align-items: center;
-
-      gap: 50px;
+      gap:
+        50px;
     }
 
     .supplier-text {
 
-      max-width: 620px;
+      max-width:
+        650px;
     }
 
     .supplier-text h2 {
 
       font-size:
-        clamp(35px, 5vw, 55px);
+        clamp(35px,5vw,55px);
 
-      font-weight: 400;
+      font-weight:
+        400;
 
-      line-height: 1.1;
+      line-height:
+        1.1;
     }
 
     .supplier-text h2 span {
@@ -779,16 +952,17 @@
 
     .supplier-text p {
 
-      color: #999;
+      color:
+        #999;
 
-      margin-top: 20px;
-
-      font-size: 16px;
+      margin-top:
+        20px;
     }
 
     .supplier-button {
 
-      white-space: nowrap;
+      white-space:
+        nowrap;
 
       padding:
         17px 28px;
@@ -800,13 +974,10 @@
         var(--gold-light);
 
       background:
-        linear-gradient(
-          135deg,
-          rgba(201,164,92,.12),
-          rgba(201,164,92,.03)
-        );
+        rgba(201,164,92,.05);
 
-      transition: .3s;
+      transition:
+        .3s;
     }
 
     .supplier-button:hover {
@@ -826,9 +997,9 @@
     }
 
 
-    /* =========================
+    /* ========================================
        DESTAQUE
-    ========================= */
+    ======================================== */
 
     .highlight {
 
@@ -845,59 +1016,72 @@
           #080808 60%
         );
 
-      text-align: center;
+      text-align:
+        center;
     }
 
     .highlight .container {
-      max-width: 900px;
+      max-width:
+        900px;
     }
 
     .highlight h2 {
 
       font-size:
-        clamp(38px, 6vw, 68px);
+        clamp(38px,6vw,68px);
 
-      font-weight: 400;
+      font-weight:
+        400;
 
-      line-height: 1.1;
+      line-height:
+        1.1;
     }
 
     .highlight h2 span {
+
       color:
         var(--gold-light);
     }
 
     .highlight p {
 
-      color: #999;
+      color:
+        #999;
 
-      max-width: 650px;
+      max-width:
+        650px;
 
       margin:
         25px auto 35px;
 
-      font-size: 17px;
+      font-size:
+        17px;
     }
 
 
-    /* =========================
+    /* ========================================
        CTA
-    ========================= */
+    ======================================== */
 
     .cta {
 
-      background: #0d0d0d;
+      background:
+        #0d0d0d;
 
-      text-align: center;
+      text-align:
+        center;
     }
 
     .cta-box {
 
-      max-width: 900px;
+      max-width:
+        900px;
 
-      margin: auto;
+      margin:
+        auto;
 
-      padding: 80px 30px;
+      padding:
+        80px 30px;
 
       border:
         1px solid var(--border);
@@ -916,54 +1100,70 @@
     .cta h2 {
 
       font-size:
-        clamp(35px, 5vw, 55px);
+        clamp(35px,5vw,55px);
 
-      font-weight: 400;
+      font-weight:
+        400;
     }
 
     .cta p {
 
-      color: #999;
+      color:
+        #999;
 
       margin:
         20px auto 35px;
 
-      max-width: 600px;
+      max-width:
+        600px;
     }
 
 
-    /* =========================
+    /* ========================================
        WHATSAPP
-    ========================= */
+    ======================================== */
 
     .whatsapp {
 
-      position: fixed;
+      position:
+        fixed;
 
-      right: 25px;
+      right:
+        25px;
 
-      bottom: 25px;
+      bottom:
+        25px;
 
-      width: 60px;
+      width:
+        60px;
 
-      height: 60px;
+      height:
+        60px;
 
-      border-radius: 50%;
+      border-radius:
+        50%;
 
-      background: #25D366;
+      background:
+        #25D366;
 
-      display: flex;
+      display:
+        flex;
 
-      align-items: center;
+      align-items:
+        center;
 
-      justify-content: center;
+      justify-content:
+        center;
 
-      z-index: 2000;
+      z-index:
+        2000;
 
       box-shadow:
-        0 8px 30px rgba(0,0,0,.45);
+        0 8px 30px
+        rgba(0,0,0,.45);
 
-      transition: .3s;
+      transition:
+        .3s;
     }
 
     .whatsapp:hover {
@@ -979,103 +1179,83 @@
 
     .whatsapp svg {
 
-      width: 32px;
+      width:
+        31px;
 
-      height: 32px;
+      height:
+        31px;
 
-      fill: white;
-    }
-
-    .whatsapp-tooltip {
-
-      position: absolute;
-
-      right: 75px;
-
-      top: 50%;
-
-      transform:
-        translateY(-50%);
-
-      background: #111;
-
-      border:
-        1px solid rgba(255,255,255,.1);
-
-      color: #ddd;
-
-      padding: 9px 13px;
-
-      white-space: nowrap;
-
-      font-size: 12px;
-
-      opacity: 0;
-
-      pointer-events: none;
-
-      transition: .3s;
-    }
-
-    .whatsapp:hover
-    .whatsapp-tooltip {
-
-      opacity: 1;
+      fill:
+        white;
     }
 
 
-    /* =========================
+    /* ========================================
        FOOTER
-    ========================= */
+    ======================================== */
 
     footer {
 
       border-top:
-        1px solid rgba(255,255,255,.08);
+        1px solid
+        rgba(255,255,255,.08);
 
-      padding: 35px 30px;
+      padding:
+        35px 30px;
 
-      background: #060606;
+      background:
+        #060606;
     }
 
     .footer-content {
 
-      max-width: 1200px;
+      max-width:
+        1200px;
 
-      margin: auto;
+      margin:
+        auto;
 
-      display: flex;
+      display:
+        flex;
+
+      align-items:
+        center;
 
       justify-content:
         space-between;
 
-      align-items: center;
-
-      gap: 20px;
+      gap:
+        20px;
     }
 
     .footer-logo {
 
-      font-size: 20px;
+      font-size:
+        20px;
 
-      letter-spacing: 3px;
+      letter-spacing:
+        3px;
     }
 
     .footer-logo span {
-      color: var(--gold);
+
+      color:
+        var(--gold);
     }
 
     footer p {
 
-      color: #666;
+      color:
+        #666;
 
-      font-size: 12px;
+      font-size:
+        12px;
     }
 
 
-    /* =========================
+    /* ========================================
        ANIMAÇÃO
-    ========================= */
+    ======================================== */
 
     .fade {
 
@@ -1087,7 +1267,8 @@
 
       from {
 
-        opacity: 0;
+        opacity:
+          0;
 
         transform:
           translateY(25px);
@@ -1095,7 +1276,8 @@
 
       to {
 
-        opacity: 1;
+        opacity:
+          1;
 
         transform:
           translateY(0);
@@ -1103,29 +1285,55 @@
     }
 
 
-    /* =========================
+    /* ========================================
        MOBILE
-    ========================= */
+    ======================================== */
 
-    @media (max-width: 900px) {
+    @media(max-width:900px) {
 
       .nav {
+
         padding:
           17px 20px;
       }
 
-      .nav-links {
-        gap: 8px;
+      .nav-links a:not(.nav-supplier) {
+
+        display:
+          none;
       }
 
-      .nav-links a:not(.nav-supplier) {
-        display: none;
+      .hero-image {
+
+        width:
+          100%;
+
+        right:
+          0;
+
+        opacity:
+          .38;
+      }
+
+      .hero-image::after {
+
+        background:
+
+          linear-gradient(
+            90deg,
+            #080808 0%,
+            rgba(8,8,8,.75) 50%,
+            rgba(8,8,8,.45) 100%
+          );
       }
 
       .hero-content {
 
         max-width:
           calc(100% - 40px);
+
+        padding-top:
+          90px;
       }
 
       .hero h1 {
@@ -1135,7 +1343,9 @@
       }
 
       .hero p {
-        font-size: 16px;
+
+        font-size:
+          16px;
       }
 
       .benefit-grid {
@@ -1159,7 +1369,17 @@
           flex-start;
       }
 
+      .supplier-button {
+
+        width:
+          100%;
+
+        text-align:
+          center;
+      }
+
       section {
+
         padding:
           80px 20px;
       }
@@ -1181,10 +1401,15 @@
     }
 
 
-    @media (max-width: 520px) {
+    @media(max-width:520px) {
 
       .logo {
-        font-size: 20px;
+
+        font-size:
+          19px;
+
+        letter-spacing:
+          3px;
       }
 
       .nav-supplier {
@@ -1197,7 +1422,9 @@
       }
 
       .hero h1 {
-        font-size: 48px;
+
+        font-size:
+          46px;
       }
 
       .hero-buttons {
@@ -1208,11 +1435,11 @@
 
       .hero-buttons a {
 
-        text-align:
-          center;
-
         width:
           100%;
+
+        text-align:
+          center;
       }
 
       .benefit-grid {
@@ -1233,26 +1460,19 @@
           35px;
       }
 
-      .supplier-button {
-
-        width: 100%;
-
-        text-align: center;
-      }
-
       .whatsapp {
 
-        width: 55px;
+        width:
+          55px;
 
-        height: 55px;
+        height:
+          55px;
 
-        right: 18px;
+        right:
+          18px;
 
-        bottom: 18px;
-      }
-
-      .whatsapp-tooltip {
-        display: none;
+        bottom:
+          18px;
       }
     }
 
@@ -1264,9 +1484,9 @@
 <body>
 
 
-<!-- =========================
+<!-- ========================================
      HEADER
-========================= -->
+======================================== -->
 
 <header>
 
@@ -1307,7 +1527,7 @@
         href="arquitetos.html"
         class="nav-architect">
 
-        Solicitar orçamento
+        SOLICITAR ORÇAMENTO
 
       </a>
 
@@ -1318,7 +1538,7 @@
         href="fornecedores.html"
         class="nav-supplier">
 
-        Seja fornecedor
+        SEJA FORNECEDOR
 
       </a>
 
@@ -1331,14 +1551,26 @@
 
 
 
-<!-- =========================
+<!-- ========================================
      HERO
-========================= -->
+======================================== -->
 
 <main>
 
 
 <section class="hero">
+
+
+  <!-- IMAGEM DE ARQUITETURA -->
+
+  <div class="hero-image">
+
+    <img
+      src="arquitetura-premium.png"
+      alt="Projeto de arquitetura contemporânea"
+    >
+
+  </div>
 
 
   <div
@@ -1365,10 +1597,10 @@
 
     <p>
 
-      Uma nova experiência criada para arquitetos
-      encontrarem fornecedores, produtos e soluções
-      para seus projetos com mais praticidade,
-      eficiência e exclusividade.
+      Uma nova experiência para arquitetos
+      encontrarem fornecedores, materiais,
+      produtos e soluções para transformar
+      grandes projetos em realidade.
 
     </p>
 
@@ -1376,7 +1608,7 @@
     <div class="hero-buttons">
 
 
-      <!-- ARQUITETO -->
+      <!-- BOTÃO ARQUITETO -->
 
       <a
         href="arquitetos.html"
@@ -1387,6 +1619,8 @@
       </a>
 
 
+      <!-- CONHEÇA -->
+
       <a
         href="#como-funciona"
         class="btn-secondary">
@@ -1396,7 +1630,7 @@
       </a>
 
 
-      <!-- FORNECEDOR -->
+      <!-- BOTÃO FORNECEDOR -->
 
       <a
         href="fornecedores.html"
@@ -1428,9 +1662,9 @@
 
 
 
-<!-- =========================
+<!-- ========================================
      BENEFÍCIOS
-========================= -->
+======================================== -->
 
 <section
   class="benefits"
@@ -1442,25 +1676,25 @@
 
     <div class="section-label">
 
-      Por que Arq Select
+      POR QUE ARQ SELECT
 
     </div>
 
 
     <h2 class="section-title">
 
-      Mais possibilidades para
-      seus projetos.
+      Mais possibilidades
+      para seus projetos.
 
     </h2>
 
 
     <p class="section-text">
 
-      A Arq Select foi pensada para aproximar
-      arquitetos de soluções e fornecedores,
-      simplificando uma das etapas mais importantes
-      de qualquer projeto.
+      A Arq Select aproxima arquitetos,
+      fornecedores e soluções para tornar
+      o desenvolvimento dos projetos mais
+      simples, eficiente e profissional.
 
     </p>
 
@@ -1480,7 +1714,7 @@
 
         <p>
 
-          Encontre fornecedores e empresas
+          Encontre empresas e fornecedores
           que podem fazer parte dos seus projetos.
 
         </p>
@@ -1500,8 +1734,8 @@
 
         <p>
 
-          Descubra produtos, materiais e
-          possibilidades para seus projetos.
+          Descubra materiais, produtos,
+          serviços e possibilidades.
 
         </p>
 
@@ -1515,13 +1749,13 @@
         </div>
 
         <h3>
-          Mais praticidade
+          Orçamentos
         </h3>
 
         <p>
 
-          Reduza o tempo gasto procurando
-          soluções para cada projeto.
+          Envie seu projeto e solicite
+          soluções e orçamentos.
 
         </p>
 
@@ -1540,8 +1774,8 @@
 
         <p>
 
-          Amplie sua rede profissional e descubra
-          novas oportunidades.
+          Amplie sua rede profissional
+          e encontre novas oportunidades.
 
         </p>
 
@@ -1556,9 +1790,9 @@
 
 
 
-<!-- =========================
+<!-- ========================================
      COMO FUNCIONA
-========================= -->
+======================================== -->
 
 <section
   class="steps"
@@ -1570,14 +1804,14 @@
 
     <div class="section-label">
 
-      Simples e gratuito
+      COMO FUNCIONA
 
     </div>
 
 
     <h2 class="section-title">
 
-      Comece em poucos passos.
+      Do projeto à solução.
 
     </h2>
 
@@ -1597,9 +1831,8 @@
 
         <p>
 
-          Arquitetos podem enviar os detalhes
-          do projeto e solicitar um orçamento
-          personalizado.
+          O arquiteto informa os detalhes
+          do projeto e o que precisa orçar.
 
         </p>
 
@@ -1613,14 +1846,13 @@
         </div>
 
         <h3>
-          Conectamos você
+          Analisamos a necessidade
         </h3>
 
         <p>
 
-          Nossa equipe analisa a necessidade
-          e busca fornecedores adequados
-          para o projeto.
+          Nossa equipe identifica os produtos,
+          materiais e serviços necessários.
 
         </p>
 
@@ -1634,14 +1866,13 @@
         </div>
 
         <h3>
-          Receba soluções
+          Encontramos soluções
         </h3>
 
         <p>
 
-          Você recebe opções de materiais,
-          serviços e soluções para avançar
-          com seu projeto.
+          Conectamos o projeto aos fornecedores
+          e soluções adequadas.
 
         </p>
 
@@ -1656,25 +1887,29 @@
 
 
 
-<!-- =========================
+<!-- ========================================
      FORNECEDORES
-========================= -->
+======================================== -->
 
-<section class="supplier-section">
-
-
-  <div class="supplier-box">
+<section
+  class="supplier-section">
 
 
-    <div class="supplier-content">
+  <div
+    class="supplier-box">
 
 
-      <div class="supplier-text">
+    <div
+      class="supplier-content">
+
+
+      <div
+        class="supplier-text">
 
 
         <div class="section-label">
 
-          Para fornecedores
+          PARA FORNECEDORES
 
         </div>
 
@@ -1692,19 +1927,20 @@
 
         <p>
 
-          Apresente sua empresa, produtos e
-          soluções para profissionais que estão
-          desenvolvendo novos projetos.
+          Apresente sua empresa, produtos
+          e soluções para profissionais que
+          estão desenvolvendo novos projetos.
 
-          Cadastre-se gratuitamente e
-          manifeste seu interesse em fazer
-          parte da nossa rede de fornecedores.
+          Cadastre-se e manifeste seu interesse
+          em fazer parte da nossa rede.
 
         </p>
 
 
       </div>
 
+
+      <!-- FORNECEDOR -->
 
       <a
         href="fornecedores.html"
@@ -1724,11 +1960,12 @@
 
 
 
-<!-- =========================
-     DESTAQUE
-========================= -->
+<!-- ========================================
+     DESTAQUE ARQUITETOS
+======================================== -->
 
-<section class="highlight">
+<section
+  class="highlight">
 
 
   <div class="container">
@@ -1736,7 +1973,7 @@
 
     <div class="section-label">
 
-      Para arquitetos
+      PARA ARQUITETOS
 
     </div>
 
@@ -1754,17 +1991,19 @@
     <p>
 
       Envie seu projeto para a ARQSELECT
-      e encontre soluções e fornecedores
-      para transformar suas ideias em realidade.
+      e solicite um orçamento para os
+      materiais e serviços que você precisa.
 
     </p>
 
+
+    <!-- ARQUITETO -->
 
     <a
       href="arquitetos.html"
       class="btn-primary">
 
-      SOLICITAR ORÇAMENTO
+      ENVIAR MEU PROJETO
 
     </a>
 
@@ -1775,19 +2014,21 @@
 
 
 
-<!-- =========================
+<!-- ========================================
      CTA FINAL
-========================= -->
+======================================== -->
 
-<section class="cta">
+<section
+  class="cta">
 
 
-  <div class="cta-box">
+  <div
+    class="cta-box">
 
 
     <div class="section-label">
 
-      Arq Select
+      ARQ SELECT
 
     </div>
 
@@ -1801,8 +2042,8 @@
 
     <p>
 
-      Seja arquiteto ou fornecedor,
-      faça parte da rede ARQSELECT.
+      Escolha seu perfil e faça parte
+      da rede Arq Select.
 
     </p>
 
@@ -1812,6 +2053,8 @@
       style="justify-content:center;">
 
 
+      <!-- ARQUITETO -->
+
       <a
         href="arquitetos.html"
         class="btn-primary">
@@ -1820,6 +2063,8 @@
 
       </a>
 
+
+      <!-- FORNECEDOR -->
 
       <a
         href="fornecedores.html"
@@ -1846,23 +2091,16 @@
 
 
 
-<!-- =========================
+<!-- ========================================
      WHATSAPP
-========================= -->
+======================================== -->
 
 <a
-  href="https://wa.me/5519981051498"
+  href="https://wa.me/5519981655013"
   target="_blank"
   rel="noopener noreferrer"
   class="whatsapp"
-  aria-label="Falar com a ARQSELECT pelo WhatsApp">
-
-
-  <span class="whatsapp-tooltip">
-
-    Fale conosco no WhatsApp
-
-  </span>
+  aria-label="Falar com a Arq Select pelo WhatsApp">
 
 
   <svg
@@ -1879,9 +2117,9 @@
 
 
 
-<!-- =========================
+<!-- ========================================
      FOOTER
-========================= -->
+======================================== -->
 
 <footer>
 
