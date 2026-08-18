@@ -704,20 +704,120 @@
 
 <script>
 
-  document
-    .getElementById("fornecedorForm")
-    .addEventListener("submit", function(event) {
+const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbx9KTCJWD06I890aM5KCWEJ-H2hZKQH_OARpCbefGvqOYnxVkLRpe-HTjPIlGDX4ikEBg/exec";
 
-      event.preventDefault();
+document
+  .getElementById("fornecedorForm")
+  .addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const botao = this.querySelector(".submit");
+
+    botao.disabled = true;
+    botao.innerText = "ENVIANDO CADASTRO...";
+
+    const dados = {
+
+      razao_social:
+        this.querySelector('[name="razao_social"]').value,
+
+      nome_fantasia:
+        this.querySelector('[name="nome_fantasia"]').value,
+
+      cnpj:
+        this.querySelector('[name="cnpj"]').value,
+
+      site:
+        this.querySelector('[name="site"]').value,
+
+      instagram:
+        this.querySelector('[name="instagram"]').value,
+
+      cidade:
+        this.querySelector('[name="cidade"]').value,
+
+      estado:
+        this.querySelector('[name="estado"]').value,
+
+      responsavel:
+        this.querySelector('[name="responsavel"]').value,
+
+      cargo:
+        this.querySelector('[name="cargo"]').value,
+
+      email:
+        this.querySelector('[name="email"]').value,
+
+      telefone:
+        this.querySelector('[name="telefone"]').value,
+
+      produtos:
+        this.querySelector('[name="produtos"]').value,
+
+      marcas:
+        this.querySelector('[name="marcas"]').value,
+
+      prazo_entrega:
+        this.querySelector('[name="prazo_entrega"]').value,
+
+      regiao:
+        this.querySelector('[name="regiao"]').value,
+
+      pedido_minimo:
+        this.querySelector('[name="pedido_minimo"]').value,
+
+      pagamento:
+        this.querySelector('[name="pagamento"]').value,
+
+      tabela:
+        this.querySelector('[name="tabela"]').value,
+
+      proposta:
+        this.querySelector('[name="proposta"]').value
+
+    };
+
+    try {
+
+      await fetch(URL_APPS_SCRIPT, {
+
+        method: "POST",
+
+        mode: "no-cors",
+
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+
+        body: JSON.stringify(dados)
+
+      });
 
       alert(
-        "Cadastro enviado com sucesso! " +
-        "Nossa equipe comercial entrará em contato em breve."
+        "Cadastro enviado com sucesso!\n\n" +
+        "Obrigado pelo interesse em ser fornecedor parceiro da ARQSELECT.\n\n" +
+        "Nossa equipe Comercial analisará suas informações e " +
+        "entrará em contato em breve."
       );
 
       this.reset();
 
-    });
+    } catch (erro) {
+
+      console.error(erro);
+
+      alert(
+        "Não foi possível enviar o cadastro.\n\n" +
+        "Verifique sua conexão e tente novamente."
+      );
+
+    }
+
+    botao.disabled = false;
+    botao.innerText = "QUERO SER FORNECEDOR PARCEIRO";
+
+  });
 
 </script>
 
