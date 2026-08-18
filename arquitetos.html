@@ -13,13 +13,9 @@
 
 <meta
   name="description"
-  content="Envie seu projeto para a ARQSELECT e solicite um orçamento personalizado com nossos fornecedores parceiros.">
+  content="Envie seu projeto para a ARQSELECT e solicite um orçamento personalizado.">
 
 <style>
-
-/* =========================
-   RESET
-========================= */
 
 * {
   margin: 0;
@@ -47,46 +43,53 @@ a {
   --gold: #c9a45c;
   --gold-light: #e4c982;
   --black: #080808;
-  --black-2: #111111;
-  --white: #f7f7f7;
   --gray: #999;
   --border: rgba(201,164,92,.25);
 }
 
 
-/* =========================
-   HEADER
-========================= */
+/* HEADER */
 
 header {
+
   position: fixed;
+
   top: 0;
   left: 0;
+
   width: 100%;
+
   z-index: 1000;
 
-  background: rgba(8,8,8,.90);
+  background:
+    rgba(8,8,8,.92);
 
-  backdrop-filter: blur(18px);
+  backdrop-filter:
+    blur(18px);
 
   border-bottom:
     1px solid rgba(255,255,255,.07);
 }
 
 .nav {
+
   max-width: 1200px;
+
   margin: auto;
 
   padding: 20px 30px;
 
   display: flex;
 
-  justify-content: space-between;
+  justify-content:
+    space-between;
 
-  align-items: center;
+  align-items:
+    center;
 }
 
 .logo {
+
   font-size: 25px;
 
   font-weight: 700;
@@ -95,42 +98,51 @@ header {
 }
 
 .logo span {
-  color: var(--gold);
+
+  color:
+    var(--gold);
 }
 
 .back-button {
+
   border:
     1px solid rgba(255,255,255,.18);
 
-  padding: 10px 18px;
+  padding:
+    10px 18px;
 
-  color: #ccc;
+  color:
+    #ccc;
 
-  font-size: 12px;
+  font-size:
+    12px;
 
-  text-transform: uppercase;
+  text-transform:
+    uppercase;
 
-  letter-spacing: 1px;
-
-  transition: .3s;
+  letter-spacing:
+    1px;
 }
 
 .back-button:hover {
-  border-color: var(--gold);
 
-  color: var(--gold-light);
+  border-color:
+    var(--gold);
+
+  color:
+    var(--gold-light);
 }
 
 
-/* =========================
-   HERO
-========================= */
+/* HERO */
 
 .hero {
+
   padding:
     170px 30px 80px;
 
-  text-align: center;
+  text-align:
+    center;
 
   background:
 
@@ -144,58 +156,78 @@ header {
 }
 
 .hero-label {
-  color: var(--gold-light);
 
-  font-size: 11px;
+  color:
+    var(--gold-light);
 
-  letter-spacing: 5px;
+  font-size:
+    11px;
 
-  text-transform: uppercase;
+  letter-spacing:
+    5px;
 
-  margin-bottom: 20px;
+  text-transform:
+    uppercase;
+
+  margin-bottom:
+    20px;
 }
 
 .hero h1 {
+
   font-size:
     clamp(42px,6vw,72px);
 
-  font-weight: 400;
+  font-weight:
+    400;
 
-  line-height: 1.1;
+  line-height:
+    1.1;
 }
 
 .hero h1 span {
-  color: var(--gold-light);
+
+  color:
+    var(--gold-light);
 }
 
 .hero p {
-  max-width: 700px;
 
-  margin: 25px auto 0;
+  max-width:
+    700px;
 
-  color: #999;
+  margin:
+    25px auto 0;
 
-  font-size: 17px;
+  color:
+    #999;
+
+  font-size:
+    17px;
 }
 
 
-/* =========================
-   FORMULÁRIO
-========================= */
+/* FORM */
 
 .form-section {
+
   padding:
     40px 20px 110px;
 
-  background: #080808;
+  background:
+    #080808;
 }
 
 .form-container {
-  max-width: 950px;
 
-  margin: auto;
+  max-width:
+    950px;
 
-  padding: 50px;
+  margin:
+    auto;
+
+  padding:
+    50px;
 
   background:
     linear-gradient(
@@ -205,105 +237,136 @@ header {
     );
 
   border:
-    1px solid rgba(201,164,92,.22);
+    1px solid
+    rgba(201,164,92,.22);
 
   box-shadow:
-    0 30px 80px rgba(0,0,0,.35);
+    0 30px 80px
+    rgba(0,0,0,.35);
 }
 
 .form-title {
-  margin-bottom: 35px;
 
-  padding-bottom: 25px;
+  margin-bottom:
+    35px;
+
+  padding-bottom:
+    25px;
 
   border-bottom:
-    1px solid rgba(255,255,255,.08);
+    1px solid
+    rgba(255,255,255,.08);
 }
 
 .form-title h2 {
-  font-size: 28px;
 
-  font-weight: 400;
+  font-size:
+    28px;
+
+  font-weight:
+    400;
 }
 
 .form-title p {
-  color: #777;
 
-  margin-top: 8px;
+  color:
+    #777;
 
-  font-size: 14px;
+  margin-top:
+    8px;
+
+  font-size:
+    14px;
 }
 
 
-/* =========================
-   GRUPOS
-========================= */
+/* GRUPOS */
 
 .form-group {
-  margin-bottom: 25px;
+
+  margin-bottom:
+    25px;
 }
 
 .form-group label {
-  display: block;
 
-  margin-bottom: 9px;
+  display:
+    block;
 
-  color: #ddd;
+  margin-bottom:
+    9px;
 
-  font-size: 13px;
+  color:
+    #ddd;
 
-  font-weight: 600;
+  font-size:
+    13px;
+
+  font-weight:
+    600;
 }
 
 .required {
-  color: var(--gold);
+
+  color:
+    var(--gold);
 }
 
 .form-row {
-  display: grid;
+
+  display:
+    grid;
 
   grid-template-columns:
     1fr 1fr;
 
-  gap: 20px;
+  gap:
+    20px;
 }
 
 .form-row-3 {
-  display: grid;
+
+  display:
+    grid;
 
   grid-template-columns:
     2fr 1fr 1fr;
 
-  gap: 20px;
+  gap:
+    20px;
 }
 
 
-/* =========================
-   INPUTS
-========================= */
+/* INPUTS */
 
 input,
 select,
 textarea {
 
-  width: 100%;
+  width:
+    100%;
 
-  padding: 15px 16px;
+  padding:
+    15px 16px;
 
-  background: #080808;
+  background:
+    #080808;
 
   border:
-    1px solid rgba(255,255,255,.12);
+    1px solid
+    rgba(255,255,255,.12);
 
-  color: #eee;
+  color:
+    #eee;
 
-  outline: none;
+  outline:
+    none;
 
-  font-family: inherit;
+  font-family:
+    inherit;
 
-  font-size: 14px;
-
-  transition: .3s;
+  font-size:
+    14px;
 }
 
 input:focus,
@@ -314,214 +377,209 @@ textarea:focus {
     var(--gold);
 
   box-shadow:
-    0 0 0 2px rgba(201,164,92,.08);
+    0 0 0 2px
+    rgba(201,164,92,.08);
 }
 
 textarea {
-  min-height: 140px;
 
-  resize: vertical;
+  min-height:
+    140px;
+
+  resize:
+    vertical;
 }
 
-select {
-  cursor: pointer;
-}
 
-
-/* =========================
-   DIVISORES
-========================= */
+/* DIVISORES */
 
 .form-divider {
+
   margin:
     45px 0 30px;
 
-  padding-bottom: 12px;
+  padding-bottom:
+    12px;
 
   border-bottom:
-    1px solid rgba(201,164,92,.18);
+    1px solid
+    rgba(201,164,92,.18);
 
-  color: var(--gold-light);
+  color:
+    var(--gold-light);
 
-  font-size: 11px;
+  font-size:
+    11px;
 
-  text-transform: uppercase;
+  text-transform:
+    uppercase;
 
-  letter-spacing: 3px;
+  letter-spacing:
+    3px;
 }
 
 
-/* =========================
-   UPLOAD
-========================= */
+/* UPLOAD */
 
 .upload-box {
 
   border:
-    1px dashed rgba(201,164,92,.45);
+    1px dashed
+    rgba(201,164,92,.45);
 
   background:
     rgba(201,164,92,.035);
 
-  padding: 35px 25px;
+  padding:
+    35px 25px;
 
-  text-align: center;
-
-  transition: .3s;
-}
-
-.upload-box:hover {
-
-  border-color:
-    var(--gold);
-
-  background:
-    rgba(201,164,92,.07);
+  text-align:
+    center;
 }
 
 .upload-icon {
 
-  font-size: 34px;
+  font-size:
+    34px;
 
-  color: var(--gold);
+  color:
+    var(--gold);
 
-  margin-bottom: 10px;
+  margin-bottom:
+    10px;
 }
 
 .upload-box h3 {
 
-  font-size: 16px;
+  font-size:
+    16px;
 
-  font-weight: 500;
+  font-weight:
+    500;
 }
 
 .upload-box p {
 
-  margin-top: 7px;
+  margin-top:
+    7px;
 
-  color: #777;
+  color:
+    #777;
 
-  font-size: 12px;
+  font-size:
+    12px;
 }
 
 .file-input {
 
-  margin-top: 20px;
+  margin-top:
+    20px;
 
-  border: none;
+  border:
+    none;
 
-  background: transparent;
+  background:
+    transparent;
 
-  padding: 0;
+  padding:
+    0;
 
-  color: #aaa;
+  color:
+    #aaa;
 }
 
 
-/* =========================
-   ARQUIVOS SELECIONADOS
-========================= */
+/* LISTA DE ARQUIVOS */
 
 .file-list {
 
-  margin-top: 20px;
+  margin-top:
+    20px;
 
-  text-align: left;
-
-  display: none;
-}
-
-.file-list-title {
-
-  color: var(--gold-light);
-
-  font-size: 12px;
-
-  margin-bottom: 10px;
-
-  letter-spacing: 1px;
+  text-align:
+    left;
 }
 
 .file-item {
 
-  display: flex;
+  padding:
+    10px 12px;
 
-  justify-content: space-between;
+  margin-bottom:
+    7px;
 
-  align-items: center;
-
-  gap: 15px;
-
-  padding: 9px 12px;
-
-  margin-bottom: 6px;
-
-  background: rgba(255,255,255,.035);
+  background:
+    rgba(255,255,255,.04);
 
   border:
-    1px solid rgba(255,255,255,.07);
+    1px solid
+    rgba(255,255,255,.06);
 
-  font-size: 12px;
+  font-size:
+    12px;
 
-  color: #bbb;
-}
-
-.file-size {
-
-  color: #666;
-
-  white-space: nowrap;
+  color:
+    #bbb;
 }
 
 
-/* =========================
-   CHECKBOX
-========================= */
+/* CHECKBOX */
 
 .checkbox {
 
-  display: flex;
+  display:
+    flex;
 
   align-items:
     flex-start;
 
-  gap: 10px;
+  gap:
+    10px;
 
-  margin-top: 25px;
+  margin-top:
+    25px;
 
-  color: #888;
+  color:
+    #888;
 
-  font-size: 12px;
+  font-size:
+    12px;
 }
 
 .checkbox input {
 
-  width: 17px;
+  width:
+    17px;
 
-  height: 17px;
+  height:
+    17px;
 
-  margin-top: 2px;
+  margin-top:
+    2px;
 
   accent-color:
     var(--gold);
 }
 
 
-/* =========================
-   BOTÃO
-========================= */
+/* BOTÃO */
 
 .submit-button {
 
-  width: 100%;
+  width:
+    100%;
 
-  margin-top: 35px;
+  margin-top:
+    35px;
 
-  padding: 18px;
+  padding:
+    18px;
 
-  border: none;
+  border:
+    none;
 
-  cursor: pointer;
+  cursor:
+    pointer;
 
   background:
     linear-gradient(
@@ -530,15 +588,17 @@ select {
       #a9823c
     );
 
-  color: #080808;
+  color:
+    #080808;
 
-  font-weight: 800;
+  font-weight:
+    800;
 
-  letter-spacing: 1px;
+  letter-spacing:
+    1px;
 
-  font-size: 13px;
-
-  transition: .3s;
+  font-size:
+    13px;
 }
 
 .submit-button:hover {
@@ -547,159 +607,182 @@ select {
     translateY(-2px);
 
   box-shadow:
-    0 15px 40px rgba(201,164,92,.25);
+    0 15px 40px
+    rgba(201,164,92,.25);
 }
 
 .submit-button:disabled {
 
-  opacity: .6;
+  opacity:
+    .6;
 
-  cursor: wait;
-
-  transform: none;
+  cursor:
+    wait;
 }
 
 
-/* =========================
-   MENSAGEM
-========================= */
+/* MENSAGEM */
 
 .message {
 
-  display: none;
+  display:
+    none;
 
-  margin-top: 25px;
+  margin-top:
+    25px;
 
-  padding: 18px;
+  padding:
+    18px;
 
-  text-align: center;
+  text-align:
+    center;
 
-  font-size: 14px;
+  font-size:
+    14px;
 }
 
 .message.success {
 
-  display: block;
+  display:
+    block;
 
   border:
-    1px solid rgba(80,200,120,.3);
+    1px solid
+    rgba(80,200,120,.3);
 
   background:
     rgba(80,200,120,.06);
 
-  color: #8fe0aa;
+  color:
+    #8fe0aa;
 }
 
 .message.error {
 
-  display: block;
+  display:
+    block;
 
   border:
-    1px solid rgba(255,80,80,.3);
+    1px solid
+    rgba(255,80,80,.3);
 
   background:
     rgba(255,80,80,.06);
 
-  color: #ff9b9b;
+  color:
+    #ff9b9b;
 }
 
 
-/* =========================
-   FOOTER
-========================= */
+/* FOOTER */
 
 footer {
 
   border-top:
-    1px solid rgba(255,255,255,.08);
+    1px solid
+    rgba(255,255,255,.08);
 
-  padding: 35px 30px;
+  padding:
+    35px 30px;
 
-  background: #060606;
+  background:
+    #060606;
 }
 
 .footer-content {
 
-  max-width: 1200px;
+  max-width:
+    1200px;
 
-  margin: auto;
+  margin:
+    auto;
 
-  display: flex;
+  display:
+    flex;
 
   justify-content:
     space-between;
 
-  align-items: center;
+  align-items:
+    center;
 }
 
 .footer-logo {
 
-  font-size: 20px;
+  font-size:
+    20px;
 
-  letter-spacing: 3px;
+  letter-spacing:
+    3px;
 }
 
 .footer-logo span {
-  color: var(--gold);
+
+  color:
+    var(--gold);
 }
 
 footer p {
 
-  color: #666;
+  color:
+    #666;
 
-  font-size: 12px;
+  font-size:
+    12px;
 }
 
 
-/* =========================
-   MOBILE
-========================= */
+/* MOBILE */
 
-@media (max-width: 700px) {
+@media (max-width:700px) {
 
   .nav {
-    padding: 17px 20px;
+
+    padding:
+      17px 20px;
   }
 
   .logo {
-    font-size: 20px;
-  }
 
-  .back-button {
-    padding:
-      9px 12px;
-
-    font-size: 10px;
+    font-size:
+      20px;
   }
 
   .hero {
+
     padding:
       140px 20px 60px;
   }
 
   .hero h1 {
-    font-size: 44px;
-  }
 
-  .hero p {
-    font-size: 15px;
+    font-size:
+      44px;
   }
 
   .form-container {
-    padding: 30px 20px;
+
+    padding:
+      30px 20px;
   }
 
   .form-row,
   .form-row-3 {
-    grid-template-columns: 1fr;
+
+    grid-template-columns:
+      1fr;
   }
 
   .footer-content {
-    flex-direction: column;
 
-    gap: 15px;
+    flex-direction:
+      column;
 
-    text-align: center;
+    gap:
+      15px;
+
+    text-align:
+      center;
   }
 
 }
@@ -712,734 +795,672 @@ footer p {
 <body>
 
 
-<!-- =========================
-     HEADER
-========================= -->
-
 <header>
 
-  <nav class="nav">
+<nav class="nav">
 
-    <a
-      href="index.html"
-      class="logo">
+<a
+  href="index.html"
+  class="logo">
 
-      ARQ<span>SELECT</span>
+ARQ<span>SELECT</span>
 
-    </a>
+</a>
 
-    <a
-      href="index.html"
-      class="back-button">
+<a
+  href="index.html"
+  class="back-button">
 
-      ← Voltar
+← Voltar
 
-    </a>
+</a>
 
-  </nav>
+</nav>
 
 </header>
 
 
-<!-- =========================
-     HERO
-========================= -->
-
 <section class="hero">
 
-  <div class="hero-label">
-    ARQSELECT • PROJETOS
-  </div>
+<div class="hero-label">
 
-  <h1>
+ARQSELECT • PROJETOS
 
-    Solicite seu
-    <span>orçamento.</span>
+</div>
 
-  </h1>
+<h1>
 
-  <p>
+Solicite seu
+<span>orçamento.</span>
 
-    Envie os detalhes do seu projeto para a
-    ARQSELECT. Nossa equipe analisará sua
-    necessidade e buscará as melhores soluções
-    junto aos nossos fornecedores parceiros.
+</h1>
 
-  </p>
+<p>
+
+Envie os detalhes do seu projeto para a
+ARQSELECT. Nossa equipe analisará sua
+necessidade e buscará as melhores soluções
+junto aos nossos fornecedores parceiros.
+
+</p>
 
 </section>
 
-
-<!-- =========================
-     FORMULÁRIO
-========================= -->
 
 <section class="form-section">
 
-  <div class="form-container">
+<div class="form-container">
 
 
-    <div class="form-title">
+<div class="form-title">
 
-      <h2>
-        Cadastro do projeto
-      </h2>
+<h2>
+Cadastro do projeto
+</h2>
 
-      <p>
-        Preencha as informações abaixo para
-        solicitar seu orçamento.
-      </p>
+<p>
+Preencha as informações abaixo para solicitar seu orçamento.
+</p>
 
-    </div>
+</div>
 
 
-    <form id="projectForm">
+<form id="projectForm">
 
 
-      <!-- =========================
-           DADOS PROFISSIONAIS
-      ========================= -->
+<!-- DADOS PROFISSIONAIS -->
 
-      <div class="form-divider">
-        01 • Dados profissionais
-      </div>
+<div class="form-divider">
 
+01 • Dados profissionais
 
-      <div class="form-row">
+</div>
 
 
-        <div class="form-group">
+<div class="form-row">
 
-          <label>
-            Nome completo
-            <span class="required">*</span>
-          </label>
 
-          <input
-            type="text"
-            name="nome"
-            placeholder="Seu nome"
-            required>
+<div class="form-group">
 
-        </div>
+<label>
+Nome completo
+<span class="required">*</span>
+</label>
 
+<input
+  type="text"
+  name="nome"
+  placeholder="Seu nome"
+  required>
 
-        <div class="form-group">
+</div>
 
-          <label>
-            Escritório / Empresa
-          </label>
 
-          <input
-            type="text"
-            name="escritorio"
-            placeholder="Nome do escritório">
+<div class="form-group">
 
-        </div>
+<label>
+Escritório / Empresa
+</label>
 
+<input
+  type="text"
+  name="escritorio"
+  placeholder="Nome do escritório">
 
-      </div>
+</div>
 
+</div>
 
-      <div class="form-row">
 
+<div class="form-row">
 
-        <div class="form-group">
 
-          <label>
-            E-mail
-            <span class="required">*</span>
-          </label>
+<div class="form-group">
 
-          <input
-            type="email"
-            name="email"
-            placeholder="seuemail@email.com"
-            required>
+<label>
+E-mail
+<span class="required">*</span>
+</label>
 
-        </div>
+<input
+  type="email"
+  name="email"
+  placeholder="seuemail@email.com"
+  required>
 
+</div>
 
-        <div class="form-group">
 
-          <label>
-            WhatsApp
-            <span class="required">*</span>
-          </label>
+<div class="form-group">
 
-          <input
-            type="tel"
-            name="whatsapp"
-            placeholder="(19) 99999-9999"
-            required>
+<label>
+WhatsApp
+<span class="required">*</span>
+</label>
 
-        </div>
+<input
+  type="tel"
+  name="whatsapp"
+  placeholder="(19) 99999-9999"
+  required>
 
+</div>
 
-      </div>
+</div>
 
 
-      <div class="form-row-3">
+<div class="form-row-3">
 
 
-        <div class="form-group">
+<div class="form-group">
 
-          <label>
-            Cidade
-            <span class="required">*</span>
-          </label>
+<label>
+Cidade
+<span class="required">*</span>
+</label>
 
-          <input
-            type="text"
-            name="cidade"
-            placeholder="Campinas"
-            required>
+<input
+  type="text"
+  name="cidade"
+  placeholder="Campinas"
+  required>
 
-        </div>
+</div>
 
 
-        <div class="form-group">
+<div class="form-group">
 
-          <label>
-            Estado
-            <span class="required">*</span>
-          </label>
+<label>
+Estado
+<span class="required">*</span>
+</label>
 
-          <select
-            name="estado"
-            required>
+<select
+  name="estado"
+  required>
 
-            <option value="">
-              UF
-            </option>
+<option value="">
+UF
+</option>
 
-            <option>SP</option>
-            <option>RJ</option>
-            <option>MG</option>
-            <option>PR</option>
-            <option>SC</option>
-            <option>RS</option>
-            <option>ES</option>
-            <option>BA</option>
-            <option>GO</option>
-            <option>DF</option>
-            <option>PE</option>
-            <option>CE</option>
-            <option>MT</option>
-            <option>MS</option>
-            <option>PA</option>
-            <option>AM</option>
-            <option>RO</option>
-            <option>AC</option>
-            <option>RR</option>
-            <option>AP</option>
-            <option>TO</option>
-            <option>MA</option>
-            <option>PI</option>
-            <option>RN</option>
-            <option>PB</option>
-            <option>AL</option>
-            <option>SE</option>
+<option>SP</option>
+<option>RJ</option>
+<option>MG</option>
+<option>PR</option>
+<option>SC</option>
+<option>RS</option>
+<option>ES</option>
+<option>BA</option>
+<option>GO</option>
+<option>DF</option>
+<option>PE</option>
+<option>CE</option>
+<option>MT</option>
+<option>MS</option>
+<option>PA</option>
+<option>AM</option>
+<option>RO</option>
+<option>AC</option>
+<option>RR</option>
+<option>AP</option>
+<option>TO</option>
+<option>MA</option>
+<option>PI</option>
+<option>RN</option>
+<option>PB</option>
+<option>AL</option>
+<option>SE</option>
 
-          </select>
+</select>
 
-        </div>
+</div>
 
 
-        <div class="form-group">
+<div class="form-group">
 
-          <label>
-            Registro profissional
-          </label>
+<label>
+Registro profissional
+</label>
 
-          <input
-            type="text"
-            name="registro"
-            placeholder="CAU / CREA">
+<input
+  type="text"
+  name="registro"
+  placeholder="CAU / CREA">
 
-        </div>
+</div>
 
+</div>
 
-      </div>
 
+<!-- PROJETO -->
 
-      <!-- =========================
-           PROJETO
-      ========================= -->
+<div class="form-divider">
 
-      <div class="form-divider">
-        02 • Informações do projeto
-      </div>
+02 • Informações do projeto
 
+</div>
 
-      <div class="form-group">
 
-        <label>
-          Nome do projeto
-          <span class="required">*</span>
-        </label>
+<div class="form-group">
 
-        <input
-          type="text"
-          name="projeto"
-          placeholder="Ex.: Residência Jardim das Flores"
-          required>
+<label>
 
-      </div>
+Nome do projeto
+<span class="required">*</span>
 
+</label>
 
-      <div class="form-row">
+<input
+  type="text"
+  name="projeto"
+  placeholder="Ex.: Residência Jardim das Flores"
+  required>
 
+</div>
 
-        <div class="form-group">
 
-          <label>
-            Tipo de projeto
-            <span class="required">*</span>
-          </label>
+<div class="form-row">
 
-          <select
-            name="tipo_projeto"
-            required>
 
-            <option value="">
-              Selecione
-            </option>
+<div class="form-group">
 
-            <option>
-              Residencial
-            </option>
+<label>
+Tipo de projeto
+<span class="required">*</span>
+</label>
 
-            <option>
-              Comercial
-            </option>
+<select
+  name="tipo_projeto"
+  required>
 
-            <option>
-              Corporativo
-            </option>
+<option value="">
+Selecione
+</option>
 
-            <option>
-              Hotelaria
-            </option>
+<option>Residencial</option>
+<option>Comercial</option>
+<option>Corporativo</option>
+<option>Hotelaria</option>
+<option>Restaurante</option>
+<option>Clínica</option>
+<option>Loja</option>
+<option>Área externa</option>
+<option>Outro</option>
 
-            <option>
-              Restaurante
-            </option>
+</select>
 
-            <option>
-              Clínica
-            </option>
+</div>
 
-            <option>
-              Loja
-            </option>
 
-            <option>
-              Área externa
-            </option>
+<div class="form-group">
 
-            <option>
-              Outro
-            </option>
+<label>
+Área aproximada
+</label>
 
-          </select>
+<input
+  type="text"
+  name="area"
+  placeholder="Ex.: 180 m²">
 
-        </div>
+</div>
 
+</div>
 
-        <div class="form-group">
 
-          <label>
-            Área aproximada
-          </label>
+<div class="form-row">
 
-          <input
-            type="text"
-            name="area"
-            placeholder="Ex.: 180 m²">
 
-        </div>
+<div class="form-group">
 
+<label>
+Ambiente / Local
+</label>
 
-      </div>
+<input
+  type="text"
+  name="ambiente"
+  placeholder="Ex.: Sala, quartos, área externa">
 
+</div>
 
-      <div class="form-row">
 
+<div class="form-group">
 
-        <div class="form-group">
+<label>
+Prazo desejado
+</label>
 
-          <label>
-            Ambiente / Local
-          </label>
+<input
+  type="text"
+  name="prazo"
+  placeholder="Ex.: Instalação em outubro">
 
-          <input
-            type="text"
-            name="ambiente"
-            placeholder="Ex.: Sala, quartos, área externa">
+</div>
 
-        </div>
+</div>
 
 
-        <div class="form-group">
+<div class="form-group">
 
-          <label>
-            Prazo desejado
-          </label>
+<label>
 
-          <input
-            type="text"
-            name="prazo"
-            placeholder="Ex.: Instalação em outubro">
+O que você precisa orçar?
+<span class="required">*</span>
 
-        </div>
+</label>
 
+<textarea
+  name="descricao"
+  placeholder="Descreva material, quantidade, medidas, acabamento, instalação, prazo etc."
+  required></textarea>
 
-      </div>
+</div>
 
 
-      <div class="form-group">
+<div class="form-group">
 
-        <label>
-          O que você precisa orçar?
-          <span class="required">*</span>
-        </label>
+<label>
+Faixa de investimento estimada
+</label>
 
-        <textarea
-          name="descricao"
-          placeholder="Descreva detalhadamente o que precisa: material, quantidade, medidas, acabamento, instalação, prazo, etc."
-          required></textarea>
+<select
+  name="investimento">
 
-      </div>
+<option value="">
+Selecione uma faixa
+</option>
 
+<option>Até R$ 5.000</option>
+<option>R$ 5.000 a R$ 10.000</option>
+<option>R$ 10.000 a R$ 25.000</option>
+<option>R$ 25.000 a R$ 50.000</option>
+<option>R$ 50.000 a R$ 100.000</option>
+<option>Acima de R$ 100.000</option>
+<option>Ainda não definido</option>
 
-      <div class="form-group">
+</select>
 
-        <label>
-          Faixa de investimento estimada
-        </label>
+</div>
 
-        <select
-          name="investimento">
 
-          <option value="">
-            Selecione uma faixa
-          </option>
+<!-- ARQUIVOS -->
 
-          <option>
-            Até R$ 5.000
-          </option>
+<div class="form-divider">
 
-          <option>
-            R$ 5.000 a R$ 10.000
-          </option>
+03 • Documentos do projeto
 
-          <option>
-            R$ 10.000 a R$ 25.000
-          </option>
+</div>
 
-          <option>
-            R$ 25.000 a R$ 50.000
-          </option>
 
-          <option>
-            R$ 50.000 a R$ 100.000
-          </option>
+<div class="upload-box">
 
-          <option>
-            Acima de R$ 100.000
-          </option>
+<div class="upload-icon">
+◆
+</div>
 
-          <option>
-            Ainda não definido
-          </option>
+<h3>
 
-        </select>
+Envie os arquivos do projeto
 
-      </div>
+</h3>
 
+<p>
 
-      <!-- =========================
-           ARQUIVOS
-      ========================= -->
+Plantas, imagens, PDF, memorial descritivo,
+medidas ou outros documentos.
 
-      <div class="form-divider">
-        03 • Documentos do projeto
-      </div>
+<br>
 
+<strong>
+Limite recomendado: até 20 MB no total.
+</strong>
 
-      <div class="upload-box">
+</p>
 
-        <div class="upload-icon">
-          ◆
-        </div>
 
-        <h3>
-          Envie os arquivos do projeto
-        </h3>
+<input
+  class="file-input"
+  type="file"
+  name="arquivos"
+  id="arquivos"
+  multiple
+  accept=".pdf,.jpg,.jpeg,.png,.webp,.dwg,.dxf">
 
-        <p>
-          Plantas, imagens, PDF, memorial descritivo,
-          medidas ou outros documentos que ajudem
-          na elaboração do orçamento.
-        </p>
 
-        <input
-          class="file-input"
-          type="file"
-          name="arquivos"
-          id="arquivos"
-          multiple
-          accept=".pdf,.jpg,.jpeg,.png,.webp,.dwg,.dxf">
+<div
+  id="fileList"
+  class="file-list">
+</div>
 
-        <div
-          id="fileList"
-          class="file-list">
+</div>
 
-          <div class="file-list-title">
-            ARQUIVOS SELECIONADOS
-          </div>
 
-          <div id="fileItems"></div>
+<!-- OBSERVAÇÕES -->
 
-        </div>
+<div class="form-divider">
 
-      </div>
+04 • Observações
 
+</div>
 
-      <!-- =========================
-           OBSERVAÇÕES
-      ========================= -->
 
-      <div class="form-divider">
-        04 • Observações
-      </div>
+<div class="form-group">
 
+<label>
+Informações adicionais
+</label>
 
-      <div class="form-group">
+<textarea
+  name="observacoes"
+  placeholder="Existe alguma informação importante que devemos saber?"></textarea>
 
-        <label>
-          Informações adicionais
-        </label>
+</div>
 
-        <textarea
-          name="observacoes"
-          placeholder="Existe alguma informação importante que devemos saber?"></textarea>
 
-      </div>
+<!-- AUTORIZAÇÃO -->
 
+<label class="checkbox">
 
-      <!-- =========================
-           AUTORIZAÇÃO
-      ========================= -->
+<input
+  type="checkbox"
+  name="autorizacao"
+  value="Sim"
+  required>
 
-      <label class="checkbox">
+<span>
 
-        <input
-          type="checkbox"
-          name="autorizacao"
-          required>
+Autorizo a ARQSELECT a entrar em contato
+comigo para tratar deste orçamento e apresentar
+soluções e fornecedores relacionados ao projeto.
 
-        <span>
+</span>
 
-          Autorizo a ARQSELECT a entrar em contato
-          comigo para tratar deste orçamento e
-          apresentar soluções e fornecedores
-          relacionados ao projeto.
+</label>
 
-        </span>
 
-      </label>
+<button
+  type="submit"
+  class="submit-button"
+  id="submitButton">
 
+SOLICITAR ORÇAMENTO
 
-      <!-- =========================
-           BOTÃO
-      ========================= -->
+</button>
 
-      <button
-        type="submit"
-        class="submit-button"
-        id="submitButton">
 
-        SOLICITAR ORÇAMENTO
+<div
+  id="message"
+  class="message">
+</div>
 
-      </button>
 
+</form>
 
-      <div
-        id="message"
-        class="message">
-      </div>
-
-
-    </form>
-
-
-  </div>
+</div>
 
 </section>
 
 
-<!-- =========================
-     FOOTER
-========================= -->
-
 <footer>
 
-  <div class="footer-content">
+<div class="footer-content">
 
-    <div class="footer-logo">
+<div class="footer-logo">
 
-      ARQ<span>SELECT</span>
+ARQ<span>SELECT</span>
 
-    </div>
+</div>
 
-    <p>
+<p>
 
-      © 2026 Arq Select.
-      Todos os direitos reservados.
+© 2026 Arq Select.
+Todos os direitos reservados.
 
-    </p>
+</p>
 
-  </div>
+</div>
 
 </footer>
 
 
 <script>
 
-/* =====================================================
-   URL DO SEU GOOGLE APPS SCRIPT
-===================================================== */
+
+// ============================================================
+// URL DO GOOGLE APPS SCRIPT
+// ============================================================
 
 const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbx9KTCJWD06I890aM5KCWEJ-H2hZKQH_OARpCbefGvqOYnxVkLRpe-HTjPIlGDX4ikEBg/exec";
 
 
-/* =====================================================
-   ELEMENTOS
-===================================================== */
+// ============================================================
+// ELEMENTOS
+// ============================================================
 
 const form =
-document.getElementById("projectForm");
+document.getElementById(
+  "projectForm"
+);
 
 const button =
-document.getElementById("submitButton");
+document.getElementById(
+  "submitButton"
+);
 
 const message =
-document.getElementById("message");
+document.getElementById(
+  "message"
+);
 
-const fileInput =
-document.getElementById("arquivos");
+const arquivosInput =
+document.getElementById(
+  "arquivos"
+);
 
 const fileList =
-document.getElementById("fileList");
+document.getElementById(
+  "fileList"
+);
 
-const fileItems =
-document.getElementById("fileItems");
+
+// ============================================================
+// LIMITE DOS ARQUIVOS
+// ============================================================
+
+// 8 MB por arquivo
+
+const MAX_FILE_SIZE =
+8 * 1024 * 1024;
 
 
-/* =====================================================
-   MOSTRAR ARQUIVOS SELECIONADOS
-===================================================== */
+// 20 MB total
 
-fileInput.addEventListener(
+const MAX_TOTAL_SIZE =
+20 * 1024 * 1024;
+
+
+// ============================================================
+// MOSTRAR ARQUIVOS SELECIONADOS
+// ============================================================
+
+arquivosInput.addEventListener(
 "change",
 function() {
 
-  fileItems.innerHTML = "";
+  fileList.innerHTML = "";
 
-  const files =
-    Array.from(fileInput.files);
-
-  if (!files.length) {
-
-    fileList.style.display =
-      "none";
-
-    return;
-  }
-
-  fileList.style.display =
-    "block";
+  let total =
+    0;
 
 
-  files.forEach(
+  Array.from(
+    arquivosInput.files
+  ).forEach(
     function(file) {
 
-      const item =
-        document.createElement("div");
+      total +=
+        file.size;
 
-      item.className =
+
+      const div =
+        document.createElement(
+          "div"
+        );
+
+
+      div.className =
         "file-item";
 
 
-      const name =
-        document.createElement("span");
-
-      name.textContent =
-        "📎 " + file.name;
-
-
-      const size =
-        document.createElement("span");
-
-      size.className =
-        "file-size";
-
-      size.textContent =
-        formatFileSize(file.size);
+      const tamanho =
+        (
+          file.size /
+          1024 /
+          1024
+        ).toFixed(2);
 
 
-      item.appendChild(name);
+      div.textContent =
+        "📎 " +
+        file.name +
+        " — " +
+        tamanho +
+        " MB";
 
-      item.appendChild(size);
 
-      fileItems.appendChild(item);
+      fileList.appendChild(
+        div
+      );
 
     }
   );
 
+
+  if (
+    total >
+    MAX_TOTAL_SIZE
+  ) {
+
+    fileList.innerHTML +=
+
+      '<div style="color:#ff9b9b;margin-top:10px;">' +
+
+      "⚠ O tamanho total dos arquivos ultrapassa 20 MB." +
+
+      "</div>";
+
+  }
+
 });
 
 
-/* =====================================================
-   TAMANHO DO ARQUIVO
-===================================================== */
+// ============================================================
+// CONVERTER ARQUIVO PARA BASE64
+// ============================================================
 
-function formatFileSize(bytes) {
-
-  if (bytes === 0) {
-    return "0 Bytes";
-  }
-
-  const units =
-    ["Bytes","KB","MB","GB"];
-
-  const i =
-    Math.floor(
-      Math.log(bytes) /
-      Math.log(1024)
-    );
-
-  return (
-    parseFloat(
-      (bytes /
-      Math.pow(1024, i))
-      .toFixed(2)
-    )
-    + " "
-    + units[i]
-  );
-
-}
-
-
-/* =====================================================
-   CONVERTER ARQUIVO PARA BASE64
-===================================================== */
-
-function fileToBase64(file) {
+function arquivoParaBase64(file) {
 
   return new Promise(
     function(resolve, reject) {
@@ -1451,47 +1472,28 @@ function fileToBase64(file) {
       reader.onload =
         function() {
 
-          const result =
-            reader.result;
-
-
-          /*
-           * Remove:
-           * data:application/pdf;base64,
-           * data:image/png;base64,
-           * etc.
-           */
-
-          const base64 =
-            result.split(",")[1];
-
-
-          resolve({
-            nome: file.name,
-
-            tipo:
-              file.type ||
-              "application/octet-stream",
-
-            tamanho:
-              file.size,
-
-            base64:
-              base64
-          });
+          resolve(
+            reader.result
+          );
 
         };
 
 
       reader.onerror =
-        function(error) {
+        function() {
 
-          reject(error);
+          reject(
+            new Error(
+              "Erro ao ler o arquivo."
+            )
+          );
 
         };
 
 
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(
+        file
+      );
 
     }
   );
@@ -1499,9 +1501,9 @@ function fileToBase64(file) {
 }
 
 
-/* =====================================================
-   ENVIO DO FORMULÁRIO
-===================================================== */
+// ============================================================
+// SUBMIT
+// ============================================================
 
 form.addEventListener(
 "submit",
@@ -1510,9 +1512,78 @@ async function(event) {
   event.preventDefault();
 
 
-  /* -------------------------
-     ESTADO DO BOTÃO
-  ------------------------- */
+  message.className =
+    "message";
+
+  message.innerHTML =
+    "";
+
+
+  // ----------------------------------------------------------
+  // Verificar arquivos
+  // ----------------------------------------------------------
+
+  const files =
+    Array.from(
+      arquivosInput.files
+    );
+
+
+  let tamanhoTotal =
+    0;
+
+
+  for (
+    const file of files
+  ) {
+
+    tamanhoTotal +=
+      file.size;
+
+
+    if (
+      file.size >
+      MAX_FILE_SIZE
+    ) {
+
+      message.className =
+        "message error";
+
+      message.innerHTML =
+
+        "❌ O arquivo <strong>" +
+
+        file.name +
+
+        "</strong> ultrapassa o limite de 8 MB.";
+
+      return;
+
+    }
+
+  }
+
+
+  if (
+    tamanhoTotal >
+    MAX_TOTAL_SIZE
+  ) {
+
+    message.className =
+      "message error";
+
+    message.innerHTML =
+
+      "❌ O tamanho total dos arquivos ultrapassa 20 MB.";
+
+    return;
+
+  }
+
+
+  // ----------------------------------------------------------
+  // Botão
+  // ----------------------------------------------------------
 
   button.disabled =
     true;
@@ -1521,32 +1592,31 @@ async function(event) {
     "PREPARANDO PROJETO...";
 
 
-  message.className =
-    "message";
-
-  message.textContent =
-    "";
-
-
   try {
 
 
-    /* =========================
-       DADOS DO FORMULÁRIO
-    ========================= */
+    // --------------------------------------------------------
+    // Dados do formulário
+    // --------------------------------------------------------
 
     const formData =
-      new FormData(form);
+      new FormData(
+        form
+      );
 
-    const data = {};
+
+    const dados = {};
 
 
     formData.forEach(
       function(value, key) {
 
-        if (key !== "arquivos") {
+        if (
+          key !==
+          "arquivos"
+        ) {
 
-          data[key] =
+          dados[key] =
             value;
 
         }
@@ -1555,188 +1625,143 @@ async function(event) {
     );
 
 
-    /* =========================
-       IDENTIFICAÇÃO
-       DO CADASTRO
-    ========================= */
+    // --------------------------------------------------------
+    // Identificação
+    // --------------------------------------------------------
 
-    data.tipo_cadastro =
-      "arquiteto";
-
-
-    data.tipo =
+    dados.tipo =
       "solicitacao_orcamento";
 
 
-    data.data =
-      new Date().toLocaleString(
-        "pt-BR"
-      );
+    dados.data =
+      new Date()
+        .toLocaleString(
+          "pt-BR"
+        );
 
 
-    /* =========================
-       ARQUIVOS
-    ========================= */
+    // --------------------------------------------------------
+    // Converter arquivos
+    // --------------------------------------------------------
 
-    const files =
-      Array.from(
-        fileInput.files
-      );
-
-
-    data.arquivos =
+    dados.arquivos =
       [];
 
 
-    if (files.length > 0) {
+    if (
+      files.length >
+      0
+    ) {
 
       button.textContent =
         "PROCESSANDO ARQUIVOS...";
-
-
-      /*
-       * Limite preventivo.
-       * O navegador pode selecionar
-       * vários arquivos, mas enviar
-       * arquivos muito grandes em Base64
-       * pode exceder limites do Apps Script.
-       */
-
-      const maxFileSize =
-        10 * 1024 * 1024;
 
 
       for (
         const file of files
       ) {
 
-
-        if (
-          file.size >
-          maxFileSize
-        ) {
-
-          throw new Error(
-            "O arquivo " +
-            file.name +
-            " possui mais de 10 MB."
+        const base64 =
+          await arquivoParaBase64(
+            file
           );
 
-        }
 
+        dados.arquivos.push({
 
-        const arquivo =
-          await fileToBase64(file);
+          nome:
+            file.name,
 
+          tipo:
+            file.type ||
+            "application/octet-stream",
 
-        data.arquivos.push(
-          arquivo
-        );
+          tamanho:
+            file.size,
+
+          base64:
+            base64
+
+        });
 
       }
 
     }
 
 
-    /* =========================
-       ENVIO
-    ========================= */
+    // --------------------------------------------------------
+    // Enviar
+    // --------------------------------------------------------
 
     button.textContent =
       "ENVIANDO PROJETO...";
 
 
-    const response =
-      await fetch(
-        SCRIPT_URL,
-        {
-          method: "POST",
+    await fetch(
+      SCRIPT_URL,
+      {
 
-          /*
-           * Mantemos no-cors porque
-           * o Apps Script está em
-           * outro domínio.
-           */
+        method:
+          "POST",
 
-          mode: "no-cors",
+        mode:
+          "no-cors",
 
-          headers: {
-            "Content-Type":
-              "text/plain;charset=utf-8"
-          },
+        headers: {
 
-          body:
-            JSON.stringify(data)
-        }
-      );
+          "Content-Type":
+            "text/plain;charset=utf-8"
+
+        },
+
+        body:
+          JSON.stringify(
+            dados
+          )
+
+      }
+    );
 
 
-    /* =========================
-       SUCESSO
-    ========================= */
+    // --------------------------------------------------------
+    // Sucesso
+    // --------------------------------------------------------
 
     message.className =
       "message success";
-
 
     message.innerHTML =
 
       "✓ <strong>Projeto enviado com sucesso!</strong><br><br>" +
 
-      "Recebemos sua solicitação de orçamento. " +
+      "Recebemos sua solicitação e seus arquivos. " +
 
-      "Nossa equipe analisará as informações " +
+      "Nossa equipe analisará o projeto e entrará " +
 
-      "e entrará em contato em breve.";
+      "em contato em breve.";
 
 
     form.reset();
 
 
-    fileItems.innerHTML =
+    fileList.innerHTML =
       "";
-
-    fileList.style.display =
-      "none";
-
-
-    button.textContent =
-      "PROJETO ENVIADO ✓";
 
 
     window.scrollTo({
+
       top: 0,
-      behavior: "smooth"
+
+      behavior:
+        "smooth"
+
     });
 
 
-    /*
-     * Depois de alguns segundos,
-     * volta o botão ao estado normal.
-     */
-
-    setTimeout(
-      function() {
-
-        button.disabled =
-          false;
-
-        button.textContent =
-          "SOLICITAR ORÇAMENTO";
-
-      },
-      5000
-    );
-
-
-  }
-
-
-  catch(error) {
+  } catch(error) {
 
 
     console.error(
-      "Erro ao enviar projeto:",
       error
     );
 
@@ -1744,22 +1769,21 @@ async function(event) {
     message.className =
       "message error";
 
-
     message.innerHTML =
 
-      "✕ <strong>Não foi possível enviar o projeto.</strong><br><br>" +
+      "❌ <strong>Não foi possível enviar o projeto.</strong><br><br>" +
 
-      error.message;
+      "Verifique sua conexão e tente novamente.";
 
-
-    button.disabled =
-      false;
-
-
-    button.textContent =
-      "TENTAR NOVAMENTE";
 
   }
+
+
+  button.disabled =
+    false;
+
+  button.textContent =
+    "SOLICITAR ORÇAMENTO";
 
 });
 
