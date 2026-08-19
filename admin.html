@@ -1,912 +1,2791 @@
-/************************************************************
- * ARQSELECT - BACKEND ADMINISTRATIVO
- * Google Apps Script - Code.gs
- ************************************************************/
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-const CONFIG = {
+<title>ARQSELECT — Painel Administrativo</title>
 
-  // =========================================================
-  // LOGIN ADMINISTRATIVO
-  // =========================================================
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-  ADMIN_USUARIO: "alefesantos27",
+:root{
+    --bg:#080808;
+    --bg2:#101010;
+    --card:#151515;
+    --card2:#1b1b1b;
+    --border:rgba(255,255,255,.08);
+    --text:#f5f5f5;
+    --muted:#999;
+    --gold:#c9a45c;
+    --gold2:#e2c17d;
+    --danger:#d9534f;
+    --success:#39b878;
+    --blue:#4b8cff;
+}
 
-  ADMIN_SENHA: "@Sucesso01",
+body{
+    font-family:Inter,Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at top right,rgba(201,164,92,.12),transparent 30%),
+        radial-gradient(circle at bottom left,rgba(255,255,255,.04),transparent 30%),
+        var(--bg);
+    color:var(--text);
+    min-height:100vh;
+}
 
-  // =========================================================
-  // PLANILHA
-  // =========================================================
+/* LOGIN */
 
-  ID_DA_PLANILHA: "COLOQUE_AQUI_O_ID_DA_SUA_PLANILHA",
+#loginScreen{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
 
-  NOME_DA_ABA: "Respostas ao formulário 1",
+.login-container{
+    width:100%;
+    max-width:440px;
+}
 
-  // Tempo da sessão em minutos
-  SESSAO_MINUTOS: 120
+.logo{
+    text-align:center;
+    margin-bottom:35px;
+}
 
-};
+.logo-title{
+    font-size:38px;
+    font-weight:800;
+    letter-spacing:7px;
+    color:#fff;
+}
 
+.logo-subtitle{
+    margin-top:8px;
+    font-size:11px;
+    letter-spacing:4px;
+    color:var(--gold);
+    text-transform:uppercase;
+}
 
-// ============================================================
-// CACHE DE SESSÕES
-// ============================================================
+.login-card{
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:38px;
+    box-shadow:0 30px 80px rgba(0,0,0,.5);
+    backdrop-filter:blur(20px);
+}
 
-const CACHE_PREFIX = "ARQSELECT_SESSION_";
+.login-card h1{
+    font-size:25px;
+    margin-bottom:8px;
+}
 
+.login-card p{
+    color:var(--muted);
+    font-size:14px;
+    margin-bottom:30px;
+}
 
-// ============================================================
-// GET
-// ============================================================
+.field{
+    margin-bottom:18px;
+}
 
-function doGet(e) {
+.field label{
+    display:block;
+    margin-bottom:8px;
+    color:#bbb;
+    font-size:13px;
+}
 
-  return respostaJSON({
-    sucesso: true,
-    sistema: "ARQSELECT",
-    mensagem: "API ARQSELECT funcionando.",
-    horario: new Date().toISOString()
-  });
+.field input{
+    width:100%;
+    height:52px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    background:#0d0d0d;
+    color:#fff;
+    padding:0 15px;
+    outline:none;
+    font-size:15px;
+    transition:.2s;
+}
+
+.field input:focus{
+    border-color:var(--gold);
+    box-shadow:0 0 0 3px rgba(201,164,92,.1);
+}
+
+.btn{
+    border:none;
+    cursor:pointer;
+    border-radius:12px;
+    min-height:48px;
+    padding:0 20px;
+    font-weight:700;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+}
+
+.btn-primary{
+    width:100%;
+    background:linear-gradient(135deg,var(--gold),var(--gold2));
+    color:#111;
+}
+
+.btn-secondary{
+    background:#222;
+    color:#fff;
+    border:1px solid var(--border);
+}
+
+.btn-danger{
+    background:rgba(217,83,79,.12);
+    color:#ff8c88;
+    border:1px solid rgba(217,83,79,.2);
+}
+
+.error{
+    display:none;
+    background:rgba(217,83,79,.1);
+    color:#ff8c88;
+    border:1px solid rgba(217,83,79,.2);
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:18px;
+    font-size:13px;
+}
+
+.loading{
+    opacity:.6;
+    pointer-events:none;
+}
+
+/* ADMIN */
+
+#adminScreen{
+    display:none;
+    min-height:100vh;
+}
+
+.topbar{
+    height:76px;
+    position:sticky;
+    top:0;
+    z-index:20;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    background:rgba(8,8,8,.9);
+    border-bottom:1px solid var(--border);
+    backdrop-filter:blur(18px);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.brand-mark{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,var(--gold),var(--gold2));
+    color:#111;
+    font-weight:900;
+}
+
+.brand-name{
+    font-size:18px;
+    font-weight:800;
+    letter-spacing:3px;
+}
+
+.brand-role{
+    font-size:10px;
+    color:var(--gold);
+    letter-spacing:2px;
+}
+
+.user-area{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.user-name{
+    font-size:13px;
+    color:#ccc;
+}
+
+.layout{
+    display:grid;
+    grid-template-columns:240px 1fr;
+    min-height:calc(100vh - 76px);
+}
+
+.sidebar{
+    border-right:1px solid var(--border);
+    padding:25px 15px;
+    background:rgba(255,255,255,.015);
+}
+
+.nav-btn{
+    width:100%;
+    text-align:left;
+    border:none;
+    background:transparent;
+    color:#aaa;
+    padding:14px;
+    border-radius:10px;
+    cursor:pointer;
+    margin-bottom:6px;
+    font-size:14px;
+}
+
+.nav-btn:hover,
+.nav-btn.active{
+    background:rgba(201,164,92,.1);
+    color:var(--gold2);
+}
+
+.main{
+    padding:30px;
+    max-width:1600px;
+    width:100%;
+    margin:auto;
+}
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:20px;
+    margin-bottom:28px;
+}
+
+.page-header h1{
+    font-size:32px;
+}
+
+.page-header p{
+    color:var(--muted);
+    margin-top:7px;
+    font-size:14px;
+}
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:25px;
+}
+
+.stat{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:22px;
+}
+
+.stat-label{
+    color:#888;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.stat-value{
+    font-size:32px;
+    font-weight:800;
+    margin-top:10px;
+}
+
+.stat.gold .stat-value{
+    color:var(--gold2);
+}
+
+.toolbar{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+}
+
+.search{
+    flex:1;
+    min-width:240px;
+    height:48px;
+    background:#121212;
+    border:1px solid var(--border);
+    border-radius:11px;
+    color:#fff;
+    padding:0 15px;
+    outline:none;
+}
+
+.search:focus{
+    border-color:var(--gold);
+}
+
+.select{
+    height:48px;
+    background:#121212;
+    border:1px solid var(--border);
+    color:#fff;
+    border-radius:11px;
+    padding:0 15px;
+    outline:none;
+}
+
+.table-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    overflow:hidden;
+}
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:1000px;
+}
+
+th{
+    text-align:left;
+    padding:16px;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:#777;
+    background:#111;
+    border-bottom:1px solid var(--border);
+}
+
+td{
+    padding:17px 16px;
+    border-bottom:1px solid rgba(255,255,255,.05);
+    font-size:13px;
+    color:#ddd;
+}
+
+tr:hover td{
+    background:rgba(255,255,255,.02);
+}
+
+.project-id{
+    color:var(--gold2);
+    font-weight:700;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:700;
+    background:#222;
+}
+
+.badge-novo{
+    color:#65a2ff;
+    background:rgba(75,140,255,.12);
+}
+
+.badge-analise{
+    color:#e4bb68;
+    background:rgba(201,164,92,.12);
+}
+
+.badge-orcamento{
+    color:#b48cff;
+    background:rgba(140,92,255,.12);
+}
+
+.badge-fechado{
+    color:#55d394;
+    background:rgba(57,184,120,.12);
+}
+
+.badge-cancelado{
+    color:#ff7974;
+    background:rgba(217,83,79,.12);
+}
+
+.action-btn{
+    border:1px solid var(--border);
+    background:#222;
+    color:#ddd;
+    padding:8px 11px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:11px;
+}
+
+.action-btn:hover{
+    border-color:var(--gold);
+    color:var(--gold2);
+}
+
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:100;
+    background:rgba(0,0,0,.8);
+    padding:25px;
+    overflow:auto;
+}
+
+.modal-content{
+    max-width:1000px;
+    margin:30px auto;
+    background:#121212;
+    border:1px solid var(--border);
+    border-radius:22px;
+    box-shadow:0 30px 100px rgba(0,0,0,.7);
+}
+
+.modal-header{
+    padding:24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid var(--border);
+}
+
+.modal-header h2{
+    font-size:21px;
+}
+
+.close{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    background:#222;
+    color:#fff;
+    border:1px solid var(--border);
+    cursor:pointer;
+    font-size:18px;
+}
+
+.modal-body{
+    padding:25px;
+}
+
+.details-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.detail{
+    background:#181818;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:15px;
+}
+
+.detail.full{
+    grid-column:1/-1;
+}
+
+.detail-label{
+    color:#777;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:7px;
+}
+
+.detail-value{
+    color:#eee;
+    font-size:14px;
+    word-break:break-word;
+    white-space:pre-wrap;
+}
+
+.files{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.file-link{
+    display:block;
+    padding:12px;
+    border-radius:10px;
+    background:#202020;
+    color:var(--gold2);
+    text-decoration:none;
+    border:1px solid var(--border);
+}
+
+.file-link:hover{
+    border-color:var(--gold);
+}
+
+.status-area{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-bottom:22px;
+}
+
+.status-area select{
+    flex:1;
+}
+
+.empty{
+    text-align:center;
+    padding:60px 20px;
+    color:#777;
+}
+
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    z-index:300;
+    background:#1d1d1d;
+    color:#fff;
+    border:1px solid var(--border);
+    padding:15px 18px;
+    border-radius:12px;
+    box-shadow:0 15px 50px rgba(0,0,0,.5);
+    display:none;
+}
+
+@media(max-width:1000px){
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        display:none;
+    }
+
+    .dashboard-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
 
 }
 
+@media(max-width:650px){
 
-// ============================================================
-// POST
-// ============================================================
+    .topbar{
+        padding:0 15px;
+    }
 
-function doPost(e) {
+    .user-name{
+        display:none;
+    }
 
-  try {
+    .main{
+        padding:18px;
+    }
 
-    const dados = obterParametros(e);
+    .page-header{
+        display:block;
+    }
 
-    const acao =
-      String(
-        dados.acao || ""
-      ).trim();
+    .page-header h1{
+        font-size:25px;
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .details-grid{
+        grid-template-columns:1fr;
+    }
+
+    .detail.full{
+        grid-column:auto;
+    }
+
+    .login-card{
+        padding:25px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
+<section id="loginScreen">
+
+    <div class="login-container">
+
+        <div class="logo">
+            <div class="logo-title">ARQSELECT</div>
+            <div class="logo-subtitle">
+                Gestão de Projetos
+            </div>
+        </div>
+
+        <div class="login-card">
+
+            <h1>Acesso administrativo</h1>
+
+            <p>
+                Entre com suas credenciais para acessar
+                os projetos recebidos.
+            </p>
+
+            <div id="loginError" class="error"></div>
+
+            <div class="field">
+
+                <label>Usuário</label>
+
+                <input
+                    type="text"
+                    id="usuario"
+                    autocomplete="username"
+                    placeholder="Digite seu usuário"
+                >
+
+            </div>
+
+            <div class="field">
+
+                <label>Senha</label>
+
+                <input
+                    type="password"
+                    id="senha"
+                    autocomplete="current-password"
+                    placeholder="Digite sua senha"
+                    onkeydown="if(event.key==='Enter') fazerLogin()"
+                >
+
+            </div>
+
+            <button
+                id="loginButton"
+                class="btn btn-primary"
+                onclick="fazerLogin()"
+            >
+                ENTRAR NO PAINEL
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
 
 
-    switch (acao) {
+<!-- =====================================================
+     ADMIN
+===================================================== -->
 
-      case "login_admin":
-        return loginAdmin(dados);
+<section id="adminScreen">
+
+    <header class="topbar">
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                A
+            </div>
+
+            <div>
+                <div class="brand-name">
+                    ARQSELECT
+                </div>
+
+                <div class="brand-role">
+                    PAINEL ADMINISTRATIVO
+                </div>
+            </div>
+
+        </div>
+
+        <div class="user-area">
+
+            <span
+                id="usuarioLogado"
+                class="user-name"
+            >
+                Administrador
+            </span>
+
+            <button
+                class="btn btn-danger"
+                onclick="fazerLogout()"
+            >
+                SAIR
+            </button>
+
+        </div>
+
+    </header>
 
 
-      case "validar_sessao_admin":
-        return validarSessaoAdmin(dados);
+    <div class="layout">
+
+        <aside class="sidebar">
+
+            <button
+                class="nav-btn active"
+                onclick="mostrarProjetos()"
+            >
+                ◈ Projetos
+            </button>
+
+            <button
+                class="nav-btn"
+                onclick="carregarProjetos()"
+            >
+                ↻ Atualizar
+            </button>
+
+            <button
+                class="nav-btn"
+                onclick="fazerLogout()"
+            >
+                ⇥ Sair
+            </button>
+
+        </aside>
 
 
-      case "logout_admin":
-        return logoutAdmin(dados);
+        <main class="main">
+
+            <div class="page-header">
+
+                <div>
+
+                    <h1>
+                        Projetos
+                    </h1>
+
+                    <p>
+                        Gerencie os projetos enviados para a ARQSELECT.
+                    </p>
+
+                </div>
+
+                <button
+                    class="btn btn-secondary"
+                    onclick="carregarProjetos()"
+                >
+                    ↻ Atualizar dados
+                </button>
+
+            </div>
 
 
-      case "admin_teste":
-        exigirSessao(dados.token);
+            <!-- DASHBOARD -->
 
-        return respostaJSON({
-          sucesso: true,
-          autorizado: true,
-          mensagem: "API administrativa funcionando corretamente."
-        });
+            <div class="dashboard-grid">
+
+                <div class="stat gold">
+
+                    <div class="stat-label">
+                        Total de projetos
+                    </div>
+
+                    <div
+                        id="totalProjetos"
+                        class="stat-value"
+                    >
+                        0
+                    </div>
+
+                </div>
 
 
-      case "projetos":
-        exigirSessao(dados.token);
+                <div class="stat">
 
-        return obterProjetos();
+                    <div class="stat-label">
+                        Novos
+                    </div>
+
+                    <div
+                        id="totalNovos"
+                        class="stat-value"
+                    >
+                        0
+                    </div>
+
+                </div>
 
 
-      case "projeto":
-        exigirSessao(dados.token);
+                <div class="stat">
 
-        return obterProjeto(
-          dados.id
+                    <div class="stat-label">
+                        Em análise
+                    </div>
+
+                    <div
+                        id="totalAnalise"
+                        class="stat-value"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-label">
+                        Fechados
+                    </div>
+
+                    <div
+                        id="totalFechados"
+                        class="stat-value"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FILTROS -->
+
+            <div class="toolbar">
+
+                <input
+                    id="pesquisa"
+                    class="search"
+                    type="text"
+                    placeholder="Pesquisar projeto, arquiteto, escritório, cidade..."
+                    oninput="filtrarProjetos()"
+                >
+
+                <select
+                    id="filtroStatus"
+                    class="select"
+                    onchange="filtrarProjetos()"
+                >
+
+                    <option value="">
+                        Todos os status
+                    </option>
+
+                    <option value="Novo">
+                        Novo
+                    </option>
+
+                    <option value="Em análise">
+                        Em análise
+                    </option>
+
+                    <option value="Orçamento">
+                        Orçamento
+                    </option>
+
+                    <option value="Fechado">
+                        Fechado
+                    </option>
+
+                    <option value="Cancelado">
+                        Cancelado
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- TABELA -->
+
+            <div class="table-card">
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>ID</th>
+
+                                <th>Data</th>
+
+                                <th>Projeto</th>
+
+                                <th>Arquiteto</th>
+
+                                <th>Escritório</th>
+
+                                <th>Cidade</th>
+
+                                <th>Status</th>
+
+                                <th>Ações</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="tabelaProjetos">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <div
+                    id="estadoTabela"
+                    class="empty"
+                    style="display:none"
+                >
+                    Nenhum projeto encontrado.
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div
+    id="modalProjeto"
+    class="modal"
+    onclick="fecharModalFora(event)"
+>
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>
+                Detalhes do projeto
+            </h2>
+
+            <button
+                class="close"
+                onclick="fecharModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div
+            id="modalBody"
+            class="modal-body"
+        >
+        </div>
+
+    </div>
+
+</div>
+
+
+<div
+    id="toast"
+    class="toast"
+>
+</div>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURAÇÃO PRINCIPAL
+===================================================== */
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
+
+
+const STORAGE_TOKEN =
+"ARQSELECT_ADMIN_TOKEN";
+
+
+const STORAGE_USER =
+"ARQSELECT_ADMIN_USER";
+
+
+let projetos = [];
+
+let projetosFiltrados = [];
+
+
+/* =====================================================
+   INICIALIZAÇÃO
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        verificarSessao();
+
+    }
+);
+
+
+/* =====================================================
+   FUNÇÃO DE REQUISIÇÃO
+===================================================== */
+
+async function apiPost(
+    dados
+){
+
+    const corpo =
+        new URLSearchParams();
+
+
+    Object.keys(dados).forEach(
+        function(chave){
+
+            corpo.append(
+                chave,
+                dados[chave] ?? ""
+            );
+
+        }
+    );
+
+
+    const resposta =
+        await fetch(
+            API_URL,
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":
+                        "application/x-www-form-urlencoded;charset=UTF-8"
+                },
+                body:
+                    corpo.toString()
+            }
         );
 
 
-      case "atualizarStatus":
-        exigirSessao(dados.token);
+    if(!resposta.ok){
 
-        return atualizarStatus(
-          dados.linha,
-          dados.status
+        throw new Error(
+            "Erro HTTP " +
+            resposta.status
         );
-
-
-      default:
-
-        return respostaJSON({
-          sucesso: false,
-          autorizado: false,
-          mensagem: "Ação não reconhecida."
-        });
 
     }
 
 
-  } catch (erro) {
-
-    return respostaJSON({
-      sucesso: false,
-      autorizado: false,
-      mensagem:
-        erro &&
-        erro.message
-          ? erro.message
-          : "Erro interno do servidor."
-    });
-
-  }
-
-}
+    const texto =
+        await resposta.text();
 
 
-// ============================================================
-// PARÂMETROS
-// ============================================================
+    try{
 
-function obterParametros(e) {
+        return JSON.parse(
+            texto
+        );
 
-  if (
-    e &&
-    e.parameter
-  ) {
+    }catch(e){
 
-    return e.parameter;
+        throw new Error(
+            "A API retornou uma resposta inválida."
+        );
 
-  }
-
-  return {};
+    }
 
 }
 
 
-// ============================================================
-// LOGIN
-// ============================================================
+/* =====================================================
+   LOGIN
+===================================================== */
 
-function loginAdmin(dados) {
+async function fazerLogin(){
 
-  const usuario =
-    String(
-      dados.usuario || ""
-    ).trim();
+    const usuario =
+        document
+        .getElementById("usuario")
+        .value
+        .trim();
 
 
-  const senha =
-    String(
-      dados.senha || ""
-    );
+    const senha =
+        document
+        .getElementById("senha")
+        .value;
 
 
-  if (
-    usuario !==
-    CONFIG.ADMIN_USUARIO ||
-    senha !==
-    CONFIG.ADMIN_SENHA
-  ) {
+    const erro =
+        document
+        .getElementById("loginError");
 
-    return respostaJSON({
 
-      sucesso: false,
+    const botao =
+        document
+        .getElementById("loginButton");
 
-      autorizado: false,
 
-      mensagem:
-        "Usuário ou senha inválidos."
+    erro.style.display =
+        "none";
 
-    });
 
-  }
+    if(!usuario || !senha){
 
+        mostrarErroLogin(
+            "Informe usuário e senha."
+        );
 
-  const token =
-    criarSessao(
-      usuario
-    );
-
-
-  return respostaJSON({
-
-    sucesso: true,
-
-    autorizado: true,
-
-    token: token,
-
-    usuario: usuario,
-
-    mensagem:
-      "Login realizado com sucesso."
-
-  });
-
-}
-
-
-// ============================================================
-// CRIAR SESSÃO
-// ============================================================
-
-function criarSessao(usuario) {
-
-  const token =
-    Utilities.getUuid() +
-    "-" +
-    Utilities.getUuid();
-
-
-  const dados = {
-
-    usuario: usuario,
-
-    criadoEm:
-      new Date().getTime(),
-
-    expiraEm:
-      new Date().getTime() +
-      (
-        CONFIG.SESSAO_MINUTOS *
-        60 *
-        1000
-      )
-
-  };
-
-
-  CacheService
-    .getScriptCache()
-    .put(
-      CACHE_PREFIX + token,
-      JSON.stringify(dados),
-      CONFIG.SESSAO_MINUTOS * 60
-    );
-
-
-  return token;
-
-}
-
-
-// ============================================================
-// VALIDAR SESSÃO
-// ============================================================
-
-function validarSessaoAdmin(dados) {
-
-  const sessao =
-    obterSessao(
-      dados.token
-    );
-
-
-  if (!sessao) {
-
-    return respostaJSON({
-
-      sucesso: false,
-
-      autorizado: false,
-
-      mensagem:
-        "Sessão expirada."
-
-    });
-
-  }
-
-
-  return respostaJSON({
-
-    sucesso: true,
-
-    autorizado: true,
-
-    usuario:
-      sessao.usuario,
-
-    mensagem:
-      "Sessão válida."
-
-  });
-
-}
-
-
-// ============================================================
-// OBTER SESSÃO
-// ============================================================
-
-function obterSessao(token) {
-
-  if (!token) {
-
-    return null;
-
-  }
-
-
-  const cache =
-    CacheService
-      .getScriptCache();
-
-
-  const texto =
-    cache.get(
-      CACHE_PREFIX + token
-    );
-
-
-  if (!texto) {
-
-    return null;
-
-  }
-
-
-  try {
-
-    const sessao =
-      JSON.parse(texto);
-
-
-    if (
-      new Date().getTime() >
-      Number(
-        sessao.expiraEm
-      )
-    ) {
-
-      cache.remove(
-        CACHE_PREFIX + token
-      );
-
-      return null;
+        return;
 
     }
 
 
-    return sessao;
+    botao.classList.add(
+        "loading"
+    );
+
+    botao.textContent =
+        "AUTENTICANDO...";
 
 
-  } catch (erro) {
+    try{
 
-    return null;
+        const resultado =
+            await apiPost({
 
-  }
+                acao:
+                    "login",
+
+                usuario:
+                    usuario,
+
+                senha:
+                    senha
+
+            });
+
+
+        if(
+            resultado.sucesso &&
+            resultado.token
+        ){
+
+            localStorage.setItem(
+                STORAGE_TOKEN,
+                resultado.token
+            );
+
+
+            localStorage.setItem(
+                STORAGE_USER,
+                resultado.usuario ||
+                usuario
+            );
+
+
+            mostrarAdmin(
+                resultado.usuario ||
+                usuario
+            );
+
+
+            mostrarToast(
+                "Login realizado com sucesso."
+            );
+
+
+            carregarProjetos();
+
+        }else{
+
+            mostrarErroLogin(
+                resultado.mensagem ||
+                "Usuário ou senha inválidos."
+            );
+
+        }
+
+    }catch(erro){
+
+        console.error(
+            erro
+        );
+
+        mostrarErroLogin(
+            "Não foi possível conectar ao servidor."
+        );
+
+    }finally{
+
+        botao.classList.remove(
+            "loading"
+        );
+
+        botao.textContent =
+            "ENTRAR NO PAINEL";
+
+    }
 
 }
 
 
-// ============================================================
-// EXIGIR SESSÃO
-// ============================================================
+/* =====================================================
+   ERRO LOGIN
+===================================================== */
 
-function exigirSessao(token) {
+function mostrarErroLogin(
+    mensagem
+){
 
-  const sessao =
-    obterSessao(token);
-
-
-  if (!sessao) {
-
-    throw new Error(
-      "Acesso não autorizado. Faça login novamente."
-    );
-
-  }
+    const erro =
+        document
+        .getElementById("loginError");
 
 
-  return sessao;
-
-}
-
-
-// ============================================================
-// LOGOUT
-// ============================================================
-
-function logoutAdmin(dados) {
-
-  if (dados.token) {
-
-    CacheService
-      .getScriptCache()
-      .remove(
-        CACHE_PREFIX + dados.token
-      );
-
-  }
+    erro.textContent =
+        mensagem;
 
 
-  return respostaJSON({
-
-    sucesso: true,
-
-    autorizado: false,
-
-    mensagem:
-      "Sessão encerrada."
-
-  });
+    erro.style.display =
+        "block";
 
 }
 
 
-// ============================================================
-// PLANILHA
-// ============================================================
+/* =====================================================
+   VERIFICAR SESSÃO
+===================================================== */
 
-function obterPlanilha() {
+async function verificarSessao(){
 
-  if (
-    !CONFIG.ID_DA_PLANILHA ||
-    CONFIG.ID_DA_PLANILHA ===
-    "COLOQUE_AQUI_O_ID_DA_SUA_PLANILHA"
-  ) {
-
-    throw new Error(
-      "Configure o ID_DA_PLANILHA no Code.gs."
-    );
-
-  }
+    const token =
+        localStorage.getItem(
+            STORAGE_TOKEN
+        );
 
 
-  return SpreadsheetApp
-    .openById(
-      CONFIG.ID_DA_PLANILHA
+    const usuario =
+        localStorage.getItem(
+            STORAGE_USER
+        );
+
+
+    if(!token){
+
+        mostrarLogin();
+
+        return;
+
+    }
+
+
+    try{
+
+        const resultado =
+            await apiPost({
+
+                acao:
+                    "sessao",
+
+                token:
+                    token
+
+            });
+
+
+        if(
+            resultado.sucesso &&
+            resultado.autorizado
+        ){
+
+            mostrarAdmin(
+                resultado.usuario ||
+                usuario ||
+                "Administrador"
+            );
+
+
+            carregarProjetos();
+
+        }else{
+
+            limparSessao();
+
+            mostrarLogin();
+
+        }
+
+    }catch(erro){
+
+        console.error(
+            erro
+        );
+
+        limparSessao();
+
+        mostrarLogin();
+
+    }
+
+}
+
+
+/* =====================================================
+   MOSTRAR LOGIN
+===================================================== */
+
+function mostrarLogin(){
+
+    document
+    .getElementById("loginScreen")
+    .style.display =
+        "flex";
+
+
+    document
+    .getElementById("adminScreen")
+    .style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   MOSTRAR ADMIN
+===================================================== */
+
+function mostrarAdmin(
+    usuario
+){
+
+    document
+    .getElementById("loginScreen")
+    .style.display =
+        "none";
+
+
+    document
+    .getElementById("adminScreen")
+    .style.display =
+        "block";
+
+
+    document
+    .getElementById("usuarioLogado")
+    .textContent =
+        usuario ||
+        "Administrador";
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function fazerLogout(){
+
+    const token =
+        localStorage.getItem(
+            STORAGE_TOKEN
+        );
+
+
+    try{
+
+        if(token){
+
+            await apiPost({
+
+                acao:
+                    "logout",
+
+                token:
+                    token
+
+            });
+
+        }
+
+    }catch(e){
+
+        console.warn(
+            e
+        );
+
+    }
+
+
+    limparSessao();
+
+    mostrarLogin();
+
+    mostrarToast(
+        "Sessão encerrada."
     );
 
 }
 
 
-// ============================================================
-// ABA
-// ============================================================
+/* =====================================================
+   LIMPAR SESSÃO
+===================================================== */
 
-function obterAba() {
+function limparSessao(){
 
-  const planilha =
-    obterPlanilha();
-
-
-  let aba =
-    planilha.getSheetByName(
-      CONFIG.NOME_DA_ABA
+    localStorage.removeItem(
+        STORAGE_TOKEN
     );
 
-
-  if (!aba) {
-
-    aba =
-      planilha.getSheets()[0];
-
-  }
-
-
-  if (!aba) {
-
-    throw new Error(
-      "Nenhuma aba encontrada na planilha."
+    localStorage.removeItem(
+        STORAGE_USER
     );
-
-  }
-
-
-  return aba;
 
 }
 
 
-// ============================================================
-// LER PLANILHA
-// ============================================================
+/* =====================================================
+   TOKEN
+===================================================== */
 
-function lerPlanilha() {
+function obterToken(){
 
-  const aba =
-    obterAba();
+    return localStorage.getItem(
+        STORAGE_TOKEN
+    ) || "";
 
-
-  const ultimaLinha =
-    aba.getLastRow();
-
-
-  const ultimaColuna =
-    aba.getLastColumn();
+}
 
 
-  if (
-    ultimaLinha < 1 ||
-    ultimaColuna < 1
-  ) {
+/* =====================================================
+   CARREGAR PROJETOS
+===================================================== */
 
-    return [];
+async function carregarProjetos(){
 
-  }
-
-
-  const valores =
-    aba.getRange(
-      1,
-      1,
-      ultimaLinha,
-      ultimaColuna
-    ).getDisplayValues();
+    const token =
+        obterToken();
 
 
-  if (
-    !valores.length
-  ) {
+    if(!token){
 
-    return [];
+        mostrarLogin();
 
-  }
+        return;
+
+    }
 
 
-  const cabecalhos =
-    valores[0].map(
-      valor =>
-        String(
-          valor || ""
-        ).trim()
+    const tbody =
+        document
+        .getElementById(
+            "tabelaProjetos"
+        );
+
+
+    tbody.innerHTML = `
+
+        <tr>
+            <td colspan="8"
+                style="text-align:center;padding:50px;color:#888">
+                Carregando projetos...
+            </td>
+        </tr>
+
+    `;
+
+
+    try{
+
+        const resultado =
+            await apiPost({
+
+                acao:
+                    "projetos",
+
+                token:
+                    token
+
+            });
+
+
+        if(
+            !resultado.sucesso ||
+            !resultado.autorizado
+        ){
+
+            limparSessao();
+
+            mostrarLogin();
+
+            return;
+
+        }
+
+
+        projetos =
+            Array.isArray(
+                resultado.projetos
+            )
+            ? resultado.projetos
+            : [];
+
+
+        atualizarDashboard();
+
+        filtrarProjetos();
+
+    }catch(erro){
+
+        console.error(
+            erro
+        );
+
+
+        tbody.innerHTML = `
+
+            <tr>
+                <td colspan="8"
+                    style="text-align:center;padding:50px;color:#ff7974">
+                    Erro ao carregar projetos.
+                </td>
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function atualizarDashboard(){
+
+    document
+    .getElementById(
+        "totalProjetos"
+    )
+    .textContent =
+        projetos.length;
+
+
+    let novos = 0;
+
+    let analise = 0;
+
+    let fechados = 0;
+
+
+    projetos.forEach(
+        function(projeto){
+
+            const status =
+                String(
+                    projeto["STATUS"] ||
+                    "Novo"
+                ).trim();
+
+
+            if(status === "Novo"){
+                novos++;
+            }
+
+            if(status === "Em análise"){
+                analise++;
+            }
+
+            if(status === "Fechado"){
+                fechados++;
+            }
+
+        }
     );
 
 
-  const registros = [];
+    document
+    .getElementById(
+        "totalNovos"
+    )
+    .textContent =
+        novos;
 
 
-  for (
-    let i = 1;
-    i < valores.length;
-    i++
-  ) {
-
-    const linha =
-      valores[i];
+    document
+    .getElementById(
+        "totalAnalise"
+    )
+    .textContent =
+        analise;
 
 
-    const objeto = {
+    document
+    .getElementById(
+        "totalFechados"
+    )
+    .textContent =
+        fechados;
 
-      _linha: i + 1
+}
+
+
+/* =====================================================
+   FILTRAR
+===================================================== */
+
+function filtrarProjetos(){
+
+    const pesquisa =
+        document
+        .getElementById(
+            "pesquisa"
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const status =
+        document
+        .getElementById(
+            "filtroStatus"
+        )
+        .value;
+
+
+    projetosFiltrados =
+        projetos.filter(
+            function(projeto){
+
+                const texto =
+                    Object
+                    .values(
+                        projeto
+                    )
+                    .join(" ")
+                    .toLowerCase();
+
+
+                const statusProjeto =
+                    String(
+                        projeto["STATUS"] ||
+                        ""
+                    ).trim();
+
+
+                const correspondeTexto =
+                    !pesquisa ||
+                    texto.includes(
+                        pesquisa
+                    );
+
+
+                const correspondeStatus =
+                    !status ||
+                    statusProjeto ===
+                    status;
+
+
+                return (
+                    correspondeTexto &&
+                    correspondeStatus
+                );
+
+            }
+        );
+
+
+    renderizarProjetos();
+
+}
+
+
+/* =====================================================
+   RENDERIZAR PROJETOS
+===================================================== */
+
+function renderizarProjetos(){
+
+    const tbody =
+        document
+        .getElementById(
+            "tabelaProjetos"
+        );
+
+
+    const estado =
+        document
+        .getElementById(
+            "estadoTabela"
+        );
+
+
+    tbody.innerHTML =
+        "";
+
+
+    if(!projetosFiltrados.length){
+
+        estado.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    estado.style.display =
+        "none";
+
+
+    projetosFiltrados.forEach(
+        function(projeto){
+
+            const tr =
+                document.createElement(
+                    "tr"
+                );
+
+
+            const id =
+                projeto["ID PROJETO"] ||
+                projeto["NUMERO DO PROJETO"] ||
+                "-";
+
+
+            const data =
+                projeto["DATA / HORA"] ||
+                projeto["Data"] ||
+                "-";
+
+
+            const nomeProjeto =
+                projeto["NOME DO PROJETO"] ||
+                projeto["PROJETO"] ||
+                projeto["Nome do projeto"] ||
+                "-";
+
+
+            const nome =
+                projeto["NOME"] ||
+                projeto["ARQUITETO"] ||
+                "-";
+
+
+            const escritorio =
+                projeto["ESCRITÓRIO"] ||
+                projeto["ESCRITORIO"] ||
+                "-";
+
+
+            const cidade =
+                projeto["CIDADE"] ||
+                "-";
+
+
+            const status =
+                projeto["STATUS"] ||
+                "Novo";
+
+
+            tr.innerHTML = `
+
+                <td>
+                    <span class="project-id">
+                        ${escapar(id)}
+                    </span>
+                </td>
+
+                <td>
+                    ${escapar(data)}
+                </td>
+
+                <td>
+                    <strong>
+                        ${escapar(nomeProjeto)}
+                    </strong>
+                </td>
+
+                <td>
+                    ${escapar(nome)}
+                </td>
+
+                <td>
+                    ${escapar(escritorio)}
+                </td>
+
+                <td>
+                    ${escapar(cidade)}
+                </td>
+
+                <td>
+                    ${criarBadge(status)}
+                </td>
+
+                <td>
+
+                    <button
+                        class="action-btn"
+                        onclick="abrirProjetoPorId('${escaparJS(id)}')"
+                    >
+                        VER PROJETO
+                    </button>
+
+                </td>
+
+            `;
+
+
+            tbody.appendChild(
+                tr
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   BADGE
+===================================================== */
+
+function criarBadge(
+    status
+){
+
+    const mapa = {
+
+        "Novo":
+            "badge-novo",
+
+        "Em análise":
+            "badge-analise",
+
+        "Orçamento":
+            "badge-orcamento",
+
+        "Fechado":
+            "badge-fechado",
+
+        "Cancelado":
+            "badge-cancelado"
 
     };
 
 
-    let possuiDados =
-      false;
+    const classe =
+        mapa[status] ||
+        "";
 
 
-    for (
-      let c = 0;
-      c < cabecalhos.length;
-      c++
-    ) {
+    return `
 
-      const chave =
-        cabecalhos[c];
+        <span class="badge ${classe}">
+            ${escapar(status)}
+        </span>
 
-
-      if (!chave) {
-
-        continue;
-
-      }
-
-
-      const valor =
-        linha[c] !== undefined
-          ? linha[c]
-          : "";
-
-
-      objeto[chave] =
-        valor;
-
-
-      if (
-        String(
-          valor || ""
-        ).trim() !== ""
-      ) {
-
-        possuiDados = true;
-
-      }
-
-    }
-
-
-    if (possuiDados) {
-
-      registros.push(
-        objeto
-      );
-
-    }
-
-  }
-
-
-  return registros;
+    `;
 
 }
 
 
-// ============================================================
-// PROJETOS
-// ============================================================
+/* =====================================================
+   ABRIR PROJETO
+===================================================== */
 
-function obterProjetos() {
+async function abrirProjetoPorId(
+    id
+){
 
-  const projetos =
-    lerPlanilha();
+    const token =
+        obterToken();
 
 
-  return respostaJSON({
+    if(!token){
 
-    sucesso: true,
+        mostrarLogin();
 
-    autorizado: true,
+        return;
 
-    projetos: projetos,
+    }
 
-    total:
-      projetos.length
 
-  });
+    try{
+
+        const resultado =
+            await apiPost({
+
+                acao:
+                    "projeto",
+
+                token:
+                    token,
+
+                id:
+                    id
+
+            });
+
+
+        if(
+            !resultado.sucesso
+        ){
+
+            mostrarToast(
+                resultado.mensagem ||
+                "Projeto não encontrado."
+            );
+
+            return;
+
+        }
+
+
+        mostrarDetalhes(
+            resultado.projeto
+        );
+
+
+    }catch(erro){
+
+        console.error(
+            erro
+        );
+
+
+        mostrarToast(
+            "Erro ao abrir projeto."
+        );
+
+    }
 
 }
 
 
-// ============================================================
-// PROJETO INDIVIDUAL
-// ============================================================
+/* =====================================================
+   DETALHES
+===================================================== */
 
-function obterProjeto(id) {
+function mostrarDetalhes(
+    projeto
+){
 
-  const projetos =
-    lerPlanilha();
+    const modal =
+        document
+        .getElementById(
+            "modalProjeto"
+        );
 
 
-  const procurado =
-    String(
-      id || ""
-    ).trim();
+    const body =
+        document
+        .getElementById(
+            "modalBody"
+        );
 
 
-  const projeto =
-    projetos.find(
-      item => {
+    const id =
+        projeto["ID PROJETO"] ||
+        projeto["NUMERO DO PROJETO"] ||
+        "-";
 
-        const valor =
-          String(
-            item["ID PROJETO"] ||
-            item["NUMERO DO PROJETO"] ||
+
+    const status =
+        projeto["STATUS"] ||
+        "Novo";
+
+
+    const pasta =
+        projeto._pastaUrl ||
+        projeto["PASTA DO PROJETO"] ||
+        "";
+
+
+    const whatsapp =
+        projeto._whatsappUrl ||
+        criarWhatsApp(
+            projeto["WHATSAPP"] ||
+            projeto["TELEFONE"] ||
             ""
-          ).trim();
+        );
 
 
-        return valor === procurado;
+    const arquivos =
+        Array.isArray(
+            projeto._arquivos
+        )
+        ? projeto._arquivos
+        : extrairArquivosFront(
+            projeto["ARQUIVOS"] ||
+            ""
+        );
 
-      }
+
+    const ignorar = [
+        "_linha",
+        "_pastaUrl",
+        "_whatsappUrl",
+        "_arquivos"
+    ];
+
+
+    let campos = "";
+
+
+    Object.keys(
+        projeto
+    ).forEach(
+        function(chave){
+
+            if(
+                ignorar.includes(
+                    chave
+                )
+            ){
+
+                return;
+
+            }
+
+
+            if(
+                chave ===
+                "ARQUIVOS" ||
+                chave ===
+                "PASTA DO PROJETO"
+            ){
+
+                return;
+
+            }
+
+
+            const valor =
+                projeto[chave];
+
+
+            if(
+                String(
+                    valor || ""
+                ).trim() === ""
+            ){
+
+                return;
+
+            }
+
+
+            campos += `
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        ${escapar(chave)}
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapar(valor)}
+                    </div>
+
+                </div>
+
+            `;
+
+        }
     );
 
 
-  if (!projeto) {
-
-    return respostaJSON({
-
-      sucesso: false,
-
-      autorizado: true,
-
-      mensagem:
-        "Projeto não encontrado."
-
-    });
-
-  }
+    let arquivosHTML = "";
 
 
-  return respostaJSON({
+    if(arquivos.length){
 
-    sucesso: true,
+        arquivosHTML = `
 
-    autorizado: true,
+            <div class="detail full">
 
-    projeto: projeto
+                <div class="detail-label">
+                    ARQUIVOS
+                </div>
 
-  });
+                <div class="files">
 
-}
+                    ${arquivos.map(
+                        function(arquivo){
 
+                            return `
 
-// ============================================================
-// ATUALIZAR STATUS
-// ============================================================
+                                <a
+                                    class="file-link"
+                                    href="${escaparAttr(arquivo.url)}"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    ↗
+                                    ${escapar(arquivo.nome)}
+                                </a>
 
-function atualizarStatus(
-  linha,
-  status
-) {
+                            `;
 
-  const permitidos = [
+                        }
+                    ).join("")}
 
-    "Novo",
+                </div>
 
-    "Em análise",
+            </div>
 
-    "Orçamento",
-
-    "Fechado",
-
-    "Cancelado"
-
-  ];
-
-
-  const novoStatus =
-    String(
-      status || ""
-    ).trim();
-
-
-  if (
-    !permitidos.includes(
-      novoStatus
-    )
-  ) {
-
-    return respostaJSON({
-
-      sucesso: false,
-
-      autorizado: true,
-
-      mensagem:
-        "Status inválido."
-
-    });
-
-  }
-
-
-  const numeroLinha =
-    Number(linha);
-
-
-  if (
-    !Number.isInteger(
-      numeroLinha
-    ) ||
-    numeroLinha < 2
-  ) {
-
-    return respostaJSON({
-
-      sucesso: false,
-
-      autorizado: true,
-
-      mensagem:
-        "Linha inválida."
-
-    });
-
-  }
-
-
-  const aba =
-    obterAba();
-
-
-  const ultimaColuna =
-    aba.getLastColumn();
-
-
-  const cabecalhos =
-    aba
-      .getRange(
-        1,
-        1,
-        1,
-        ultimaColuna
-      )
-      .getDisplayValues()[0];
-
-
-  let colunaStatus =
-    -1;
-
-
-  for (
-    let i = 0;
-    i < cabecalhos.length;
-    i++
-  ) {
-
-    const nome =
-      String(
-        cabecalhos[i] || ""
-      )
-      .trim()
-      .toUpperCase();
-
-
-    if (
-      nome === "STATUS"
-    ) {
-
-      colunaStatus =
-        i + 1;
-
-      break;
+        `;
 
     }
 
-  }
+
+    const linksHTML = `
+
+        <div class="detail full">
+
+            <div class="detail-label">
+                AÇÕES
+            </div>
+
+            <div
+                style="
+                    display:flex;
+                    gap:10px;
+                    flex-wrap:wrap;
+                "
+            >
+
+                ${
+                    pasta
+                    ?
+                    `
+                    <a
+                        class="btn btn-secondary"
+                        href="${escaparAttr(pasta)}"
+                        target="_blank"
+                        rel="noopener"
+                        style="
+                            display:inline-flex;
+                            align-items:center;
+                            text-decoration:none;
+                        "
+                    >
+                        📁 ABRIR PASTA
+                    </a>
+                    `
+                    :
+                    ""
+                }
 
 
-  if (
-    colunaStatus === -1
-  ) {
+                ${
+                    whatsapp
+                    ?
+                    `
+                    <a
+                        class="btn btn-secondary"
+                        href="${escaparAttr(whatsapp)}"
+                        target="_blank"
+                        rel="noopener"
+                        style="
+                            display:inline-flex;
+                            align-items:center;
+                            text-decoration:none;
+                        "
+                    >
+                        WhatsApp
+                    </a>
+                    `
+                    :
+                    ""
+                }
 
-    throw new Error(
-      "A coluna STATUS não foi encontrada na planilha."
-    );
+            </div>
 
-  }
+        </div>
 
-
-  aba
-    .getRange(
-      numeroLinha,
-      colunaStatus
-    )
-    .setValue(
-      novoStatus
-    );
+    `;
 
 
-  SpreadsheetApp
-    .flush();
+    body.innerHTML = `
+
+        <div class="status-area">
+
+            <strong>
+                Status:
+            </strong>
+
+            <select
+                id="statusProjeto"
+                class="select"
+            >
+
+                <option value="Novo"
+                    ${status==="Novo"?"selected":""}>
+                    Novo
+                </option>
+
+                <option value="Em análise"
+                    ${status==="Em análise"?"selected":""}>
+                    Em análise
+                </option>
+
+                <option value="Orçamento"
+                    ${status==="Orçamento"?"selected":""}>
+                    Orçamento
+                </option>
+
+                <option value="Fechado"
+                    ${status==="Fechado"?"selected":""}>
+                    Fechado
+                </option>
+
+                <option value="Cancelado"
+                    ${status==="Cancelado"?"selected":""}>
+                    Cancelado
+                </option>
+
+            </select>
 
 
-  return respostaJSON({
+            <button
+                class="btn btn-primary"
+                onclick="salvarStatus('${escaparJS(projeto._linha)}')"
+            >
+                SALVAR
+            </button>
 
-    sucesso: true,
+        </div>
 
-    autorizado: true,
 
-    status: novoStatus,
+        <div class="details-grid">
 
-    linha: numeroLinha,
+            <div class="detail full">
 
-    mensagem:
-      "Status atualizado com sucesso."
+                <div class="detail-label">
+                    ID DO PROJETO
+                </div>
 
-  });
+                <div class="detail-value">
+                    ${escapar(id)}
+                </div>
+
+            </div>
+
+
+            ${campos}
+
+            ${arquivosHTML}
+
+            ${linksHTML}
+
+        </div>
+
+    `;
+
+
+    modal.style.display =
+        "block";
 
 }
 
 
-// ============================================================
-// JSON
-// ============================================================
+/* =====================================================
+   SALVAR STATUS
+===================================================== */
 
-function respostaJSON(objeto) {
+async function salvarStatus(
+    linha
+){
 
-  return ContentService
-    .createTextOutput(
-      JSON.stringify(
-        objeto
-      )
+    const status =
+        document
+        .getElementById(
+            "statusProjeto"
+        )
+        .value;
+
+
+    const token =
+        obterToken();
+
+
+    try{
+
+        const resultado =
+            await apiPost({
+
+                acao:
+                    "atualizarStatus",
+
+                token:
+                    token,
+
+                linha:
+                    linha,
+
+                status:
+                    status
+
+            });
+
+
+        if(
+            resultado.sucesso
+        ){
+
+            mostrarToast(
+                "Status atualizado."
+            );
+
+
+            fecharModal();
+
+
+            carregarProjetos();
+
+        }else{
+
+            mostrarToast(
+                resultado.mensagem ||
+                "Não foi possível atualizar."
+            );
+
+        }
+
+    }catch(erro){
+
+        console.error(
+            erro
+        );
+
+
+        mostrarToast(
+            "Erro ao atualizar status."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   EXTRAIR ARQUIVOS
+===================================================== */
+
+function extrairArquivosFront(
+    valor
+){
+
+    const texto =
+        String(
+            valor || ""
+        ).trim();
+
+
+    if(!texto){
+
+        return [];
+
+    }
+
+
+    const resultado = [];
+
+
+    texto
+    .split(/\r?\n/)
+    .forEach(
+        function(linha){
+
+            const item =
+                linha.trim();
+
+
+            if(!item){
+
+                return;
+
+            }
+
+
+            let nome =
+                item;
+
+            let url =
+                "";
+
+
+            const seta =
+                item.indexOf("→");
+
+
+            if(
+                seta !== -1
+            ){
+
+                nome =
+                    item
+                    .substring(
+                        0,
+                        seta
+                    )
+                    .trim();
+
+
+                url =
+                    item
+                    .substring(
+                        seta + 1
+                    )
+                    .trim();
+
+            }
+
+
+            const match =
+                item.match(
+                    /(https?:\/\/[^\s]+)/i
+                );
+
+
+            if(
+                !url &&
+                match
+            ){
+
+                url =
+                    match[1];
+
+
+                nome =
+                    item
+                    .replace(
+                        url,
+                        ""
+                    )
+                    .trim();
+
+            }
+
+
+            if(url){
+
+                resultado.push({
+
+                    nome:
+                        nome ||
+                        "Arquivo",
+
+                    url:
+                        url
+
+                });
+
+            }
+
+        }
+    );
+
+
+    return resultado;
+
+}
+
+
+/* =====================================================
+   WHATSAPP
+===================================================== */
+
+function criarWhatsApp(
+    valor
+){
+
+    const texto =
+        String(
+            valor || ""
+        ).trim();
+
+
+    if(!texto){
+
+        return "";
+
+    }
+
+
+    if(
+        /^https?:\/\//i.test(
+            texto
+        )
+    ){
+
+        return texto;
+
+    }
+
+
+    let numero =
+        texto.replace(
+            /\D/g,
+            ""
+        );
+
+
+    if(
+        numero.length === 10 ||
+        numero.length === 11
+    ){
+
+        numero =
+            "55" +
+            numero;
+
+    }
+
+
+    if(
+        numero.length >= 12
+    ){
+
+        return (
+            "https://wa.me/" +
+            numero
+        );
+
+    }
+
+
+    return "";
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+function fecharModal(){
+
+    document
+    .getElementById(
+        "modalProjeto"
     )
-    .setMimeType(
-      ContentService
-        .MimeType
-        .JSON
+    .style.display =
+        "none";
+
+}
+
+
+function fecharModalFora(
+    event
+){
+
+    if(
+        event.target.id ===
+        "modalProjeto"
+    ){
+
+        fecharModal();
+
+    }
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+let toastTimer;
+
+
+function mostrarToast(
+    mensagem
+){
+
+    const toast =
+        document
+        .getElementById(
+            "toast"
+        );
+
+
+    toast.textContent =
+        mensagem;
+
+
+    toast.style.display =
+        "block";
+
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toastTimer =
+        setTimeout(
+            function(){
+
+                toast.style.display =
+                    "none";
+
+            },
+            3000
+        );
+
+}
+
+
+/* =====================================================
+   NAVEGAÇÃO
+===================================================== */
+
+function mostrarProjetos(){
+
+    document
+    .querySelectorAll(
+        ".nav-btn"
+    )
+    .forEach(
+        function(btn){
+
+            btn.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+
+    event
+    ?.currentTarget
+    ?.classList.add(
+        "active"
+    );
+
+
+    carregarProjetos();
+
+}
+
+
+/* =====================================================
+   SEGURANÇA HTML
+===================================================== */
+
+function escapar(
+    valor
+){
+
+    return String(
+        valor ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
     );
 
 }
+
+
+function escaparAttr(
+    valor
+){
+
+    return escapar(
+        valor
+    );
+
+}
+
+
+function escaparJS(
+    valor
+){
+
+    return String(
+        valor ?? ""
+    )
+    .replace(
+        /\\/g,
+        "\\\\"
+    )
+    .replace(
+        /'/g,
+        "\\'"
+    )
+    .replace(
+        /"/g,
+        '\\"'
+    )
+    .replace(
+        /\r?\n/g,
+        "\\n"
+    );
+
+}
+
+</script>
+
+</body>
+</html>
+```
