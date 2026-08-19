@@ -1,1505 +1,712 @@
-const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0">
-
-<title>ARQSELECT | Painel Administrativo</title>
-
-<meta
-  name="description"
-  content="Painel administrativo ARQSELECT">
-
-<style>
-
-/* =====================================================
-   RESET
-===================================================== */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  background: #080808;
-
-  color: #f5f5f5;
-
-  line-height: 1.5;
-
-}
-
-button,
-input,
-select {
-  font-family: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-
-/* =====================================================
-   CORES
-===================================================== */
-
-:root {
-
-  --gold: #c9a45c;
-
-  --gold-light: #e4c982;
-
-  --black: #080808;
-
-  --black-2: #101010;
-
-  --black-3: #151515;
-
-  --white: #f7f7f7;
-
-  --gray: #999;
-
-  --green: #65d391;
-
-  --red: #ff8585;
-
-  --blue: #72a9ff;
-
-  --purple: #d5b5ff;
-
-  --border:
-    rgba(201,164,92,.22);
-
-}
-
-
-/* =====================================================
-   HEADER
-===================================================== */
-
-header {
-
-  position: fixed;
-
-  top: 0;
-  left: 0;
-
-  width: 100%;
-
-  height: 76px;
-
-  z-index: 1000;
-
-  background:
-    rgba(8,8,8,.92);
-
-  backdrop-filter:
-    blur(18px);
-
-  border-bottom:
-    1px solid
-    rgba(255,255,255,.07);
-
-}
-
-
-.header-content {
-
-  height: 100%;
-
-  max-width: 1400px;
-
-  margin: auto;
-
-  padding:
-    0 30px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content:
-    space-between;
-
-}
-
-
-.logo {
-
-  font-size: 23px;
-
-  font-weight: 700;
-
-  letter-spacing: 4px;
-
-  text-decoration: none;
-
-  color: white;
-
-}
-
-.logo span {
-  color: var(--gold);
-}
-
-
-.header-right {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 20px;
-
-}
-
-
-.system-status {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 8px;
-
-  color: #999;
-
-  font-size: 12px;
-
-}
-
-
-.status-dot {
-
-  width: 8px;
-
-  height: 8px;
-
-  border-radius: 50%;
-
-  background:
-    var(--green);
-
-  box-shadow:
-    0 0 12px
-    rgba(101,211,145,.6);
-
-}
-
-
-.refresh-button {
-
-  border:
-    1px solid
-    rgba(255,255,255,.15);
-
-  background:
-    transparent;
-
-  color: #ccc;
-
-  padding:
-    9px 15px;
-
-  font-size: 12px;
-
-  transition: .3s;
-
-}
-
-
-.refresh-button:hover {
-
-  border-color:
-    var(--gold);
-
-  color:
-    var(--gold-light);
-
-}
-
-
-/* =====================================================
-   LAYOUT
-===================================================== */
-
-main {
-
-  max-width: 1400px;
-
-  margin: auto;
-
-  padding:
-    115px 30px 60px;
-
-}
-
-
-/* =====================================================
-   TITULO
-===================================================== */
-
-.page-title {
-
-  margin-bottom: 35px;
-
-}
-
-
-.page-label {
-
-  color:
-    var(--gold-light);
-
-  font-size: 11px;
-
-  letter-spacing: 4px;
-
-  text-transform:
-    uppercase;
-
-  margin-bottom: 10px;
-
-}
-
-
-.page-title h1 {
-
-  font-size:
-    clamp(36px,5vw,58px);
-
-  font-weight: 400;
-
-  line-height: 1.1;
-
-}
-
-
-.page-title h1 span {
-  color:
-    var(--gold-light);
-}
-
-
-.page-title p {
-
-  color:
-    #888;
-
-  margin-top: 12px;
-
-  max-width: 700px;
-
-  font-size: 15px;
-
-}
-
-
-/* =====================================================
-   CARDS
-===================================================== */
-
-.dashboard-grid {
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap: 18px;
-
-  margin-bottom: 35px;
-
-}
-
-
-.card {
-
-  background:
-    linear-gradient(
-      145deg,
-      #121212,
-      #0b0b0b
-    );
-
-  border:
-    1px solid
-    rgba(255,255,255,.08);
-
-  padding: 25px;
-
-  min-height: 130px;
-
-  transition: .3s;
-
-}
-
-
-.card:hover {
-
-  border-color:
-    var(--border);
-
-  transform:
-    translateY(-2px);
-
-}
-
-
-.card-label {
-
-  color: #777;
-
-  font-size: 11px;
-
-  text-transform:
-    uppercase;
-
-  letter-spacing: 2px;
-
-}
-
-
-.card-number {
-
-  margin-top: 15px;
-
-  font-size: 38px;
-
-  font-weight: 300;
-
-  color:
-    var(--gold-light);
-
-}
-
-
-.card-description {
-
-  color: #666;
-
-  font-size: 12px;
-
-  margin-top: 3px;
-
-}
-
-
-/* =====================================================
-   TOOLBAR
-===================================================== */
-
-.toolbar {
-
-  display: flex;
-
-  gap: 15px;
-
-  justify-content:
-    space-between;
-
-  align-items:
-    center;
-
-  margin-bottom: 20px;
-
-  flex-wrap: wrap;
-
-}
-
-
-.search-box {
-
-  flex: 1;
-
-  min-width: 260px;
-
-}
-
-
-.search-box input {
-
-  width: 100%;
-
-  padding: 13px 15px;
-
-  background:
-    #101010;
-
-  border:
-    1px solid
-    rgba(255,255,255,.12);
-
-  color:
-    #eee;
-
-  outline: none;
-
-}
-
-
-.search-box input:focus {
-
-  border-color:
-    var(--gold);
-
-}
-
-
-.filters {
-
-  display: flex;
-
-  gap: 10px;
-
-}
-
-
-.filters select {
-
-  padding:
-    13px 15px;
-
-  background:
-    #101010;
-
-  border:
-    1px solid
-    rgba(255,255,255,.12);
-
-  color:
-    #ccc;
-
-  outline: none;
-
-}
-
-
-/* =====================================================
-   TABELA
-===================================================== */
-
-.table-container {
-
-  width: 100%;
-
-  overflow-x:
-    auto;
-
-  background:
-    #0d0d0d;
-
-  border:
-    1px solid
-    rgba(255,255,255,.08);
-
-}
-
-
-table {
-
-  width: 100%;
-
-  border-collapse:
-    collapse;
-
-  min-width:
-    1250px;
-
-}
-
-
-thead {
-
-  background:
-    #151515;
-
-}
-
-
-th {
-
-  padding:
-    16px;
-
-  text-align:
-    left;
-
-  color:
-    var(--gold-light);
-
-  font-size:
-    10px;
-
-  text-transform:
-    uppercase;
-
-  letter-spacing:
-    1.5px;
-
-  white-space:
-    nowrap;
-
-  border-bottom:
-    1px solid
-    rgba(255,255,255,.08);
-
-}
-
-
-td {
-
-  padding:
-    16px;
-
-  border-bottom:
-    1px solid
-    rgba(255,255,255,.06);
-
-  color:
-    #ccc;
-
-  font-size:
-    13px;
-
-  vertical-align:
-    middle;
-
-}
-
-
-tbody tr {
-
-  transition:
-    .2s;
-
-}
-
-
-tbody tr:hover {
-
-  background:
-    #141414;
-
-}
-
-
-/* =====================================================
-   ID
-===================================================== */
-
-.project-id {
-
-  color:
-    var(--gold-light);
-
-  font-weight:
-    700;
-
-  white-space:
-    nowrap;
-
-}
-
-
-/* =====================================================
-   STATUS
-===================================================== */
-
-.status-select {
-
-  min-width:
-    125px;
-
-  padding:
-    7px 9px;
-
-  background:
-    #111;
-
-  border:
-    1px solid
-    rgba(255,255,255,.15);
-
-  color:
-    #ddd;
-
-  font-size:
-    11px;
-
-  outline:
-    none;
-
-  cursor:
-    pointer;
-
-  transition:
-    .25s;
-
-}
-
-
-.status-select:hover {
-
-  border-color:
-    var(--gold);
-
-}
-
-
-.status-select:focus {
-
-  border-color:
-    var(--gold);
-
-  box-shadow:
-    0 0 0 2px
-    rgba(201,164,92,.08);
-
-}
-
-
-.status-select.status-novo {
-
-  color:
-    var(--blue);
-
-  border-color:
-    rgba(114,169,255,.35);
-
-}
-
-
-.status-select.status-analise {
-
-  color:
-    var(--gold-light);
-
-  border-color:
-    rgba(201,164,92,.35);
-
-}
-
-
-.status-select.status-orcamento {
-
-  color:
-    var(--purple);
-
-  border-color:
-    rgba(213,181,255,.35);
-
-}
-
-
-.status-select.status-fechado {
-
-  color:
-    var(--green);
-
-  border-color:
-    rgba(101,211,145,.35);
-
-}
-
-
-.status-select.status-cancelado {
-
-  color:
-    var(--red);
-
-  border-color:
-    rgba(255,133,133,.35);
-
-}
-
-
-/* =====================================================
-   STATUS SALVANDO
-===================================================== */
-
-.status-wrapper {
-
-  display:
-    flex;
-
-  flex-direction:
-    column;
-
-  gap:
-    5px;
-
-}
-
-
-.status-message {
-
-  min-height:
-    12px;
-
-  font-size:
-    9px;
-
-  letter-spacing:
-    .5px;
-
-}
-
-
-.status-message.saving {
-
-  color:
-    var(--gold-light);
-
-}
-
-
-.status-message.success {
-
-  color:
-    var(--green);
-
-}
-
-
-.status-message.error {
-
-  color:
-    var(--red);
-
-}
-
-
-/* =====================================================
-   AÇÕES
-===================================================== */
-
-.actions {
-
-  display:
-    flex;
-
-  gap:
-    7px;
-
-  white-space:
-    nowrap;
-
-}
-
-
-.action-button {
-
-  display:
-    inline-block;
-
-  padding:
-    7px 10px;
-
-  border:
-    1px solid
-    rgba(255,255,255,.13);
-
-  background:
-    #111;
-
-  color:
-    #aaa;
-
-  font-size:
-    10px;
-
-  text-decoration:
-    none;
-
-  transition:
-    .25s;
-
-}
-
-
-.action-button:hover {
-
-  border-color:
-    var(--gold);
-
-  color:
-    var(--gold-light);
-
-}
-
-
-.action-whatsapp:hover {
-
-  border-color:
-    var(--green);
-
-  color:
-    var(--green);
-
-}
-
-
-/* =====================================================
-   LOADING
-===================================================== */
-
-.loading {
-
-  padding:
-    70px 20px;
-
-  text-align:
-    center;
-
-  color:
-    #777;
-
-}
-
-
-.spinner {
-
-  width:
-    35px;
-
-  height:
-    35px;
-
-  border:
-    2px solid
-    rgba(255,255,255,.1);
-
-  border-top-color:
-    var(--gold);
-
-  border-radius:
-    50%;
-
-  margin:
-    0 auto 18px;
-
-  animation:
-    spin 1s linear infinite;
-
-}
-
-
-@keyframes spin {
-
-  to {
-    transform:
-      rotate(360deg);
-  }
-
-}
-
-
-/* =====================================================
-   EMPTY
-===================================================== */
-
-.empty {
-
-  padding:
-    70px 20px;
-
-  text-align:
-    center;
-
-  color:
-    #666;
-
-}
-
-
-.empty-icon {
-
-  font-size:
-    38px;
-
-  color:
-    var(--gold);
-
-  margin-bottom:
-    12px;
-
-}
-
-
-/* =====================================================
-   ERROR
-===================================================== */
-
-.error-box {
-
-  display:
-    none;
-
-  margin-bottom:
-    20px;
-
-  padding:
-    16px;
-
-  background:
-    rgba(255,80,80,.05);
-
-  border:
-    1px solid
-    rgba(255,80,80,.25);
-
-  color:
-    #ff9b9b;
-
-  font-size:
-    13px;
-
-}
-
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-.modal {
-
-  display:
-    none;
-
-  position:
-    fixed;
-
-  inset:
-    0;
-
-  z-index:
-    2000;
-
-  background:
-    rgba(0,0,0,.78);
-
-  backdrop-filter:
-    blur(8px);
-
-  padding:
-    30px;
-
-  overflow-y:
-    auto;
-
-}
-
-
-.modal.active {
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-}
-
-
-.modal-box {
-
-  width:
-    100%;
-
-  max-width:
-    850px;
-
-  background:
-    #111;
-
-  border:
-    1px solid
-    var(--border);
-
-  box-shadow:
-    0 30px 100px
-    rgba(0,0,0,.5);
-
-}
-
-
-.modal-header {
-
-  padding:
-    20px 25px;
-
-  display:
-    flex;
-
-  justify-content:
-    space-between;
-
-  border-bottom:
-    1px solid
-    rgba(255,255,255,.08);
-
-}
-
-
-.modal-header h2 {
-
-  font-weight:
-    400;
-
-  font-size:
-    20px;
-
-}
-
-
-.close-modal {
-
-  background:
-    transparent;
-
-  border:
-    none;
-
-  color:
-    #888;
-
-  font-size:
-    24px;
-
-}
-
-
-.modal-content {
-
-  padding:
-    25px;
-
-}
-
-
-.detail-grid {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:
-    20px;
-
-}
-
-
-.detail {
-
-  padding:
-    15px;
-
-  background:
-    #0b0b0b;
-
-  border:
-    1px solid
-    rgba(255,255,255,.06);
-
-}
-
-
-.detail.full {
-
-  grid-column:
-    1 / -1;
-
-}
-
-
-.detail-label {
-
-  color:
-    var(--gold);
-
-  font-size:
-    10px;
-
-  text-transform:
-    uppercase;
-
-  letter-spacing:
-    1.5px;
-
-  margin-bottom:
-    7px;
-
-}
-
-
-.detail-value {
-
-  color:
-    #ddd;
-
-  font-size:
-    14px;
-
-  white-space:
-    pre-wrap;
-
-  word-break:
-    break-word;
-
-}
-
-
-.detail-link {
-
-  color:
-    var(--gold-light);
-
-  text-decoration:
-    none;
-
-}
-
-
-.detail-link:hover {
-
-  text-decoration:
-    underline;
-
-}
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media(max-width:900px) {
-
-  .dashboard-grid {
-
-    grid-template-columns:
-      repeat(2,1fr);
-
-  }
-
-}
-
-
-@media(max-width:600px) {
-
-  header {
-    height:
-      68px;
-  }
-
-  .header-content {
-    padding:
-      0 18px;
-  }
-
-  .logo {
-    font-size:
-      18px;
-  }
-
-  .system-status {
-    display:
-      none;
-  }
-
-  main {
-
-    padding:
-      100px 15px 40px;
-
-  }
-
-  .dashboard-grid {
-
-    grid-template-columns:
-      1fr 1fr;
-
-    gap:
-      10px;
-
-  }
-
-  .card {
-
-    padding:
-      18px;
-
-    min-height:
-      110px;
-
-  }
-
-  .card-number {
-
-    font-size:
-      30px;
-
-  }
-
-  .filters {
-
-    width:
-      100%;
-
-  }
-
-  .filters select {
-
-    flex:
-      1;
-
-  }
-
-  .modal {
-
-    padding:
-      15px;
-
-  }
-
-  .modal-content {
-
-    padding:
-      15px;
-
-  }
-
-  .detail-grid {
-
-    grid-template-columns:
-      1fr;
-
-  }
-
-  .detail.full {
-
-    grid-column:
-      auto;
-
-  }
-
-}
-
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ARQSELECT — Painel Administrativo</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f5f7;
+      color: #222;
+    }
+
+    /* ==============================
+       TOPO
+    ============================== */
+
+    .topbar {
+      background: #111;
+      color: #fff;
+      min-height: 72px;
+      padding: 0 30px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      box-shadow: 0 2px 10px rgba(0,0,0,.15);
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    .logo span {
+      color: #c9a45c;
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .system-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #ccc;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #28a745;
+      display: inline-block;
+    }
+
+    .status-dot.offline {
+      background: #dc3545;
+    }
+
+    /* ==============================
+       CONTAINER
+    ============================== */
+
+    .container {
+      width: calc(100% - 40px);
+      max-width: 1600px;
+      margin: 30px auto;
+    }
+
+    .page-title {
+      margin-bottom: 25px;
+    }
+
+    .page-title h1 {
+      font-size: 28px;
+      margin-bottom: 7px;
+    }
+
+    .page-title p {
+      color: #777;
+      font-size: 14px;
+    }
+
+    /* ==============================
+       CARDS
+    ============================== */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      border: 1px solid #e5e5e5;
+      box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    }
+
+    .stat-label {
+      color: #777;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    /* ==============================
+       CONTROLES
+    ============================== */
+
+    .toolbar {
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar input,
+    .toolbar select {
+      height: 42px;
+      border: 1px solid #ddd;
+      border-radius: 7px;
+      padding: 0 13px;
+      font-size: 14px;
+      outline: none;
+      background: #fff;
+    }
+
+    .toolbar input {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .toolbar input:focus,
+    .toolbar select:focus {
+      border-color: #c9a45c;
+    }
+
+    button {
+      border: none;
+      border-radius: 7px;
+      padding: 0 18px;
+      height: 42px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: #c9a45c;
+      color: #111;
+    }
+
+    .btn-primary:hover {
+      background: #b18d4e;
+    }
+
+    .btn-dark {
+      background: #111;
+      color: #fff;
+    }
+
+    .btn-dark:hover {
+      background: #292929;
+    }
+
+    .btn-light {
+      background: #eee;
+      color: #222;
+    }
+
+    /* ==============================
+       MENSAGENS
+    ============================== */
+
+    .message {
+      display: none;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.error {
+      background: #fde8e8;
+      color: #a40000;
+      border: 1px solid #f5b5b5;
+    }
+
+    .message.success {
+      background: #e9f8ee;
+      color: #18743b;
+      border: 1px solid #b9e6c7;
+    }
+
+    .message.loading {
+      background: #fff8e5;
+      color: #856404;
+      border: 1px solid #f1df9a;
+    }
+
+    /* ==============================
+       TABELA
+    ============================== */
+
+    .table-container {
+      background: #fff;
+      border-radius: 10px;
+      border: 1px solid #e5e5e5;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    }
+
+    .table-header {
+      padding: 18px 20px;
+      border-bottom: 1px solid #eee;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-header h2 {
+      font-size: 18px;
+    }
+
+    .table-count {
+      color: #777;
+      font-size: 13px;
+    }
+
+    .table-scroll {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1200px;
+    }
+
+    th {
+      background: #fafafa;
+      text-align: left;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #666;
+      padding: 14px 12px;
+      border-bottom: 1px solid #ddd;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 14px 12px;
+      border-bottom: 1px solid #eee;
+      font-size: 13px;
+      vertical-align: middle;
+    }
+
+    tr:hover td {
+      background: #fafafa;
+    }
+
+    .project-id {
+      font-weight: 700;
+      color: #222;
+      white-space: nowrap;
+    }
+
+    .project-name {
+      font-weight: 600;
+      max-width: 220px;
+    }
+
+    .description {
+      max-width: 250px;
+      color: #666;
+    }
+
+    /* ==============================
+       STATUS
+    ============================== */
+
+    .status-select {
+      min-width: 130px;
+      height: 34px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      padding: 0 8px;
+      font-size: 12px;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .status-select:focus {
+      outline: none;
+      border-color: #c9a45c;
+    }
+
+    /* ==============================
+       LINKS
+    ============================== */
+
+    .link-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      text-decoration: none;
+
+      min-height: 32px;
+      padding: 0 10px;
+
+      border-radius: 6px;
+
+      font-size: 12px;
+      font-weight: 600;
+
+      background: #111;
+      color: #fff;
+    }
+
+    .link-button:hover {
+      background: #333;
+    }
+
+    .link-button.whatsapp {
+      background: #25d366;
+      color: #fff;
+    }
+
+    .link-button.whatsapp:hover {
+      background: #1ebd5a;
+    }
+
+    .no-link {
+      color: #aaa;
+      font-size: 12px;
+    }
+
+    /* ==============================
+       MODAL
+    ============================== */
+
+    .modal {
+      display: none;
+
+      position: fixed;
+      inset: 0;
+
+      background: rgba(0,0,0,.65);
+
+      z-index: 9999;
+
+      padding: 30px;
+
+      overflow-y: auto;
+    }
+
+    .modal.show {
+      display: block;
+    }
+
+    .modal-content {
+      background: #fff;
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      background: #111;
+      color: #fff;
+      padding: 20px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 {
+      font-size: 20px;
+    }
+
+    .modal-close {
+      background: transparent;
+      color: #fff;
+      font-size: 28px;
+      padding: 0;
+      height: auto;
+    }
+
+    .modal-body {
+      padding: 25px;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .detail-item {
+      border-bottom: 1px solid #eee;
+      padding-bottom: 12px;
+    }
+
+    .detail-item.full {
+      grid-column: 1 / -1;
+    }
+
+    .detail-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 5px;
+    }
+
+    .detail-value {
+      font-size: 14px;
+      color: #222;
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
+
+    /* ==============================
+       LOADING
+    ============================== */
+
+    .loading-screen {
+      display: none;
+      padding: 50px;
+      text-align: center;
+      color: #777;
+    }
+
+    .loading-screen.show {
+      display: block;
+    }
+
+    .spinner {
+      width: 35px;
+      height: 35px;
+      border: 4px solid #ddd;
+      border-top-color: #c9a45c;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      margin: 0 auto 15px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .empty {
+      padding: 50px;
+      text-align: center;
+      color: #888;
+    }
+
+    /* ==============================
+       RESPONSIVO
+    ============================== */
+
+    @media (max-width: 1100px) {
+
+      .stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+    }
+
+    @media (max-width: 700px) {
+
+      .topbar {
+        padding: 0 15px;
+      }
+
+      .container {
+        width: calc(100% - 20px);
+        margin: 20px auto;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .detail-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .detail-item.full {
+        grid-column: auto;
+      }
+
+      .modal {
+        padding: 10px;
+      }
+
+    }
+
+  </style>
 </head>
-
 
 <body>
 
+  <!-- =========================================
+       TOPO
+  ========================================== -->
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
+  <header class="topbar">
 
-<header>
-
-  <div class="header-content">
-
-    <a
-      href="index.html"
-      class="logo">
-
+    <div class="logo">
       ARQ<span>SELECT</span>
+    </div>
 
-    </a>
-
-
-    <div class="header-right">
+    <div class="top-right">
 
       <div class="system-status">
 
-        <span class="status-dot"></span>
+        <span
+          id="statusDot"
+          class="status-dot">
+        </span>
 
-        Sistema online
+        <span id="systemStatus">
+          Conectando...
+        </span>
 
       </div>
 
-
       <button
-        class="refresh-button"
+        class="btn-primary"
         onclick="carregarProjetos()">
 
-        ↻ Atualizar
+        Atualizar
 
       </button>
 
     </div>
 
-  </div>
-
-</header>
+  </header>
 
 
-<!-- =====================================================
-     MAIN
-===================================================== -->
+  <!-- =========================================
+       CONTEÚDO
+  ========================================== -->
 
-<main>
+  <main class="container">
 
+    <div class="page-title">
 
-  <div class="page-title">
+      <h1>
+        Painel de Projetos
+      </h1>
 
-    <div class="page-label">
-      ARQSELECT • ADMINISTRAÇÃO
-    </div>
-
-    <h1>
-      Painel <span>Administrativo</span>
-    </h1>
-
-    <p>
-      Central de acompanhamento dos projetos
-      recebidos pela ARQSELECT.
-    </p>
-
-  </div>
-
-
-  <div
-    id="errorBox"
-    class="error-box">
-  </div>
-
-
-  <!-- ===================================================
-       CARDS
-  ==================================================== -->
-
-  <div class="dashboard-grid">
-
-
-    <div class="card">
-
-      <div class="card-label">
-        Projetos
-      </div>
-
-      <div
-        class="card-number"
-        id="totalProjetos">
-        0
-      </div>
-
-      <div class="card-description">
-        Total recebido
-      </div>
+      <p>
+        Gerenciamento de solicitações recebidas pela ARQSELECT.
+      </p>
 
     </div>
 
 
-    <div class="card">
+    <!-- =========================================
+         MENSAGEM
+    ========================================== -->
 
-      <div class="card-label">
-        Novos
-      </div>
-
-      <div
-        class="card-number"
-        id="totalNovos">
-        0
-      </div>
-
-      <div class="card-description">
-        Aguardando análise
-      </div>
-
+    <div
+      id="message"
+      class="message">
     </div>
 
 
-    <div class="card">
+    <!-- =========================================
+         ESTATÍSTICAS
+    ========================================== -->
 
-      <div class="card-label">
-        Em orçamento
+    <section class="stats">
+
+      <div class="stat-card">
+
+        <div class="stat-label">
+          Total de projetos
+        </div>
+
+        <div
+          id="totalProjetos"
+          class="stat-value">
+          0
+        </div>
+
       </div>
 
-      <div
-        class="card-number"
-        id="totalOrcamento">
-        0
+
+      <div class="stat-card">
+
+        <div class="stat-label">
+          Novos
+        </div>
+
+        <div
+          id="totalNovos"
+          class="stat-value">
+          0
+        </div>
+
       </div>
 
-      <div class="card-description">
-        Projetos em andamento
+
+      <div class="stat-card">
+
+        <div class="stat-label">
+          Em análise
+        </div>
+
+        <div
+          id="totalAnalise"
+          class="stat-value">
+          0
+        </div>
+
       </div>
 
-    </div>
 
+      <div class="stat-card">
 
-    <div class="card">
+        <div class="stat-label">
+          Orçamento
+        </div>
 
-      <div class="card-label">
-        Fechados
+        <div
+          id="totalOrcamento"
+          class="stat-value">
+          0
+        </div>
+
       </div>
 
-      <div
-        class="card-number"
-        id="totalFechados">
-        0
+
+      <div class="stat-card">
+
+        <div class="stat-label">
+          Fechados
+        </div>
+
+        <div
+          id="totalFechados"
+          class="stat-value">
+          0
+        </div>
+
       </div>
 
-      <div class="card-description">
-        Projetos concluídos
-      </div>
-
-    </div>
-
-  </div>
+    </section>
 
 
-  <!-- ===================================================
-       FILTROS
-  ==================================================== -->
+    <!-- =========================================
+         FILTROS
+    ========================================== -->
 
-  <div class="toolbar">
-
-
-    <div class="search-box">
+    <section class="toolbar">
 
       <input
-        type="search"
-        id="searchInput"
-        placeholder="Pesquisar projeto, arquiteto, escritório ou cidade..."
-        oninput="renderizarTabela()">
+        id="busca"
+        type="text"
+        placeholder="Buscar por projeto, arquiteto, e-mail, cidade ou ID..."
+        oninput="filtrarProjetos()"
+      >
 
-    </div>
-
-
-    <div class="filters">
 
       <select
-        id="statusFilter"
-        onchange="renderizarTabela()">
+        id="filtroStatus"
+        onchange="filtrarProjetos()">
 
         <option value="">
           Todos os status
@@ -1528,2151 +735,1766 @@ tbody tr:hover {
       </select>
 
 
-      <select
-        id="tipoFilter"
-        onchange="renderizarTabela()">
-
-        <option value="">
-          Todos os projetos
-        </option>
-
-      </select>
-
-    </div>
-
-  </div>
-
-
-  <!-- ===================================================
-       TABELA
-  ==================================================== -->
-
-  <div class="table-container">
-
-
-    <div
-      id="loading"
-      class="loading">
-
-      <div class="spinner"></div>
-
-      Carregando projetos...
-
-    </div>
-
-
-    <div
-      id="empty"
-      class="empty"
-      style="display:none;">
-
-      <div class="empty-icon">
-        ◆
-      </div>
-
-      <h3>
-        Nenhum projeto encontrado
-      </h3>
-
-      <p>
-        Os projetos enviados pelos arquitetos
-        aparecerão aqui.
-      </p>
-
-    </div>
-
-
-    <table
-      id="projectsTable"
-      style="display:none;">
-
-      <thead>
-
-        <tr>
-
-          <th>
-            Projeto
-          </th>
-
-          <th>
-            Data
-          </th>
-
-          <th>
-            Arquiteto
-          </th>
-
-          <th>
-            Escritório
-          </th>
-
-          <th>
-            Cidade
-          </th>
-
-          <th>
-            Tipo
-          </th>
-
-          <th>
-            Investimento
-          </th>
-
-          <th>
-            Status
-          </th>
-
-          <th>
-            Ações
-          </th>
-
-        </tr>
-
-      </thead>
-
-
-      <tbody
-        id="projectsBody">
-      </tbody>
-
-    </table>
-
-  </div>
-
-</main>
-
-
-<!-- =====================================================
-     MODAL
-===================================================== -->
-
-<div
-  class="modal"
-  id="projectModal">
-
-  <div class="modal-box">
-
-
-    <div class="modal-header">
-
-      <h2 id="modalTitle">
-        Detalhes do projeto
-      </h2>
-
       <button
-        class="close-modal"
-        onclick="fecharModal()">
+        class="btn-light"
+        onclick="limparFiltros()">
 
-        ×
+        Limpar filtros
 
       </button>
 
-    </div>
+    </section>
 
 
-    <div
-      class="modal-content"
-      id="modalContent">
+    <!-- =========================================
+         TABELA
+    ========================================== -->
+
+    <section class="table-container">
+
+      <div class="table-header">
+
+        <h2>
+          Projetos recebidos
+        </h2>
+
+        <div
+          id="tableCount"
+          class="table-count">
+          0 projetos
+        </div>
+
+      </div>
+
+
+      <div
+        id="loading"
+        class="loading-screen">
+
+        <div class="spinner"></div>
+
+        Carregando projetos...
+
+      </div>
+
+
+      <div
+        id="empty"
+        class="empty"
+        style="display:none;">
+
+        Nenhum projeto encontrado.
+
+      </div>
+
+
+      <div class="table-scroll">
+
+        <table
+          id="projectsTable"
+          style="display:none;">
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Projeto
+              </th>
+
+              <th>
+                Data
+              </th>
+
+              <th>
+                Arquiteto
+              </th>
+
+              <th>
+                Escritório
+              </th>
+
+              <th>
+                E-mail
+              </th>
+
+              <th>
+                WhatsApp
+              </th>
+
+              <th>
+                Local
+              </th>
+
+              <th>
+                Tipo
+              </th>
+
+              <th>
+                Área
+              </th>
+
+              <th>
+                Descrição
+              </th>
+
+              <th>
+                Status
+              </th>
+
+              <th>
+                Pasta
+              </th>
+
+              <th>
+                Ações
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody
+            id="projectsBody">
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================================
+       MODAL DETALHES
+  ========================================== -->
+
+  <div
+    id="modal"
+    class="modal"
+    onclick="fecharModalFora(event)">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h2>
+          Detalhes do projeto
+        </h2>
+
+        <button
+          class="modal-close"
+          onclick="fecharModal()">
+
+          ×
+
+        </button>
+
+      </div>
+
+      <div
+        id="modalBody"
+        class="modal-body">
+      </div>
+
     </div>
 
   </div>
 
-</div>
+
+  <script>
+
+    /* ==================================================
+       CONFIGURAÇÃO
+    ================================================== */
+
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
 
 
-<script>
+    let todosProjetos = [];
 
-/* =====================================================
-   CONFIGURAÇÃO
-===================================================== */
-
-const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
+    let projetosFiltrados = [];
 
 
-/* =====================================================
-   VARIÁVEIS
-===================================================== */
+    /* ==================================================
+       INICIALIZAÇÃO
+    ================================================== */
 
-let projetos = [];
+    document.addEventListener(
+      "DOMContentLoaded",
+      function() {
 
+        carregarProjetos();
 
-/* =====================================================
-   STATUS PERMITIDOS
-===================================================== */
-
-const STATUS_PERMITIDOS = [
-
-  "Novo",
-
-  "Em análise",
-
-  "Orçamento",
-
-  "Fechado",
-
-  "Cancelado"
-
-];
-
-
-/* =====================================================
-   INICIAR
-===================================================== */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function() {
-
-    carregarProjetos();
-
-  }
-);
-
-
-/* =====================================================
-   CARREGAR PROJETOS
-===================================================== */
-
-async function carregarProjetos() {
-
-  mostrarLoading();
-  esconderErro();
-
-  try {
-
-    const url =
-      SCRIPT_URL +
-      "?acao=projetos&t=" +
-      Date.now();
-
-    console.log("Consultando Apps Script:", url);
-
-    const resposta = await fetch(url, {
-      method: "GET",
-      cache: "no-store",
-      redirect: "follow"
-    });
-
-    console.log("HTTP:", resposta.status);
-
-    if (!resposta.ok) {
-      throw new Error(
-        "Erro HTTP " + resposta.status
-      );
-    }
-
-    const texto = await resposta.text();
-
-    console.log(
-      "Resposta Apps Script:",
-      texto
+      }
     );
 
-    if (!texto) {
-      throw new Error(
-        "O Apps Script retornou uma resposta vazia."
-      );
-    }
 
-    let dados;
+    /* ==================================================
+       MOSTRAR MENSAGEM
+    ================================================== */
 
-    try {
+    function mostrarMensagem(
+      texto,
+      tipo = "loading"
+    ) {
 
-      dados = JSON.parse(texto);
+      const elemento =
+        document.getElementById("message");
 
-    } catch (erroJSON) {
+      elemento.textContent =
+        texto;
 
-      console.error(
-        "Resposta que não é JSON:",
-        texto
-      );
-
-      throw new Error(
-        "O Apps Script não retornou JSON válido."
-      );
+      elemento.className =
+        "message show " + tipo;
 
     }
 
-    console.log(
-      "Dados recebidos:",
-      dados
-    );
 
-    if (!dados.sucesso) {
+    function esconderMensagem() {
 
-      throw new Error(
-        dados.mensagem ||
-        dados.erro ||
-        "O Apps Script informou um erro."
-      );
+      const elemento =
+        document.getElementById("message");
+
+      elemento.className =
+        "message";
+
+      elemento.textContent =
+        "";
 
     }
 
-    projetos =
-      Array.isArray(dados.projetos)
-        ? dados.projetos
-        : [];
 
-    console.log(
-      "Projetos carregados:",
-      projetos.length
-    );
+    /* ==================================================
+       CARREGAR PROJETOS
+    ================================================== */
 
-    atualizarCards();
+    async function carregarProjetos() {
 
-    atualizarFiltroTipos();
-
-    renderizarTabela();
-
-    esconderLoading();
-
-  }
-
-  catch (erro) {
-
-    console.error(
-      "ERRO AO CARREGAR PROJETOS:",
-      erro
-    );
-
-    esconderLoading();
-
-    mostrarErro(
-      "Não foi possível carregar os projetos. " +
-      "Detalhe: " +
-      erro.message
-    );
-
-  }
-
-}
+      mostrarMensagem(
+        "Carregando projetos...",
+        "loading"
+      );
 
 
-/* =====================================================
-   CARDS
-===================================================== */
-
-function atualizarCards() {
-
-  const total =
-    projetos.length;
+      mostrarLoading(true);
 
 
-  const novos =
-    projetos.filter(
-      p =>
-        normalizar(
-          obterStatus(p)
-        ) === "novo"
-    ).length;
+      alterarStatusSistema(
+        false,
+        "Conectando..."
+      );
 
 
-  const orcamento =
-    projetos.filter(
-      p =>
-        normalizar(
-          obterStatus(p)
-        ).includes(
-          "orcamento"
-        )
-    ).length;
+      try {
+
+        const url =
+          API_URL +
+          "?acao=projetos&_=" +
+          Date.now();
 
 
-  const fechados =
-    projetos.filter(
-      p =>
-        normalizar(
-          obterStatus(p)
-        ) === "fechado"
-    ).length;
-
-
-  document.getElementById(
-    "totalProjetos"
-  ).textContent =
-    total;
-
-
-  document.getElementById(
-    "totalNovos"
-  ).textContent =
-    novos;
-
-
-  document.getElementById(
-    "totalOrcamento"
-  ).textContent =
-    orcamento;
-
-
-  document.getElementById(
-    "totalFechados"
-  ).textContent =
-    fechados;
-
-}
-
-
-/* =====================================================
-   FILTRO DE TIPOS
-===================================================== */
-
-function atualizarFiltroTipos() {
-
-  const select =
-    document.getElementById(
-      "tipoFilter"
-    );
-
-
-  const atual =
-    select.value;
-
-
-  const tipos =
-    [...new Set(
-
-      projetos
-        .map(
-          p =>
-            obterTipoProjeto(p)
-        )
-        .filter(Boolean)
-
-    )];
-
-
-  select.innerHTML =
-    '<option value="">Todos os projetos</option>';
-
-
-  tipos
-    .sort()
-    .forEach(
-      function(tipo) {
-
-        const option =
-          document.createElement(
-            "option"
+        const resposta =
+          await fetch(
+            url,
+            {
+              method: "GET",
+              cache: "no-store"
+            }
           );
 
-        option.value =
-          tipo;
 
-        option.textContent =
-          tipo;
+        if (!resposta.ok) {
 
-        select.appendChild(
-          option
+          throw new Error(
+            "Erro HTTP " +
+            resposta.status
+          );
+
+        }
+
+
+        const dados =
+          await resposta.json();
+
+
+        console.log(
+          "Resposta Apps Script:",
+          dados
+        );
+
+
+        if (
+          !dados ||
+          dados.sucesso !== true
+        ) {
+
+          throw new Error(
+            dados &&
+            dados.mensagem
+              ? dados.mensagem
+              : "Não foi possível carregar os projetos."
+          );
+
+        }
+
+
+        if (
+          !Array.isArray(
+            dados.projetos
+          )
+        ) {
+
+          throw new Error(
+            "A resposta não contém a lista de projetos."
+          );
+
+        }
+
+
+        todosProjetos =
+          dados.projetos;
+
+
+        projetosFiltrados =
+          [...todosProjetos];
+
+
+        atualizarEstatisticas();
+
+
+        renderizarProjetos(
+          projetosFiltrados
+        );
+
+
+        alterarStatusSistema(
+          true,
+          "Sistema conectado"
+        );
+
+
+        mostrarMensagem(
+          "Projetos carregados com sucesso.",
+          "success"
+        );
+
+
+        setTimeout(
+          esconderMensagem,
+          2500
         );
 
       }
-    );
+
+      catch (erro) {
+
+        console.error(
+          "Erro ao carregar projetos:",
+          erro
+        );
 
 
-  if (
-    tipos.includes(atual)
-  ) {
-
-    select.value =
-      atual;
-
-  }
-
-}
+        alterarStatusSistema(
+          false,
+          "Erro de conexão"
+        );
 
 
-/* =====================================================
-   RENDERIZAR TABELA
-===================================================== */
-
-function renderizarTabela() {
-
-  const body =
-    document.getElementById(
-      "projectsBody"
-    );
+        mostrarMensagem(
+          "Não foi possível carregar os projetos. " +
+          "Verifique se o Apps Script está publicado e se a implantação está atualizada. " +
+          "Detalhe: " +
+          erro.message,
+          "error"
+        );
 
 
-  const table =
-    document.getElementById(
-      "projectsTable"
-    );
+        document.getElementById(
+          "projectsTable"
+        ).style.display = "none";
 
 
-  const empty =
-    document.getElementById(
-      "empty"
-    );
+        document.getElementById(
+          "empty"
+        ).style.display = "block";
+
+      }
+
+      finally {
+
+        mostrarLoading(false);
+
+      }
+
+    }
 
 
-  const search =
-    normalizar(
-      document.getElementById(
-        "searchInput"
-      ).value
-    );
+    /* ==================================================
+       STATUS DO SISTEMA
+    ================================================== */
+
+    function alterarStatusSistema(
+      online,
+      texto
+    ) {
+
+      const dot =
+        document.getElementById(
+          "statusDot"
+        );
+
+      const status =
+        document.getElementById(
+          "systemStatus"
+        );
 
 
-  const status =
-    normalizar(
-      document.getElementById(
-        "statusFilter"
-      ).value
-    );
+      status.textContent =
+        texto;
 
 
-  const tipo =
-    document.getElementById(
-      "tipoFilter"
-    ).value;
+      if (online) {
 
-
-  const filtrados =
-    projetos.filter(
-      function(p) {
-
-        const texto =
-
-          obterNumeroProjeto(p) + " " +
-
-          obterData(p) + " " +
-
-          obterNome(p) + " " +
-
-          obterEscritorio(p) + " " +
-
-          obterEmail(p) + " " +
-
-          obterWhatsapp(p) + " " +
-
-          obterCidade(p) + " " +
-
-          obterEstado(p) + " " +
-
-          obterRegistro(p) + " " +
-
-          obterProjeto(p) + " " +
-
-          obterTipoProjeto(p) + " " +
-
-          obterArea(p) + " " +
-
-          obterDescricao(p) + " " +
-
-          obterInvestimento(p) + " " +
-
-          obterObservacoes(p);
-
-
-        const correspondeBusca =
-          !search ||
-          normalizar(texto)
-            .includes(search);
-
-
-        const correspondeStatus =
-          !status ||
-          normalizar(
-            obterStatus(p)
-          ) === status;
-
-
-        const correspondeTipo =
-          !tipo ||
-          obterTipoProjeto(p) === tipo;
-
-
-        return (
-          correspondeBusca &&
-          correspondeStatus &&
-          correspondeTipo
+        dot.classList.remove(
+          "offline"
         );
 
       }
-    );
+
+      else {
+
+        dot.classList.add(
+          "offline"
+        );
+
+      }
+
+    }
 
 
-  body.innerHTML = "";
+    /* ==================================================
+       LOADING
+    ================================================== */
 
+    function mostrarLoading(
+      mostrar
+    ) {
 
-  if (
-    filtrados.length === 0
-  ) {
-
-    table.style.display =
-      "none";
-
-    empty.style.display =
-      "block";
-
-    esconderLoading();
-
-    return;
-
-  }
-
-
-  empty.style.display =
-    "none";
-
-  table.style.display =
-    "table";
-
-
-  filtrados.forEach(
-    function(projeto) {
-
-      const tr =
-        document.createElement(
-          "tr"
+      const loading =
+        document.getElementById(
+          "loading"
         );
 
 
-      const linha =
-        projeto._linha;
+      loading.classList.toggle(
+        "show",
+        mostrar
+      );
+
+    }
 
 
-      const numeroProjeto =
-        obterNumeroProjeto(
-          projeto
+    /* ==================================================
+       ESTATÍSTICAS
+    ================================================== */
+
+    function atualizarEstatisticas() {
+
+      const total =
+        todosProjetos.length;
+
+
+      const novos =
+        contarStatus(
+          "Novo"
         );
 
 
-      const data =
-        obterData(
-          projeto
+      const analise =
+        contarStatus(
+          "Em análise"
         );
 
 
-      const nome =
-        obterNome(
-          projeto
+      const orcamento =
+        contarStatus(
+          "Orçamento"
         );
 
 
-      const escritorio =
-        obterEscritorio(
-          projeto
+      const fechados =
+        contarStatus(
+          "Fechado"
         );
 
 
-      const cidade =
-        obterCidade(
-          projeto
-        );
+      document.getElementById(
+        "totalProjetos"
+      ).textContent =
+        total;
 
 
-      const estado =
-        obterEstado(
-          projeto
-        );
+      document.getElementById(
+        "totalNovos"
+      ).textContent =
+        novos;
 
 
-      const tipoProjeto =
-        obterTipoProjeto(
-          projeto
-        );
+      document.getElementById(
+        "totalAnalise"
+      ).textContent =
+        analise;
 
 
-      const investimento =
-        obterInvestimento(
-          projeto
+      document.getElementById(
+        "totalOrcamento"
+      ).textContent =
+        orcamento;
+
+
+      document.getElementById(
+        "totalFechados"
+      ).textContent =
+        fechados;
+
+    }
+
+
+    function contarStatus(
+      status
+    ) {
+
+      return todosProjetos.filter(
+        function(projeto) {
+
+          return normalizar(
+            projeto["STATUS"]
+          ) ===
+          normalizar(status);
+
+        }
+      ).length;
+
+    }
+
+
+    /* ==================================================
+       FILTRO
+    ================================================== */
+
+    function filtrarProjetos() {
+
+      const busca =
+        normalizar(
+          document.getElementById(
+            "busca"
+          ).value
         );
 
 
       const status =
-        obterStatus(
-          projeto
-        ) ||
-        "Novo";
+        document.getElementById(
+          "filtroStatus"
+        ).value;
 
 
-      const pasta =
-        obterPasta(
-          projeto
-        );
+      projetosFiltrados =
+        todosProjetos.filter(
+          function(projeto) {
+
+            const textoBusca = [
+
+              projeto["NUMERO DO PROJETO"],
+
+              projeto["ID PROJETO"],
+
+              projeto["NOME"],
+
+              projeto["ESCRITÓRIO"],
+
+              projeto["EMAIL"],
+
+              projeto["E-MAIL"],
+
+              projeto["WHATSAPP"],
+
+              projeto["CIDADE"],
+
+              projeto["ESTADO"],
+
+              projeto["REGISTRO"],
+
+              projeto["REGISTRO PROFISSIONAL"],
+
+              projeto["PROJETO"],
+
+              projeto["NOME DO PROJETO"],
+
+              projeto["TIPO PROJETO"],
+
+              projeto["TIPO DE PROJETO"],
+
+              projeto["DESCRIÇÃO"],
+
+              projeto["DESCRIÇÃO / ORÇAMENTO"]
+
+            ]
+              .map(
+                function(valor) {
+                  return normalizar(valor);
+                }
+              )
+              .join(" ");
 
 
-      const whatsapp =
-        obterWhatsapp(
-          projeto
-        );
+            const correspondeBusca =
+              !busca ||
+              textoBusca.includes(
+                busca
+              );
 
 
-      tr.innerHTML = `
-
-        <td>
-
-          <div class="project-id">
-
-            ${escapeHTML(
-              numeroProjeto
-            )}
-
-          </div>
-
-        </td>
+            const correspondeStatus =
+              !status ||
+              normalizar(
+                projeto["STATUS"]
+              ) ===
+              normalizar(status);
 
 
-        <td>
+            return (
+              correspondeBusca &&
+              correspondeStatus
+            );
 
-          ${escapeHTML(
-            data
-          )}
-
-        </td>
-
-
-        <td>
-
-          ${escapeHTML(
-            nome
-          )}
-
-        </td>
-
-
-        <td>
-
-          ${escapeHTML(
-            escritorio
-          )}
-
-        </td>
-
-
-        <td>
-
-          ${escapeHTML(
-            cidade
-          )}
-
-          ${
-            estado
-              ? " - " +
-                escapeHTML(
-                  estado
-                )
-              : ""
           }
-
-        </td>
-
-
-        <td>
-
-          ${escapeHTML(
-            tipoProjeto
-          )}
-
-        </td>
-
-
-        <td>
-
-          ${escapeHTML(
-            investimento
-          )}
-
-        </td>
-
-
-        <td>
-
-          <div class="status-wrapper">
-
-            <select
-              class="status-select ${classeStatus(status)}"
-              data-linha="${escapeAttr(linha)}"
-              onchange="alterarStatus(this)">
-
-              ${criarOpcoesStatus(status)}
-
-            </select>
-
-            <div
-              class="status-message"
-              id="statusMessage-${escapeAttr(linha)}">
-            </div>
-
-          </div>
-
-        </td>
-
-
-        <td>
-
-          <div class="actions">
-
-            <button
-              class="action-button"
-              onclick="abrirDetalhes(${Number(linha)})">
-
-              DETALHES
-
-            </button>
-
-
-            ${
-              pasta
-              ?
-              `
-
-              <a
-                class="action-button"
-                href="${escapeAttr(pasta)}"
-                target="_blank">
-
-                DRIVE
-
-              </a>
-
-              `
-              :
-              ""
-            }
-
-
-            ${
-              criarLinkWhatsApp(projeto)
-              ?
-              `
-
-              <a
-                class="action-button action-whatsapp"
-                href="${escapeAttr(
-                  criarLinkWhatsApp(projeto)
-                )}"
-                target="_blank">
-
-                WHATSAPP
-
-              </a>
-
-              `
-              :
-              ""
-            }
-
-          </div>
-
-        </td>
-
-      `;
-
-
-      body.appendChild(
-        tr
-      );
-
-    }
-  );
-
-
-  esconderLoading();
-
-}
-
-
-/* =====================================================
-   CRIAR OPÇÕES DE STATUS
-===================================================== */
-
-function criarOpcoesStatus(
-  statusAtual
-) {
-
-  let html = "";
-
-
-  STATUS_PERMITIDOS.forEach(
-    function(status) {
-
-      html += `
-
-        <option
-          value="${escapeAttr(status)}"
-          ${
-            normalizar(status) ===
-            normalizar(statusAtual)
-              ? "selected"
-              : ""
-          }>
-
-          ${escapeHTML(status)}
-
-        </option>
-
-      `;
-
-    }
-  );
-
-
-  return html;
-
-}
-
-
-/* =====================================================
-   ALTERAR STATUS
-===================================================== */
-
-async function alterarStatus(
-  select
-) {
-
-  const linha =
-    select.dataset.linha;
-
-
-  const novoStatus =
-    select.value;
-
-
-  if (!linha) {
-
-    mostrarErro(
-      "Não foi possível identificar a linha do projeto."
-    );
-
-    return;
-
-  }
-
-
-  if (!novoStatus) {
-
-    return;
-
-  }
-
-
-  const mensagem =
-    document.getElementById(
-      "statusMessage-" +
-      linha
-    );
-
-
-  const projeto =
-    projetos.find(
-      p =>
-        Number(
-          p._linha
-        ) ===
-        Number(linha)
-    );
-
-
-  /*
-   * Status anterior
-   */
-
-  const statusAnterior =
-    projeto
-      ? obterStatus(projeto)
-      : "";
-
-
-  /*
-   * Estado visual
-   */
-
-  select.disabled =
-    true;
-
-
-  mensagem.className =
-    "status-message saving";
-
-
-  mensagem.textContent =
-    "Salvando...";
-
-
-  try {
-
-    const url =
-
-      SCRIPT_URL +
-
-      "?acao=atualizarStatus" +
-
-      "&linha=" +
-      encodeURIComponent(
-        linha
-      ) +
-
-      "&status=" +
-      encodeURIComponent(
-        novoStatus
-      ) +
-
-      "&t=" +
-      Date.now();
-
-
-    const resposta =
-      await fetch(
-        url
-      );
-
-
-    if (!resposta.ok) {
-
-      throw new Error(
-        "Erro HTTP " +
-        resposta.status
-      );
-
-    }
-
-
-    const dados =
-      await resposta.json();
-
-
-    if (!dados.sucesso) {
-
-      throw new Error(
-        dados.mensagem ||
-        dados.erro ||
-        "Erro ao salvar status."
-      );
-
-    }
-
-
-    /*
-     * Atualiza projeto localmente
-     */
-
-    if (projeto) {
-
-      definirStatus(
-        projeto,
-        novoStatus
-      );
-
-    }
-
-
-    /*
-     * Atualiza aparência
-     */
-
-    atualizarClasseStatus(
-      select,
-      novoStatus
-    );
-
-
-    mensagem.className =
-      "status-message success";
-
-
-    mensagem.textContent =
-      "Salvo ✓";
-
-
-    atualizarCards();
-
-
-    /*
-     * Atualiza filtro caso necessário
-     */
-
-    setTimeout(
-      function() {
-
-        mensagem.textContent =
-          "";
-
-        mensagem.className =
-          "status-message";
-
-      },
-      2500
-    );
-
-  }
-
-  catch(error) {
-
-    console.error(
-      error
-    );
-
-
-    /*
-     * Volta para o status anterior
-     */
-
-    select.value =
-      statusAnterior ||
-      "Novo";
-
-
-    atualizarClasseStatus(
-      select,
-      statusAnterior ||
-      "Novo"
-    );
-
-
-    mensagem.className =
-      "status-message error";
-
-
-    mensagem.textContent =
-      "Erro ao salvar";
-
-
-    mostrarErro(
-      "Não foi possível atualizar o status do projeto. " +
-      error.message
-    );
-
-
-    setTimeout(
-      function() {
-
-        mensagem.textContent =
-          "";
-
-        mensagem.className =
-          "status-message";
-
-      },
-      4000
-    );
-
-  }
-
-  finally {
-
-    select.disabled =
-      false;
-
-  }
-
-}
-
-
-/* =====================================================
-   ATUALIZAR CLASSE DO STATUS
-===================================================== */
-
-function atualizarClasseStatus(
-  select,
-  status
-) {
-
-  select.classList.remove(
-    "status-novo",
-    "status-analise",
-    "status-orcamento",
-    "status-fechado",
-    "status-cancelado"
-  );
-
-
-  select.classList.add(
-    classeStatus(status)
-  );
-
-}
-
-
-/* =====================================================
-   DEFINIR STATUS LOCAL
-===================================================== */
-
-function definirStatus(
-  projeto,
-  status
-) {
-
-  if (
-    Object.prototype.hasOwnProperty.call(
-      projeto,
-      "STATUS"
-    )
-  ) {
-
-    projeto.STATUS =
-      status;
-
-    return;
-
-  }
-
-
-  const chave =
-    Object.keys(
-      projeto
-    ).find(
-      function(k) {
-
-        return (
-          normalizar(k) ===
-          "status"
         );
+
+
+      renderizarProjetos(
+        projetosFiltrados
+      );
+
+    }
+
+
+    function limparFiltros() {
+
+      document.getElementById(
+        "busca"
+      ).value = "";
+
+
+      document.getElementById(
+        "filtroStatus"
+      ).value = "";
+
+
+      projetosFiltrados =
+        [...todosProjetos];
+
+
+      renderizarProjetos(
+        projetosFiltrados
+      );
+
+    }
+
+
+    /* ==================================================
+       NORMALIZAR
+    ================================================== */
+
+    function normalizar(
+      valor
+    ) {
+
+      return String(
+        valor || ""
+      )
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(
+          /[\u0300-\u036f]/g,
+          ""
+        )
+        .trim();
+
+    }
+
+
+    /* ==================================================
+       ESCAPAR HTML
+    ================================================== */
+
+    function escapeHtml(
+      valor
+    ) {
+
+      return String(
+        valor || ""
+      )
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+    /* ==================================================
+       PEGAR CAMPO
+    ================================================== */
+
+    function campo(
+      projeto,
+      ...nomes
+    ) {
+
+      for (
+        const nome of nomes
+      ) {
+
+        if (
+          projeto[nome] !== undefined &&
+          projeto[nome] !== null &&
+          String(
+            projeto[nome]
+          ).trim() !== ""
+        ) {
+
+          return projeto[nome];
+
+        }
 
       }
-    );
 
+      return "";
 
-  if (chave) {
+    }
 
-    projeto[chave] =
-      status;
 
-  }
+    /* ==================================================
+       RENDERIZAR
+    ================================================== */
 
-}
+    function renderizarProjetos(
+      projetos
+    ) {
 
-
-/* =====================================================
-   OBTER STATUS
-===================================================== */
-
-function obterStatus(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "STATUS"
-  );
-
-}
-
-
-/* =====================================================
-   CAMPOS DO JSON ATUAL
-===================================================== */
-
-function obterNumeroProjeto(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "NUMERO DO PROJETO"
-  );
-
-}
-
-
-function obterData(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "DATA"
-  );
-
-}
-
-
-function obterNome(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "NOME"
-  );
-
-}
-
-
-function obterEscritorio(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "ESCRITÓRIO"
-  );
-
-}
-
-
-function obterEmail(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "EMAIL"
-  );
-
-}
-
-
-function obterWhatsapp(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "WHATSAPP"
-  );
-
-}
-
-
-function obterCidade(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "CIDADE"
-  );
-
-}
-
-
-function obterEstado(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "ESTADO"
-  );
-
-}
-
-
-function obterRegistro(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "REGISTRO"
-  );
-
-}
-
-
-function obterProjeto(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "PROJETO"
-  );
-
-}
-
-
-function obterTipoProjeto(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "TIPO PROJETO"
-  );
-
-}
-
-
-function obterArea(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "AREA"
-  );
-
-}
-
-
-function obterAmbiente(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "AMBIENTE"
-  );
-
-}
-
-
-function obterPrazo(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "PRAZO"
-  );
-
-}
-
-
-function obterDescricao(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "DESCRIÇÃO"
-  );
-
-}
-
-
-function obterInvestimento(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "INVESTIMENTO"
-  );
-
-}
-
-
-function obterObservacoes(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "OBSERVAÇÕES"
-  );
-
-}
-
-
-function obterArquivos(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "ARQUIVOS"
-  );
-
-}
-
-
-function obterPasta(
-  projeto
-) {
-
-  return obter(
-    projeto,
-    "PASTA DO PROJETO"
-  );
-
-}
-
-
-/* =====================================================
-   DETALHES
-===================================================== */
-
-function abrirDetalhes(
-  linha
-) {
-
-  const projeto =
-    projetos.find(
-      p =>
-        Number(
-          p._linha
-        ) ===
-        Number(linha)
-    );
-
-
-  if (!projeto) {
-
-    return;
-
-  }
-
-
-  const id =
-    obterNumeroProjeto(
-      projeto
-    );
-
-
-  document.getElementById(
-    "modalTitle"
-  ).textContent =
-    id ||
-    "Detalhes do projeto";
-
-
-  const campos = [
-
-    ["NUMERO DO PROJETO","Número do projeto"],
-
-    ["DATA","Data e hora"],
-
-    ["NOME","Arquiteto"],
-
-    ["ESCRITÓRIO","Escritório"],
-
-    ["EMAIL","E-mail"],
-
-    ["WHATSAPP","WhatsApp"],
-
-    ["CIDADE","Cidade"],
-
-    ["ESTADO","Estado"],
-
-    ["REGISTRO","Registro profissional"],
-
-    ["PROJETO","Projeto"],
-
-    ["TIPO PROJETO","Tipo de projeto"],
-
-    ["AREA","Área"],
-
-    ["AMBIENTE","Ambiente"],
-
-    ["PRAZO","Prazo"],
-
-    ["INVESTIMENTO","Investimento"],
-
-    ["STATUS","Status"],
-
-    ["DESCRIÇÃO","Descrição / orçamento"],
-
-    ["OBSERVAÇÕES","Observações"],
-
-    ["ARQUIVOS","Arquivos"],
-
-    ["PASTA DO PROJETO","Pasta do projeto"]
-
-  ];
-
-
-  let html =
-    '<div class="detail-grid">';
-
-
-  campos.forEach(
-    function(campo) {
-
-      const valor =
-        obter(
-          projeto,
-          campo[0]
+      const tabela =
+        document.getElementById(
+          "projectsTable"
         );
 
 
-      if (!valor) {
+      const body =
+        document.getElementById(
+          "projectsBody"
+        );
+
+
+      const empty =
+        document.getElementById(
+          "empty"
+        );
+
+
+      document.getElementById(
+        "tableCount"
+      ).textContent =
+        projetos.length +
+        (
+          projetos.length === 1
+            ? " projeto"
+            : " projetos"
+        );
+
+
+      body.innerHTML =
+        "";
+
+
+      if (
+        !projetos.length
+      ) {
+
+        tabela.style.display =
+          "none";
+
+        empty.style.display =
+          "block";
 
         return;
 
       }
 
 
-      const full =
-        [
-
-          "DESCRIÇÃO",
-
-          "OBSERVAÇÕES",
-
-          "ARQUIVOS",
-
-          "PASTA DO PROJETO"
-
-        ].includes(
-          campo[0]
-        );
+      empty.style.display =
+        "none";
 
 
-      let valorHTML =
-        escapeHTML(valor);
+      tabela.style.display =
+        "table";
 
 
-      /*
-       * PASTA DO PROJETO
-       */
+      projetos.forEach(
+        function(projeto) {
 
-      if (
-        campo[0] ===
-        "PASTA DO PROJETO"
-      ) {
-
-        valorHTML = `
-
-          <a
-            class="detail-link"
-            href="${escapeAttr(valor)}"
-            target="_blank">
-
-            Abrir pasta no Google Drive
-
-          </a>
-
-        `;
-
-      }
+          const tr =
+            document.createElement(
+              "tr"
+            );
 
 
-      /*
-       * ARQUIVOS
-       */
+          const id =
+            campo(
+              projeto,
+              "NUMERO DO PROJETO",
+              "ID PROJETO"
+            );
 
-      else if (
-        campo[0] ===
-        "ARQUIVOS"
-      ) {
 
-        valorHTML =
-          transformarLinks(
-            valor
+          const data =
+            campo(
+              projeto,
+              "DATA",
+              "DATA / HORA"
+            );
+
+
+          const nome =
+            campo(
+              projeto,
+              "NOME"
+            );
+
+
+          const escritorio =
+            campo(
+              projeto,
+              "ESCRITÓRIO"
+            );
+
+
+          const email =
+            campo(
+              projeto,
+              "EMAIL",
+              "E-MAIL"
+            );
+
+
+          const whatsapp =
+            campo(
+              projeto,
+              "WHATSAPP"
+            );
+
+
+          const cidade =
+            campo(
+              projeto,
+              "CIDADE"
+            );
+
+
+          const estado =
+            campo(
+              projeto,
+              "ESTADO"
+            );
+
+
+          const tipo =
+            campo(
+              projeto,
+              "TIPO PROJETO",
+              "TIPO DE PROJETO"
+            );
+
+
+          const area =
+            campo(
+              projeto,
+              "AREA",
+              "ÁREA"
+            );
+
+
+          const descricao =
+            campo(
+              projeto,
+              "DESCRIÇÃO",
+              "DESCRIÇÃO / ORÇAMENTO"
+            );
+
+
+          const status =
+            campo(
+              projeto,
+              "STATUS"
+            ) || "Novo";
+
+
+          const pasta =
+            campo(
+              projeto,
+              "PASTA DO PROJETO"
+            );
+
+
+          const linha =
+            projeto["_linha"];
+
+
+          const nomeProjeto =
+            campo(
+              projeto,
+              "PROJETO",
+              "NOME DO PROJETO"
+            );
+
+
+          /* =========================
+             WHATSAPP
+          ========================= */
+
+          let linkWhatsApp =
+            "";
+
+
+          /*
+           * Se a planilha já trouxe
+           * uma URL no campo WHATSAPP
+           */
+
+          if (
+            String(
+              whatsapp
+            ).startsWith(
+              "http"
+            )
+          ) {
+
+            linkWhatsApp =
+              whatsapp;
+
+          }
+
+          else {
+
+            const telefone =
+              String(
+                whatsapp
+              ).replace(
+                /\D/g,
+                ""
+              );
+
+
+            if (
+              telefone.length >= 10
+            ) {
+
+              let numero =
+                telefone;
+
+
+              if (
+                numero.length === 10 ||
+                numero.length === 11
+              ) {
+
+                numero =
+                  "55" +
+                  numero;
+
+              }
+
+
+              const mensagem =
+                "Olá! Aqui é da ARQSELECT. " +
+                "Estamos entrando em contato sobre o projeto " +
+                id +
+                " - " +
+                nomeProjeto +
+                ".";
+
+
+              linkWhatsApp =
+                "https://wa.me/" +
+                numero +
+                "?text=" +
+                encodeURIComponent(
+                  mensagem
+                );
+
+            }
+
+          }
+
+
+          /* =========================
+             PASTA
+          ========================= */
+
+          let linkPasta =
+            "";
+
+
+          if (
+            String(
+              pasta
+            ).startsWith(
+              "http"
+            )
+          ) {
+
+            linkPasta =
+              pasta;
+
+          }
+
+
+          /* =========================
+             HTML
+          ========================= */
+
+          tr.innerHTML = `
+
+            <td>
+
+              <div class="project-id">
+                ${escapeHtml(id)}
+              </div>
+
+              ${
+                linha
+                  ? `<small style="color:#aaa">
+                       Linha ${escapeHtml(linha)}
+                     </small>`
+                  : ""
+              }
+
+            </td>
+
+
+            <td>
+              ${escapeHtml(data)}
+            </td>
+
+
+            <td>
+
+              <strong>
+                ${escapeHtml(nome)}
+              </strong>
+
+            </td>
+
+
+            <td>
+              ${escapeHtml(escritorio)}
+            </td>
+
+
+            <td>
+
+              ${
+                email
+                  ? `<a
+                       href="mailto:${escapeHtml(email)}"
+                       style="color:#333;">
+                       ${escapeHtml(email)}
+                     </a>`
+                  : `<span class="no-link">—</span>`
+              }
+
+            </td>
+
+
+            <td>
+
+              ${
+                linkWhatsApp
+
+                  ? `<a
+                       href="${escapeHtml(linkWhatsApp)}"
+                       target="_blank"
+                       class="link-button whatsapp">
+                       WhatsApp
+                     </a>`
+
+                  : `<span class="no-link">
+                       ${escapeHtml(whatsapp) || "—"}
+                     </span>`
+              }
+
+            </td>
+
+
+            <td>
+
+              ${escapeHtml(cidade)}
+
+              ${
+                estado
+                  ? " - " +
+                    escapeHtml(estado)
+                  : ""
+              }
+
+            </td>
+
+
+            <td>
+              ${escapeHtml(tipo)}
+            </td>
+
+
+            <td>
+              ${escapeHtml(area)}
+            </td>
+
+
+            <td>
+
+              <div class="description">
+                ${escapeHtml(descricao)}
+              </div>
+
+            </td>
+
+
+            <td>
+
+              <select
+                class="status-select"
+                data-linha="${escapeHtml(linha)}"
+                onchange="alterarStatus(this)">
+
+                <option
+                  value="Novo"
+                  ${status === "Novo" ? "selected" : ""}>
+                  Novo
+                </option>
+
+                <option
+                  value="Em análise"
+                  ${status === "Em análise" ? "selected" : ""}>
+                  Em análise
+                </option>
+
+                <option
+                  value="Orçamento"
+                  ${status === "Orçamento" ? "selected" : ""}>
+                  Orçamento
+                </option>
+
+                <option
+                  value="Fechado"
+                  ${status === "Fechado" ? "selected" : ""}>
+                  Fechado
+                </option>
+
+                <option
+                  value="Cancelado"
+                  ${status === "Cancelado" ? "selected" : ""}>
+                  Cancelado
+                </option>
+
+              </select>
+
+            </td>
+
+
+            <td>
+
+              ${
+                linkPasta
+
+                  ? `<a
+                       href="${escapeHtml(linkPasta)}"
+                       target="_blank"
+                       class="link-button">
+                       Abrir
+                     </a>`
+
+                  : `<span class="no-link">
+                       Não disponível
+                     </span>`
+              }
+
+            </td>
+
+
+            <td>
+
+              <button
+                class="btn-dark"
+                onclick="abrirDetalhes(${todosProjetos.indexOf(projeto)})">
+
+                Detalhes
+
+              </button>
+
+            </td>
+
+          `;
+
+
+          body.appendChild(
+            tr
           );
 
-      }
-
-
-      html += `
-
-        <div class="detail ${full ? "full" : ""}">
-
-          <div class="detail-label">
-
-            ${escapeHTML(
-              campo[1]
-            )}
-
-          </div>
-
-          <div class="detail-value">
-
-            ${valorHTML}
-
-          </div>
-
-        </div>
-
-      `;
+        }
+      );
 
     }
-  );
 
 
-  html +=
-    "</div>";
+    /* ==================================================
+       ALTERAR STATUS
+    ================================================== */
+
+    async function alterarStatus(
+      select
+    ) {
+
+      const linha =
+        select.dataset.linha;
 
 
-  document.getElementById(
-    "modalContent"
-  ).innerHTML =
-    html;
+      const novoStatus =
+        select.value;
 
 
-  document.getElementById(
-    "projectModal"
-  ).classList.add(
-    "active"
-  );
+      if (!linha) {
 
-}
+        mostrarMensagem(
+          "Linha do projeto não encontrada.",
+          "error"
+        );
 
+        return;
 
-/* =====================================================
-   TRANSFORMAR LINKS DOS ARQUIVOS
-===================================================== */
-
-function transformarLinks(
-  texto
-) {
-
-  if (!texto) {
-
-    return "";
-
-  }
+      }
 
 
-  const partes =
-    String(texto)
-      .split("\n");
+      select.disabled =
+        true;
 
 
-  return partes
-    .map(
-      function(item) {
+      mostrarMensagem(
+        "Atualizando status...",
+        "loading"
+      );
 
-        const match =
-          item.match(
-            /(https?:\/\/[^\s]+)/i
+
+      try {
+
+        const url =
+          API_URL +
+          "?acao=atualizarStatus" +
+          "&linha=" +
+          encodeURIComponent(
+            linha
+          ) +
+          "&status=" +
+          encodeURIComponent(
+            novoStatus
+          ) +
+          "&_=" +
+          Date.now();
+
+
+        const resposta =
+          await fetch(
+            url,
+            {
+              method: "GET",
+              cache: "no-store"
+            }
           );
 
 
-        if (!match) {
+        if (!resposta.ok) {
 
-          return escapeHTML(
-            item
+          throw new Error(
+            "Erro HTTP " +
+            resposta.status
           );
 
         }
 
 
-        const url =
-          match[1];
+        const dados =
+          await resposta.json();
 
 
-        const nome =
-          item
-            .replace(
-              url,
-              ""
-            )
-            .replace(
-              /→/g,
-              ""
-            )
-            .trim();
+        console.log(
+          "Resposta atualização:",
+          dados
+        );
 
 
-        return `
+        if (
+          !dados ||
+          dados.sucesso !== true
+        ) {
 
-          <div style="margin-bottom:8px;">
+          throw new Error(
+            dados &&
+            dados.mensagem
+              ? dados.mensagem
+              : "Não foi possível atualizar o status."
+          );
 
-            <a
-              class="detail-link"
-              href="${escapeAttr(url)}"
-              target="_blank">
+        }
 
-              ${escapeHTML(
-                nome ||
-                "Abrir arquivo"
-              )}
 
-            </a>
+        /*
+         * Atualiza o projeto localmente
+         */
 
-          </div>
+        const projeto =
+          todosProjetos.find(
+            function(item) {
 
-        `;
+              return Number(
+                item["_linha"]
+              ) === Number(
+                linha
+              );
 
-      }
-    )
-    .join("");
+            }
+          );
 
-}
 
+        if (projeto) {
 
-/* =====================================================
-   FECHAR MODAL
-===================================================== */
+          projeto["STATUS"] =
+            novoStatus;
 
-function fecharModal() {
+        }
 
-  document.getElementById(
-    "projectModal"
-  ).classList.remove(
-    "active"
-  );
 
-}
+        atualizarEstatisticas();
 
 
-document.getElementById(
-  "projectModal"
-).addEventListener(
-  "click",
-  function(event) {
+        mostrarMensagem(
+          "Status atualizado com sucesso.",
+          "success"
+        );
 
-    if (
-      event.target === this
-    ) {
 
-      fecharModal();
-
-    }
-
-  }
-);
-
-
-/* =====================================================
-   WHATSAPP
-===================================================== */
-
-function criarLinkWhatsApp(
-  projeto
-) {
-
-  const numero =
-    obterWhatsapp(
-      projeto
-    );
-
-
-  if (!numero) {
-
-    return "";
-
-  }
-
-
-  /*
-   * Se a planilha estiver contendo
-   * apenas a palavra WHATSAPP,
-   * não cria link inválido.
-   */
-
-  if (
-    normalizar(numero) ===
-    "whatsapp"
-  ) {
-
-    return "";
-
-  }
-
-
-  let telefone =
-    String(numero)
-      .replace(
-        /\D/g,
-        ""
-      );
-
-
-  if (
-    telefone.length === 10 ||
-    telefone.length === 11
-  ) {
-
-    telefone =
-      "55" +
-      telefone;
-
-  }
-
-
-  if (
-    telefone.length < 12
-  ) {
-
-    return "";
-
-  }
-
-
-  const id =
-    obterNumeroProjeto(
-      projeto
-    );
-
-
-  const nomeProjeto =
-    obterProjeto(
-      projeto
-    );
-
-
-  const mensagem =
-    "Olá! Aqui é da ARQSELECT. " +
-    "Estamos entrando em contato sobre o projeto " +
-    id +
-    " - " +
-    nomeProjeto +
-    ".";
-
-
-  return (
-    "https://wa.me/" +
-    telefone +
-    "?text=" +
-    encodeURIComponent(
-      mensagem
-    )
-  );
-
-}
-
-
-/* =====================================================
-   OBTER CAMPO
-===================================================== */
-
-function obter(
-  objeto,
-  campo
-) {
-
-  if (
-    Object.prototype.hasOwnProperty.call(
-      objeto,
-      campo
-    )
-  ) {
-
-    return objeto[campo] || "";
-
-  }
-
-
-  /*
-   * Busca sem diferenciar
-   * maiúsculas/minúsculas
-   * e acentos.
-   */
-
-  const chave =
-    Object.keys(
-      objeto
-    ).find(
-      function(k) {
-
-        return (
-          normalizar(k) ===
-          normalizar(campo)
+        setTimeout(
+          esconderMensagem,
+          2200
         );
 
       }
+
+      catch (erro) {
+
+        console.error(
+          "Erro ao atualizar status:",
+          erro
+        );
+
+
+        mostrarMensagem(
+          "Não foi possível atualizar o status. " +
+          erro.message,
+          "error"
+        );
+
+
+        /*
+         * Recarrega para recuperar
+         * o status real da planilha.
+         */
+
+        setTimeout(
+          carregarProjetos,
+          1000
+        );
+
+      }
+
+      finally {
+
+        select.disabled =
+          false;
+
+      }
+
+    }
+
+
+    /* ==================================================
+       DETALHES
+    ================================================== */
+
+    function abrirDetalhes(
+      indice
+    ) {
+
+      const projeto =
+        todosProjetos[
+          indice
+        ];
+
+
+      if (!projeto) {
+
+        return;
+
+      }
+
+
+      const campos = [
+
+        [
+          "Número do projeto",
+          campo(
+            projeto,
+            "NUMERO DO PROJETO",
+            "ID PROJETO"
+          )
+        ],
+
+        [
+          "Data",
+          campo(
+            projeto,
+            "DATA",
+            "DATA / HORA"
+          )
+        ],
+
+        [
+          "Nome",
+          campo(
+            projeto,
+            "NOME"
+          )
+        ],
+
+        [
+          "Escritório",
+          campo(
+            projeto,
+            "ESCRITÓRIO"
+          )
+        ],
+
+        [
+          "E-mail",
+          campo(
+            projeto,
+            "EMAIL",
+            "E-MAIL"
+          )
+        ],
+
+        [
+          "WhatsApp",
+          campo(
+            projeto,
+            "WHATSAPP"
+          )
+        ],
+
+        [
+          "Cidade",
+          campo(
+            projeto,
+            "CIDADE"
+          )
+        ],
+
+        [
+          "Estado",
+          campo(
+            projeto,
+            "ESTADO"
+          )
+        ],
+
+        [
+          "Registro profissional",
+          campo(
+            projeto,
+            "REGISTRO",
+            "REGISTRO PROFISSIONAL"
+          )
+        ],
+
+        [
+          "Nome do projeto",
+          campo(
+            projeto,
+            "PROJETO",
+            "NOME DO PROJETO"
+          )
+        ],
+
+        [
+          "Tipo de projeto",
+          campo(
+            projeto,
+            "TIPO PROJETO",
+            "TIPO DE PROJETO"
+          )
+        ],
+
+        [
+          "Área",
+          campo(
+            projeto,
+            "AREA",
+            "ÁREA"
+          )
+        ],
+
+        [
+          "Ambiente",
+          campo(
+            projeto,
+            "AMBIENTE"
+          )
+        ],
+
+        [
+          "Prazo",
+          campo(
+            projeto,
+            "PRAZO"
+          )
+        ],
+
+        [
+          "Investimento",
+          campo(
+            projeto,
+            "INVESTIMENTO"
+          )
+        ],
+
+        [
+          "Status",
+          campo(
+            projeto,
+            "STATUS"
+          )
+        ],
+
+        [
+          "Notificação",
+          campo(
+            projeto,
+            "NOTIFICAÇÃO"
+          )
+        ],
+
+        [
+          "Descrição / orçamento",
+          campo(
+            projeto,
+            "DESCRIÇÃO",
+            "DESCRIÇÃO / ORÇAMENTO"
+          )
+        ],
+
+        [
+          "Observações",
+          campo(
+            projeto,
+            "OBSERVAÇÕES"
+          )
+        ],
+
+        [
+          "Arquivos",
+          campo(
+            projeto,
+            "ARQUIVOS"
+          )
+        ],
+
+        [
+          "Pasta do projeto",
+          campo(
+            projeto,
+            "PASTA DO PROJETO"
+          )
+        ]
+
+      ];
+
+
+      let html =
+        '<div class="detail-grid">';
+
+
+      campos.forEach(
+        function(item) {
+
+          const label =
+            item[0];
+
+
+          const valor =
+            item[1];
+
+
+          const full =
+            [
+              "Descrição / orçamento",
+              "Observações",
+              "Arquivos",
+              "Pasta do projeto"
+            ].includes(label);
+
+
+          let valorHtml =
+            escapeHtml(valor) ||
+            '<span style="color:#aaa;">Não informado</span>';
+
+
+          /*
+           * Transformar URL em link
+           */
+
+          if (
+            String(valor)
+              .startsWith("http")
+          ) {
+
+            valorHtml =
+              `<a
+                 href="${escapeHtml(valor)}"
+                 target="_blank"
+                 style="color:#9a762e;font-weight:bold;">
+                 Abrir link
+               </a>`;
+
+          }
+
+
+          html += `
+
+            <div
+              class="detail-item ${full ? "full" : ""}">
+
+              <div class="detail-label">
+                ${escapeHtml(label)}
+              </div>
+
+              <div class="detail-value">
+                ${valorHtml}
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      );
+
+
+      html +=
+        "</div>";
+
+
+      document.getElementById(
+        "modalBody"
+      ).innerHTML =
+        html;
+
+
+      document.getElementById(
+        "modal"
+      ).classList.add(
+        "show"
+      );
+
+    }
+
+
+    /* ==================================================
+       FECHAR MODAL
+    ================================================== */
+
+    function fecharModal() {
+
+      document.getElementById(
+        "modal"
+      ).classList.remove(
+        "show"
+      );
+
+    }
+
+
+    function fecharModalFora(
+      event
+    ) {
+
+      if (
+        event.target.id ===
+        "modal"
+      ) {
+
+        fecharModal();
+
+      }
+
+    }
+
+
+    /* ==================================================
+       ESC
+    ================================================== */
+
+    document.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (
+          event.key === "Escape"
+        ) {
+
+          fecharModal();
+
+        }
+
+      }
     );
 
-
-  return chave
-    ? objeto[chave] || ""
-    : "";
-
-}
-
-
-/* =====================================================
-   NORMALIZAR
-===================================================== */
-
-function normalizar(
-  texto
-) {
-
-  return String(
-    texto || ""
-  )
-    .normalize("NFD")
-    .replace(
-      /[\u0300-\u036f]/g,
-      ""
-    )
-    .toLowerCase()
-    .trim();
-
-}
-
-
-/* =====================================================
-   CLASSE STATUS
-===================================================== */
-
-function classeStatus(
-  status
-) {
-
-  const valor =
-    normalizar(status);
-
-
-  if (
-    valor === "novo"
-  ) {
-
-    return "status-novo";
-
-  }
-
-
-  if (
-    valor.includes(
-      "analise"
-    )
-  ) {
-
-    return "status-analise";
-
-  }
-
-
-  if (
-    valor.includes(
-      "orcamento"
-    )
-  ) {
-
-    return "status-orcamento";
-
-  }
-
-
-  if (
-    valor.includes(
-      "fechado"
-    )
-  ) {
-
-    return "status-fechado";
-
-  }
-
-
-  if (
-    valor.includes(
-      "cancelado"
-    )
-  ) {
-
-    return "status-cancelado";
-
-  }
-
-
-  return "status-novo";
-
-}
-
-
-/* =====================================================
-   HTML SAFE
-===================================================== */
-
-function escapeHTML(
-  texto
-) {
-
-  return String(
-    texto || ""
-  )
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /'/g,
-      "&#039;"
-    );
-
-}
-
-
-function escapeAttr(
-  texto
-) {
-
-  return escapeHTML(
-    texto
-  );
-
-}
-
-
-/* =====================================================
-   LOADING
-===================================================== */
-
-function mostrarLoading() {
-
-  document.getElementById(
-    "loading"
-  ).style.display =
-    "block";
-
-
-  document.getElementById(
-    "projectsTable"
-  ).style.display =
-    "none";
-
-
-  document.getElementById(
-    "empty"
-  ).style.display =
-    "none";
-
-}
-
-
-function esconderLoading() {
-
-  document.getElementById(
-    "loading"
-  ).style.display =
-    "none";
-
-}
-
-
-/* =====================================================
-   ERRO
-===================================================== */
-
-function mostrarErro(
-  mensagem
-) {
-
-  const box =
-    document.getElementById(
-      "errorBox"
-    );
-
-
-  box.textContent =
-    mensagem;
-
-
-  box.style.display =
-    "block";
-
-}
-
-
-function esconderErro() {
-
-  const box =
-    document.getElementById(
-      "errorBox"
-    );
-
-
-  box.style.display =
-    "none";
-
-}
-
-</script>
-
+  </script>
 
 </body>
-
 </html>
