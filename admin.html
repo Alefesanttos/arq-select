@@ -1,3 +1,5 @@
+const SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -1735,52 +1737,87 @@ document.addEventListener(
 async function carregarProjetos() {
 
   mostrarLoading();
-
   esconderErro();
-
 
   try {
 
-    const resposta =
-      await fetch(
-        SCRIPT_URL +
-        "?acao=projetos&t=" +
-        Date.now()
-      );
+    const url =
+      SCRIPT_URL +
+      "?acao=projetos&t=" +
+      Date.now();
 
+    console.log("Consultando Apps Script:", url);
+
+    const resposta = await fetch(url, {
+      method: "GET",
+      cache: "no-store",
+      redirect: "follow"
+    });
+
+    console.log("HTTP:", resposta.status);
 
     if (!resposta.ok) {
+      throw new Error(
+        "Erro HTTP " + resposta.status
+      );
+    }
+
+    const texto = await resposta.text();
+
+    console.log(
+      "Resposta Apps Script:",
+      texto
+    );
+
+    if (!texto) {
+      throw new Error(
+        "O Apps Script retornou uma resposta vazia."
+      );
+    }
+
+    let dados;
+
+    try {
+
+      dados = JSON.parse(texto);
+
+    } catch (erroJSON) {
+
+      console.error(
+        "Resposta que não é JSON:",
+        texto
+      );
 
       throw new Error(
-        "Erro HTTP " +
-        resposta.status
+        "O Apps Script não retornou JSON válido."
       );
 
     }
 
-
-    const dados =
-      await resposta.json();
-
+    console.log(
+      "Dados recebidos:",
+      dados
+    );
 
     if (!dados.sucesso) {
 
       throw new Error(
         dados.mensagem ||
         dados.erro ||
-        "Erro ao carregar projetos."
+        "O Apps Script informou um erro."
       );
 
     }
 
-
     projetos =
-      Array.isArray(
-        dados.projetos
-      )
+      Array.isArray(dados.projetos)
         ? dados.projetos
         : [];
 
+    console.log(
+      "Projetos carregados:",
+      projetos.length
+    );
 
     atualizarCards();
 
@@ -1788,19 +1825,24 @@ async function carregarProjetos() {
 
     renderizarTabela();
 
+    esconderLoading();
+
   }
 
-  catch(error) {
+  catch (erro) {
 
-    console.error(error);
-
-    mostrarErro(
-      "Não foi possível carregar os projetos. " +
-      "Verifique se o Apps Script está publicado " +
-      "e se a implantação está atualizada."
+    console.error(
+      "ERRO AO CARREGAR PROJETOS:",
+      erro
     );
 
     esconderLoading();
+
+    mostrarErro(
+      "Não foi possível carregar os projetos. " +
+      "Detalhe: " +
+      erro.message
+    );
 
   }
 
