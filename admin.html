@@ -64,10 +64,13 @@ button {
 :root {
 
   --gold: #c9a45c;
+
   --gold-light: #e4c982;
 
   --black: #080808;
+
   --black-2: #101010;
+
   --black-3: #151515;
 
   --white: #f7f7f7;
@@ -75,7 +78,9 @@ button {
   --gray: #999;
 
   --green: #65d391;
+
   --red: #ff8585;
+
   --blue: #72a9ff;
 
   --purple: #d5b5ff;
@@ -139,15 +144,15 @@ header {
 
 .logo {
 
-  color: #f5f5f5;
-
-  text-decoration: none;
-
   font-size: 23px;
 
   font-weight: 700;
 
   letter-spacing: 4px;
+
+  text-decoration: none;
+
+  color: white;
 
 }
 
@@ -309,37 +314,6 @@ main {
 
 
 /* =====================================================
-   ERRO
-===================================================== */
-
-.error-box {
-
-  display:
-    none;
-
-  margin-bottom:
-    20px;
-
-  padding:
-    16px;
-
-  background:
-    rgba(255,80,80,.05);
-
-  border:
-    1px solid
-    rgba(255,80,80,.25);
-
-  color:
-    #ff9b9b;
-
-  font-size:
-    13px;
-
-}
-
-
-/* =====================================================
    CARDS
 ===================================================== */
 
@@ -370,14 +344,11 @@ main {
     1px solid
     rgba(255,255,255,.08);
 
-  padding:
-    25px;
+  padding: 25px;
 
-  min-height:
-    130px;
+  min-height: 130px;
 
-  transition:
-    .3s;
+  transition: .3s;
 
 }
 
@@ -395,31 +366,25 @@ main {
 
 .card-label {
 
-  color:
-    #777;
+  color: #777;
 
-  font-size:
-    11px;
+  font-size: 11px;
 
   text-transform:
     uppercase;
 
-  letter-spacing:
-    2px;
+  letter-spacing: 2px;
 
 }
 
 
 .card-number {
 
-  margin-top:
-    15px;
+  margin-top: 15px;
 
-  font-size:
-    38px;
+  font-size: 38px;
 
-  font-weight:
-    300;
+  font-weight: 300;
 
   color:
     var(--gold-light);
@@ -429,14 +394,11 @@ main {
 
 .card-description {
 
-  color:
-    #666;
+  color: #666;
 
-  font-size:
-    12px;
+  font-size: 12px;
 
-  margin-top:
-    3px;
+  margin-top: 3px;
 
 }
 
@@ -447,11 +409,9 @@ main {
 
 .toolbar {
 
-  display:
-    flex;
+  display: flex;
 
-  gap:
-    15px;
+  gap: 15px;
 
   justify-content:
     space-between;
@@ -459,33 +419,27 @@ main {
   align-items:
     center;
 
-  margin-bottom:
-    20px;
+  margin-bottom: 20px;
 
-  flex-wrap:
-    wrap;
+  flex-wrap: wrap;
 
 }
 
 
 .search-box {
 
-  flex:
-    1;
+  flex: 1;
 
-  min-width:
-    260px;
+  min-width: 260px;
 
 }
 
 
 .search-box input {
 
-  width:
-    100%;
+  width: 100%;
 
-  padding:
-    13px 15px;
+  padding: 13px 15px;
 
   background:
     #101010;
@@ -497,8 +451,7 @@ main {
   color:
     #eee;
 
-  outline:
-    none;
+  outline: none;
 
 }
 
@@ -513,11 +466,9 @@ main {
 
 .filters {
 
-  display:
-    flex;
+  display: flex;
 
-  gap:
-    10px;
+  gap: 10px;
 
 }
 
@@ -537,8 +488,7 @@ main {
   color:
     #ccc;
 
-  outline:
-    none;
+  outline: none;
 
 }
 
@@ -549,8 +499,7 @@ main {
 
 .table-container {
 
-  width:
-    100%;
+  width: 100%;
 
   overflow-x:
     auto;
@@ -567,14 +516,13 @@ main {
 
 table {
 
-  width:
-    100%;
+  width: 100%;
 
   border-collapse:
     collapse;
 
   min-width:
-    1100px;
+    1250px;
 
 }
 
@@ -672,108 +620,170 @@ tbody tr:hover {
 }
 
 
-.project-name {
+/* =====================================================
+   STATUS
+===================================================== */
 
-  margin-top:
-    4px;
+.status-select {
+
+  min-width:
+    125px;
+
+  padding:
+    7px 9px;
+
+  background:
+    #111;
+
+  border:
+    1px solid
+    rgba(255,255,255,.15);
 
   color:
     #ddd;
 
   font-size:
-    12px;
+    11px;
 
-  max-width:
-    220px;
+  outline:
+    none;
 
-}
+  cursor:
+    pointer;
 
-
-/* =====================================================
-   STATUS
-===================================================== */
-
-.status {
-
-  display:
-    inline-flex;
-
-  align-items:
-    center;
-
-  padding:
-    5px 10px;
-
-  border:
-    1px solid;
-
-  font-size:
-    10px;
-
-  text-transform:
-    uppercase;
-
-  letter-spacing:
-    1px;
-
-  white-space:
-    nowrap;
+  transition:
+    .25s;
 
 }
 
 
-.status-novo {
+.status-select:hover {
+
+  border-color:
+    var(--gold);
+
+}
+
+
+.status-select:focus {
+
+  border-color:
+    var(--gold);
+
+  box-shadow:
+    0 0 0 2px
+    rgba(201,164,92,.08);
+
+}
+
+
+.status-select.status-novo {
 
   color:
     var(--blue);
 
   border-color:
-    rgba(114,169,255,.3);
-
-  background:
-    rgba(114,169,255,.05);
+    rgba(114,169,255,.35);
 
 }
 
 
-.status-analise {
+.status-select.status-analise {
 
   color:
     var(--gold-light);
 
   border-color:
-    rgba(201,164,92,.3);
-
-  background:
-    rgba(201,164,92,.05);
+    rgba(201,164,92,.35);
 
 }
 
 
-.status-orcamento {
+.status-select.status-orcamento {
 
   color:
     var(--purple);
 
   border-color:
-    rgba(213,181,255,.3);
-
-  background:
-    rgba(213,181,255,.05);
+    rgba(213,181,255,.35);
 
 }
 
 
-.status-fechado {
+.status-select.status-fechado {
 
   color:
     var(--green);
 
   border-color:
-    rgba(101,211,145,.3);
+    rgba(101,211,145,.35);
 
-  background:
-    rgba(101,211,145,.05);
+}
+
+
+.status-select.status-cancelado {
+
+  color:
+    var(--red);
+
+  border-color:
+    rgba(255,133,133,.35);
+
+}
+
+
+/* =====================================================
+   STATUS SALVANDO
+===================================================== */
+
+.status-wrapper {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    5px;
+
+}
+
+
+.status-message {
+
+  min-height:
+    12px;
+
+  font-size:
+    9px;
+
+  letter-spacing:
+    .5px;
+
+}
+
+
+.status-message.saving {
+
+  color:
+    var(--gold-light);
+
+}
+
+
+.status-message.success {
+
+  color:
+    var(--green);
+
+}
+
+
+.status-message.error {
+
+  color:
+    var(--red);
 
 }
 
@@ -936,6 +946,37 @@ tbody tr:hover {
 
 
 /* =====================================================
+   ERROR
+===================================================== */
+
+.error-box {
+
+  display:
+    none;
+
+  margin-bottom:
+    20px;
+
+  padding:
+    16px;
+
+  background:
+    rgba(255,80,80,.05);
+
+  border:
+    1px solid
+    rgba(255,80,80,.25);
+
+  color:
+    #ff9b9b;
+
+  font-size:
+    13px;
+
+}
+
+
+/* =====================================================
    MODAL
 ===================================================== */
 
@@ -990,12 +1031,6 @@ tbody tr:hover {
   max-width:
     850px;
 
-  max-height:
-    90vh;
-
-  overflow-y:
-    auto;
-
   background:
     #111;
 
@@ -1021,24 +1056,9 @@ tbody tr:hover {
   justify-content:
     space-between;
 
-  align-items:
-    center;
-
   border-bottom:
     1px solid
     rgba(255,255,255,.08);
-
-  position:
-    sticky;
-
-  top:
-    0;
-
-  background:
-    #111;
-
-  z-index:
-    2;
 
 }
 
@@ -1050,9 +1070,6 @@ tbody tr:hover {
 
   font-size:
     20px;
-
-  color:
-    var(--gold-light);
 
 }
 
@@ -1069,15 +1086,7 @@ tbody tr:hover {
     #888;
 
   font-size:
-    28px;
-
-}
-
-
-.close-modal:hover {
-
-  color:
-    #fff;
+    24px;
 
 }
 
@@ -1099,7 +1108,7 @@ tbody tr:hover {
     1fr 1fr;
 
   gap:
-    15px;
+    20px;
 
 }
 
@@ -1164,24 +1173,27 @@ tbody tr:hover {
 }
 
 
-.detail-value a {
+.detail-link {
 
   color:
     var(--gold-light);
 
+  text-decoration:
+    none;
+
 }
 
 
-.detail-value a:hover {
+.detail-link:hover {
 
-  color:
-    #fff;
+  text-decoration:
+    underline;
 
 }
 
 
 /* =====================================================
-   RESPONSIVO
+   MOBILE
 ===================================================== */
 
 @media(max-width:900px) {
@@ -1199,31 +1211,23 @@ tbody tr:hover {
 @media(max-width:600px) {
 
   header {
-
     height:
       68px;
-
   }
 
   .header-content {
-
     padding:
       0 18px;
-
   }
 
   .logo {
-
     font-size:
       18px;
-
   }
 
   .system-status {
-
     display:
       none;
-
   }
 
   main {
@@ -1274,6 +1278,20 @@ tbody tr:hover {
 
   }
 
+  .modal {
+
+    padding:
+      15px;
+
+  }
+
+  .modal-content {
+
+    padding:
+      15px;
+
+  }
+
   .detail-grid {
 
     grid-template-columns:
@@ -1285,13 +1303,6 @@ tbody tr:hover {
 
     grid-column:
       auto;
-
-  }
-
-  .modal {
-
-    padding:
-      10px;
 
   }
 
@@ -1476,7 +1487,7 @@ tbody tr:hover {
       <input
         type="search"
         id="searchInput"
-        placeholder="Pesquisar projeto, arquiteto, escritório, cidade ou e-mail..."
+        placeholder="Pesquisar projeto, arquiteto, escritório ou cidade..."
         oninput="renderizarTabela()">
 
     </div>
@@ -1506,6 +1517,10 @@ tbody tr:hover {
 
         <option value="Fechado">
           Fechado
+        </option>
+
+        <option value="Cancelado">
+          Cancelado
         </option>
 
       </select>
@@ -1681,6 +1696,25 @@ let projetos = [];
 
 
 /* =====================================================
+   STATUS PERMITIDOS
+===================================================== */
+
+const STATUS_PERMITIDOS = [
+
+  "Novo",
+
+  "Em análise",
+
+  "Orçamento",
+
+  "Fechado",
+
+  "Cancelado"
+
+];
+
+
+/* =====================================================
    INICIAR
 ===================================================== */
 
@@ -1711,11 +1745,7 @@ async function carregarProjetos() {
       await fetch(
         SCRIPT_URL +
         "?acao=projetos&t=" +
-        Date.now(),
-        {
-          method: "GET",
-          cache: "no-store"
-        }
+        Date.now()
       );
 
 
@@ -1731,12 +1761,6 @@ async function carregarProjetos() {
 
     const dados =
       await resposta.json();
-
-
-    console.log(
-      "Resposta Apps Script:",
-      dados
-    );
 
 
     if (!dados.sucesso) {
@@ -1764,23 +1788,17 @@ async function carregarProjetos() {
 
     renderizarTabela();
 
-
   }
 
   catch(error) {
 
-    console.error(
-      "Erro ao carregar projetos:",
-      error
-    );
-
+    console.error(error);
 
     mostrarErro(
       "Não foi possível carregar os projetos. " +
-      "Erro: " +
-      error.message
+      "Verifique se o Apps Script está publicado " +
+      "e se a implantação está atualizada."
     );
-
 
     esconderLoading();
 
@@ -1790,7 +1808,7 @@ async function carregarProjetos() {
 
 
 /* =====================================================
-   ATUALIZAR CARDS
+   CARDS
 ===================================================== */
 
 function atualizarCards() {
@@ -1801,48 +1819,30 @@ function atualizarCards() {
 
   const novos =
     projetos.filter(
-      function(p) {
-
-        return normalizar(
-          obter(
-            p,
-            "STATUS"
-          )
-        ) === "novo";
-
-      }
+      p =>
+        normalizar(
+          obterStatus(p)
+        ) === "novo"
     ).length;
 
 
   const orcamento =
     projetos.filter(
-      function(p) {
-
-        return normalizar(
-          obter(
-            p,
-            "STATUS"
-          )
+      p =>
+        normalizar(
+          obterStatus(p)
         ).includes(
           "orcamento"
-        );
-
-      }
+        )
     ).length;
 
 
   const fechados =
     projetos.filter(
-      function(p) {
-
-        return normalizar(
-          obter(
-            p,
-            "STATUS"
-          )
-        ) === "fechado";
-
-      }
+      p =>
+        normalizar(
+          obterStatus(p)
+        ) === "fechado"
     ).length;
 
 
@@ -1884,37 +1884,21 @@ function atualizarFiltroTipos() {
     );
 
 
-  const valorAtual =
+  const atual =
     select.value;
 
 
   const tipos =
-    [
-      ...new Set(
+    [...new Set(
 
-        projetos
+      projetos
+        .map(
+          p =>
+            obterTipoProjeto(p)
+        )
+        .filter(Boolean)
 
-          .map(
-            function(p) {
-
-              return obter(
-                p,
-                "TIPO PROJETO"
-              );
-
-            }
-          )
-
-          .filter(
-            function(valor) {
-
-              return valor !== "";
-
-            }
-          )
-
-      )
-    ];
+    )];
 
 
   select.innerHTML =
@@ -1922,17 +1906,7 @@ function atualizarFiltroTipos() {
 
 
   tipos
-    .sort(
-      function(a,b) {
-
-        return String(a)
-          .localeCompare(
-            String(b),
-            "pt-BR"
-          );
-
-      }
-    )
+    .sort()
     .forEach(
       function(tipo) {
 
@@ -1941,14 +1915,11 @@ function atualizarFiltroTipos() {
             "option"
           );
 
-
         option.value =
           tipo;
 
-
         option.textContent =
           tipo;
-
 
         select.appendChild(
           option
@@ -1959,13 +1930,11 @@ function atualizarFiltroTipos() {
 
 
   if (
-    tipos.includes(
-      valorAtual
-    )
+    tipos.includes(atual)
   ) {
 
     select.value =
-      valorAtual;
+      atual;
 
   }
 
@@ -2022,85 +1991,55 @@ function renderizarTabela() {
     projetos.filter(
       function(p) {
 
-
         const texto =
 
-          obter(
-            p,
-            "NUMERO DO PROJETO"
-          ) + " " +
+          obterNumeroProjeto(p) + " " +
 
-          obter(
-            p,
-            "PROJETO"
-          ) + " " +
+          obterData(p) + " " +
 
-          obter(
-            p,
-            "NOME"
-          ) + " " +
+          obterNome(p) + " " +
 
-          obter(
-            p,
-            "ESCRITÓRIO"
-          ) + " " +
+          obterEscritorio(p) + " " +
 
-          obter(
-            p,
-            "EMAIL"
-          ) + " " +
+          obterEmail(p) + " " +
 
-          obter(
-            p,
-            "WHATSAPP"
-          ) + " " +
+          obterWhatsapp(p) + " " +
 
-          obter(
-            p,
-            "CIDADE"
-          ) + " " +
+          obterCidade(p) + " " +
 
-          obter(
-            p,
-            "ESTADO"
-          ) + " " +
+          obterEstado(p) + " " +
 
-          obter(
-            p,
-            "REGISTRO"
-          ) + " " +
+          obterRegistro(p) + " " +
 
-          obter(
-            p,
-            "TIPO PROJETO"
-          );
+          obterProjeto(p) + " " +
+
+          obterTipoProjeto(p) + " " +
+
+          obterArea(p) + " " +
+
+          obterDescricao(p) + " " +
+
+          obterInvestimento(p) + " " +
+
+          obterObservacoes(p);
 
 
         const correspondeBusca =
           !search ||
-          normalizar(
-            texto
-          ).includes(
-            search
-          );
+          normalizar(texto)
+            .includes(search);
 
 
         const correspondeStatus =
           !status ||
           normalizar(
-            obter(
-              p,
-              "STATUS"
-            )
+            obterStatus(p)
           ) === status;
 
 
         const correspondeTipo =
           !tipo ||
-          obter(
-            p,
-            "TIPO PROJETO"
-          ) === tipo;
+          obterTipoProjeto(p) === tipo;
 
 
         return (
@@ -2123,10 +2062,8 @@ function renderizarTabela() {
     table.style.display =
       "none";
 
-
     empty.style.display =
       "block";
-
 
     esconderLoading();
 
@@ -2137,7 +2074,6 @@ function renderizarTabela() {
 
   empty.style.display =
     "none";
-
 
   table.style.display =
     "table";
@@ -2152,93 +2088,73 @@ function renderizarTabela() {
         );
 
 
-      const numero =
-        obter(
-          projeto,
-          "NUMERO DO PROJETO"
-        );
+      const linha =
+        projeto._linha;
 
 
-      const projetoNome =
-        obter(
-          projeto,
-          "PROJETO"
+      const numeroProjeto =
+        obterNumeroProjeto(
+          projeto
         );
 
 
       const data =
-        obter(
-          projeto,
-          "DATA"
+        obterData(
+          projeto
         );
 
 
       const nome =
-        obter(
-          projeto,
-          "NOME"
+        obterNome(
+          projeto
         );
 
 
       const escritorio =
-        obter(
-          projeto,
-          "ESCRITÓRIO"
+        obterEscritorio(
+          projeto
         );
 
 
       const cidade =
-        obter(
-          projeto,
-          "CIDADE"
+        obterCidade(
+          projeto
         );
 
 
       const estado =
-        obter(
-          projeto,
-          "ESTADO"
+        obterEstado(
+          projeto
         );
 
 
-      const tipo =
-        obter(
-          projeto,
-          "TIPO PROJETO"
+      const tipoProjeto =
+        obterTipoProjeto(
+          projeto
         );
 
 
       const investimento =
-        obter(
-          projeto,
-          "INVESTIMENTO"
+        obterInvestimento(
+          projeto
         );
 
 
       const status =
-        obter(
-          projeto,
-          "STATUS"
+        obterStatus(
+          projeto
         ) ||
         "Novo";
 
 
       const pasta =
-        obter(
-          projeto,
-          "PASTA DO PROJETO"
+        obterPasta(
+          projeto
         );
 
 
       const whatsapp =
-        obter(
-          projeto,
-          "WHATSAPP"
-        );
-
-
-      const whatsappLink =
-        criarLinkWhatsApp(
+        obterWhatsapp(
           projeto
         );
 
@@ -2249,13 +2165,9 @@ function renderizarTabela() {
 
           <div class="project-id">
 
-            ${escapeHTML(numero)}
-
-          </div>
-
-          <div class="project-name">
-
-            ${escapeHTML(projetoNome)}
+            ${escapeHTML(
+              numeroProjeto
+            )}
 
           </div>
 
@@ -2264,33 +2176,43 @@ function renderizarTabela() {
 
         <td>
 
-          ${escapeHTML(data)}
+          ${escapeHTML(
+            data
+          )}
 
         </td>
 
 
         <td>
 
-          ${escapeHTML(nome || "Não informado")}
+          ${escapeHTML(
+            nome
+          )}
 
         </td>
 
 
         <td>
 
-          ${escapeHTML(escritorio || "Não informado")}
+          ${escapeHTML(
+            escritorio
+          )}
 
         </td>
 
 
         <td>
 
-          ${escapeHTML(cidade)}
+          ${escapeHTML(
+            cidade
+          )}
 
           ${
             estado
               ? " - " +
-                escapeHTML(estado)
+                escapeHTML(
+                  estado
+                )
               : ""
           }
 
@@ -2299,26 +2221,41 @@ function renderizarTabela() {
 
         <td>
 
-          ${escapeHTML(tipo)}
+          ${escapeHTML(
+            tipoProjeto
+          )}
 
         </td>
 
 
         <td>
 
-          ${escapeHTML(investimento || "—")}
+          ${escapeHTML(
+            investimento
+          )}
 
         </td>
 
 
         <td>
 
-          <span
-            class="status ${classeStatus(status)}">
+          <div class="status-wrapper">
 
-            ${escapeHTML(status)}
+            <select
+              class="status-select ${classeStatus(status)}"
+              data-linha="${escapeAttr(linha)}"
+              onchange="alterarStatus(this)">
 
-          </span>
+              ${criarOpcoesStatus(status)}
+
+            </select>
+
+            <div
+              class="status-message"
+              id="statusMessage-${escapeAttr(linha)}">
+            </div>
+
+          </div>
 
         </td>
 
@@ -2327,10 +2264,9 @@ function renderizarTabela() {
 
           <div class="actions">
 
-
             <button
               class="action-button"
-              onclick="abrirDetalhes(${Number(projeto._linha)})">
+              onclick="abrirDetalhes(${Number(linha)})">
 
               DETALHES
 
@@ -2341,15 +2277,16 @@ function renderizarTabela() {
               pasta
               ?
               `
+
               <a
                 class="action-button"
                 href="${escapeAttr(pasta)}"
-                target="_blank"
-                rel="noopener">
+                target="_blank">
 
                 DRIVE
 
               </a>
+
               `
               :
               ""
@@ -2357,23 +2294,25 @@ function renderizarTabela() {
 
 
             ${
-              whatsappLink
+              criarLinkWhatsApp(projeto)
               ?
               `
+
               <a
                 class="action-button action-whatsapp"
-                href="${escapeAttr(whatsappLink)}"
-                target="_blank"
-                rel="noopener">
+                href="${escapeAttr(
+                  criarLinkWhatsApp(projeto)
+                )}"
+                target="_blank">
 
                 WHATSAPP
 
               </a>
+
               `
               :
               ""
             }
-
 
           </div>
 
@@ -2396,6 +2335,614 @@ function renderizarTabela() {
 
 
 /* =====================================================
+   CRIAR OPÇÕES DE STATUS
+===================================================== */
+
+function criarOpcoesStatus(
+  statusAtual
+) {
+
+  let html = "";
+
+
+  STATUS_PERMITIDOS.forEach(
+    function(status) {
+
+      html += `
+
+        <option
+          value="${escapeAttr(status)}"
+          ${
+            normalizar(status) ===
+            normalizar(statusAtual)
+              ? "selected"
+              : ""
+          }>
+
+          ${escapeHTML(status)}
+
+        </option>
+
+      `;
+
+    }
+  );
+
+
+  return html;
+
+}
+
+
+/* =====================================================
+   ALTERAR STATUS
+===================================================== */
+
+async function alterarStatus(
+  select
+) {
+
+  const linha =
+    select.dataset.linha;
+
+
+  const novoStatus =
+    select.value;
+
+
+  if (!linha) {
+
+    mostrarErro(
+      "Não foi possível identificar a linha do projeto."
+    );
+
+    return;
+
+  }
+
+
+  if (!novoStatus) {
+
+    return;
+
+  }
+
+
+  const mensagem =
+    document.getElementById(
+      "statusMessage-" +
+      linha
+    );
+
+
+  const projeto =
+    projetos.find(
+      p =>
+        Number(
+          p._linha
+        ) ===
+        Number(linha)
+    );
+
+
+  /*
+   * Status anterior
+   */
+
+  const statusAnterior =
+    projeto
+      ? obterStatus(projeto)
+      : "";
+
+
+  /*
+   * Estado visual
+   */
+
+  select.disabled =
+    true;
+
+
+  mensagem.className =
+    "status-message saving";
+
+
+  mensagem.textContent =
+    "Salvando...";
+
+
+  try {
+
+    const url =
+
+      SCRIPT_URL +
+
+      "?acao=atualizarStatus" +
+
+      "&linha=" +
+      encodeURIComponent(
+        linha
+      ) +
+
+      "&status=" +
+      encodeURIComponent(
+        novoStatus
+      ) +
+
+      "&t=" +
+      Date.now();
+
+
+    const resposta =
+      await fetch(
+        url
+      );
+
+
+    if (!resposta.ok) {
+
+      throw new Error(
+        "Erro HTTP " +
+        resposta.status
+      );
+
+    }
+
+
+    const dados =
+      await resposta.json();
+
+
+    if (!dados.sucesso) {
+
+      throw new Error(
+        dados.mensagem ||
+        dados.erro ||
+        "Erro ao salvar status."
+      );
+
+    }
+
+
+    /*
+     * Atualiza projeto localmente
+     */
+
+    if (projeto) {
+
+      definirStatus(
+        projeto,
+        novoStatus
+      );
+
+    }
+
+
+    /*
+     * Atualiza aparência
+     */
+
+    atualizarClasseStatus(
+      select,
+      novoStatus
+    );
+
+
+    mensagem.className =
+      "status-message success";
+
+
+    mensagem.textContent =
+      "Salvo ✓";
+
+
+    atualizarCards();
+
+
+    /*
+     * Atualiza filtro caso necessário
+     */
+
+    setTimeout(
+      function() {
+
+        mensagem.textContent =
+          "";
+
+        mensagem.className =
+          "status-message";
+
+      },
+      2500
+    );
+
+  }
+
+  catch(error) {
+
+    console.error(
+      error
+    );
+
+
+    /*
+     * Volta para o status anterior
+     */
+
+    select.value =
+      statusAnterior ||
+      "Novo";
+
+
+    atualizarClasseStatus(
+      select,
+      statusAnterior ||
+      "Novo"
+    );
+
+
+    mensagem.className =
+      "status-message error";
+
+
+    mensagem.textContent =
+      "Erro ao salvar";
+
+
+    mostrarErro(
+      "Não foi possível atualizar o status do projeto. " +
+      error.message
+    );
+
+
+    setTimeout(
+      function() {
+
+        mensagem.textContent =
+          "";
+
+        mensagem.className =
+          "status-message";
+
+      },
+      4000
+    );
+
+  }
+
+  finally {
+
+    select.disabled =
+      false;
+
+  }
+
+}
+
+
+/* =====================================================
+   ATUALIZAR CLASSE DO STATUS
+===================================================== */
+
+function atualizarClasseStatus(
+  select,
+  status
+) {
+
+  select.classList.remove(
+    "status-novo",
+    "status-analise",
+    "status-orcamento",
+    "status-fechado",
+    "status-cancelado"
+  );
+
+
+  select.classList.add(
+    classeStatus(status)
+  );
+
+}
+
+
+/* =====================================================
+   DEFINIR STATUS LOCAL
+===================================================== */
+
+function definirStatus(
+  projeto,
+  status
+) {
+
+  if (
+    Object.prototype.hasOwnProperty.call(
+      projeto,
+      "STATUS"
+    )
+  ) {
+
+    projeto.STATUS =
+      status;
+
+    return;
+
+  }
+
+
+  const chave =
+    Object.keys(
+      projeto
+    ).find(
+      function(k) {
+
+        return (
+          normalizar(k) ===
+          "status"
+        );
+
+      }
+    );
+
+
+  if (chave) {
+
+    projeto[chave] =
+      status;
+
+  }
+
+}
+
+
+/* =====================================================
+   OBTER STATUS
+===================================================== */
+
+function obterStatus(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "STATUS"
+  );
+
+}
+
+
+/* =====================================================
+   CAMPOS DO JSON ATUAL
+===================================================== */
+
+function obterNumeroProjeto(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "NUMERO DO PROJETO"
+  );
+
+}
+
+
+function obterData(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "DATA"
+  );
+
+}
+
+
+function obterNome(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "NOME"
+  );
+
+}
+
+
+function obterEscritorio(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "ESCRITÓRIO"
+  );
+
+}
+
+
+function obterEmail(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "EMAIL"
+  );
+
+}
+
+
+function obterWhatsapp(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "WHATSAPP"
+  );
+
+}
+
+
+function obterCidade(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "CIDADE"
+  );
+
+}
+
+
+function obterEstado(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "ESTADO"
+  );
+
+}
+
+
+function obterRegistro(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "REGISTRO"
+  );
+
+}
+
+
+function obterProjeto(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "PROJETO"
+  );
+
+}
+
+
+function obterTipoProjeto(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "TIPO PROJETO"
+  );
+
+}
+
+
+function obterArea(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "AREA"
+  );
+
+}
+
+
+function obterAmbiente(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "AMBIENTE"
+  );
+
+}
+
+
+function obterPrazo(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "PRAZO"
+  );
+
+}
+
+
+function obterDescricao(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "DESCRIÇÃO"
+  );
+
+}
+
+
+function obterInvestimento(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "INVESTIMENTO"
+  );
+
+}
+
+
+function obterObservacoes(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "OBSERVAÇÕES"
+  );
+
+}
+
+
+function obterArquivos(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "ARQUIVOS"
+  );
+
+}
+
+
+function obterPasta(
+  projeto
+) {
+
+  return obter(
+    projeto,
+    "PASTA DO PROJETO"
+  );
+
+}
+
+
+/* =====================================================
    DETALHES
 ===================================================== */
 
@@ -2405,15 +2952,11 @@ function abrirDetalhes(
 
   const projeto =
     projetos.find(
-      function(p) {
-
-        return Number(
+      p =>
+        Number(
           p._linha
-        ) === Number(
-          linha
-        );
-
-      }
+        ) ===
+        Number(linha)
     );
 
 
@@ -2424,141 +2967,60 @@ function abrirDetalhes(
   }
 
 
-  const numero =
-    obter(
-      projeto,
-      "NUMERO DO PROJETO"
-    );
-
-
-  const nomeProjeto =
-    obter(
-      projeto,
-      "PROJETO"
+  const id =
+    obterNumeroProjeto(
+      projeto
     );
 
 
   document.getElementById(
     "modalTitle"
   ).textContent =
-
-    numero
-      ? numero +
-        (
-          nomeProjeto
-            ? " — " +
-              nomeProjeto
-            : ""
-        )
-      : "Detalhes do projeto";
+    id ||
+    "Detalhes do projeto";
 
 
   const campos = [
 
-    [
-      "NUMERO DO PROJETO",
-      "Número do projeto"
-    ],
+    ["NUMERO DO PROJETO","Número do projeto"],
 
-    [
-      "DATA",
-      "Data e hora"
-    ],
+    ["DATA","Data e hora"],
 
-    [
-      "NOME",
-      "Arquiteto"
-    ],
+    ["NOME","Arquiteto"],
 
-    [
-      "ESCRITÓRIO",
-      "Escritório"
-    ],
+    ["ESCRITÓRIO","Escritório"],
 
-    [
-      "EMAIL",
-      "E-mail"
-    ],
+    ["EMAIL","E-mail"],
 
-    [
-      "WHATSAPP",
-      "WhatsApp"
-    ],
+    ["WHATSAPP","WhatsApp"],
 
-    [
-      "CIDADE",
-      "Cidade"
-    ],
+    ["CIDADE","Cidade"],
 
-    [
-      "ESTADO",
-      "Estado"
-    ],
+    ["ESTADO","Estado"],
 
-    [
-      "REGISTRO",
-      "Registro profissional"
-    ],
+    ["REGISTRO","Registro profissional"],
 
-    [
-      "PROJETO",
-      "Projeto"
-    ],
+    ["PROJETO","Projeto"],
 
-    [
-      "TIPO PROJETO",
-      "Tipo de projeto"
-    ],
+    ["TIPO PROJETO","Tipo de projeto"],
 
-    [
-      "AREA",
-      "Área"
-    ],
+    ["AREA","Área"],
 
-    [
-      "AMBIENTE",
-      "Ambiente"
-    ],
+    ["AMBIENTE","Ambiente"],
 
-    [
-      "PRAZO",
-      "Prazo"
-    ],
+    ["PRAZO","Prazo"],
 
-    [
-      "INVESTIMENTO",
-      "Investimento"
-    ],
+    ["INVESTIMENTO","Investimento"],
 
-    [
-      "STATUS",
-      "Status"
-    ],
+    ["STATUS","Status"],
 
-    [
-      "NOTIFICAÇÃO",
-      "Notificação"
-    ],
+    ["DESCRIÇÃO","Descrição / orçamento"],
 
-    [
-      "DESCRIÇÃO",
-      "Descrição / orçamento"
-    ],
+    ["OBSERVAÇÕES","Observações"],
 
-    [
-      "OBSERVAÇÕES",
-      "Observações"
-    ],
+    ["ARQUIVOS","Arquivos"],
 
-    [
-      "ARQUIVOS",
-      "Arquivos"
-    ],
-
-    [
-      "PASTA DO PROJETO",
-      "Pasta do projeto"
-    ]
+    ["PASTA DO PROJETO","Pasta do projeto"]
 
   ];
 
@@ -2570,7 +3032,6 @@ function abrirDetalhes(
   campos.forEach(
     function(campo) {
 
-
       const valor =
         obter(
           projeto,
@@ -2578,9 +3039,7 @@ function abrirDetalhes(
         );
 
 
-      if (
-        valor === ""
-      ) {
+      if (!valor) {
 
         return;
 
@@ -2589,63 +3048,45 @@ function abrirDetalhes(
 
       const full =
         [
+
           "DESCRIÇÃO",
+
           "OBSERVAÇÕES",
+
           "ARQUIVOS",
+
           "PASTA DO PROJETO"
+
         ].includes(
           campo[0]
         );
 
 
       let valorHTML =
-        escapeHTML(
-          valor
-        );
+        escapeHTML(valor);
 
 
       /*
-       * E-MAIL
-       */
-
-      if (
-        campo[0] === "EMAIL"
-      ) {
-
-        valorHTML =
-          `
-          <a
-            href="mailto:${escapeAttr(valor)}">
-
-            ${escapeHTML(valor)}
-
-          </a>
-          `;
-
-      }
-
-
-      /*
-       * PASTA DO DRIVE
+       * PASTA DO PROJETO
        */
 
       if (
         campo[0] ===
-        "PASTA DO PROJETO" &&
-        isURL(valor)
+        "PASTA DO PROJETO"
       ) {
 
-        valorHTML =
-          `
-          <a
-            href="${escapeAttr(valor)}"
-            target="_blank"
-            rel="noopener">
+        valorHTML = `
 
-            ABRIR PASTA DO DRIVE
+          <a
+            class="detail-link"
+            href="${escapeAttr(valor)}"
+            target="_blank">
+
+            Abrir pasta no Google Drive
 
           </a>
-          `;
+
+        `;
 
       }
 
@@ -2654,69 +3095,28 @@ function abrirDetalhes(
        * ARQUIVOS
        */
 
-      if (
-        campo[0] === "ARQUIVOS"
+      else if (
+        campo[0] ===
+        "ARQUIVOS"
       ) {
 
         valorHTML =
-          transformarArquivos(
+          transformarLinks(
             valor
           );
 
       }
 
 
-      /*
-       * WHATSAPP
-       */
-
-      if (
-        campo[0] === "WHATSAPP" &&
-        /^\d+$/.test(
-          String(valor).replace(
-            /\D/g,
-            ""
-          )
-        )
-      ) {
-
-        const link =
-          criarLinkWhatsApp(
-            projeto
-          );
-
-
-        if (link) {
-
-          valorHTML =
-            `
-            <a
-              href="${escapeAttr(link)}"
-              target="_blank"
-              rel="noopener">
-
-              ${escapeHTML(valor)}
-
-            </a>
-            `;
-
-        }
-
-      }
-
-
       html += `
 
-        <div
-          class="detail ${
-            full
-              ? "full"
-              : ""
-          }">
+        <div class="detail ${full ? "full" : ""}">
 
           <div class="detail-label">
 
-            ${escapeHTML(campo[1])}
+            ${escapeHTML(
+              campo[1]
+            )}
 
           </div>
 
@@ -2754,10 +3154,10 @@ function abrirDetalhes(
 
 
 /* =====================================================
-   ARQUIVOS
+   TRANSFORMAR LINKS DOS ARQUIVOS
 ===================================================== */
 
-function transformarArquivos(
+function transformarLinks(
   texto
 ) {
 
@@ -2768,63 +3168,65 @@ function transformarArquivos(
   }
 
 
-  const linhas =
+  const partes =
     String(texto)
-      .split(/\n+/)
-      .filter(Boolean);
+      .split("\n");
 
 
-  if (
-    linhas.length === 0
-  ) {
-
-    return escapeHTML(
-      texto
-    );
-
-  }
-
-
-  return linhas
+  return partes
     .map(
-      function(linha) {
+      function(item) {
 
-        const partes =
-          linha.split(
-            " → "
+        const match =
+          item.match(
+            /(https?:\/\/[^\s]+)/i
           );
 
 
-        if (
-          partes.length === 2 &&
-          isURL(partes[1])
-        ) {
+        if (!match) {
 
-          return `
-            <div
-              style="
-                margin-bottom:8px;
-              ">
-
-              <a
-                href="${escapeAttr(partes[1])}"
-                target="_blank"
-                rel="noopener">
-
-                ${escapeHTML(partes[0])}
-
-              </a>
-
-            </div>
-          `;
+          return escapeHTML(
+            item
+          );
 
         }
 
 
+        const url =
+          match[1];
+
+
+        const nome =
+          item
+            .replace(
+              url,
+              ""
+            )
+            .replace(
+              /→/g,
+              ""
+            )
+            .trim();
+
+
         return `
-          <div>
-            ${escapeHTML(linha)}
+
+          <div style="margin-bottom:8px;">
+
+            <a
+              class="detail-link"
+              href="${escapeAttr(url)}"
+              target="_blank">
+
+              ${escapeHTML(
+                nome ||
+                "Abrir arquivo"
+              )}
+
+            </a>
+
           </div>
+
         `;
 
       }
@@ -2832,6 +3234,39 @@ function transformarArquivos(
     .join("");
 
 }
+
+
+/* =====================================================
+   FECHAR MODAL
+===================================================== */
+
+function fecharModal() {
+
+  document.getElementById(
+    "projectModal"
+  ).classList.remove(
+    "active"
+  );
+
+}
+
+
+document.getElementById(
+  "projectModal"
+).addEventListener(
+  "click",
+  function(event) {
+
+    if (
+      event.target === this
+    ) {
+
+      fecharModal();
+
+    }
+
+  }
+);
 
 
 /* =====================================================
@@ -2843,13 +3278,28 @@ function criarLinkWhatsApp(
 ) {
 
   const numero =
-    obter(
-      projeto,
-      "WHATSAPP"
+    obterWhatsapp(
+      projeto
     );
 
 
   if (!numero) {
+
+    return "";
+
+  }
+
+
+  /*
+   * Se a planilha estiver contendo
+   * apenas a palavra WHATSAPP,
+   * não cria link inválido.
+   */
+
+  if (
+    normalizar(numero) ===
+    "whatsapp"
+  ) {
 
     return "";
 
@@ -2864,20 +3314,6 @@ function criarLinkWhatsApp(
       );
 
 
-  /*
-   * Evita criar link para valores
-   * que não sejam telefone.
-   */
-
-  if (
-    telefone.length < 10
-  ) {
-
-    return "";
-
-  }
-
-
   if (
     telefone.length === 10 ||
     telefone.length === 11
@@ -2890,17 +3326,24 @@ function criarLinkWhatsApp(
   }
 
 
+  if (
+    telefone.length < 12
+  ) {
+
+    return "";
+
+  }
+
+
   const id =
-    obter(
-      projeto,
-      "NUMERO DO PROJETO"
+    obterNumeroProjeto(
+      projeto
     );
 
 
   const nomeProjeto =
-    obter(
-      projeto,
-      "PROJETO"
+    obterProjeto(
+      projeto
     );
 
 
@@ -2908,12 +3351,8 @@ function criarLinkWhatsApp(
     "Olá! Aqui é da ARQSELECT. " +
     "Estamos entrando em contato sobre o projeto " +
     id +
-    (
-      nomeProjeto
-        ? " - " +
-          nomeProjeto
-        : ""
-    ) +
+    " - " +
+    nomeProjeto +
     ".";
 
 
@@ -2939,35 +3378,21 @@ function obter(
 ) {
 
   if (
-    !objeto
-  ) {
-
-    return "";
-
-  }
-
-
-  /*
-   * Primeiro tenta exatamente.
-   */
-
-  if (
     Object.prototype.hasOwnProperty.call(
       objeto,
       campo
     )
   ) {
 
-    return objeto[campo] == null
-      ? ""
-      : String(objeto[campo]);
+    return objeto[campo] || "";
 
   }
 
 
   /*
-   * Depois procura ignorando
-   * maiúsculas/minúsculas e acentos.
+   * Busca sem diferenciar
+   * maiúsculas/minúsculas
+   * e acentos.
    */
 
   const chave =
@@ -2985,16 +3410,9 @@ function obter(
     );
 
 
-  if (!chave) {
-
-    return "";
-
-  }
-
-
-  return objeto[chave] == null
-    ? ""
-    : String(objeto[chave]);
+  return chave
+    ? objeto[chave] || ""
+    : "";
 
 }
 
@@ -3010,18 +3428,12 @@ function normalizar(
   return String(
     texto || ""
   )
-
-    .normalize(
-      "NFD"
-    )
-
+    .normalize("NFD")
     .replace(
       /[\u0300-\u036f]/g,
       ""
     )
-
     .toLowerCase()
-
     .trim();
 
 }
@@ -3036,9 +3448,7 @@ function classeStatus(
 ) {
 
   const valor =
-    normalizar(
-      status
-    );
+    normalizar(status);
 
 
   if (
@@ -3083,24 +3493,18 @@ function classeStatus(
   }
 
 
-  return "status-novo";
-
-}
-
-
-/* =====================================================
-   VERIFICAR URL
-===================================================== */
-
-function isURL(
-  texto
-) {
-
-  return /^https?:\/\//i.test(
-    String(
-      texto || ""
+  if (
+    valor.includes(
+      "cancelado"
     )
-  );
+  ) {
+
+    return "status-cancelado";
+
+  }
+
+
+  return "status-novo";
 
 }
 
@@ -3116,27 +3520,22 @@ function escapeHTML(
   return String(
     texto || ""
   )
-
     .replace(
       /&/g,
       "&amp;"
     )
-
     .replace(
       /</g,
       "&lt;"
     )
-
     .replace(
       />/g,
       "&gt;"
     )
-
     .replace(
       /"/g,
       "&quot;"
     )
-
     .replace(
       /'/g,
       "&#039;"
@@ -3154,55 +3553,6 @@ function escapeAttr(
   );
 
 }
-
-
-/* =====================================================
-   FECHAR MODAL
-===================================================== */
-
-function fecharModal() {
-
-  document.getElementById(
-    "projectModal"
-  ).classList.remove(
-    "active"
-  );
-
-}
-
-
-document.getElementById(
-  "projectModal"
-).addEventListener(
-  "click",
-  function(event) {
-
-    if (
-      event.target === this
-    ) {
-
-      fecharModal();
-
-    }
-
-  }
-);
-
-
-document.addEventListener(
-  "keydown",
-  function(event) {
-
-    if (
-      event.key === "Escape"
-    ) {
-
-      fecharModal();
-
-    }
-
-  }
-);
 
 
 /* =====================================================
