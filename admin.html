@@ -1,1498 +1,7971 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARQSELECT — Painel Administrativo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111111">
+  <title>ARQSELECT — CRM Administrativo</title>
 
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f5f5f5;
-  color:#222;
-}
-header{
-  background:#111;
-  color:#fff;
-  padding:22px 30px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
-}
-.logo{
-  font-size:25px;
-  font-weight:700;
-  letter-spacing:2px;
-}
-.logo span{color:#c9a45c}
-.header-info{font-size:13px;color:#ccc}
-.container{
-  max-width:1450px;
-  margin:25px auto;
-  padding:0 18px;
-}
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  flex-wrap:wrap;
-  margin-bottom:20px;
-}
-h1{margin:0;font-size:24px}
-.actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-button{
-  border:0;
-  border-radius:7px;
-  padding:11px 16px;
-  cursor:pointer;
-  font-weight:700;
-}
-.btn-primary{background:#c9a45c;color:#111}
-.btn-dark{background:#222;color:#fff}
-.btn-light{background:#fff;border:1px solid #ddd}
-.btn-danger{background:#b42318;color:#fff}
-button:disabled{opacity:.6;cursor:not-allowed}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
 
-.status-message{
-  display:none;
-  padding:13px 16px;
-  border-radius:7px;
-  margin-bottom:18px;
-  font-size:14px;
-}
-.status-message.success{display:block;background:#e9f8ef;color:#176b39}
-.status-message.error{display:block;background:#fff0f0;color:#a21d1d}
-.status-message.loading{display:block;background:#f1f1f1;color:#555}
+  <style>
+    :root {
+      --bg: #0b0c0e;
+      --bg-soft: #111316;
+      --panel: #15171b;
+      --panel-2: #1a1d21;
+      --panel-hover: #20242a;
+      --border: rgba(255,255,255,.08);
+      --border-gold: rgba(201,164,92,.30);
+      --text: #f5f5f5;
+      --text-soft: #a6abb3;
+      --text-muted: #707680;
+      --gold: #c9a45c;
+      --gold-light: #e0c27e;
+      --green: #35c98a;
+      --red: #ef6262;
+      --blue: #5c9dff;
+      --orange: #e9a74f;
+      --shadow: 0 18px 50px rgba(0,0,0,.28);
+      --radius: 16px;
+      --sidebar-width: 255px;
+      --transition: .22s ease;
+    }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:12px;
-  margin-bottom:20px;
-}
-.stat{
-  background:#fff;
-  border:1px solid #e5e5e5;
-  border-radius:10px;
-  padding:18px;
-}
-.stat-label{font-size:12px;color:#777;margin-bottom:7px}
-.stat-value{font-size:26px;font-weight:700}
-.filters{
-  background:#fff;
-  border:1px solid #e5e5e5;
-  border-radius:10px;
-  padding:15px;
-  margin-bottom:18px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-.filters input,.filters select{
-  padding:11px 12px;
-  border:1px solid #ddd;
-  border-radius:7px;
-  background:#fff;
-}
-.filters input{min-width:280px;flex:1}
+    [data-theme="light"] {
+      --bg: #f3f4f6;
+      --bg-soft: #ffffff;
+      --panel: #ffffff;
+      --panel-2: #f8f8f9;
+      --panel-hover: #f0f1f3;
+      --border: rgba(0,0,0,.09);
+      --border-gold: rgba(159,120,43,.28);
+      --text: #17181b;
+      --text-soft: #555b65;
+      --text-muted: #8a8f98;
+      --gold: #a77d2e;
+      --gold-light: #c39b4c;
+      --shadow: 0 18px 45px rgba(20,25,30,.10);
+    }
 
-.table-wrap{
-  background:#fff;
-  border:1px solid #e5e5e5;
-  border-radius:10px;
-  overflow:auto;
-}
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:1150px;
-}
-th,td{
-  padding:13px 12px;
-  border-bottom:1px solid #eee;
-  text-align:left;
-  vertical-align:middle;
-  font-size:13px;
-}
-th{
-  background:#fafafa;
-  font-size:12px;
-  color:#666;
-  text-transform:uppercase;
-  letter-spacing:.4px;
-}
-tr:hover td{background:#fcfaf5}
-.project-id{
-  font-weight:700;
-  color:#8b6a28;
-}
-.project-name{font-weight:700}
-.muted{color:#888}
-.actions-cell{
-  display:flex;
-  gap:7px;
-  align-items:center;
-}
-.small-btn{
-  padding:8px 10px;
-  font-size:12px;
-}
-.status-select{
-  min-width:125px;
-  padding:8px;
-  border:1px solid #ddd;
-  border-radius:6px;
-  background:#fff;
-}
-.badge{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  background:#eee;
-  font-size:11px;
-  font-weight:700;
-}
-.badge-novo{background:#e9eefb;color:#274690}
-.badge-analise{background:#fff4d8;color:#7c5b00}
-.badge-orcamento{background:#e9f7ef;color:#18733d}
-.badge-fechado{background:#dff5e8;color:#126b35}
-.badge-cancelado{background:#ffe5e5;color:#a31c1c}
+    * {
+      box-sizing: border-box;
+    }
 
-.empty{
-  text-align:center;
-  padding:50px 20px;
-  color:#777;
-}
-.loading-box{
-  text-align:center;
-  padding:45px;
-  color:#777;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.65);
-  z-index:999;
-  padding:20px;
-  overflow:auto;
-}
-.modal.active{display:block}
-.modal-box{
-  background:#fff;
-  max-width:850px;
-  margin:30px auto;
-  border-radius:12px;
-  overflow:hidden;
-  box-shadow:0 20px 60px rgba(0,0,0,.25);
-}
-.modal-header{
-  background:#111;
-  color:#fff;
-  padding:18px 22px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.modal-header h2{margin:0;font-size:19px}
-.close{
-  background:transparent;
-  color:#fff;
-  font-size:26px;
-  padding:0 5px;
-}
-.modal-body{
-  padding:22px;
-}
-.detail-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
-}
-.detail{
-  border:1px solid #eee;
-  border-radius:8px;
-  padding:13px;
-}
-.detail.full{grid-column:1/-1}
-.detail-label{
-  color:#777;
-  font-size:11px;
-  text-transform:uppercase;
-  margin-bottom:6px;
-}
-.detail-value{
-  white-space:pre-wrap;
-  word-break:break-word;
-  font-size:14px;
-}
-.detail-value a{
-  color:#87651e;
-  font-weight:700;
-}
-@media(max-width:900px){
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .detail-grid{grid-template-columns:1fr}
-  .detail.full{grid-column:auto}
-}
-@media(max-width:550px){
-  header{padding:18px}
-  .stats{grid-template-columns:1fr}
-  .container{padding:0 10px}
-}
-</style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, Arial, sans-serif;
+      font-size: 14px;
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* =====================================================
+       SIDEBAR
+    ===================================================== */
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: var(--sidebar-width);
+      background:
+        linear-gradient(180deg, #101113 0%, #0a0b0d 100%);
+      border-right: 1px solid var(--border);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--transition), width var(--transition);
+    }
+
+    [data-theme="light"] .sidebar {
+      background: #111214;
+    }
+
+    .brand {
+      height: 82px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 22px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--gold), #8d6b2e);
+      color: #111;
+      font-weight: 900;
+      font-size: 15px;
+      box-shadow: 0 7px 20px rgba(201,164,92,.18);
+    }
+
+    .brand-text strong {
+      display: block;
+      font-family: Montserrat, Inter, sans-serif;
+      letter-spacing: .8px;
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .brand-text span {
+      display: block;
+      margin-top: 3px;
+      color: #858a92;
+      font-size: 10px;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+    }
+
+    .sidebar-nav {
+      padding: 18px 12px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .nav-label {
+      padding: 8px 12px;
+      color: #646970;
+      text-transform: uppercase;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+    }
+
+    .nav-item {
+      width: 100%;
+      min-height: 45px;
+      border: 0;
+      background: transparent;
+      color: #a7abb1;
+      border-radius: 11px;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-align: left;
+      transition: var(--transition);
+      margin-bottom: 4px;
+    }
+
+    .nav-item:hover {
+      color: #fff;
+      background: rgba(255,255,255,.055);
+    }
+
+    .nav-item.active {
+      color: #111;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      box-shadow: 0 8px 22px rgba(201,164,92,.13);
+      font-weight: 700;
+    }
+
+    .nav-icon {
+      width: 20px;
+      text-align: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .nav-count {
+      margin-left: auto;
+      min-width: 22px;
+      height: 21px;
+      padding: 0 6px;
+      border-radius: 99px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 800;
+      background: rgba(255,255,255,.08);
+    }
+
+    .nav-item.active .nav-count {
+      background: rgba(0,0,0,.12);
+    }
+
+    .sidebar-footer {
+      padding: 18px;
+      border-top: 1px solid rgba(255,255,255,.07);
+      color: #6e737a;
+      font-size: 10px;
+      line-height: 1.7;
+    }
+
+    .sidebar-footer strong {
+      color: #b7bbc1;
+      display: block;
+      font-size: 11px;
+    }
+
+    /* =====================================================
+       MAIN
+    ===================================================== */
+
+    .main {
+      width: calc(100% - var(--sidebar-width));
+      margin-left: var(--sidebar-width);
+      min-width: 0;
+      transition: margin-left var(--transition), width var(--transition);
+    }
+
+    .topbar {
+      min-height: 82px;
+      position: sticky;
+      top: 0;
+      z-index: 500;
+      background: rgba(11,12,14,.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 26px;
+    }
+
+    [data-theme="light"] .topbar {
+      background: rgba(243,244,246,.9);
+    }
+
+    .mobile-menu {
+      display: none;
+    }
+
+    .page-heading {
+      min-width: 190px;
+    }
+
+    .page-heading h1 {
+      margin: 0;
+      font-family: Montserrat, Inter, sans-serif;
+      font-size: 20px;
+      letter-spacing: -.3px;
+    }
+
+    .page-heading p {
+      margin: 4px 0 0;
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .topbar-search {
+      position: relative;
+      flex: 1;
+      max-width: 500px;
+      margin-left: auto;
+    }
+
+    .topbar-search input {
+      width: 100%;
+      height: 44px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 0 42px;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .topbar-search input:focus {
+      border-color: var(--border-gold);
+      box-shadow: 0 0 0 3px rgba(201,164,92,.07);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .clear-search {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0;
+      background: transparent;
+      color: var(--text-muted);
+      display: none;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn,
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 11px;
+      min-height: 42px;
+      padding: 0 14px;
+      transition: var(--transition);
+    }
+
+    .icon-btn {
+      width: 42px;
+      padding: 0;
+      display: grid;
+      place-items: center;
+    }
+
+    .icon-btn:hover,
+    .btn:hover {
+      background: var(--panel-hover);
+      border-color: var(--border-gold);
+      transform: translateY(-1px);
+    }
+
+    .btn-gold {
+      border-color: transparent;
+      color: #111;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      font-weight: 800;
+    }
+
+    .btn-gold:hover {
+      background: linear-gradient(135deg, #e8cd91, #c49b4e);
+      color: #111;
+    }
+
+    .btn-danger {
+      color: #ff8c8c;
+    }
+
+    .admin-chip {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0 11px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--panel);
+    }
+
+    .admin-avatar {
+      width: 27px;
+      height: 27px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #292d33;
+      color: var(--gold-light);
+      font-weight: 800;
+      font-size: 11px;
+    }
+
+    .admin-chip span {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .content {
+      padding: 26px;
+      max-width: 1800px;
+      margin: 0 auto;
+    }
+
+    /* =====================================================
+       LOADING
+    ===================================================== */
+
+    .global-loading {
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      background: rgba(0,0,0,.62);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .global-loading.show {
+      display: flex;
+    }
+
+    .loading-box {
+      min-width: 190px;
+      padding: 25px;
+      background: var(--panel);
+      border: 1px solid var(--border-gold);
+      border-radius: 17px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .spinner {
+      width: 34px;
+      height: 34px;
+      border: 3px solid rgba(201,164,92,.2);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin .75s linear infinite;
+      margin: 0 auto 13px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-box span {
+      color: var(--text-soft);
+      font-size: 12px;
+    }
+
+    /* =====================================================
+       DASHBOARD
+    ===================================================== */
+
+    .section {
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 14px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .section-title p {
+      margin: 4px 0 0;
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .section-title-actions {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .quick-btn {
+      min-height: 35px;
+      padding: 0 11px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: var(--panel);
+      color: var(--text-soft);
+      font-size: 11px;
+      transition: var(--transition);
+    }
+
+    .quick-btn:hover {
+      color: var(--gold-light);
+      border-color: var(--border-gold);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 13px;
+    }
+
+    .stat-card {
+      min-height: 138px;
+      padding: 18px;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(201,164,92,.07), transparent 45%),
+        var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-gold);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .stat-icon {
+      width: 37px;
+      height: 37px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: rgba(201,164,92,.1);
+      color: var(--gold-light);
+      font-size: 17px;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+    }
+
+    .stat-value {
+      margin-top: 15px;
+      font-family: Montserrat, Inter, sans-serif;
+      font-size: 27px;
+      font-weight: 800;
+      letter-spacing: -.8px;
+    }
+
+    .stat-description {
+      margin-top: 5px;
+      color: var(--text-muted);
+      font-size: 10px;
+    }
+
+    /* =====================================================
+       ADVANCED DASHBOARD
+    ===================================================== */
+
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: 1.45fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .analytics-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 19px;
+      min-width: 0;
+    }
+
+    .analytics-card h3 {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .analytics-card .sub {
+      color: var(--text-muted);
+      font-size: 10px;
+      margin-top: 4px;
+    }
+
+    .funnel {
+      margin-top: 19px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .funnel-step {
+      display: grid;
+      grid-template-columns: 105px 1fr 45px;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+    }
+
+    .funnel-name {
+      color: var(--text-soft);
+      font-weight: 600;
+    }
+
+    .funnel-track {
+      height: 10px;
+      background: rgba(255,255,255,.055);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    [data-theme="light"] .funnel-track {
+      background: rgba(0,0,0,.06);
+    }
+
+    .funnel-fill {
+      height: 100%;
+      width: 0;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      transition: width .5s ease;
+    }
+
+    .funnel-count {
+      text-align: right;
+      font-weight: 800;
+    }
+
+    .conversion-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 17px;
+    }
+
+    .conversion-item {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 13px;
+    }
+
+    .conversion-item span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 10px;
+    }
+
+    .conversion-item strong {
+      display: block;
+      margin-top: 6px;
+      font-size: 21px;
+    }
+
+    .money-grid {
+      display: grid;
+      gap: 9px;
+      margin-top: 17px;
+    }
+
+    .money-item {
+      padding: 13px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .money-item span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 10px;
+    }
+
+    .money-item strong {
+      display: block;
+      margin-top: 6px;
+      font-size: 17px;
+    }
+
+    .ranking {
+      margin-top: 16px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .ranking-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 10px;
+      border-radius: 9px;
+      background: var(--panel-2);
+    }
+
+    .ranking-position {
+      width: 22px;
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .ranking-name {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: var(--text-soft);
+      font-size: 11px;
+    }
+
+    .ranking-value {
+      font-weight: 800;
+      font-size: 11px;
+    }
+
+    /* =====================================================
+       FILTERS
+    ===================================================== */
+
+    .filters-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 15px;
+    }
+
+    .filters-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr auto;
+      gap: 9px;
+      align-items: end;
+    }
+
+    .field {
+      min-width: 0;
+    }
+
+    .field label {
+      display: block;
+      margin: 0 0 6px 2px;
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      height: 39px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      border-radius: 9px;
+      padding: 0 10px;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--border-gold);
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 7px;
+    }
+
+    .filter-buttons .btn {
+      min-height: 39px;
+      white-space: nowrap;
+      font-size: 11px;
+    }
+
+    /* =====================================================
+       TABLE
+    ===================================================== */
+
+    .table-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .table-toolbar {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .result-info {
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .result-info strong {
+      color: var(--text);
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-actions .btn {
+      min-height: 36px;
+      font-size: 11px;
+    }
+
+    .table-scroll {
+      width: 100%;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    table {
+      width: 100%;
+      min-width: 1050px;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      color: var(--text-muted);
+      background: var(--panel-2);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+      font-weight: 800;
+      padding: 12px 13px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    th.sortable {
+      cursor: pointer;
+    }
+
+    th.sortable:hover {
+      color: var(--gold-light);
+    }
+
+    td {
+      padding: 12px 13px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-soft);
+      font-size: 11px;
+      vertical-align: middle;
+    }
+
+    tbody tr {
+      transition: background var(--transition);
+    }
+
+    tbody tr:hover {
+      background: rgba(255,255,255,.025);
+    }
+
+    tbody tr.row-new {
+      background: rgba(201,164,92,.025);
+    }
+
+    .id-cell {
+      color: var(--gold-light);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .project-cell strong {
+      display: block;
+      color: var(--text);
+      font-size: 11px;
+      max-width: 180px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .project-cell small {
+      display: block;
+      margin-top: 3px;
+      color: var(--text-muted);
+      max-width: 180px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .new-label {
+      display: inline-flex;
+      margin-left: 5px;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #111;
+      background: var(--gold);
+      font-size: 7px;
+      font-weight: 900;
+      vertical-align: middle;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 24px;
+      padding: 0 8px;
+      border-radius: 99px;
+      font-size: 9px;
+      font-weight: 800;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+
+    .status-novo {
+      color: var(--gold-light);
+      background: rgba(201,164,92,.12);
+      border-color: rgba(201,164,92,.22);
+    }
+
+    .status-analise {
+      color: #a9b8ce;
+      background: rgba(92,157,255,.08);
+      border-color: rgba(92,157,255,.18);
+    }
+
+    .status-orcamento {
+      color: var(--gold-light);
+      background: rgba(201,164,92,.18);
+      border-color: rgba(201,164,92,.3);
+    }
+
+    .status-fechado {
+      color: #70e0ae;
+      background: rgba(53,201,138,.1);
+      border-color: rgba(53,201,138,.2);
+    }
+
+    .status-cancelado {
+      color: #ff8585;
+      background: rgba(239,98,98,.1);
+      border-color: rgba(239,98,98,.2);
+    }
+
+    .notification-ok {
+      color: var(--green);
+    }
+
+    .notification-error {
+      color: var(--red);
+    }
+
+    .action-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .row-action {
+      width: 31px;
+      height: 31px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel-2);
+      color: var(--text-soft);
+      transition: var(--transition);
+      font-size: 12px;
+    }
+
+    .row-action:hover {
+      color: var(--gold-light);
+      border-color: var(--border-gold);
+      transform: translateY(-1px);
+    }
+
+    .empty-state {
+      padding: 65px 20px;
+      text-align: center;
+    }
+
+    .empty-icon {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 14px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: rgba(201,164,92,.08);
+      color: var(--gold);
+      font-size: 23px;
+    }
+
+    .empty-state h3 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .empty-state p {
+      max-width: 400px;
+      margin: 8px auto 17px;
+      color: var(--text-muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    /* =====================================================
+       PAGINATION
+    ===================================================== */
+
+    .pagination {
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    .page-size {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--text-muted);
+      font-size: 10px;
+    }
+
+    .page-size select {
+      height: 32px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      border-radius: 7px;
+      padding: 0 7px;
+    }
+
+    .page-buttons {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .page-btn {
+      min-width: 31px;
+      height: 31px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: var(--panel-2);
+      color: var(--text-soft);
+      font-size: 10px;
+    }
+
+    .page-btn:hover,
+    .page-btn.active {
+      color: #111;
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .page-btn:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+    }
+
+    /* =====================================================
+       MODAL
+    ===================================================== */
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(7px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+    }
+
+    .modal {
+      width: min(1050px, 100%);
+      max-height: calc(100vh - 40px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: var(--panel);
+      border: 1px solid var(--border-gold);
+      border-radius: 19px;
+      box-shadow: var(--shadow);
+      animation: modalIn .2s ease;
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(.985);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .modal-header {
+      padding: 18px 21px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .modal-title h2 {
+      margin: 0;
+      font-family: Montserrat, Inter, sans-serif;
+      font-size: 17px;
+    }
+
+    .modal-title p {
+      margin: 4px 0 0;
+      color: var(--text-muted);
+      font-size: 10px;
+    }
+
+    .modal-close {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: var(--panel-2);
+      color: var(--text-soft);
+      font-size: 18px;
+    }
+
+    .modal-body {
+      padding: 21px;
+      overflow-y: auto;
+    }
+
+    .detail-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 20px;
+    }
+
+    .detail-actions .btn {
+      min-height: 37px;
+      font-size: 10px;
+    }
+
+    .detail-section {
+      margin-bottom: 21px;
+    }
+
+    .detail-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .detail-section-title {
+      margin-bottom: 10px;
+      color: var(--gold-light);
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .detail-item {
+      padding: 12px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      border-radius: 10px;
+      min-width: 0;
+    }
+
+    .detail-item span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 9px;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    .detail-item strong {
+      display: block;
+      color: var(--text);
+      font-size: 11px;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .detail-text {
+      padding: 14px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      border-radius: 10px;
+      color: var(--text-soft);
+      line-height: 1.65;
+      font-size: 11px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .files-list {
+      display: grid;
+      gap: 7px;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      border-radius: 9px;
+    }
+
+    .file-name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--text-soft);
+      font-size: 11px;
+    }
+
+    .file-open {
+      flex-shrink: 0;
+      color: var(--gold-light);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .no-data {
+      color: var(--text-muted);
+      font-size: 11px;
+      font-style: italic;
+    }
+
+    /* =====================================================
+       STATUS MODAL
+    ===================================================== */
+
+    .status-modal {
+      width: min(440px, 100%);
+    }
+
+    .status-options {
+      display: grid;
+      gap: 8px;
+    }
+
+    .status-option {
+      min-height: 49px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 13px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text-soft);
+      border-radius: 10px;
+      text-align: left;
+      transition: var(--transition);
+    }
+
+    .status-option:hover {
+      border-color: var(--border-gold);
+    }
+
+    .status-option.selected {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 2px rgba(201,164,92,.08);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    .status-option strong {
+      font-size: 11px;
+      color: var(--text);
+    }
+
+    .status-option small {
+      display: block;
+      margin-top: 2px;
+      color: var(--text-muted);
+      font-size: 9px;
+    }
+
+    /* =====================================================
+       TOAST
+    ===================================================== */
+
+    .toast-container {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 4000;
+      width: min(370px, calc(100vw - 30px));
+      display: grid;
+      gap: 8px;
+    }
+
+    .toast {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 13px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      animation: toastIn .25s ease;
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateX(15px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .toast-icon {
+      width: 25px;
+      height: 25px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      background: rgba(201,164,92,.1);
+      color: var(--gold);
+      font-size: 12px;
+    }
+
+    .toast.success .toast-icon {
+      color: var(--green);
+      background: rgba(53,201,138,.1);
+    }
+
+    .toast.error .toast-icon {
+      color: var(--red);
+      background: rgba(239,98,98,.1);
+    }
+
+    .toast.warning .toast-icon {
+      color: var(--orange);
+      background: rgba(233,167,79,.1);
+    }
+
+    .toast-content strong {
+      display: block;
+      font-size: 11px;
+    }
+
+    .toast-content span {
+      display: block;
+      margin-top: 3px;
+      color: var(--text-muted);
+      font-size: 10px;
+      line-height: 1.4;
+    }
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    .app-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 2px 5px;
+      color: var(--text-muted);
+      font-size: 9px;
+    }
+
+    .footer-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .footer-action {
+      border: 0;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 9px;
+      padding: 4px 6px;
+    }
+
+    .footer-action:hover {
+      color: var(--gold-light);
+    }
+
+    /* =====================================================
+       SKELETON
+    ===================================================== */
+
+    .skeleton {
+      background: linear-gradient(
+        90deg,
+        var(--panel-2) 25%,
+        var(--panel-hover) 50%,
+        var(--panel-2) 75%
+      );
+      background-size: 200% 100%;
+      animation: skeleton 1.2s infinite;
+      border-radius: 7px;
+    }
+
+    @keyframes skeleton {
+      to { background-position: -200% 0; }
+    }
+
+    /* =====================================================
+       MOBILE OVERLAY
+    ===================================================== */
+
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      z-index: 900;
+      display: none;
+    }
+
+    .sidebar-overlay.show {
+      display: block;
+    }
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 1350px) {
+      .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .analytics-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .analytics-grid .analytics-card:first-child {
+        grid-column: 1 / -1;
+      }
+
+      .filters-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .filter-buttons {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 950px) {
+      :root {
+        --sidebar-width: 255px;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        width: 100%;
+        margin-left: 0;
+      }
+
+      .mobile-menu {
+        display: grid;
+      }
+
+      .topbar {
+        padding: 12px 15px;
+      }
+
+      .page-heading {
+        display: none;
+      }
+
+      .topbar-search {
+        margin-left: 0;
+        max-width: none;
+      }
+
+      .admin-chip span {
+        display: none;
+      }
+
+      .content {
+        padding: 18px 15px;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .analytics-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .analytics-grid .analytics-card:first-child {
+        grid-column: auto;
+      }
+
+      .filters-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .filter-buttons {
+        grid-column: 1 / -1;
+      }
+
+      .detail-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .top-actions .refresh-text {
+        display: none;
+      }
+
+      .top-actions .btn {
+        width: 42px;
+        padding: 0;
+        font-size: 0;
+      }
+
+      .top-actions .btn::before {
+        content: "↻";
+        font-size: 17px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .topbar {
+        gap: 7px;
+      }
+
+      .topbar-search input {
+        height: 40px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .stat-card {
+        min-height: 118px;
+        padding: 13px;
+      }
+
+      .stat-value {
+        font-size: 23px;
+      }
+
+      .stat-description {
+        display: none;
+      }
+
+      .filters-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-buttons {
+        grid-column: auto;
+      }
+
+      .filter-buttons .btn {
+        flex: 1;
+      }
+
+      .table-toolbar {
+        align-items: flex-start;
+      }
+
+      .toolbar-actions {
+        width: 100%;
+      }
+
+      .toolbar-actions .btn {
+        flex: 1;
+      }
+
+      .pagination {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .page-buttons {
+        justify-content: center;
+        overflow-x: auto;
+      }
+
+      .detail-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-backdrop {
+        padding: 7px;
+      }
+
+      .modal {
+        max-height: calc(100vh - 14px);
+        border-radius: 14px;
+      }
+
+      .modal-header,
+      .modal-body {
+        padding: 15px;
+      }
+
+      .detail-actions .btn {
+        flex: 1;
+        min-width: 130px;
+      }
+
+      .app-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* =====================================================
+       PRINT
+    ===================================================== */
+
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+
+      .sidebar,
+      .topbar,
+      .filters-panel,
+      .toolbar-actions,
+      .pagination,
+      .app-footer,
+      .action-group,
+      .section-title-actions,
+      .quick-btn,
+      .global-loading,
+      .toast-container,
+      .modal-backdrop,
+      .mobile-menu {
+        display: none !important;
+      }
+
+      .main {
+        width: 100%;
+        margin: 0;
+      }
+
+      .content {
+        padding: 10px;
+        max-width: none;
+      }
+
+      .panel,
+      .table-panel,
+      .analytics-card,
+      .stat-card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+      }
+
+      .stat-card,
+      .analytics-card,
+      .table-panel {
+        background: #fff !important;
+        color: #000 !important;
+      }
+
+      .stat-value,
+      td,
+      th,
+      .section-title h2 {
+        color: #000 !important;
+      }
+
+      .table-scroll {
+        overflow: visible;
+      }
+
+      table {
+        min-width: 0;
+        font-size: 8px;
+      }
+
+      th,
+      td {
+        padding: 5px;
+      }
+    }
+  </style>
+
 </head>
 
 <body>
+  <div class="app">
 
-<header>
-  <div class="logo">ARQ<span>SELECT</span></div>
-  <div class="header-info">Painel Administrativo de Projetos</div>
-</header>
+```
+<!-- ===================================================
+     SIDEBAR
+==================================================== -->
 
-<main class="container">
+<aside class="sidebar" id="sidebar">
 
-  <div class="topbar">
-    <div>
-      <h1>Projetos recebidos</h1>
-      <div class="muted" style="margin-top:5px">Gestão de solicitações de arquitetos</div>
-    </div>
+  <div class="brand">
+    <div class="brand-mark">A</div>
 
-    <div class="actions">
-      <button class="btn-primary" onclick="carregarProjetos()">↻ Atualizar</button>
-      <button class="btn-dark" onclick="testarAPI()">Teste API</button>
+    <div class="brand-text">
+      <strong>ARQSELECT</strong>
+      <span>CRM Administrativo</span>
     </div>
   </div>
 
-  <div id="mensagem" class="status-message"></div>
+  <nav class="sidebar-nav">
 
-  <section class="stats">
-    <div class="stat">
-      <div class="stat-label">TOTAL</div>
-      <div class="stat-value" id="statTotal">0</div>
+    <div class="nav-label">Principal</div>
+
+    <button class="nav-item active" data-view="dashboard">
+      <span class="nav-icon">⌂</span>
+      <span>Dashboard</span>
+    </button>
+
+    <button class="nav-item" data-view="todos">
+      <span class="nav-icon">▦</span>
+      <span>Projetos</span>
+      <span class="nav-count" id="navTotal">0</span>
+    </button>
+
+    <div class="nav-label">Pipeline</div>
+
+    <button class="nav-item" data-view="Novo">
+      <span class="nav-icon">✦</span>
+      <span>Novos</span>
+      <span class="nav-count" id="navNovo">0</span>
+    </button>
+
+    <button class="nav-item" data-view="Em análise">
+      <span class="nav-icon">◌</span>
+      <span>Em análise</span>
+      <span class="nav-count" id="navAnalise">0</span>
+    </button>
+
+    <button class="nav-item" data-view="Orçamento">
+      <span class="nav-icon">◈</span>
+      <span>Orçamentos</span>
+      <span class="nav-count" id="navOrcamento">0</span>
+    </button>
+
+    <button class="nav-item" data-view="Fechado">
+      <span class="nav-icon">✓</span>
+      <span>Fechados</span>
+      <span class="nav-count" id="navFechado">0</span>
+    </button>
+
+    <button class="nav-item" data-view="Cancelado">
+      <span class="nav-icon">×</span>
+      <span>Cancelados</span>
+      <span class="nav-count" id="navCancelado">0</span>
+    </button>
+
+  </nav>
+
+  <div class="sidebar-footer">
+    <strong>ARQSELECT CRM</strong>
+    Painel Administrativo
+  </div>
+
+</aside>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ===================================================
+     MAIN
+==================================================== -->
+
+<main class="main">
+
+  <header class="topbar">
+
+    <button
+      class="icon-btn mobile-menu"
+      id="mobileMenuBtn"
+      title="Abrir menu"
+      aria-label="Abrir menu"
+    >☰</button>
+
+    <div class="page-heading">
+      <h1>Gestão de Projetos</h1>
+      <p id="pageSubtitle">Visão geral comercial</p>
     </div>
-    <div class="stat">
-      <div class="stat-label">NOVOS</div>
-      <div class="stat-value" id="statNovo">0</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">EM ANÁLISE</div>
-      <div class="stat-value" id="statAnalise">0</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">ORÇAMENTO</div>
-      <div class="stat-value" id="statOrcamento">0</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">FECHADOS</div>
-      <div class="stat-value" id="statFechado">0</div>
-    </div>
-  </section>
 
-  <section class="filters">
-    <input
-      id="busca"
-      type="search"
-      placeholder="Buscar por projeto, arquiteto, e-mail, cidade ou ID..."
-      oninput="renderizarTabela()"
-    >
+    <div class="topbar-search">
 
-    <select id="filtroStatus" onchange="renderizarTabela()">
-      <option value="">Todos os status</option>
-      <option value="Novo">Novo</option>
-      <option value="Em análise">Em análise</option>
-      <option value="Orçamento">Orçamento</option>
-      <option value="Fechado">Fechado</option>
-      <option value="Cancelado">Cancelado</option>
-    </select>
+      <span class="search-icon">⌕</span>
 
-    <select id="filtroTipo" onchange="renderizarTabela()">
-      <option value="">Todos os tipos</option>
-    </select>
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="Pesquisar projeto, arquiteto, escritório..."
+        autocomplete="off"
+      >
 
-    <button class="btn-light" onclick="limparFiltros()">Limpar filtros</button>
-  </section>
+      <button
+        class="clear-search"
+        id="clearSearch"
+        title="Limpar busca"
+      >×</button>
 
-  <section class="table-wrap">
-    <div id="loading" class="loading-box">
-      Carregando projetos...
     </div>
 
-    <table id="tabela" style="display:none">
-      <thead>
-        <tr>
-          <th>Projeto</th>
-          <th>Data</th>
-          <th>Arquiteto</th>
-          <th>Escritório</th>
-          <th>Local</th>
-          <th>Tipo</th>
-          <th>Área</th>
-          <th>Status</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody id="tabelaBody"></tbody>
-    </table>
+    <div class="top-actions">
 
-    <div id="vazio" class="empty" style="display:none">
-      Nenhum projeto encontrado.
+      <button
+        class="btn btn-gold"
+        id="refreshBtn"
+        title="Atualizar dados"
+      >
+        <span class="refresh-text">↻ Atualizar dados</span>
+      </button>
+
+      <button
+        class="icon-btn"
+        id="themeBtn"
+        title="Alternar tema"
+        aria-label="Alternar tema"
+      >☾</button>
+
+      <div class="admin-chip">
+        <div class="admin-avatar">AD</div>
+        <span>Administrador</span>
+      </div>
+
     </div>
-  </section>
+
+  </header>
+
+  <div class="content">
+
+    <!-- =================================================
+         DASHBOARD
+    ================================================== -->
+
+    <section id="dashboardSection">
+
+      <div class="section">
+
+        <div class="section-title">
+
+          <div>
+            <h2>Visão comercial</h2>
+            <p>Acompanhe o desempenho dos projetos ARQSELECT.</p>
+          </div>
+
+          <div class="section-title-actions">
+            <button class="quick-btn" data-quick="todos">Ver todos</button>
+            <button class="quick-btn" data-quick="Novo">Ver novos</button>
+            <button class="quick-btn" data-quick="Orçamento">Ver orçamentos</button>
+            <button class="quick-btn" data-quick="Fechado">Ver fechados</button>
+          </div>
+
+        </div>
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-label">Total de projetos</div>
+              <div class="stat-icon">▦</div>
+            </div>
+            <div class="stat-value" id="statTotal">0</div>
+            <div class="stat-description">Todos os projetos recebidos</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-label">Novos</div>
+              <div class="stat-icon">✦</div>
+            </div>
+            <div class="stat-value" id="statNovo">0</div>
+            <div class="stat-description">Aguardando análise</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-label">Em análise</div>
+              <div class="stat-icon">◌</div>
+            </div>
+            <div class="stat-value" id="statAnalise">0</div>
+            <div class="stat-description">Projetos em avaliação</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-label">Orçamentos</div>
+              <div class="stat-icon">◈</div>
+            </div>
+            <div class="stat-value" id="statOrcamento">0</div>
+            <div class="stat-description">Em negociação</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-label">Fechados</div>
+              <div class="stat-icon">✓</div>
+            </div>
+            <div class="stat-value" id="statFechado">0</div>
+            <div class="stat-description">Projetos conquistados</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-label">Cancelados</div>
+              <div class="stat-icon">×</div>
+            </div>
+            <div class="stat-value" id="statCancelado">0</div>
+            <div class="stat-description">Projetos cancelados</div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="section">
+
+        <div class="analytics-grid">
+
+          <div class="analytics-card">
+
+            <h3>Funil comercial</h3>
+            <div class="sub">Evolução dos projetos por etapa</div>
+
+            <div class="funnel">
+
+              <div class="funnel-step">
+                <div class="funnel-name">Novo</div>
+                <div class="funnel-track">
+                  <div class="funnel-fill" id="funnelNovo"></div>
+                </div>
+                <div class="funnel-count" id="funnelNovoCount">0</div>
+              </div>
+
+              <div class="funnel-step">
+                <div class="funnel-name">Em análise</div>
+                <div class="funnel-track">
+                  <div class="funnel-fill" id="funnelAnalise"></div>
+                </div>
+                <div class="funnel-count" id="funnelAnaliseCount">0</div>
+              </div>
+
+              <div class="funnel-step">
+                <div class="funnel-name">Orçamento</div>
+                <div class="funnel-track">
+                  <div class="funnel-fill" id="funnelOrcamento"></div>
+                </div>
+                <div class="funnel-count" id="funnelOrcamentoCount">0</div>
+              </div>
+
+              <div class="funnel-step">
+                <div class="funnel-name">Fechado</div>
+                <div class="funnel-track">
+                  <div class="funnel-fill" id="funnelFechado"></div>
+                </div>
+                <div class="funnel-count" id="funnelFechadoCount">0</div>
+              </div>
+
+            </div>
+
+            <div class="conversion-box">
+
+              <div class="conversion-item">
+                <span>Taxa de fechamento</span>
+                <strong id="conversionRate">0%</strong>
+              </div>
+
+              <div class="conversion-item">
+                <span>Taxa de orçamento</span>
+                <strong id="quoteRate">0%</strong>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="analytics-card">
+
+            <h3>Indicadores financeiros</h3>
+            <div class="sub">Valores informados nos projetos</div>
+
+            <div class="money-grid">
+
+              <div class="money-item">
+                <span>Investimento total informado</span>
+                <strong id="investmentTotal">R$ 0,00</strong>
+              </div>
+
+              <div class="money-item">
+                <span>Ticket médio</span>
+                <strong id="averageTicket">R$ 0,00</strong>
+              </div>
+
+              <div class="money-item">
+                <span>Investimento de fechados</span>
+                <strong id="closedInvestment">R$ 0,00</strong>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="analytics-card">
+
+            <h3>Cidades com mais projetos</h3>
+            <div class="sub">Distribuição por localização</div>
+
+            <div class="ranking" id="cityRanking">
+              <div class="no-data">Nenhum dado disponível.</div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="section">
+
+        <div class="analytics-card">
+
+          <h3>Tipos de projeto</h3>
+          <div class="sub">Quantidade por categoria</div>
+
+          <div class="ranking" id="typeRanking">
+            <div class="no-data">Nenhum dado disponível.</div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =================================================
+         PROJECTS SECTION
+    ================================================== -->
+
+    <section id="projectsSection">
+
+      <div class="section-title">
+
+        <div>
+          <h2>Projetos</h2>
+          <p id="projectSectionSubtitle">Gerencie todos os projetos recebidos.</p>
+        </div>
+
+      </div>
+
+      <div class="section">
+
+        <div class="filters-panel">
+
+          <div class="filters-grid">
+
+            <div class="field">
+              <label for="statusFilter">Status</label>
+              <select id="statusFilter">
+                <option value="">Todos</option>
+                <option value="Novo">Novo</option>
+                <option value="Em análise">Em análise</option>
+                <option value="Orçamento">Orçamento</option>
+                <option value="Fechado">Fechado</option>
+                <option value="Cancelado">Cancelado</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="cityFilter">Cidade</label>
+              <select id="cityFilter">
+                <option value="">Todas</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="stateFilter">Estado</label>
+              <select id="stateFilter">
+                <option value="">Todos</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="typeFilter">Tipo de projeto</label>
+              <select id="typeFilter">
+                <option value="">Todos</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="dateFilter">Período</label>
+              <select id="dateFilter">
+                <option value="">Todos</option>
+                <option value="today">Hoje</option>
+                <option value="7">Últimos 7 dias</option>
+                <option value="30">Últimos 30 dias</option>
+                <option value="90">Últimos 90 dias</option>
+              </select>
+            </div>
+
+            <div class="filter-buttons">
+              <button class="btn" id="clearFiltersBtn">
+                Limpar filtros
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="section">
+
+        <div class="table-panel">
+
+          <div class="table-toolbar">
+
+            <div class="result-info" id="resultInfo">
+              Carregando projetos...
+            </div>
+
+            <div class="toolbar-actions">
+
+              <button class="btn" id="exportBtn">
+                ⇩ Exportar CSV
+              </button>
+
+              <button class="btn" id="printBtn">
+                ⎙ Imprimir
+              </button>
+
+            </div>
+
+          </div>
+
+          <div id="tableContainer">
+
+            <div class="table-scroll">
+
+              <table>
+
+                <thead>
+                  <tr>
+                    <th class="sortable" data-sort="ID PROJETO">ID</th>
+                    <th class="sortable" data-sort="DATA / HORA">Data</th>
+                    <th class="sortable" data-sort="NOME">Arquiteto</th>
+                    <th>Escritório</th>
+                    <th class="sortable" data-sort="NOME DO PROJETO">Projeto</th>
+                    <th>Tipo</th>
+                    <th>Cidade</th>
+                    <th class="sortable" data-sort="INVESTIMENTO">Investimento</th>
+                    <th class="sortable" data-sort="STATUS">Status</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+
+                <tbody id="projectsTableBody"></tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+
+          <div class="pagination" id="pagination">
+
+            <div class="page-size">
+              <span>Por página</span>
+              <select id="pageSize">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+
+            <div class="page-buttons" id="pageButtons"></div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <footer class="app-footer">
+
+      <div>
+        ARQSELECT CRM ·
+        <span id="lastUpdate">Última atualização: —</span>
+      </div>
+
+      <div class="footer-actions">
+        <button class="footer-action" id="testConnectionBtn">
+          Testar conexão
+        </button>
+      </div>
+
+    </footer>
+
+  </div>
 
 </main>
+```
 
-<!-- MODAL -->
-<div id="modal" class="modal" onclick="fecharModalFora(event)">
-  <div class="modal-box">
-    <div class="modal-header">
-      <h2>Detalhes do projeto</h2>
-      <button class="close" onclick="fecharModal()">×</button>
-    </div>
+  </div>
 
-    <div class="modal-body">
-      <div id="detalhesProjeto" class="detail-grid"></div>
+  <!-- =====================================================
+       GLOBAL LOADING
+  ====================================================== -->
+
+  <div class="global-loading" id="globalLoading">
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <span id="loadingText">Carregando...</span>
     </div>
   </div>
+
+  <!-- =====================================================
+       DETAIL MODAL
+  ====================================================== -->
+
+  <div class="modal-backdrop" id="detailModal">
+
+```
+<div class="modal">
+
+  <div class="modal-header">
+
+    <div class="modal-title">
+      <h2>Detalhes do Projeto</h2>
+      <p id="detailModalSubtitle">Informações completas</p>
+    </div>
+
+    <button class="modal-close" id="closeDetailBtn">×</button>
+
+  </div>
+
+  <div class="modal-body" id="detailBody"></div>
+
 </div>
+```
 
-<script>
-/* =====================================================
-   CONFIGURAÇÃO
-===================================================== */
+  </div>
 
-const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
+  <!-- =====================================================
+       STATUS MODAL
+  ====================================================== -->
 
-const STATUS_PERMITIDOS = [
-  "Novo",
-  "Em análise",
-  "Orçamento",
-  "Fechado",
-  "Cancelado"
-];
+  <div class="modal-backdrop" id="statusModal">
 
-let projetos = [];
-let projetoSelecionado = null;
+```
+<div class="modal status-modal">
 
+  <div class="modal-header">
 
-/* =====================================================
-   INICIALIZAÇÃO
-===================================================== */
+    <div class="modal-title">
+      <h2>Alterar status</h2>
+      <p id="statusProjectTitle">Selecione uma nova etapa.</p>
+    </div>
 
-document.addEventListener("DOMContentLoaded", function() {
-  carregarProjetos();
-});
+    <button class="modal-close" id="closeStatusBtn">×</button>
 
+  </div>
 
-/* =====================================================
-   MENSAGEM
-===================================================== */
+  <div class="modal-body">
 
-function mostrarMensagem(texto, tipo) {
+    <div class="status-options">
 
-  const el = document.getElementById("mensagem");
-
-  el.className = "status-message " + tipo;
-  el.textContent = texto;
-
-}
-
-function esconderMensagem() {
-
-  const el = document.getElementById("mensagem");
-
-  el.className = "status-message";
-  el.textContent = "";
-
-}
-
-
-/* =====================================================
-   CARREGAR PROJETOS
-===================================================== */
-
-async function carregarProjetos() {
-
-  const loading = document.getElementById("loading");
-  const tabela = document.getElementById("tabela");
-  const vazio = document.getElementById("vazio");
-
-  loading.style.display = "block";
-  tabela.style.display = "none";
-  vazio.style.display = "none";
-
-  mostrarMensagem(
-    "Carregando projetos...",
-    "loading"
-  );
-
-  try {
-
-    const url =
-      SCRIPT_URL +
-      "?acao=projetos&_=" +
-      Date.now();
-
-    const resposta = await fetch(url, {
-      method: "GET",
-      cache: "no-store"
-    });
-
-    if (!resposta.ok) {
-      throw new Error(
-        "Erro HTTP " + resposta.status
-      );
-    }
-
-    const dados = await resposta.json();
-
-    console.log("Resposta projetos:", dados);
-
-    if (!dados.sucesso) {
-
-      throw new Error(
-        dados.erro ||
-        dados.mensagem ||
-        "O Apps Script não conseguiu carregar os projetos."
-      );
-
-    }
-
-    projetos =
-      Array.isArray(dados.projetos)
-        ? dados.projetos
-        : [];
-
-    atualizarTipos();
-    atualizarEstatisticas();
-    renderizarTabela();
-
-    loading.style.display = "none";
-
-    if (projetos.length) {
-      tabela.style.display = "table";
-      esconderMensagem();
-    } else {
-      vazio.style.display = "block";
-      mostrarMensagem(
-        "Nenhum projeto encontrado.",
-        "success"
-      );
-    }
-
-  } catch (erro) {
-
-    console.error(
-      "Erro ao carregar projetos:",
-      erro
-    );
-
-    loading.style.display = "none";
-    tabela.style.display = "none";
-    vazio.style.display = "block";
-
-    mostrarMensagem(
-      "Não foi possível carregar os projetos. " +
-      "Verifique se o Apps Script está publicado e se a implantação está atualizada.",
-      "error"
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   TIPOS
-===================================================== */
-
-function atualizarTipos() {
-
-  const select =
-    document.getElementById("filtroTipo");
-
-  const atual =
-    select.value;
-
-  const tipos = [
-    ...new Set(
-      projetos
-        .map(p => obter(p, [
-          "TIPO DE PROJETO",
-          "TIPO PROJETO"
-        ]))
-        .filter(Boolean)
-    )
-  ].sort();
-
-  select.innerHTML =
-    '<option value="">Todos os tipos</option>';
-
-  tipos.forEach(tipo => {
-
-    const option =
-      document.createElement("option");
-
-    option.value = tipo;
-    option.textContent = tipo;
-
-    select.appendChild(option);
-
-  });
-
-  if (tipos.includes(atual)) {
-    select.value = atual;
-  }
-
-}
-
-
-/* =====================================================
-   ESTATÍSTICAS
-===================================================== */
-
-function atualizarEstatisticas() {
-
-  const contar = status =>
-    projetos.filter(
-      p => normalizarStatus(obter(p, ["STATUS"])) === status
-    ).length;
-
-  document.getElementById("statTotal").textContent =
-    projetos.length;
-
-  document.getElementById("statNovo").textContent =
-    contar("Novo");
-
-  document.getElementById("statAnalise").textContent =
-    contar("Em análise");
-
-  document.getElementById("statOrcamento").textContent =
-    contar("Orçamento");
-
-  document.getElementById("statFechado").textContent =
-    contar("Fechado");
-
-}
-
-
-/* =====================================================
-   RENDERIZAR
-===================================================== */
-
-function renderizarTabela() {
-
-  const body =
-    document.getElementById("tabelaBody");
-
-  const busca =
-    document.getElementById("busca").value
-      .toLowerCase()
-      .trim();
-
-  const filtroStatus =
-    document.getElementById("filtroStatus").value;
-
-  const filtroTipo =
-    document.getElementById("filtroTipo").value;
-
-  const filtrados =
-    projetos.filter(p => {
-
-      const texto = [
-        obter(p, ["ID PROJETO", "NUMERO DO PROJETO"]),
-        obter(p, ["NOME", "NOME DO ARQUITETO"]),
-        obter(p, ["ESCRITÓRIO"]),
-        obter(p, ["E-MAIL", "EMAIL"]),
-        obter(p, ["CIDADE"]),
-        obter(p, ["ESTADO"]),
-        obter(p, ["NOME DO PROJETO", "PROJETO"]),
-        obter(p, ["DESCRIÇÃO / ORÇAMENTO", "DESCRIÇÃO"])
-      ]
-      .join(" ")
-      .toLowerCase();
-
-      const status =
-        normalizarStatus(
-          obter(p, ["STATUS"])
-        );
-
-      const tipo =
-        obter(p, [
-          "TIPO DE PROJETO",
-          "TIPO PROJETO"
-        ]);
-
-      return (
-        (!busca || texto.includes(busca)) &&
-        (!filtroStatus || status === filtroStatus) &&
-        (!filtroTipo || tipo === filtroTipo)
-      );
-
-    });
-
-  body.innerHTML = "";
-
-  if (!filtrados.length) {
-
-    document.getElementById("tabela").style.display = "none";
-    document.getElementById("vazio").style.display = "block";
-
-    return;
-
-  }
-
-  document.getElementById("tabela").style.display = "table";
-  document.getElementById("vazio").style.display = "none";
-
-  filtrados.forEach(p => {
-
-    const tr =
-      document.createElement("tr");
-
-    const id =
-      obter(p, [
-        "ID PROJETO",
-        "NUMERO DO PROJETO"
-      ]) || "Sem ID";
-
-    const data =
-      obter(p, [
-        "DATA / HORA",
-        "DATA"
-      ]);
-
-    const nome =
-      obter(p, ["NOME"]);
-
-    const escritorio =
-      obter(p, ["ESCRITÓRIO"]);
-
-    const cidade =
-      obter(p, ["CIDADE"]);
-
-    const estado =
-      obter(p, ["ESTADO"]);
-
-    const tipo =
-      obter(p, [
-        "TIPO DE PROJETO",
-        "TIPO PROJETO"
-      ]);
-
-    const area =
-      obter(p, [
-        "ÁREA",
-        "AREA"
-      ]);
-
-    const status =
-      normalizarStatus(
-        obter(p, ["STATUS"])
-      ) || "Novo";
-
-    tr.innerHTML = `
-      <td>
-        <div class="project-id">${esc(id)}</div>
-        <div class="project-name">
-          ${esc(
-            obter(p, [
-              "NOME DO PROJETO",
-              "PROJETO"
-            ]) || "Projeto sem nome"
-          )}
+      <button class="status-option" data-status="Novo">
+        <span class="status-dot"></span>
+        <div>
+          <strong>Novo</strong>
+          <small>Projeto recém recebido</small>
         </div>
-      </td>
+      </button>
 
-      <td>${esc(data || "Não informado")}</td>
-
-      <td>${esc(nome || "Não informado")}</td>
-
-      <td>${esc(escritorio || "Não informado")}</td>
-
-      <td>
-        ${esc(cidade || "Não informado")}
-        ${estado ? " - " + esc(estado) : ""}
-      </td>
-
-      <td>${esc(tipo || "Não informado")}</td>
-
-      <td>${esc(area || "Não informado")}</td>
-
-      <td>
-        ${criarSelectStatus(p)}
-      </td>
-
-      <td>
-        <div class="actions-cell">
-          <button
-            class="btn-primary small-btn"
-            onclick="abrirDetalhes(${Number(p._linha)})"
-          >
-            Detalhes
-          </button>
-
-          ${criarBotoesLinks(p)}
+      <button class="status-option" data-status="Em análise">
+        <span class="status-dot"></span>
+        <div>
+          <strong>Em análise</strong>
+          <small>Projeto em avaliação</small>
         </div>
-      </td>
-    `;
+      </button>
 
-    body.appendChild(tr);
+      <button class="status-option" data-status="Orçamento">
+        <span class="status-dot"></span>
+        <div>
+          <strong>Orçamento</strong>
+          <small>Orçamento em negociação</small>
+        </div>
+      </button>
 
-  });
+      <button class="status-option" data-status="Fechado">
+        <span class="status-dot"></span>
+        <div>
+          <strong>Fechado</strong>
+          <small>Projeto convertido</small>
+        </div>
+      </button>
 
-}
+      <button class="status-option" data-status="Cancelado">
+        <span class="status-dot"></span>
+        <div>
+          <strong>Cancelado</strong>
+          <small>Projeto encerrado sem fechamento</small>
+        </div>
+      </button>
 
+    </div>
 
-/* =====================================================
-   SELECT DE STATUS
-===================================================== */
+  </div>
 
-function criarSelectStatus(projeto) {
+</div>
+```
 
-  const status =
-    normalizarStatus(
-      obter(projeto, ["STATUS"])
-    ) || "Novo";
+  </div>
 
-  const linha =
-    Number(projeto._linha);
+  <!-- =====================================================
+       TOASTS
+  ====================================================== -->
 
-  let html =
-    `<select class="status-select"
-      onchange="alterarStatus(${linha}, this.value, this)"
-      data-linha="${linha}">`;
+  <div class="toast-container" id="toastContainer"></div>
 
-  STATUS_PERMITIDOS.forEach(opcao => {
+  <script>
+    "use strict";
 
-    html +=
-      `<option value="${escAttr(opcao)}"
-        ${status === opcao ? "selected" : ""}>
-        ${esc(opcao)}
-      </option>`;
+    /* =====================================================
+       CONFIGURAÇÃO
+    =====================================================
 
-  });
+       IMPORTANTE:
+       Substitua somente o conteúdo abaixo pela URL do seu
+       Web App do Google Apps Script.
 
-  html += "</select>";
+       Exemplo:
+       const API_URL = "https://script.google.com/macros/s/SEU_ID/exec";
 
-  return html;
+       Não coloque senha, token ou ID da planilha aqui.
+    ===================================================== */
 
-}
+    const API_URL = "SUA_URL_DO_APPS_SCRIPT";
 
 
-/* =====================================================
-   ALTERAR STATUS
-===================================================== */
+    /* =====================================================
+       ESTADO DA APLICAÇÃO
+    ===================================================== */
 
-async function alterarStatus(
-  linha,
-  novoStatus,
-  select
-) {
+    const state = {
 
-  const statusAnterior =
-    normalizarStatus(
-      obter(
-        projetos.find(
-          p => Number(p._linha) === Number(linha)
-        ) || {},
-        ["STATUS"]
-      )
-    ) || "Novo";
+      projetos: [],
 
-  if (!STATUS_PERMITIDOS.includes(novoStatus)) {
+      projetosFiltrados: [],
 
-    alert("Status inválido.");
+      paginaAtual: 1,
 
-    if (select) {
-      select.value = statusAnterior;
-    }
+      tamanhoPagina:
+        Number(
+          localStorage.getItem("arqselect_page_size") || 25
+        ),
 
-    return;
+      busca: "",
 
-  }
+      filtros: {
+        status:
+          localStorage.getItem("arqselect_status_filter") || "",
+        cidade: "",
+        estado: "",
+        tipo: "",
+        periodo: ""
+      },
 
-  if (!linha) {
+      ordenacao: {
+        campo: "DATA / HORA",
+        direcao: "desc"
+      },
 
-    alert("Linha do projeto não informada.");
+      projetoSelecionado: null,
 
-    return;
+      modoVisual: "dashboard",
 
-  }
+      sidebarAberta: false,
 
-  if (select) {
-    select.disabled = true;
-  }
+      carregando: false
 
-  mostrarMensagem(
-    "Atualizando status para " + novoStatus + "...",
-    "loading"
-  );
+    };
 
-  try {
 
-    /*
-     * encodeURIComponent é obrigatório aqui.
-     * Ele corrige "Orçamento" e "Em análise".
-     */
+    const STATUS_PERMITIDOS = [
+      "Novo",
+      "Em análise",
+      "Orçamento",
+      "Fechado",
+      "Cancelado"
+    ];
 
-    const url =
-      SCRIPT_URL +
-      "?acao=atualizarStatus" +
-      "&linha=" +
-      encodeURIComponent(linha) +
-      "&status=" +
-      encodeURIComponent(novoStatus) +
-      "&_=" +
-      Date.now();
 
-    console.log(
-      "URL atualização:",
-      url
-    );
-
-    const resposta =
-      await fetch(url, {
-        method: "GET",
-        cache: "no-store"
-      });
-
-    if (!resposta.ok) {
-
-      throw new Error(
-        "Erro HTTP " + resposta.status
-      );
-
-    }
-
-    const resultado =
-      await resposta.json();
-
-    console.log(
-      "Resposta atualização:",
-      resultado
-    );
-
-    if (!resultado.sucesso) {
-
-      throw new Error(
-        resultado.erro ||
-        resultado.mensagem ||
-        "Não foi possível atualizar o status."
-      );
-
-    }
-
-    const projeto =
-      projetos.find(
-        p => Number(p._linha) === Number(linha)
-      );
-
-    if (projeto) {
-
-      projeto["STATUS"] =
-        resultado.status ||
-        novoStatus;
-
-    }
-
-    atualizarEstatisticas();
-
-    mostrarMensagem(
-      "Status atualizado com sucesso para: " +
-      (resultado.status || novoStatus),
-      "success"
-    );
-
-    if (select) {
-      select.disabled = false;
-    }
-
-  } catch (erro) {
-
-    console.error(
-      "Erro ao atualizar status:",
-      erro
-    );
-
-    if (select) {
-      select.value = statusAnterior;
-      select.disabled = false;
-    }
-
-    mostrarMensagem(
-      "Erro ao atualizar status: " +
-      erro.message,
-      "error"
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   DETALHES
-===================================================== */
-
-function abrirDetalhes(linha) {
-
-  const projeto =
-    projetos.find(
-      p => Number(p._linha) === Number(linha)
-    );
-
-  if (!projeto) {
-
-    alert(
-      "Projeto não encontrado."
-    );
-
-    return;
-
-  }
-
-  projetoSelecionado =
-    projeto;
-
-  const campos = [
-
-    ["Número do projeto", [
+    const CAMPOS_BUSCA = [
       "ID PROJETO",
-      "NUMERO DO PROJETO"
-    ]],
-
-    ["Data", [
-      "DATA / HORA",
-      "DATA"
-    ]],
-
-    ["Nome", [
-      "NOME"
-    ]],
-
-    ["Escritório", [
-      "ESCRITÓRIO"
-    ]],
-
-    ["E-mail", [
+      "NOME",
+      "ESCRITÓRIO",
       "E-MAIL",
-      "EMAIL"
-    ]],
-
-    ["WhatsApp", [
-      "WHATSAPP"
-    ]],
-
-    ["Cidade", [
-      "CIDADE"
-    ]],
-
-    ["Estado", [
-      "ESTADO"
-    ]],
-
-    ["Registro profissional", [
-      "REGISTRO PROFISSIONAL",
-      "REGISTRO"
-    ]],
-
-    ["Nome do projeto", [
+      "WHATSAPP",
+      "CIDADE",
+      "ESTADO",
       "NOME DO PROJETO",
-      "PROJETO"
-    ]],
-
-    ["Tipo de projeto", [
       "TIPO DE PROJETO",
-      "TIPO PROJETO"
-    ]],
+      "REGISTRO PROFISSIONAL"
+    ];
 
-    ["Área", [
+
+    const CAMPOS_CSV = [
+      "ID PROJETO",
+      "DATA / HORA",
+      "NOME",
+      "ESCRITÓRIO",
+      "E-MAIL",
+      "WHATSAPP",
+      "CIDADE",
+      "ESTADO",
+      "REGISTRO PROFISSIONAL",
+      "NOME DO PROJETO",
+      "TIPO DE PROJETO",
       "ÁREA",
-      "AREA"
-    ]],
-
-    ["Ambiente", [
-      "AMBIENTE"
-    ]],
-
-    ["Prazo", [
-      "PRAZO"
-    ]],
-
-    ["Investimento", [
-      "INVESTIMENTO"
-    ]],
-
-    ["Status", [
-      "STATUS"
-    ]],
-
-    ["Notificação", [
+      "AMBIENTE",
+      "PRAZO",
+      "INVESTIMENTO",
+      "STATUS",
       "NOTIFICAÇÃO"
-    ]],
+    ];
 
-    ["Descrição / orçamento", [
-      "DESCRIÇÃO / ORÇAMENTO",
-      "DESCRIÇÃO"
-    ]],
 
-    ["Observações", [
-      "OBSERVAÇÕES"
-    ]],
+    /* =====================================================
+       INICIALIZAÇÃO
+    ===================================================== */
 
-    ["Arquivos", [
-      "ARQUIVOS"
-    ]],
+    function init() {
 
-    ["Pasta do projeto", [
-      "PASTA DO PROJETO"
-    ]]
+      aplicarPreferencias();
 
-  ];
+      configurarEventos();
 
-  const container =
-    document.getElementById(
-      "detalhesProjeto"
-    );
+      renderFiltros();
 
-  container.innerHTML = "";
+      renderDashboard();
 
-  campos.forEach(
-    function(campo) {
+      renderTabela();
 
-      const label =
-        campo[0];
+      carregarProjetos();
 
-      const valor =
-        obter(
-          projeto,
-          campo[1]
-        );
+    }
 
-      const div =
-        document.createElement("div");
 
-      div.className =
-        "detail";
+    /* =====================================================
+       PREFERÊNCIAS
+    ===================================================== */
+
+    function aplicarPreferencias() {
+
+      const tema =
+        localStorage.getItem("arqselect_theme") || "dark";
+
+      document.documentElement.setAttribute(
+        "data-theme",
+        tema
+      );
+
+      atualizarIconeTema();
+
+      const sidebar =
+        localStorage.getItem("arqselect_sidebar");
 
       if (
-        label === "Descrição / orçamento" ||
-        label === "Observações" ||
-        label === "Arquivos" ||
-        label === "Pasta do projeto"
+        sidebar === "open" &&
+        window.innerWidth <= 950
       ) {
 
-        div.classList.add("full");
+        abrirSidebar();
 
       }
 
-      div.innerHTML =
-        `
-        <div class="detail-label">
-          ${esc(label)}
-        </div>
+      const pageSize =
+        [10, 25, 50, 100].includes(state.tamanhoPagina)
+          ? state.tamanhoPagina
+          : 25;
 
-        <div class="detail-value">
-          ${formatarDetalhe(
-            label,
-            valor
-          )}
-        </div>
-        `;
+      state.tamanhoPagina = pageSize;
 
-      container.appendChild(div);
+      document.getElementById("pageSize").value =
+        String(pageSize);
 
     }
+
+
+    function alternarTema() {
+
+      const atual =
+        document.documentElement.getAttribute("data-theme");
+
+      const novo =
+        atual === "dark"
+          ? "light"
+          : "dark";
+
+      document.documentElement.setAttribute(
+        "data-theme",
+        novo
+      );
+
+      localStorage.setItem(
+        "arqselect_theme",
+        novo
+      );
+
+      atualizarIconeTema();
+
+    }
+
+
+    function atualizarIconeTema() {
+
+      const botao =
+        document.getElementById("themeBtn");
+
+      const tema =
+        document.documentElement.getAttribute("data-theme");
+
+      botao.textContent =
+        tema === "dark"
+          ? "☀"
+          : "☾";
+
+      botao.title =
+        tema === "dark"
+          ? "Usar modo claro"
+          : "Usar modo escuro";
+
+    }
+
+
+    /* =====================================================
+       EVENTOS
+    ===================================================== */
+
+    function configurarEventos() {
+
+      document
+        .getElementById("refreshBtn")
+        .addEventListener(
+          "click",
+          carregarProjetos
+        );
+
+
+      document
+        .getElementById("themeBtn")
+        .addEventListener(
+          "click",
+          alternarTema
+        );
+
+
+      document
+        .getElementById("mobileMenuBtn")
+        .addEventListener(
+          "click",
+          alternarSidebar
+        );
+
+
+      document
+        .getElementById("sidebarOverlay")
+        .addEventListener(
+          "click",
+          fecharSidebar
+        );
+
+
+      document
+        .getElementById("searchInput")
+        .addEventListener(
+          "input",
+          function(event) {
+
+            state.busca =
+              String(
+                event.target.value || ""
+              ).trim();
+
+            document
+              .getElementById("clearSearch")
+              .style.display =
+                state.busca
+                  ? "block"
+                  : "none";
+
+            state.paginaAtual = 1;
+
+            aplicarFiltros();
+
+          }
+        );
+
+
+      document
+        .getElementById("clearSearch")
+        .addEventListener(
+          "click",
+          function() {
+
+            document
+              .getElementById("searchInput")
+              .value = "";
+
+            state.busca = "";
+
+            document
+              .getElementById("clearSearch")
+              .style.display = "none";
+
+            state.paginaAtual = 1;
+
+            aplicarFiltros();
+
+          }
+        );
+
+
+      document
+        .getElementById("statusFilter")
+        .addEventListener(
+          "change",
+          function(event) {
+
+            state.filtros.status =
+              event.target.value;
+
+            localStorage.setItem(
+              "arqselect_status_filter",
+              state.filtros.status
+            );
+
+            state.paginaAtual = 1;
+
+            aplicarFiltros();
+
+          }
+        );
+
+
+      document
+        .getElementById("cityFilter")
+        .addEventListener(
+          "change",
+          function(event) {
+
+            state.filtros.cidade =
+              event.target.value;
+
+            state.paginaAtual = 1;
+
+            aplicarFiltros();
+
+          }
+        );
+
+
+      document
+        .getElementById("stateFilter")
+        .addEventListener(
+          "change",
+          function(event) {
+
+            state.filtros.estado =
+              event.target.value;
+
+            state.paginaAtual = 1;
+
+            aplicarFiltros();
+
+          }
+        );
+
+
+      document
+        .getElementById("typeFilter")
+        .addEventListener(
+          "change",
+          function(event) {
+
+            state.filtros.tipo =
+              event.target.value;
+
+            state.paginaAtual = 1;
+
+            aplicarFiltros();
+
+          }
+        );
+
+
+      document
+        .getElementById("dateFilter")
+        .addEventListener(
+          "change",
+          function(event) {
+
+            state.filtros.periodo =
+              event.target.value;
+
+            state.paginaAtual = 1;
+
+            aplicarFiltros();
+
+          }
+        );
+
+
+      document
+        .getElementById("clearFiltersBtn")
+        .addEventListener(
+          "click",
+          limparFiltros
+        );
+
+
+      document
+        .getElementById("pageSize")
+        .addEventListener(
+          "change",
+          function(event) {
+
+            state.tamanhoPagina =
+              Number(event.target.value);
+
+            localStorage.setItem(
+              "arqselect_page_size",
+              String(state.tamanhoPagina)
+            );
+
+            state.paginaAtual = 1;
+
+            renderTabela();
+
+          }
+        );
+
+
+      document
+        .getElementById("exportBtn")
+        .addEventListener(
+          "click",
+          exportarCSV
+        );
+
+
+      document
+        .getElementById("printBtn")
+        .addEventListener(
+          "click",
+          imprimir
+        );
+
+
+      document
+        .getElementById("closeDetailBtn")
+        .addEventListener(
+          "click",
+          fecharDetalhes
+        );
+
+
+      document
+        .getElementById("closeStatusBtn")
+        .addEventListener(
+          "click",
+          fecharStatusModal
+        );
+
+
+      document
+        .getElementById("testConnectionBtn")
+        .addEventListener(
+          "click",
+          testarConexao
+        );
+
+
+      document
+        .getElementById("detailModal")
+        .addEventListener(
+          "click",
+          function(event) {
+
+            if (
+              event.target ===
+              document.getElementById("detailModal")
+            ) {
+
+              fecharDetalhes();
+
+            }
+
+          }
+        );
+
+
+      document
+        .getElementById("statusModal")
+        .addEventListener(
+          "click",
+          function(event) {
+
+            if (
+              event.target ===
+              document.getElementById("statusModal")
+            ) {
+
+              fecharStatusModal();
+
+            }
+
+          }
+        );
+
+
+      document
+        .querySelectorAll(".nav-item")
+        .forEach(
+          function(botao) {
+
+            botao.addEventListener(
+              "click",
+              function() {
+
+                const view =
+                  botao.dataset.view;
+
+                navegarPara(view);
+
+              }
+            );
+
+          }
+        );
+
+
+      document
+        .querySelectorAll("[data-quick]")
+        .forEach(
+          function(botao) {
+
+            botao.addEventListener(
+              "click",
+              function() {
+
+                navegarPara(
+                  botao.dataset.quick
+                );
+
+              }
+            );
+
+          }
+        );
+
+
+      document
+        .querySelectorAll("th.sortable")
+        .forEach(
+          function(th) {
+
+            th.addEventListener(
+              "click",
+              function() {
+
+                ordenarProjetos(
+                  th.dataset.sort
+                );
+
+              }
+            );
+
+          }
+        );
+
+
+      document
+        .querySelectorAll(".status-option")
+        .forEach(
+          function(botao) {
+
+            botao.addEventListener(
+              "click",
+              function() {
+
+                if (
+                  !state.projetoSelecionado
+                ) {
+
+                  return;
+
+                }
+
+                alterarStatus(
+                  state.projetoSelecionado,
+                  botao.dataset.status
+                );
+
+              }
+            );
+
+          }
+        );
+
+
+      document.addEventListener(
+        "keydown",
+        function(event) {
+
+          if (
+            event.key === "Escape"
+          ) {
+
+            fecharDetalhes();
+
+            fecharStatusModal();
+
+            fecharSidebar();
+
+          }
+
+        }
+      );
+
+    }
+
+
+    /* =====================================================
+       SIDEBAR
+    ===================================================== */
+
+    function alternarSidebar() {
+
+      if (state.sidebarAberta) {
+
+        fecharSidebar();
+
+      } else {
+
+        abrirSidebar();
+
+      }
+
+    }
+
+
+    function abrirSidebar() {
+
+      document
+        .getElementById("sidebar")
+        .classList.add("open");
+
+      document
+        .getElementById("sidebarOverlay")
+        .classList.add("show");
+
+      state.sidebarAberta = true;
+
+      localStorage.setItem(
+        "arqselect_sidebar",
+        "open"
+      );
+
+    }
+
+
+    function fecharSidebar() {
+
+      document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+      document
+        .getElementById("sidebarOverlay")
+        .classList.remove("show");
+
+      state.sidebarAberta = false;
+
+      localStorage.setItem(
+        "arqselect_sidebar",
+        "closed"
+      );
+
+    }
+
+
+    /* =====================================================
+       NAVEGAÇÃO
+    ===================================================== */
+
+    function navegarPara(view) {
+
+      document
+        .querySelectorAll(".nav-item")
+        .forEach(
+          function(item) {
+
+            item.classList.toggle(
+              "active",
+              item.dataset.view === view
+            );
+
+          }
+        );
+
+
+      if (view === "dashboard") {
+
+        document
+          .getElementById("dashboardSection")
+          .style.display = "";
+
+        document
+          .getElementById("projectsSection")
+          .style.display = "none";
+
+        document
+          .getElementById("pageSubtitle")
+          .textContent =
+            "Visão geral comercial";
+
+      } else {
+
+        document
+          .getElementById("dashboardSection")
+          .style.display = "none";
+
+        document
+          .getElementById("projectsSection")
+          .style.display = "";
+
+        document
+          .getElementById("pageSubtitle")
+          .textContent =
+            view === "todos"
+              ? "Todos os projetos"
+              : "Projetos: " + view;
+
+        state.filtros.status =
+          view === "todos"
+            ? ""
+            : view;
+
+        document
+          .getElementById("statusFilter")
+          .value =
+            state.filtros.status;
+
+        state.paginaAtual = 1;
+
+        aplicarFiltros();
+
+      }
+
+
+      if (window.innerWidth <= 950) {
+
+        fecharSidebar();
+
+      }
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+
+
+    /* =====================================================
+       CARREGAR PROJETOS
+    ===================================================== */
+
+    async function carregarProjetos() {
+
+      if (
+        !API_URL ||
+        API_URL === "SUA_URL_DO_APPS_SCRIPT"
+      ) {
+
+        mostrarToast(
+          "warning",
+          "Configuração necessária",
+          "Configure a URL do Web App do Google Apps Script no início do JavaScript."
+        );
+
+        renderErroConfiguracao();
+
+        return;
+
+      }
+
+
+      mostrarLoading(
+        "Carregando projetos..."
+      );
+
+
+      try {
+
+        const url =
+          API_URL +
+          (
+            API_URL.includes("?")
+              ? "&"
+              : "?"
+          ) +
+          "acao=projetos";
+
+
+        const response =
+          await fetch(
+            url,
+            {
+              method: "GET",
+              cache: "no-store",
+              redirect: "follow"
+            }
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            "HTTP " +
+            response.status
+          );
+
+        }
+
+
+        const texto =
+          await response.text();
+
+
+        let dados;
+
+        try {
+
+          dados =
+            JSON.parse(texto);
+
+        }
+
+        catch (erroJSON) {
+
+          throw new Error(
+            "A API retornou uma resposta que não é JSON válido."
+          );
+
+        }
+
+
+        if (
+          !dados ||
+          dados.sucesso !== true
+        ) {
+
+          throw new Error(
+            dados &&
+            dados.mensagem
+              ? dados.mensagem
+              : "A API não confirmou o carregamento."
+          );
+
+        }
+
+
+        state.projetos =
+          Array.isArray(dados.projetos)
+            ? dados.projetos
+            : [];
+
+
+        normalizarProjetos();
+
+        renderFiltros();
+
+        atualizarContadoresLaterais();
+
+        aplicarFiltros();
+
+        renderDashboard();
+
+        atualizarUltimaAtualizacao();
+
+        mostrarToast(
+          "success",
+          "Projetos atualizados",
+          state.projetos.length +
+          (
+            state.projetos.length === 1
+              ? " projeto carregado."
+              : " projetos carregados."
+          )
+        );
+
+      }
+
+      catch (erro) {
+
+        console.error(
+          "Erro ao carregar projetos:",
+          erro
+        );
+
+        state.projetos = [];
+
+        atualizarContadoresLaterais();
+
+        renderDashboard();
+
+        renderTabelaErro(
+          erro.message
+        );
+
+        mostrarToast(
+          "error",
+          "Falha ao carregar",
+          "Não foi possível conectar ao sistema ARQSELECT."
+        );
+
+      }
+
+      finally {
+
+        ocultarLoading();
+
+      }
+
+    }
+
+
+    /* =====================================================
+       NORMALIZAR DADOS
+    ===================================================== */
+
+    function normalizarProjetos() {
+
+      state.projetos =
+        state.projetos.map(
+          function(projeto) {
+
+            return {
+              ...projeto,
+
+              _linha:
+                projeto["_linha"] !== undefined
+                  ? projeto["_linha"]
+                  : "",
+
+              _status:
+                normalizarStatus(
+                  projeto["STATUS"]
+                )
+
+            };
+
+          }
+        );
+
+    }
+
+
+    function normalizarStatus(valor) {
+
+      const texto =
+        String(
+          valor || ""
+        ).trim();
+
+
+      const encontrado =
+        STATUS_PERMITIDOS.find(
+          function(status) {
+
+            return (
+              status.toLowerCase() ===
+              texto.toLowerCase()
+            );
+
+          }
+        );
+
+
+      return encontrado || "Novo";
+
+    }
+
+
+    /* =====================================================
+       FILTROS
+    ===================================================== */
+
+    function renderFiltros() {
+
+      const cidades =
+        valoresUnicos(
+          state.projetos,
+          "CIDADE"
+        );
+
+      const estados =
+        valoresUnicos(
+          state.projetos,
+          "ESTADO"
+        );
+
+      const tipos =
+        valoresUnicos(
+          state.projetos,
+          "TIPO DE PROJETO"
+        );
+
+
+      preencherSelect(
+        "cityFilter",
+        "Todas",
+        cidades,
+        state.filtros.cidade
+      );
+
+      preencherSelect(
+        "stateFilter",
+        "Todos",
+        estados,
+        state.filtros.estado
+      );
+
+      preencherSelect(
+        "typeFilter",
+        "Todos",
+        tipos,
+        state.filtros.tipo
+      );
+
+
+      document
+        .getElementById("statusFilter")
+        .value =
+          state.filtros.status;
+
+      document
+        .getElementById("dateFilter")
+        .value =
+          state.filtros.periodo;
+
+    }
+
+
+    function preencherSelect(
+      id,
+      textoTodos,
+      valores,
+      selecionado
+    ) {
+
+      const select =
+        document.getElementById(id);
+
+
+      select.innerHTML =
+        "";
+
+
+      const optionTodos =
+        document.createElement("option");
+
+      optionTodos.value = "";
+      optionTodos.textContent = textoTodos;
+
+      select.appendChild(
+        optionTodos
+      );
+
+
+      valores.forEach(
+        function(valor) {
+
+          const option =
+            document.createElement("option");
+
+          option.value = valor;
+          option.textContent = valor;
+
+          if (
+            valor === selecionado
+          ) {
+
+            option.selected = true;
+
+          }
+
+          select.appendChild(
+            option
+          );
+
+        }
+      );
+
+    }
+
+
+    function valoresUnicos(
+      projetos,
+      campo
+    ) {
+
+      return [
+        ...new Set(
+          projetos
+            .map(
+              function(p) {
+                return String(
+                  p[campo] || ""
+                ).trim();
+              }
+            )
+            .filter(Boolean)
+        )
+      ].sort(
+        function(a, b) {
+          return a.localeCompare(
+            b,
+            "pt-BR",
+            { sensitivity: "base" }
+          );
+        }
+      );
+
+    }
+
+
+    function aplicarFiltros() {
+
+      const agora =
+        new Date();
+
+
+      state.projetosFiltrados =
+        state.projetos.filter(
+          function(projeto) {
+
+            const buscaOK =
+              verificarBusca(
+                projeto
+              );
+
+
+            const statusOK =
+              !state.filtros.status ||
+              normalizarStatus(
+                projeto["STATUS"]
+              ) ===
+              state.filtros.status;
+
+
+            const cidadeOK =
+              !state.filtros.cidade ||
+              compararTexto(
+                projeto["CIDADE"],
+                state.filtros.cidade
+              );
+
+
+            const estadoOK =
+              !state.filtros.estado ||
+              compararTexto(
+                projeto["ESTADO"],
+                state.filtros.estado
+              );
+
+
+            const tipoOK =
+              !state.filtros.tipo ||
+              compararTexto(
+                projeto["TIPO DE PROJETO"],
+                state.filtros.tipo
+              );
+
+
+            const periodoOK =
+              verificarPeriodo(
+                projeto["DATA / HORA"],
+                state.filtros.periodo,
+                agora
+              );
+
+
+            return (
+              buscaOK &&
+              statusOK &&
+              cidadeOK &&
+              estadoOK &&
+              tipoOK &&
+              periodoOK
+            );
+
+          }
+        );
+
+
+      state.projetosFiltrados =
+        ordenarArray(
+          state.projetosFiltrados,
+          state.ordenacao.campo,
+          state.ordenacao.direcao
+        );
+
+
+      const totalPaginas =
+        Math.max(
+          1,
+          Math.ceil(
+            state.projetosFiltrados.length /
+            state.tamanhoPagina
+          )
+        );
+
+
+      if (
+        state.paginaAtual >
+        totalPaginas
+      ) {
+
+        state.paginaAtual =
+          totalPaginas;
+
+      }
+
+
+      renderTabela();
+
+    }
+
+
+    function verificarBusca(
+      projeto
+    ) {
+
+      if (!state.busca) {
+
+        return true;
+
+      }
+
+
+      const termo =
+        normalizarPesquisa(
+          state.busca
+        );
+
+
+      return CAMPOS_BUSCA.some(
+        function(campo) {
+
+          return normalizarPesquisa(
+            projeto[campo]
+          ).includes(
+            termo
+          );
+
+        }
+      );
+
+    }
+
+
+    function compararTexto(
+      valor,
+      filtro
+    ) {
+
+      return (
+        normalizarPesquisa(valor) ===
+        normalizarPesquisa(filtro)
+      );
+
+    }
+
+
+    function normalizarPesquisa(
+      valor
+    ) {
+
+      return String(
+        valor || ""
+      )
+        .normalize("NFD")
+        .replace(
+          /[\u0300-\u036f]/g,
+          ""
+        )
+        .toLowerCase()
+        .trim();
+
+    }
+
+
+    function verificarPeriodo(
+      dataValor,
+      periodo,
+      agora
+    ) {
+
+      if (!periodo) {
+
+        return true;
+
+      }
+
+
+      const data =
+        parseData(dataValor);
+
+
+      if (!data) {
+
+        return false;
+
+      }
+
+
+      const inicio =
+        new Date(agora);
+
+
+      inicio.setHours(
+        0,
+        0,
+        0,
+        0
+      );
+
+
+      if (periodo === "today") {
+
+        return (
+          data >= inicio &&
+          data <= agora
+        );
+
+      }
+
+
+      const dias =
+        Number(periodo);
+
+
+      if (
+        !Number.isFinite(dias)
+      ) {
+
+        return true;
+
+      }
+
+
+      inicio.setDate(
+        inicio.getDate() -
+        (dias - 1)
+      );
+
+
+      return (
+        data >= inicio &&
+        data <= agora
+      );
+
+    }
+
+
+    function limparFiltros() {
+
+      state.busca = "";
+
+      state.filtros = {
+        status: "",
+        cidade: "",
+        estado: "",
+        tipo: "",
+        periodo: ""
+      };
+
+      localStorage.removeItem(
+        "arqselect_status_filter"
+      );
+
+      document
+        .getElementById("searchInput")
+        .value = "";
+
+      document
+        .getElementById("clearSearch")
+        .style.display = "none";
+
+      document
+        .getElementById("statusFilter")
+        .value = "";
+
+      document
+        .getElementById("cityFilter")
+        .value = "";
+
+      document
+        .getElementById("stateFilter")
+        .value = "";
+
+      document
+        .getElementById("typeFilter")
+        .value = "";
+
+      document
+        .getElementById("dateFilter")
+        .value = "";
+
+      state.paginaAtual = 1;
+
+      aplicarFiltros();
+
+    }
+
+
+    /* =====================================================
+       ORDENAÇÃO
+    ===================================================== */
+
+    function ordenarProjetos(
+      campo
+    ) {
+
+      if (
+        state.ordenacao.campo === campo
+      ) {
+
+        state.ordenacao.direcao =
+          state.ordenacao.direcao === "asc"
+            ? "desc"
+            : "asc";
+
+      } else {
+
+        state.ordenacao.campo =
+          campo;
+
+        state.ordenacao.direcao =
+          "asc";
+
+      }
+
+
+      state.paginaAtual = 1;
+
+      aplicarFiltros();
+
+    }
+
+
+    function ordenarArray(
+      array,
+      campo,
+      direcao
+    ) {
+
+      const copia =
+        [...array];
+
+
+      copia.sort(
+        function(a, b) {
+
+          if (
+            campo === "DATA / HORA"
+          ) {
+
+            const da =
+              parseData(a[campo]);
+
+            const db =
+              parseData(b[campo]);
+
+            const va =
+              da ? da.getTime() : 0;
+
+            const vb =
+              db ? db.getTime() : 0;
+
+            return direcao === "asc"
+              ? va - vb
+              : vb - va;
+
+          }
+
+
+          if (
+            campo === "INVESTIMENTO"
+          ) {
+
+            const va =
+              extrairValorMonetario(
+                a[campo]
+              );
+
+            const vb =
+              extrairValorMonetario(
+                b[campo]
+              );
+
+            return direcao === "asc"
+              ? va - vb
+              : vb - va;
+
+          }
+
+
+          const va =
+            normalizarPesquisa(
+              a[campo]
+            );
+
+          const vb =
+            normalizarPesquisa(
+              b[campo]
+            );
+
+
+          const resultado =
+            va.localeCompare(
+              vb,
+              "pt-BR",
+              {
+                numeric: true,
+                sensitivity: "base"
+              }
+            );
+
+
+          return direcao === "asc"
+            ? resultado
+            : -resultado;
+
+        }
+      );
+
+
+      return copia;
+
+    }
+
+
+    /* =====================================================
+       TABELA
+    ===================================================== */
+
+    function renderTabela() {
+
+      const tbody =
+        document.getElementById(
+          "projectsTableBody"
+        );
+
+
+      const total =
+        state.projetosFiltrados.length;
+
+
+      if (!total) {
+
+        tbody.innerHTML = "";
+
+        renderEmptyState();
+
+        renderPaginacao();
+
+        document
+          .getElementById("resultInfo")
+          .innerHTML =
+            "<strong>0</strong> projetos encontrados.";
+
+        return;
+
+      }
+
+
+      const inicio =
+        (
+          state.paginaAtual - 1
+        ) *
+        state.tamanhoPagina;
+
+
+      const fim =
+        Math.min(
+          inicio +
+          state.tamanhoPagina,
+          total
+        );
+
+
+      const pagina =
+        state.projetosFiltrados.slice(
+          inicio,
+          fim
+        );
+
+
+      tbody.innerHTML =
+        pagina
+          .map(
+            function(projeto) {
+
+              return criarLinhaProjeto(
+                projeto
+              );
+
+            }
+          )
+          .join("");
+
+
+      document
+        .getElementById("resultInfo")
+        .innerHTML =
+          "Exibindo <strong>" +
+          (inicio + 1) +
+          "–" +
+          fim +
+          "</strong> de <strong>" +
+          total +
+          "</strong> projetos.";
+
+
+      renderPaginacao();
+
+    }
+
+
+    function criarLinhaProjeto(
+      projeto
+    ) {
+
+      const id =
+        textoSeguro(
+          projeto["ID PROJETO"]
+        ) ||
+        "Sem ID";
+
+
+      const status =
+        normalizarStatus(
+          projeto["STATUS"]
+        );
+
+
+      const nome =
+        textoSeguro(
+          projeto["NOME"]
+        ) ||
+        "Não informado";
+
+
+      const escritorio =
+        textoSeguro(
+          projeto["ESCRITÓRIO"]
+        ) ||
+        "Não informado";
+
+
+      const nomeProjeto =
+        textoSeguro(
+          projeto["NOME DO PROJETO"]
+        ) ||
+        "Não informado";
+
+
+      const tipo =
+        textoSeguro(
+          projeto["TIPO DE PROJETO"]
+        ) ||
+        "Não informado";
+
+
+      const cidade =
+        textoSeguro(
+          projeto["CIDADE"]
+        ) ||
+        "—";
+
+
+      const investimento =
+        formatarMoeda(
+          projeto["INVESTIMENTO"]
+        );
+
+
+      const linha =
+        Number(
+          projeto["_linha"]
+        );
+
+
+      const idAttr =
+        escaparAtributo(
+          id
+        );
+
+
+      return `
+        <tr class="${status === "Novo" ? "row-new" : ""}">
+
+          <td>
+            <div class="id-cell">${escaparHTML(id)}</div>
+          </td>
+
+          <td>
+            ${escaparHTML(
+              formatarData(
+                projeto["DATA / HORA"]
+              )
+            )}
+          </td>
+
+          <td>
+            <div class="project-cell">
+              <strong>
+                ${escaparHTML(nome)}
+                ${
+                  status === "Novo"
+                    ? '<span class="new-label">NOVO</span>'
+                    : ""
+                }
+              </strong>
+              <small>
+                ${escaparHTML(
+                  projeto["E-MAIL"] || ""
+                )}
+              </small>
+            </div>
+          </td>
+
+          <td>
+            ${escaparHTML(escritorio)}
+          </td>
+
+          <td>
+            <div class="project-cell">
+              <strong>${escaparHTML(nomeProjeto)}</strong>
+              <small>${escaparHTML(tipo)}</small>
+            </div>
+          </td>
+
+          <td>
+            ${escaparHTML(tipo)}
+          </td>
+
+          <td>
+            ${escaparHTML(cidade)}
+            ${
+              projeto["ESTADO"]
+                ? " / " +
+                  escaparHTML(
+                    projeto["ESTADO"]
+                  )
+                : ""
+            }
+          </td>
+
+          <td>
+            ${escaparHTML(investimento)}
+          </td>
+
+          <td>
+            <span class="badge ${classeStatus(status)}">
+              ${escaparHTML(status)}
+            </span>
+          </td>
+
+          <td>
+
+            <div class="action-group">
+
+              <button
+                class="row-action"
+                title="Ver detalhes"
+                aria-label="Ver detalhes"
+                onclick="abrirDetalhesPorId('${idAttr}')"
+              >◉</button>
+
+              <button
+                class="row-action"
+                title="WhatsApp"
+                aria-label="WhatsApp"
+                onclick="abrirWhatsAppPorProjeto('${idAttr}')"
+              >◌</button>
+
+              <button
+                class="row-action"
+                title="Google Drive"
+                aria-label="Google Drive"
+                onclick="abrirDrivePorProjeto('${idAttr}')"
+              >□</button>
+
+              <button
+                class="row-action"
+                title="Enviar e-mail"
+                aria-label="Enviar e-mail"
+                onclick="abrirEmailPorProjeto('${idAttr}')"
+              >✉</button>
+
+              <button
+                class="row-action"
+                title="Alterar status"
+                aria-label="Alterar status"
+                onclick="abrirStatusPorId('${idAttr}')"
+              >↻</button>
+
+            </div>
+
+          </td>
+
+        </tr>
+      `;
+
+    }
+
+
+    function renderEmptyState() {
+
+      const container =
+        document.getElementById(
+          "tableContainer"
+        );
+
+
+      container.innerHTML = `
+
+        <div class="empty-state">
+
+          <div class="empty-icon">⌕</div>
+
+          <h3>Não há projetos cadastrados.</h3>
+
+          <p>
+            Quando um arquiteto enviar uma solicitação,
+            ela aparecerá aqui.
+          </p>
+
+          <button
+            class="btn btn-gold"
+            onclick="carregarProjetos()"
+          >
+            ↻ Atualizar
+          </button>
+
+        </div>
+
+      `;
+
+    }
+
+
+    function renderTabelaErro(
+      mensagem
+    ) {
+
+      const container =
+        document.getElementById(
+          "tableContainer"
+        );
+
+
+      container.innerHTML = `
+
+        <div class="empty-state">
+
+          <div class="empty-icon">!</div>
+
+          <h3>Não foi possível carregar os projetos.</h3>
+
+          <p>
+            ${
+              escaparHTML(
+                mensagem ||
+                "Verifique a conexão com o Apps Script."
+              )
+            }
+          </p>
+
+          <button
+            class="btn btn-gold"
+            onclick="carregarProjetos()"
+          >
+            Tentar novamente
+          </button>
+
+        </div>
+
+      `;
+
+      document
+        .getElementById("pagination")
+        .style.display = "none";
+
+    }
+
+
+    function renderErroConfiguracao() {
+
+      const container =
+        document.getElementById(
+          "tableContainer"
+        );
+
+
+      container.innerHTML = `
+
+        <div class="empty-state">
+
+          <div class="empty-icon">⚙</div>
+
+          <h3>Configure a URL do Web App.</h3>
+
+          <p>
+            Edite a constante API_URL no início
+            do JavaScript deste arquivo e informe
+            a URL publicada do Google Apps Script.
+          </p>
+
+        </div>
+
+      `;
+
+      document
+        .getElementById("pagination")
+        .style.display = "none";
+
+    }
+
+
+    /* =====================================================
+       PAGINAÇÃO
+    ===================================================== */
+
+    function renderPaginacao() {
+
+      const pagination =
+        document.getElementById(
+          "pagination"
+        );
+
+      const pageButtons =
+        document.getElementById(
+          "pageButtons"
+        );
+
+
+      const total =
+        state.projetosFiltrados.length;
+
+
+      if (!total) {
+
+        pagination.style.display = "none";
+
+        return;
+
+      }
+
+
+      pagination.style.display = "flex";
+
+
+      const totalPaginas =
+        Math.ceil(
+          total /
+          state.tamanhoPagina
+        );
+
+
+      pageButtons.innerHTML = "";
+
+
+      const anterior =
+        criarBotaoPagina(
+          "‹",
+          state.paginaAtual - 1,
+          state.paginaAtual <= 1
+        );
+
+      pageButtons.appendChild(
+        anterior
+      );
+
+
+      const paginas =
+        calcularPaginas(
+          totalPaginas,
+          state.paginaAtual
+        );
+
+
+      paginas.forEach(
+        function(numero) {
+
+          if (numero === "...") {
+
+            const span =
+              document.createElement("span");
+
+            span.textContent = "...";
+            span.style.padding = "0 4px";
+            span.style.color = "var(--text-muted)";
+
+            pageButtons.appendChild(
+              span
+            );
+
+          } else {
+
+            pageButtons.appendChild(
+              criarBotaoPagina(
+                String(numero),
+                numero,
+                false,
+                numero === state.paginaAtual
+              )
+            );
+
+          }
+
+        }
+      );
+
+
+      const proxima =
+        criarBotaoPagina(
+          "›",
+          state.paginaAtual + 1,
+          state.paginaAtual >= totalPaginas
+        );
+
+      pageButtons.appendChild(
+        proxima
+      );
+
+    }
+
+
+    function calcularPaginas(
+      total,
+      atual
+    ) {
+
+      if (total <= 7) {
+
+        return Array.from(
+          { length: total },
+          function(_, i) {
+            return i + 1;
+          }
+        );
+
+      }
+
+
+      const paginas = [
+        1
+      ];
+
+
+      if (atual > 4) {
+
+        paginas.push("...");
+
+      }
+
+
+      const inicio =
+        Math.max(
+          2,
+          atual - 1
+        );
+
+
+      const fim =
+        Math.min(
+          total - 1,
+          atual + 1
+        );
+
+
+      for (
+        let i = inicio;
+        i <= fim;
+        i++
+      ) {
+
+        paginas.push(i);
+
+      }
+
+
+      if (atual < total - 3) {
+
+        paginas.push("...");
+
+      }
+
+
+      paginas.push(total);
+
+
+      return paginas;
+
+    }
+
+
+    function criarBotaoPagina(
+      texto,
+      pagina,
+      disabled,
+      active
+    ) {
+
+      const button =
+        document.createElement("button");
+
+      button.className =
+        "page-btn" +
+        (
+          active
+            ? " active"
+            : ""
+        );
+
+      button.textContent =
+        texto;
+
+      button.disabled =
+        disabled;
+
+      button.addEventListener(
+        "click",
+        function() {
+
+          if (disabled) {
+
+            return;
+
+          }
+
+          state.paginaAtual =
+            pagina;
+
+          renderTabela();
+
+          window.scrollTo({
+            top:
+              document
+                .getElementById("projectsSection")
+                .offsetTop - 80,
+            behavior: "smooth"
+          });
+
+        }
+      );
+
+
+      return button;
+
+    }
+
+
+    /* =====================================================
+       DASHBOARD
+    ===================================================== */
+
+    function renderDashboard() {
+
+      const total =
+        state.projetos.length;
+
+
+      const contadores =
+        contarStatus(
+          state.projetos
+        );
+
+
+      document
+        .getElementById("statTotal")
+        .textContent =
+          total;
+
+
+      document
+        .getElementById("statNovo")
+        .textContent =
+          contadores["Novo"];
+
+
+      document
+        .getElementById("statAnalise")
+        .textContent =
+          contadores["Em análise"];
+
+
+      document
+        .getElementById("statOrcamento")
+        .textContent =
+          contadores["Orçamento"];
+
+
+      document
+        .getElementById("statFechado")
+        .textContent =
+          contadores["Fechado"];
+
+
+      document
+        .getElementById("statCancelado")
+        .textContent =
+          contadores["Cancelado"];
+
+
+      const ids =
+        {
+          "Novo": "funnelNovo",
+          "Em análise": "funnelAnalise",
+          "Orçamento": "funnelOrcamento",
+          "Fechado": "funnelFechado"
+        };
+
+
+      const countIds =
+        {
+          "Novo": "funnelNovoCount",
+          "Em análise": "funnelAnaliseCount",
+          "Orçamento": "funnelOrcamentoCount",
+          "Fechado": "funnelFechadoCount"
+        };
+
+
+      [
+        "Novo",
+        "Em análise",
+        "Orçamento",
+        "Fechado"
+      ].forEach(
+        function(status) {
+
+          const quantidade =
+            contadores[status];
+
+          const percentual =
+            total > 0
+              ? (
+                  quantidade /
+                  total
+                ) *
+                100
+              : 0;
+
+          document
+            .getElementById(
+              ids[status]
+            )
+            .style.width =
+              percentual + "%";
+
+          document
+            .getElementById(
+              countIds[status]
+            )
+            .textContent =
+              quantidade;
+
+        }
+      );
+
+
+      const taxaFechamento =
+        total > 0
+          ? (
+              contadores["Fechado"] /
+              total
+            ) *
+            100
+          : 0;
+
+
+      const taxaOrcamento =
+        total > 0
+          ? (
+              contadores["Orçamento"] /
+              total
+            ) *
+            100
+          : 0;
+
+
+      document
+        .getElementById("conversionRate")
+        .textContent =
+          formatarPercentual(
+            taxaFechamento
+          );
+
+
+      document
+        .getElementById("quoteRate")
+        .textContent =
+          formatarPercentual(
+            taxaOrcamento
+          );
+
+
+      renderFinanceiro();
+
+      renderRankings();
+
+    }
+
+
+    function contarStatus(
+      projetos
+    ) {
+
+      const resultado = {
+        "Novo": 0,
+        "Em análise": 0,
+        "Orçamento": 0,
+        "Fechado": 0,
+        "Cancelado": 0
+      };
+
+
+      projetos.forEach(
+        function(projeto) {
+
+          const status =
+            normalizarStatus(
+              projeto["STATUS"]
+            );
+
+
+          if (
+            Object.prototype.hasOwnProperty.call(
+              resultado,
+              status
+            )
+          ) {
+
+            resultado[status]++;
+
+          }
+
+        }
+      );
+
+
+      return resultado;
+
+    }
+
+
+    function atualizarContadoresLaterais() {
+
+      const contadores =
+        contarStatus(
+          state.projetos
+        );
+
+
+      document
+        .getElementById("navTotal")
+        .textContent =
+          state.projetos.length;
+
+
+      document
+        .getElementById("navNovo")
+        .textContent =
+          contadores["Novo"];
+
+
+      document
+        .getElementById("navAnalise")
+        .textContent =
+          contadores["Em análise"];
+
+
+      document
+        .getElementById("navOrcamento")
+        .textContent =
+          contadores["Orçamento"];
+
+
+      document
+        .getElementById("navFechado")
+        .textContent =
+          contadores["Fechado"];
+
+
+      document
+        .getElementById("navCancelado")
+        .textContent =
+          contadores["Cancelado"];
+
+    }
+
+
+    function renderFinanceiro() {
+
+      let total =
+        0;
+
+      let quantidadeComValor =
+        0;
+
+      let fechados =
+        0;
+
+
+      state.projetos.forEach(
+        function(projeto) {
+
+          const valor =
+            extrairValorMonetario(
+              projeto["INVESTIMENTO"]
+            );
+
+
+          if (
+            valor > 0
+          ) {
+
+            total += valor;
+
+            quantidadeComValor++;
+
+          }
+
+
+          if (
+            normalizarStatus(
+              projeto["STATUS"]
+            ) ===
+            "Fechado"
+          ) {
+
+            fechados += valor;
+
+          }
+
+        }
+      );
+
+
+      const ticket =
+        quantidadeComValor > 0
+          ? total /
+            quantidadeComValor
+          : 0;
+
+
+      document
+        .getElementById("investmentTotal")
+        .textContent =
+          formatarReal(
+            total
+          );
+
+
+      document
+        .getElementById("averageTicket")
+        .textContent =
+          formatarReal(
+            ticket
+          );
+
+
+      document
+        .getElementById("closedInvestment")
+        .textContent =
+          formatarReal(
+            fechados
+          );
+
+    }
+
+
+    function renderRankings() {
+
+      const cidades =
+        criarRanking(
+          state.projetos,
+          "CIDADE"
+        );
+
+
+      const tipos =
+        criarRanking(
+          state.projetos,
+          "TIPO DE PROJETO"
+        );
+
+
+      renderRankingElement(
+        "cityRanking",
+        cidades
+      );
+
+
+      renderRankingElement(
+        "typeRanking",
+        tipos
+      );
+
+    }
+
+
+    function criarRanking(
+      projetos,
+      campo
+    ) {
+
+      const mapa =
+        new Map();
+
+
+      projetos.forEach(
+        function(projeto) {
+
+          const valor =
+            String(
+              projeto[campo] || ""
+            ).trim() ||
+            "Não informado";
+
+
+          mapa.set(
+            valor,
+            (
+              mapa.get(valor) ||
+              0
+            ) + 1
+          );
+
+        }
+      );
+
+
+      return [
+        ...mapa.entries()
+      ]
+        .sort(
+          function(a, b) {
+            return b[1] - a[1];
+          }
+        )
+        .slice(0, 8);
+
+    }
+
+
+    function renderRankingElement(
+      id,
+      ranking
+    ) {
+
+      const container =
+        document.getElementById(id);
+
+
+      if (!ranking.length) {
+
+        container.innerHTML =
+          '<div class="no-data">Nenhum dado disponível.</div>';
+
+        return;
+
+      }
+
+
+      container.innerHTML =
+        ranking
+          .map(
+            function(item, index) {
+
+              return `
+                <div class="ranking-row">
+
+                  <div class="ranking-position">
+                    ${index + 1}
+                  </div>
+
+                  <div class="ranking-name">
+                    ${escaparHTML(item[0])}
+                  </div>
+
+                  <div class="ranking-value">
+                    ${item[1]}
+                  </div>
+
+                </div>
+              `;
+
+            }
+          )
+          .join("");
+
+    }
+
+
+    /* =====================================================
+       DETALHES
+    ===================================================== */
+
+    async function abrirDetalhes(
+      projeto
+    ) {
+
+      if (!projeto) {
+
+        mostrarToast(
+          "error",
+          "Projeto não encontrado",
+          "Não foi possível localizar os dados."
+        );
+
+        return;
+
+      }
+
+
+      state.projetoSelecionado =
+        projeto;
+
+
+      const modal =
+        document.getElementById(
+          "detailModal"
+        );
+
+
+      modal.classList.add("show");
+
+      document.body.style.overflow = "hidden";
+
+
+      mostrarLoading(
+        "Carregando detalhes..."
+      );
+
+
+      try {
+
+        const id =
+          String(
+            projeto["ID PROJETO"] || ""
+          ).trim();
+
+
+        if (
+          id &&
+          API_URL &&
+          API_URL !== "SUA_URL_DO_APPS_SCRIPT"
+        ) {
+
+          const url =
+            API_URL +
+            (
+              API_URL.includes("?")
+                ? "&"
+                : "?"
+            ) +
+            "acao=projeto&id=" +
+            encodeURIComponent(id);
+
+
+          const response =
+            await fetch(
+              url,
+              {
+                method: "GET",
+                cache: "no-store",
+                redirect: "follow"
+              }
+            );
+
+
+          if (
+            response.ok
+          ) {
+
+            const texto =
+              await response.text();
+
+
+            let dados = null;
+
+
+            try {
+
+              dados =
+                JSON.parse(
+                  texto
+                );
+
+            }
+
+            catch (erro) {
+
+              dados = null;
+
+            }
+
+
+            if (
+              dados &&
+              dados.sucesso === true &&
+              dados.projeto
+            ) {
+
+              state.projetoSelecionado =
+                {
+                  ...projeto,
+                  ...dados.projeto
+                };
+
+            }
+
+          }
+
+        }
+
+
+        renderDetalhes(
+          state.projetoSelecionado
+        );
+
+      }
+
+      catch (erro) {
+
+        console.error(
+          "Erro ao buscar detalhes:",
+          erro
+        );
+
+        renderDetalhes(
+          state.projetoSelecionado
+        );
+
+      }
+
+      finally {
+
+        ocultarLoading();
+
+      }
+
+    }
+
+
+    function renderDetalhes(
+      projeto
+    ) {
+
+      const id =
+        textoSeguro(
+          projeto["ID PROJETO"]
+        ) ||
+        "Não informado";
+
+
+      document
+        .getElementById("detailModalSubtitle")
+        .textContent =
+          id;
+
+
+      const whatsapp =
+        extrairUrl(
+          projeto["WHATSAPP"]
+        );
+
+
+      const drive =
+        extrairUrl(
+          projeto["PASTA DO PROJETO"]
+        );
+
+
+      const email =
+        String(
+          projeto["E-MAIL"] || ""
+        ).trim();
+
+
+      const telefoneOuLink =
+        criarUrlWhatsApp(
+          projeto["WHATSAPP"]
+        );
+
+
+      const body =
+        document.getElementById(
+          "detailBody"
+        );
+
+
+      body.innerHTML = `
+
+        <div class="detail-actions">
+
+          <button
+            class="btn btn-gold"
+            id="detailWhatsappBtn"
+            ${telefoneOuLink ? "" : "disabled"}
+          >
+            ◌ WhatsApp
+          </button>
+
+          <button
+            class="btn"
+            id="detailDriveBtn"
+            ${drive ? "" : "disabled"}
+          >
+            □ Google Drive
+          </button>
+
+          <button
+            class="btn"
+            id="detailEmailBtn"
+            ${email ? "" : "disabled"}
+          >
+            ✉ Enviar e-mail
+          </button>
+
+          <button
+            class="btn"
+            id="detailStatusBtn"
+          >
+            ↻ Alterar status
+          </button>
+
+          <button
+            class="btn"
+            id="detailCopyBtn"
+          >
+            ⧉ Copiar informações
+          </button>
+
+          <button
+            class="btn"
+            id="detailPrintBtn"
+          >
+            ⎙ Imprimir
+          </button>
+
+        </div>
+
+
+        <div class="detail-section">
+
+          <div class="detail-section-title">
+            Identificação
+          </div>
+
+          <div class="detail-grid">
+
+            ${detalheItem(
+              "Número do projeto",
+              projeto["ID PROJETO"]
+            )}
+
+            ${detalheItem(
+              "Data / hora",
+              formatarData(
+                projeto["DATA / HORA"]
+              )
+            )}
+
+            ${detalheItem(
+              "Status",
+              normalizarStatus(
+                projeto["STATUS"]
+              )
+            )}
+
+          </div>
+
+        </div>
+
+
+        <div class="detail-section">
+
+          <div class="detail-section-title">
+            Dados do arquiteto
+          </div>
+
+          <div class="detail-grid">
+
+            ${detalheItem(
+              "Nome",
+              projeto["NOME"]
+            )}
+
+            ${detalheItem(
+              "Escritório",
+              projeto["ESCRITÓRIO"]
+            )}
+
+            ${detalheItem(
+              "E-mail",
+              projeto["E-MAIL"]
+            )}
+
+            ${detalheItem(
+              "WhatsApp",
+              projeto["WHATSAPP"]
+            )}
+
+            ${detalheItem(
+              "Cidade",
+              projeto["CIDADE"]
+            )}
+
+            ${detalheItem(
+              "Estado",
+              projeto["ESTADO"]
+            )}
+
+            ${detalheItem(
+              "Registro profissional",
+              projeto["REGISTRO PROFISSIONAL"]
+            )}
+
+          </div>
+
+        </div>
+
+
+        <div class="detail-section">
+
+          <div class="detail-section-title">
+            Dados do projeto
+          </div>
+
+          <div class="detail-grid">
+
+            ${detalheItem(
+              "Nome do projeto",
+              projeto["NOME DO PROJETO"]
+            )}
+
+            ${detalheItem(
+              "Tipo de projeto",
+              projeto["TIPO DE PROJETO"]
+            )}
+
+            ${detalheItem(
+              "Área",
+              projeto["ÁREA"]
+            )}
+
+            ${detalheItem(
+              "Ambiente",
+              projeto["AMBIENTE"]
+            )}
+
+            ${detalheItem(
+              "Prazo",
+              projeto["PRAZO"]
+            )}
+
+            ${detalheItem(
+              "Investimento",
+              formatarMoeda(
+                projeto["INVESTIMENTO"]
+              )
+            )}
+
+          </div>
+
+        </div>
+
+
+        <div class="detail-section">
+
+          <div class="detail-section-title">
+            Descrição / orçamento
+          </div>
+
+          <div class="detail-text">
+            ${
+              escaparHTML(
+                textoSeguro(
+                  projeto["DESCRIÇÃO / ORÇAMENTO"]
+                ) ||
+                "Não informado"
+              )
+            }
+          </div>
+
+        </div>
+
+
+        <div class="detail-section">
+
+          <div class="detail-section-title">
+            Observações
+          </div>
+
+          <div class="detail-text">
+            ${
+              escaparHTML(
+                textoSeguro(
+                  projeto["OBSERVAÇÕES"]
+                ) ||
+                "Não informado"
+              )
+            }
+          </div>
+
+        </div>
+
+
+        <div class="detail-section">
+
+          <div class="detail-section-title">
+            Arquivos
+          </div>
+
+          <div class="files-list">
+            ${renderArquivos(
+              projeto["ARQUIVOS"]
+            )}
+          </div>
+
+        </div>
+
+
+        <div class="detail-section">
+
+          <div class="detail-section-title">
+            Pasta do projeto
+          </div>
+
+          <div class="detail-text">
+
+            ${
+              drive
+                ? `
+                  <a
+                    href="${escaparAtributo(drive)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style="color:var(--gold-light);font-weight:800;"
+                  >
+                    Abrir pasta no Google Drive
+                  </a>
+                `
+                : '<span class="no-data">Pasta não informada.</span>'
+            }
+
+          </div>
+
+        </div>
+
+
+        <div class="detail-section">
+
+          <div class="detail-section-title">
+            Notificação
+          </div>
+
+          <div>
+            ${renderNotificationBadge(
+              projeto["NOTIFICAÇÃO"]
+            )}
+          </div>
+
+        </div>
+
+      `;
+
+
+      const whatsappBtn =
+        document.getElementById(
+          "detailWhatsappBtn"
+        );
+
+
+      if (telefoneOuLink) {
+
+        whatsappBtn.addEventListener(
+          "click",
+          function() {
+
+            abrirUrl(
+              telefoneOuLink
+            );
+
+          }
+        );
+
+      }
+
+
+      const driveBtn =
+        document.getElementById(
+          "detailDriveBtn"
+        );
+
+
+      if (drive) {
+
+        driveBtn.addEventListener(
+          "click",
+          function() {
+
+            abrirUrl(
+              drive
+            );
+
+          }
+        );
+
+      }
+
+
+      const emailBtn =
+        document.getElementById(
+          "detailEmailBtn"
+        );
+
+
+      if (email) {
+
+        emailBtn.addEventListener(
+          "click",
+          function() {
+
+            abrirEmail(
+              email
+            );
+
+          }
+        );
+
+      }
+
+
+      document
+        .getElementById("detailStatusBtn")
+        .addEventListener(
+          "click",
+          function() {
+
+            fecharDetalhes();
+
+            setTimeout(
+              function() {
+
+                abrirStatus(
+                  state.projetoSelecionado
+                );
+
+              },
+              100
+            );
+
+          }
+        );
+
+
+      document
+        .getElementById("detailCopyBtn")
+        .addEventListener(
+          "click",
+          function() {
+
+            copiarInformacoes(
+              projeto
+            );
+
+          }
+        );
+
+
+      document
+        .getElementById("detailPrintBtn")
+        .addEventListener(
+          "click",
+          function() {
+
+            imprimirProjeto(
+              projeto
+            );
+
+          }
+        );
+
+    }
+
+
+    function detalheItem(
+      titulo,
+      valor
+    ) {
+
+      const texto =
+        textoSeguro(valor) ||
+        "Não informado";
+
+
+      return `
+        <div class="detail-item">
+
+          <span>${escaparHTML(titulo)}</span>
+
+          <strong>
+            ${escaparHTML(texto)}
+          </strong>
+
+        </div>
+      `;
+
+    }
+
+
+    function renderArquivos(
+      valor
+    ) {
+
+      const texto =
+        String(
+          valor || ""
+        ).trim();
+
+
+      if (!texto) {
+
+        return `
+          <div class="no-data">
+            Nenhum arquivo informado.
+          </div>
+        `;
+
+      }
+
+
+      const linhas =
+        texto
+          .split(/\r?\n/)
+          .map(
+            function(linha) {
+              return linha.trim();
+            }
+          )
+          .filter(Boolean);
+
+
+      if (!linhas.length) {
+
+        return `
+          <div class="no-data">
+            Nenhum arquivo informado.
+          </div>
+        `;
+
+      }
+
+
+      return linhas
+        .map(
+          function(linha, index) {
+
+            const url =
+              extrairUrl(linha);
+
+
+            let nome =
+              linha;
+
+
+            if (url) {
+
+              nome =
+                linha
+                  .replace(
+                    url,
+                    ""
+                  )
+                  .replace(
+                    /[→\-|]\s*$/,
+                    ""
+                  )
+                  .trim();
+
+            }
+
+
+            if (!nome) {
+
+              nome =
+                "Arquivo " +
+                (index + 1);
+
+            }
+
+
+            return `
+
+              <div class="file-item">
+
+                <div class="file-name">
+                  ${escaparHTML(nome)}
+                </div>
+
+                ${
+                  url
+                    ? `
+                      <a
+                        class="file-open"
+                        href="${escaparAtributo(url)}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Abrir
+                      </a>
+                    `
+                    : `
+                      <span class="no-data">
+                        Sem link
+                      </span>
+                    `
+                }
+
+              </div>
+
+            `;
+
+          }
+        )
+        .join("");
+
+    }
+
+
+    /* =====================================================
+       STATUS
+    ===================================================== */
+
+    function abrirStatus(
+      projeto
+    ) {
+
+      if (!projeto) {
+
+        mostrarToast(
+          "error",
+          "Projeto não encontrado",
+          "Não foi possível alterar o status."
+        );
+
+        return;
+
+      }
+
+
+      state.projetoSelecionado =
+        projeto;
+
+
+      document
+        .getElementById("statusProjectTitle")
+        .textContent =
+          textoSeguro(
+            projeto["ID PROJETO"]
+          ) ||
+          "Projeto";
+
+
+      document
+        .querySelectorAll(".status-option")
+        .forEach(
+          function(botao) {
+
+            botao.classList.toggle(
+              "selected",
+              botao.dataset.status ===
+              normalizarStatus(
+                projeto["STATUS"]
+              )
+            );
+
+          }
+        );
+
+
+      document
+        .getElementById("statusModal")
+        .classList.add("show");
+
+      document.body.style.overflow = "hidden";
+
+    }
+
+
+    async function alterarStatus(
+      projeto,
+      novoStatus
+    ) {
+
+      if (
+        !projeto ||
+        !novoStatus
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        !STATUS_PERMITIDOS.includes(
+          novoStatus
+        )
+      ) {
+
+        mostrarToast(
+          "error",
+          "Status inválido",
+          "Selecione um status permitido."
+        );
+
+        return;
+
+      }
+
+
+      const linha =
+        Number(
+          projeto["_linha"]
+        );
+
+
+      if (
+        !Number.isInteger(linha) ||
+        linha < 2
+      ) {
+
+        mostrarToast(
+          "error",
+          "Linha não identificada",
+          "O projeto não possui _linha válida para atualização."
+        );
+
+        return;
+
+      }
+
+
+      if (
+        normalizarStatus(
+          projeto["STATUS"]
+        ) ===
+        novoStatus
+      ) {
+
+        fecharStatusModal();
+
+        return;
+
+      }
+
+
+      mostrarLoading(
+        "Atualizando status..."
+      );
+
+
+      try {
+
+        const url =
+          API_URL +
+          (
+            API_URL.includes("?")
+              ? "&"
+              : "?"
+          ) +
+          "acao=atualizarStatus" +
+          "&linha=" +
+          encodeURIComponent(
+            linha
+          ) +
+          "&status=" +
+          encodeURIComponent(
+            novoStatus
+          );
+
+
+        const response =
+          await fetch(
+            url,
+            {
+              method: "GET",
+              cache: "no-store",
+              redirect: "follow"
+            }
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            "HTTP " +
+            response.status
+          );
+
+        }
+
+
+        const texto =
+          await response.text();
+
+
+        let dados;
+
+        try {
+
+          dados =
+            JSON.parse(
+              texto
+            );
+
+        }
+
+        catch (erro) {
+
+          throw new Error(
+            "Resposta inválida do Apps Script."
+          );
+
+        }
+
+
+        if (
+          !dados ||
+          dados.sucesso !== true
+        ) {
+
+          throw new Error(
+            dados &&
+            dados.erro
+              ? dados.erro
+              : (
+                  dados &&
+                  dados.mensagem
+                    ? dados.mensagem
+                    : "O status não foi atualizado."
+                )
+          );
+
+        }
+
+
+        projeto["STATUS"] =
+          novoStatus;
+
+        projeto["_status"] =
+          novoStatus;
+
+
+        const indice =
+          state.projetos.findIndex(
+            function(item) {
+
+              return (
+                Number(
+                  item["_linha"]
+                ) ===
+                linha
+              );
+
+            }
+          );
+
+
+        if (
+          indice >= 0
+        ) {
+
+          state.projetos[indice] =
+            {
+              ...state.projetos[indice],
+              "STATUS":
+                novoStatus,
+              "_status":
+                novoStatus
+            };
+
+        }
+
+
+        fecharStatusModal();
+
+        renderDashboard();
+
+        atualizarContadoresLaterais();
+
+        aplicarFiltros();
+
+
+        if (
+          document
+            .getElementById("detailModal")
+            .classList.contains("show")
+        ) {
+
+          renderDetalhes(
+            projeto
+          );
+
+        }
+
+
+        mostrarToast(
+          "success",
+          "Status atualizado",
+          "O projeto agora está como \"" +
+          novoStatus +
+          "\"."
+        );
+
+      }
+
+      catch (erro) {
+
+        console.error(
+          "Erro ao atualizar status:",
+          erro
+        );
+
+        mostrarToast(
+          "error",
+          "Erro ao atualizar status",
+          erro.message ||
+          "Não foi possível atualizar o projeto."
+        );
+
+      }
+
+      finally {
+
+        ocultarLoading();
+
+      }
+
+    }
+
+
+    /* =====================================================
+       ABERTURA DE AÇÕES
+    ===================================================== */
+
+    function abrirDetalhesPorId(
+      id
+    ) {
+
+      const projeto =
+        encontrarProjetoPorId(
+          id
+        );
+
+
+      abrirDetalhes(
+        projeto
+      );
+
+    }
+
+
+    function abrirStatusPorId(
+      id
+    ) {
+
+      const projeto =
+        encontrarProjetoPorId(
+          id
+        );
+
+
+      abrirStatus(
+        projeto
+      );
+
+    }
+
+
+    function abrirWhatsAppPorProjeto(
+      id
+    ) {
+
+      const projeto =
+        encontrarProjetoPorId(
+          id
+        );
+
+
+      if (!projeto) {
+
+        mostrarToast(
+          "error",
+          "Projeto não encontrado",
+          "Não foi possível localizar o projeto."
+        );
+
+        return;
+
+      }
+
+
+      abrirWhatsApp(
+        projeto["WHATSAPP"]
+      );
+
+    }
+
+
+    function abrirDrivePorProjeto(
+      id
+    ) {
+
+      const projeto =
+        encontrarProjetoPorId(
+          id
+        );
+
+
+      if (!projeto) {
+
+        return;
+
+      }
+
+
+      abrirDrive(
+        projeto["PASTA DO PROJETO"]
+      );
+
+    }
+
+
+    function abrirEmailPorProjeto(
+      id
+    ) {
+
+      const projeto =
+        encontrarProjetoPorId(
+          id
+        );
+
+
+      if (!projeto) {
+
+        return;
+
+      }
+
+
+      abrirEmail(
+        projeto["E-MAIL"]
+      );
+
+    }
+
+
+    function encontrarProjetoPorId(
+      id
+    ) {
+
+      const alvo =
+        String(
+          id || ""
+        ).trim();
+
+
+      return state.projetos.find(
+        function(projeto) {
+
+          return (
+            String(
+              projeto["ID PROJETO"] || ""
+            ).trim() ===
+            alvo
+          );
+
+        }
+      ) || null;
+
+    }
+
+
+    function abrirWhatsApp(
+      valor
+    ) {
+
+      const url =
+        criarUrlWhatsApp(
+          valor
+        );
+
+
+      if (!url) {
+
+        mostrarToast(
+          "warning",
+          "WhatsApp indisponível",
+          "Não foi encontrado um número ou link de WhatsApp."
+        );
+
+        return;
+
+      }
+
+
+      abrirUrl(
+        url
+      );
+
+    }
+
+
+    function abrirDrive(
+      valor
+    ) {
+
+      const url =
+        extrairUrl(
+          valor
+        );
+
+
+      if (!url) {
+
+        mostrarToast(
+          "warning",
+          "Pasta não disponível",
+          "O projeto não possui um link válido do Google Drive."
+        );
+
+        return;
+
+      }
+
+
+      abrirUrl(
+        url
+      );
+
+    }
+
+
+    function abrirEmail(
+      email
+    ) {
+
+      const endereco =
+        String(
+          email || ""
+        ).trim();
+
+
+      if (!endereco) {
+
+        mostrarToast(
+          "warning",
+          "E-mail indisponível",
+          "O projeto não possui e-mail cadastrado."
+        );
+
+        return;
+
+      }
+
+
+      window.location.href =
+        "mailto:" +
+        encodeURIComponent(
+          endereco
+        );
+
+    }
+
+
+    function abrirUrl(
+      url
+    ) {
+
+      try {
+
+        const janela =
+          window.open(
+            url,
+            "_blank",
+            "noopener,noreferrer"
+          );
+
+
+        if (
+          !janela
+        ) {
+
+          window.location.href =
+            url;
+
+        }
+
+      }
+
+      catch (erro) {
+
+        window.location.href =
+          url;
+
+      }
+
+    }
+
+
+    /* =====================================================
+       WHATSAPP
+    ===================================================== */
+
+    function criarUrlWhatsApp(
+      valor
+    ) {
+
+      const texto =
+        String(
+          valor || ""
+        ).trim();
+
+
+      if (!texto) {
+
+        return "";
+
+      }
+
+
+      const url =
+        extrairUrl(
+          texto
+        );
+
+
+      if (
+        url &&
+        (
+          url.includes("wa.me") ||
+          url.includes("whatsapp.com")
+        )
+      ) {
+
+        return url;
+
+      }
+
+
+      let telefone =
+        normalizarTelefone(
+          texto
+        );
+
+
+      if (!telefone) {
+
+        return "";
+
+      }
+
+
+      return (
+        "https://wa.me/" +
+        telefone
+      );
+
+    }
+
+
+    function normalizarTelefone(
+      valor
+    ) {
+
+      let telefone =
+        String(
+          valor || ""
+        )
+          .replace(
+            /\D/g,
+            ""
+          );
+
+
+      if (!telefone) {
+
+        return "";
+
+      }
+
+
+      if (
+        telefone.startsWith("00")
+      ) {
+
+        telefone =
+          telefone.substring(2);
+
+      }
+
+
+      if (
+        telefone.length === 10 ||
+        telefone.length === 11
+      ) {
+
+        telefone =
+          "55" +
+          telefone;
+
+      }
+
+
+      if (
+        telefone.length < 12
+      ) {
+
+        return "";
+
+      }
+
+
+      return telefone;
+
+    }
+
+
+    /* =====================================================
+       COPIAR
+    ===================================================== */
+
+    async function copiarInformacoes(
+      projeto
+    ) {
+
+      const linhas = [
+        "ARQSELECT — PROJETO",
+        "",
+        "ID PROJETO: " +
+          textoSeguro(
+            projeto["ID PROJETO"]
+          ),
+        "DATA / HORA: " +
+          formatarData(
+            projeto["DATA / HORA"]
+          ),
+        "",
+        "ARQUITETO",
+        "NOME: " +
+          textoSeguro(
+            projeto["NOME"]
+          ),
+        "ESCRITÓRIO: " +
+          textoSeguro(
+            projeto["ESCRITÓRIO"]
+          ),
+        "E-MAIL: " +
+          textoSeguro(
+            projeto["E-MAIL"]
+          ),
+        "WHATSAPP: " +
+          textoSeguro(
+            projeto["WHATSAPP"]
+          ),
+        "CIDADE: " +
+          textoSeguro(
+            projeto["CIDADE"]
+          ),
+        "ESTADO: " +
+          textoSeguro(
+            projeto["ESTADO"]
+          ),
+        "REGISTRO PROFISSIONAL: " +
+          textoSeguro(
+            projeto["REGISTRO PROFISSIONAL"]
+          ),
+        "",
+        "PROJETO",
+        "NOME: " +
+          textoSeguro(
+            projeto["NOME DO PROJETO"]
+          ),
+        "TIPO: " +
+          textoSeguro(
+            projeto["TIPO DE PROJETO"]
+          ),
+        "ÁREA: " +
+          textoSeguro(
+            projeto["ÁREA"]
+          ),
+        "AMBIENTE: " +
+          textoSeguro(
+            projeto["AMBIENTE"]
+          ),
+        "PRAZO: " +
+          textoSeguro(
+            projeto["PRAZO"]
+          ),
+        "INVESTIMENTO: " +
+          formatarMoeda(
+            projeto["INVESTIMENTO"]
+          ),
+        "STATUS: " +
+          normalizarStatus(
+            projeto["STATUS"]
+          ),
+        "",
+        "DESCRIÇÃO / ORÇAMENTO:",
+        textoSeguro(
+          projeto["DESCRIÇÃO / ORÇAMENTO"]
+        ),
+        "",
+        "OBSERVAÇÕES:",
+        textoSeguro(
+          projeto["OBSERVAÇÕES"]
+        )
+      ];
+
+
+      const texto =
+        linhas.join("\n");
+
+
+      try {
+
+        if (
+          navigator.clipboard &&
+          navigator.clipboard.writeText
+        ) {
+
+          await navigator.clipboard.writeText(
+            texto
+          );
+
+        } else {
+
+          copiarFallback(
+            texto
+          );
+
+        }
+
+
+        mostrarToast(
+          "success",
+          "Informações copiadas",
+          "Os dados do projeto foram copiados."
+        );
+
+      }
+
+      catch (erro) {
+
+        copiarFallback(
+          texto
+        );
+
+        mostrarToast(
+          "success",
+          "Informações copiadas",
+          "Os dados do projeto foram copiados."
+        );
+
+      }
+
+    }
+
+
+    function copiarFallback(
+      texto
+    ) {
+
+      const textarea =
+        document.createElement(
+          "textarea"
+        );
+
+      textarea.value =
+        texto;
+
+      textarea.style.position =
+        "fixed";
+
+      textarea.style.opacity =
+        "0";
+
+      document.body.appendChild(
+        textarea
+      );
+
+      textarea.select();
+
+      document.execCommand(
+        "copy"
+      );
+
+      textarea.remove();
+
+    }
+
+
+    /* =====================================================
+       CSV
+    ===================================================== */
+
+    function exportarCSV() {
+
+      const projetos =
+        state.projetosFiltrados;
+
+
+      if (!projetos.length) {
+
+        mostrarToast(
+          "warning",
+          "Nada para exportar",
+          "Não existem projetos com os filtros atuais."
+        );
+
+        return;
+
+      }
+
+
+      const linhas = [];
+
+
+      linhas.push(
+        CAMPOS_CSV.map(
+          csvEscape
+        ).join(";")
+      );
+
+
+      projetos.forEach(
+        function(projeto) {
+
+          linhas.push(
+            CAMPOS_CSV
+              .map(
+                function(campo) {
+
+                  return csvEscape(
+                    campo === "DATA / HORA"
+                      ? formatarData(
+                          projeto[campo]
+                        )
+                      : projeto[campo]
+                  );
+
+                }
+              )
+              .join(";")
+          );
+
+        }
+      );
+
+
+      const csv =
+        "\uFEFF" +
+        linhas.join("\r\n");
+
+
+      const blob =
+        new Blob(
+          [csv],
+          {
+            type:
+              "text/csv;charset=utf-8;"
+          }
+        );
+
+
+      const url =
+        URL.createObjectURL(
+          blob
+        );
+
+
+      const link =
+        document.createElement(
+          "a"
+        );
+
+
+      link.href =
+        url;
+
+      link.download =
+        "ARQSELECT-projetos-" +
+        obterDataArquivo() +
+        ".csv";
+
+
+      document.body.appendChild(
+        link
+      );
+
+      link.click();
+
+      link.remove();
+
+
+      setTimeout(
+        function() {
+
+          URL.revokeObjectURL(
+            url
+          );
+
+        },
+        1000
+      );
+
+
+      mostrarToast(
+        "success",
+        "CSV exportado",
+        projetos.length +
+        (
+          projetos.length === 1
+            ? " projeto exportado."
+            : " projetos exportados."
+        )
+      );
+
+    }
+
+
+    function csvEscape(
+      valor
+    ) {
+
+      const texto =
+        String(
+          valor === null ||
+          valor === undefined
+            ? ""
+            : valor
+        );
+
+
+      return (
+        '"' +
+        texto
+          .replace(
+            /"/g,
+            '""'
+          )
+          .replace(
+            /\r?\n/g,
+            " "
+          ) +
+        '"'
+      );
+
+    }
+
+
+    /* =====================================================
+       IMPRESSÃO
+    ===================================================== */
+
+    function imprimir() {
+
+      window.print();
+
+    }
+
+
+    function imprimirProjeto(
+      projeto
+    ) {
+
+      const janela =
+        window.open(
+          "",
+          "_blank",
+          "width=900,height=800"
+        );
+
+
+      if (!janela) {
+
+        mostrarToast(
+          "warning",
+          "Impressão bloqueada",
+          "Permita pop-ups para imprimir o projeto."
+        );
+
+        return;
+
+      }
+
+
+      const id =
+        textoSeguro(
+          projeto["ID PROJETO"]
+        );
+
+
+      janela.document.write(
+        `
+          <!DOCTYPE html>
+          <html lang="pt-BR">
+          <head>
+            <meta charset="UTF-8">
+            <title>ARQSELECT — ${escaparHTML(id)}</title>
+            <style>
+              * { box-sizing:border-box; }
+              body {
+                margin:0;
+                padding:35px;
+                font-family:Arial,sans-serif;
+                color:#171717;
+              }
+              .header {
+                border-bottom:3px solid #c9a45c;
+                padding-bottom:18px;
+                margin-bottom:24px;
+              }
+              .brand {
+                font-size:24px;
+                font-weight:800;
+                letter-spacing:2px;
+              }
+              .subtitle {
+                color:#777;
+                margin-top:5px;
+              }
+              h2 {
+                font-size:13px;
+                text-transform:uppercase;
+                letter-spacing:1px;
+                color:#a77d2e;
+                margin:25px 0 10px;
+              }
+              .grid {
+                display:grid;
+                grid-template-columns:repeat(2,1fr);
+                gap:8px;
+              }
+              .item {
+                border:1px solid #ddd;
+                padding:10px;
+                border-radius:6px;
+              }
+              .label {
+                color:#777;
+                font-size:9px;
+                text-transform:uppercase;
+              }
+              .value {
+                margin-top:4px;
+                font-size:11px;
+                font-weight:bold;
+              }
+              .text {
+                border:1px solid #ddd;
+                padding:13px;
+                white-space:pre-wrap;
+                line-height:1.5;
+                font-size:11px;
+              }
+              @media print {
+                body { padding:15px; }
+              }
+            </style>
+
+```
+      </head>
+      <body>
+
+        <div class="header">
+          <div class="brand">ARQSELECT</div>
+          <div class="subtitle">
+            Detalhes do Projeto · ${escaparHTML(id)}
+          </div>
+        </div>
+
+        <h2>Identificação</h2>
+
+        <div class="grid">
+          ${printItem(
+            "Número do projeto",
+            projeto["ID PROJETO"]
+          )}
+          ${printItem(
+            "Data / hora",
+            formatarData(
+              projeto["DATA / HORA"]
+            )
+          )}
+          ${printItem(
+            "Status",
+            normalizarStatus(
+              projeto["STATUS"]
+            )
+          )}
+        </div>
+
+        <h2>Dados do arquiteto</h2>
+
+        <div class="grid">
+          ${printItem(
+            "Nome",
+            projeto["NOME"]
+          )}
+          ${printItem(
+            "Escritório",
+            projeto["ESCRITÓRIO"]
+          )}
+          ${printItem(
+            "E-mail",
+            projeto["E-MAIL"]
+          )}
+          ${printItem(
+            "WhatsApp",
+            projeto["WHATSAPP"]
+          )}
+          ${printItem(
+            "Cidade",
+            projeto["CIDADE"]
+          )}
+          ${printItem(
+            "Estado",
+            projeto["ESTADO"]
+          )}
+          ${printItem(
+            "Registro profissional",
+            projeto["REGISTRO PROFISSIONAL"]
+          )}
+        </div>
+
+        <h2>Dados do projeto</h2>
+
+        <div class="grid">
+          ${printItem(
+            "Nome do projeto",
+            projeto["NOME DO PROJETO"]
+          )}
+          ${printItem(
+            "Tipo de projeto",
+            projeto["TIPO DE PROJETO"]
+          )}
+          ${printItem(
+            "Área",
+            projeto["ÁREA"]
+          )}
+          ${printItem(
+            "Ambiente",
+            projeto["AMBIENTE"]
+          )}
+          ${printItem(
+            "Prazo",
+            projeto["PRAZO"]
+          )}
+          ${printItem(
+            "Investimento",
+            formatarMoeda(
+              projeto["INVESTIMENTO"]
+            )
+          )}
+        </div>
+
+        <h2>Descrição / orçamento</h2>
+
+        <div class="text">
+          ${escaparHTML(
+            textoSeguro(
+              projeto["DESCRIÇÃO / ORÇAMENTO"]
+            ) ||
+            "Não informado"
+          )}
+        </div>
+
+        <h2>Observações</h2>
+
+        <div class="text">
+          ${escaparHTML(
+            textoSeguro(
+              projeto["OBSERVAÇÕES"]
+            ) ||
+            "Não informado"
+          )}
+        </div>
+
+      </body>
+      </html>
+    `
   );
 
+
+  janela.document.close();
+
+  janela.focus();
+
+
+  setTimeout(
+    function() {
+
+      janela.print();
+
+    },
+    400
+  );
+
+}
+
+
+function printItem(
+  titulo,
+  valor
+) {
+
+  return `
+    <div class="item">
+      <div class="label">
+        ${escaparHTML(titulo)}
+      </div>
+      <div class="value">
+        ${escaparHTML(
+          textoSeguro(valor) ||
+          "Não informado"
+        )}
+      </div>
+    </div>
+  `;
+
+}
+
+
+/* =====================================================
+   TESTAR CONEXÃO
+===================================================== */
+
+async function testarConexao() {
+
+  if (
+    !API_URL ||
+    API_URL === "SUA_URL_DO_APPS_SCRIPT"
+  ) {
+
+    mostrarToast(
+      "warning",
+      "URL não configurada",
+      "Configure a API_URL antes de testar a conexão."
+    );
+
+    return;
+
+  }
+
+
+  mostrarLoading(
+    "Testando conexão..."
+  );
+
+
+  try {
+
+    const url =
+      API_URL +
+      (
+        API_URL.includes("?")
+          ? "&"
+          : "?"
+      ) +
+      "acao=teste";
+
+
+    const response =
+      await fetch(
+        url,
+        {
+          method: "GET",
+          cache: "no-store",
+          redirect: "follow"
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const texto =
+      await response.text();
+
+
+    const dados =
+      JSON.parse(
+        texto
+      );
+
+
+    if (
+      dados &&
+      dados.sucesso === true
+    ) {
+
+      mostrarToast(
+        "success",
+        "Conexão com ARQSELECT OK",
+        dados.mensagem ||
+        "Apps Script funcionando."
+      );
+
+    } else {
+
+      throw new Error(
+        dados &&
+        dados.mensagem
+          ? dados.mensagem
+          : "A API não confirmou a conexão."
+      );
+
+    }
+
+  }
+
+  catch (erro) {
+
+    console.error(
+      "Erro de conexão:",
+      erro
+    );
+
+    mostrarToast(
+      "error",
+      "Falha na conexão",
+      "Não foi possível conectar ao Apps Script."
+    );
+
+  }
+
+  finally {
+
+    ocultarLoading();
+
+  }
+
+}
+
+
+/* =====================================================
+   MODAIS
+===================================================== */
+
+function fecharDetalhes() {
+
   document
-    .getElementById("modal")
-    .classList.add("active");
+    .getElementById("detailModal")
+    .classList.remove("show");
+
+  if (
+    !document
+      .getElementById("statusModal")
+      .classList.contains("show")
+  ) {
+
+    document.body.style.overflow = "";
+
+  }
+
+}
+
+
+function fecharStatusModal() {
+
+  document
+    .getElementById("statusModal")
+    .classList.remove("show");
+
+  if (
+    !document
+      .getElementById("detailModal")
+      .classList.contains("show")
+  ) {
+
+    document.body.style.overflow = "";
+
+  }
 
 }
 
 
 /* =====================================================
-   LINKS DA TABELA
+   LOADING
 ===================================================== */
 
-function criarBotoesLinks(projeto) {
+function mostrarLoading(
+  mensagem
+) {
 
-  const pasta =
-    obter(
-      projeto,
-      ["PASTA DO PROJETO"]
-    );
+  document
+    .getElementById("loadingText")
+    .textContent =
+      mensagem ||
+      "Carregando...";
 
-  const whatsapp =
-    obter(
-      projeto,
-      ["WHATSAPP"]
-    );
 
-  let html = "";
+  document
+    .getElementById("globalLoading")
+    .classList.add("show");
 
-  if (
-    pasta &&
-    /^https?:\/\//i.test(pasta)
-  ) {
 
-    html +=
-      `<a
-        class="btn-light small-btn"
-        href="${escAttr(pasta)}"
-        target="_blank"
-        rel="noopener"
-      >Pasta</a>`;
+  state.carregando = true;
 
-  }
+}
 
-  /*
-   * Quando a célula WHATSAPP contém o link gerado
-   * pelo Apps Script, abrimos diretamente.
-   * Se ela contiver somente "WHATSAPP", não criamos
-   * um link falso.
-   */
 
-  if (
-    whatsapp &&
-    /^https?:\/\//i.test(whatsapp)
-  ) {
+function ocultarLoading() {
 
-    html +=
-      `<a
-        class="btn-light small-btn"
-        href="${escAttr(whatsapp)}"
-        target="_blank"
-        rel="noopener"
-      >WhatsApp</a>`;
+  document
+    .getElementById("globalLoading")
+    .classList.remove("show");
 
-  }
 
-  return html;
+  state.carregando = false;
 
 }
 
 
 /* =====================================================
-   FORMATAR DETALHE
+   TOAST
 ===================================================== */
 
-function formatarDetalhe(
-  label,
+function mostrarToast(
+  tipo,
+  titulo,
+  mensagem
+) {
+
+  const container =
+    document.getElementById(
+      "toastContainer"
+    );
+
+
+  const toast =
+    document.createElement(
+      "div"
+    );
+
+
+  toast.className =
+    "toast " +
+    (
+      tipo || "info"
+    );
+
+
+  let icone = "i";
+
+
+  if (
+    tipo === "success"
+  ) {
+
+    icone = "✓";
+
+  } else if (
+    tipo === "error"
+  ) {
+
+    icone = "!";
+
+  } else if (
+    tipo === "warning"
+  ) {
+
+    icone = "⚠";
+
+  }
+
+
+  toast.innerHTML = `
+
+    <div class="toast-icon">
+      ${icone}
+    </div>
+
+    <div class="toast-content">
+
+      <strong>
+        ${escaparHTML(
+          titulo ||
+          "ARQSELECT"
+        )}
+      </strong>
+
+      <span>
+        ${escaparHTML(
+          mensagem ||
+          ""
+        )}
+      </span>
+
+    </div>
+
+  `;
+
+
+  container.appendChild(
+    toast
+  );
+
+
+  setTimeout(
+    function() {
+
+      toast.style.opacity =
+        "0";
+
+      toast.style.transform =
+        "translateX(15px)";
+
+      toast.style.transition =
+        ".2s ease";
+
+
+      setTimeout(
+        function() {
+
+          toast.remove();
+
+        },
+        220
+      );
+
+    },
+    4200
+  );
+
+}
+
+
+/* =====================================================
+   DATA / MOEDA
+===================================================== */
+
+function formatarData(
+  valor
+) {
+
+  const data =
+    parseData(valor);
+
+
+  if (!data) {
+
+    return textoSeguro(
+      valor
+    ) ||
+    "Não informado";
+
+  }
+
+
+  const dia =
+    String(
+      data.getDate()
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  const mes =
+    String(
+      data.getMonth() + 1
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  const ano =
+    data.getFullYear();
+
+
+  const hora =
+    String(
+      data.getHours()
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  const minuto =
+    String(
+      data.getMinutes()
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  const segundo =
+    String(
+      data.getSeconds()
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  return (
+    dia +
+    "/" +
+    mes +
+    "/" +
+    ano +
+    " " +
+    hora +
+    ":" +
+    minuto +
+    ":" +
+    segundo
+  );
+
+}
+
+
+function parseData(
+  valor
+) {
+
+  if (
+    valor instanceof Date &&
+    !isNaN(
+      valor.getTime()
+    )
+  ) {
+
+    return valor;
+
+  }
+
+
+  const texto =
+    String(
+      valor || ""
+    ).trim();
+
+
+  if (!texto) {
+
+    return null;
+
+  }
+
+
+  const brasileiro =
+    texto.match(
+      /^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?)?$/
+    );
+
+
+  if (
+    brasileiro
+  ) {
+
+    const data =
+      new Date(
+        Number(
+          brasileiro[3]
+        ),
+        Number(
+          brasileiro[2]
+        ) - 1,
+        Number(
+          brasileiro[1]
+        ),
+        Number(
+          brasileiro[4] || 0
+        ),
+        Number(
+          brasileiro[5] || 0
+        ),
+        Number(
+          brasileiro[6] || 0
+        )
+      );
+
+
+    return isNaN(
+      data.getTime()
+    )
+      ? null
+      : data;
+
+  }
+
+
+  const dataISO =
+    new Date(
+      texto
+    );
+
+
+  return isNaN(
+    dataISO.getTime()
+  )
+    ? null
+    : dataISO;
+
+}
+
+
+function extrairValorMonetario(
   valor
 ) {
 
   if (
     valor === null ||
-    valor === undefined ||
-    String(valor).trim() === ""
+    valor === undefined
   ) {
 
-    return '<span class="muted">Não informado</span>';
+    return 0;
 
   }
 
-  const texto =
-    String(valor);
+
+  let texto =
+    String(
+      valor
+    )
+      .trim();
+
+
+  if (!texto) {
+
+    return 0;
+
+  }
+
+
+  texto =
+    texto.replace(
+      /R\$/gi,
+      ""
+    )
+    .replace(
+      /\s/g,
+      ""
+    );
+
 
   /*
-   * Links
+   * Caso brasileiro:
+   * 10.000,50
    */
 
   if (
-    /^https?:\/\//i.test(texto.trim())
+    texto.includes(",")
+  ) {
+
+    texto =
+      texto.replace(
+        /\./g,
+        ""
+      )
+      .replace(
+        ",",
+        "."
+      );
+
+  }
+
+  /*
+   * Caso 10000.50
+   */
+
+  else {
+
+    texto =
+      texto.replace(
+        /[^0-9.-]/g,
+        ""
+      );
+
+  }
+
+
+  const numero =
+    Number(
+      texto.replace(
+        /[^0-9.-]/g,
+        ""
+      )
+    );
+
+
+  return Number.isFinite(
+    numero
+  )
+    ? numero
+    : 0;
+
+}
+
+
+function formatarMoeda(
+  valor
+) {
+
+  const numero =
+    extrairValorMonetario(
+      valor
+    );
+
+
+  if (
+    numero <= 0
+  ) {
+
+    return (
+      textoSeguro(valor) ||
+      "Não informado"
+    );
+
+  }
+
+
+  return formatarReal(
+    numero
+  );
+
+}
+
+
+function formatarReal(
+  valor
+) {
+
+  const numero =
+    Number(
+      valor || 0
+    );
+
+
+  return new Intl.NumberFormat(
+    "pt-BR",
+    {
+      style: "currency",
+      currency: "BRL"
+    }
+  ).format(
+    Number.isFinite(numero)
+      ? numero
+      : 0
+  );
+
+}
+
+
+function formatarPercentual(
+  valor
+) {
+
+  return (
+    Number(
+      valor || 0
+    ).toLocaleString(
+      "pt-BR",
+      {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+      }
+    ) +
+    "%"
+  );
+
+}
+
+
+/* =====================================================
+   URLS
+===================================================== */
+
+function extrairUrl(
+  valor
+) {
+
+  const texto =
+    String(
+      valor || ""
+    ).trim();
+
+
+  if (!texto) {
+
+    return "";
+
+  }
+
+
+  const match =
+    texto.match(
+      /https?:\/\/[^\s<>"']+/i
+    );
+
+
+  if (!match) {
+
+    return "";
+
+  }
+
+
+  return match[0]
+    .replace(
+      /[),.;]+$/,
+      ""
+    );
+
+}
+
+
+/* =====================================================
+   NOTIFICAÇÃO
+===================================================== */
+
+function renderNotificationBadge(
+  valor
+) {
+
+  const texto =
+    textoSeguro(
+      valor
+    );
+
+
+  if (
+    texto
+      .toLowerCase()
+      .includes(
+        "erro"
+      )
   ) {
 
     return `
-      <a
-        href="${escAttr(texto.trim())}"
-        target="_blank"
-        rel="noopener"
-      >
-        Abrir link
-      </a>
+      <span class="badge status-cancelado">
+        ${escaparHTML(texto || "Erro")}
+      </span>
     `;
 
   }
 
-  /*
-   * Arquivos podem conter vários links,
-   * separados por quebra de linha.
-   */
-
-  if (label === "Arquivos") {
-
-    const partes =
-      texto
-        .split(/\n+/)
-        .map(v => v.trim())
-        .filter(Boolean);
-
-    if (!partes.length) {
-      return '<span class="muted">Não informado</span>';
-    }
-
-    return partes
-      .map(item => {
-
-        const match =
-          item.match(
-            /^(.*?)\s*→\s*(https?:\/\/\S+)$/i
-          );
-
-        if (match) {
-
-          return `
-            <div style="margin-bottom:7px">
-              ${esc(match[1])}
-              →
-              <a
-                href="${escAttr(match[2])}"
-                target="_blank"
-                rel="noopener"
-              >
-                Abrir arquivo
-              </a>
-            </div>
-          `;
-
-        }
-
-        return esc(item);
-
-      })
-      .join("");
-
-  }
-
-  /*
-   * Quebras de linha
-   */
-
-  return esc(texto)
-    .replace(/\n/g, "<br>");
-
-}
-
-
-/* =====================================================
-   NORMALIZAR STATUS
-===================================================== */
-
-function normalizarStatus(status) {
-
-  const texto =
-    String(status || "").trim();
-
-  /*
-   * Mantém exatamente os valores usados
-   * pelo Apps Script.
-   */
 
   if (
-    texto === "Novo" ||
-    texto === "Em análise" ||
-    texto === "Orçamento" ||
-    texto === "Fechado" ||
-    texto === "Cancelado"
-  ) {
-    return texto;
-  }
-
-  return texto || "Novo";
-
-}
-
-
-/* =====================================================
-   OBTER CAMPO COM COMPATIBILIDADE
-===================================================== */
-
-function obter(objeto, nomes) {
-
-  if (!objeto) {
-    return "";
-  }
-
-  for (const nome of nomes) {
-
-    if (
-      Object.prototype.hasOwnProperty.call(
-        objeto,
-        nome
+    texto
+      .toLowerCase()
+      .includes(
+        "enviado"
       )
-    ) {
-
-      const valor =
-        objeto[nome];
-
-      if (
-        valor !== null &&
-        valor !== undefined &&
-        String(valor).trim() !== ""
-      ) {
-
-        return String(valor);
-
-      }
-
-    }
-
-  }
-
-  return "";
-
-}
-
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
-
-function esc(valor) {
-
-  return String(valor ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
-}
-
-function escAttr(valor) {
-  return esc(valor);
-}
-
-
-/* =====================================================
-   FILTROS
-===================================================== */
-
-function limparFiltros() {
-
-  document.getElementById("busca").value = "";
-  document.getElementById("filtroStatus").value = "";
-  document.getElementById("filtroTipo").value = "";
-
-  renderizarTabela();
-
-}
-
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-function fecharModal() {
-
-  document
-    .getElementById("modal")
-    .classList.remove("active");
-
-}
-
-function fecharModalFora(event) {
-
-  if (
-    event.target.id === "modal"
   ) {
 
-    fecharModal();
+    return `
+      <span class="badge status-fechado">
+        Enviado
+      </span>
+    `;
+
+  }
+
+
+  return `
+    <span class="badge status-analise">
+      ${escaparHTML(texto || "Não informado")}
+    </span>
+  `;
+
+}
+
+
+/* =====================================================
+   STATUS CSS
+===================================================== */
+
+function classeStatus(
+  status
+) {
+
+  switch (
+    normalizarStatus(status)
+  ) {
+
+    case "Novo":
+      return "status-novo";
+
+    case "Em análise":
+      return "status-analise";
+
+    case "Orçamento":
+      return "status-orcamento";
+
+    case "Fechado":
+      return "status-fechado";
+
+    case "Cancelado":
+      return "status-cancelado";
+
+    default:
+      return "status-novo";
 
   }
 
 }
 
-document.addEventListener(
-  "keydown",
-  function(event) {
-
-    if (event.key === "Escape") {
-      fecharModal();
-    }
-
-  }
-);
-
 
 /* =====================================================
-   TESTE DA API
+   UTILITÁRIOS
 ===================================================== */
 
-async function testarAPI() {
+function textoSeguro(
+  valor
+) {
 
-  mostrarMensagem(
-    "Testando conexão com o Apps Script...",
-    "loading"
+  if (
+    valor === null ||
+    valor === undefined
+  ) {
+
+    return "";
+
+  }
+
+
+  return String(
+    valor
+  ).trim();
+
+}
+
+
+function escaparHTML(
+  valor
+) {
+
+  return String(
+    valor === null ||
+    valor === undefined
+      ? ""
+      : valor
+  )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+function escaparAtributo(
+  valor
+) {
+
+  return escaparHTML(
+    valor
   );
 
-  try {
+}
 
-    const resposta =
-      await fetch(
-        SCRIPT_URL +
-        "?acao=teste&_=" +
-        Date.now(),
-        {
-          method:"GET",
-          cache:"no-store"
-        }
-      );
 
-    const dados =
-      await resposta.json();
+function obterDataArquivo() {
 
-    console.log(
-      "Teste API:",
-      dados
+  const data =
+    new Date();
+
+
+  const ano =
+    data.getFullYear();
+
+
+  const mes =
+    String(
+      data.getMonth() + 1
+    ).padStart(
+      2,
+      "0"
     );
 
-    if (!dados.sucesso) {
 
-      throw new Error(
-        dados.erro ||
-        dados.mensagem ||
-        "API retornou erro."
-      );
-
-    }
-
-    mostrarMensagem(
-      "API funcionando: " +
-      dados.mensagem,
-      "success"
+  const dia =
+    String(
+      data.getDate()
+    ).padStart(
+      2,
+      "0"
     );
 
-  } catch (erro) {
 
-    console.error(
-      erro
-    );
-
-    mostrarMensagem(
-      "Falha no teste da API: " +
-      erro.message,
-      "error"
-    );
-
-  }
+  return (
+    ano +
+    "-" +
+    mes +
+    "-" +
+    dia
+  );
 
 }
 
-</script>
+
+function atualizarUltimaAtualizacao() {
+
+  const agora =
+    new Date();
+
+
+  const hora =
+    agora.toLocaleTimeString(
+      "pt-BR",
+      {
+        hour: "2-digit",
+        minute: "2-digit"
+      }
+    );
+
+
+  document
+    .getElementById("lastUpdate")
+    .textContent =
+      "Última atualização: " +
+      hora;
+
+}
+
+
+/* =====================================================
+   INICIAR SISTEMA
+===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  init
+);
+```
+
+  </script>
 
 </body>
 </html>
