@@ -17,10 +17,6 @@
 
 <style>
 
-/* =====================================================
-   RESET
-===================================================== */
-
 * {
   margin: 0;
   padding: 0;
@@ -43,140 +39,85 @@ a {
   color: inherit;
 }
 
-
-/* =====================================================
-   CORES
-===================================================== */
-
 :root {
-
   --gold: #c9a45c;
-
   --gold-light: #e4c982;
-
   --black: #080808;
-
-  --black-2: #111111;
-
-  --white: #f7f7f7;
-
   --gray: #999;
-
   --border: rgba(201,164,92,.25);
-
 }
 
 
-/* =====================================================
+/* =========================
    HEADER
-===================================================== */
+========================= */
 
 header {
-
   position: fixed;
-
   top: 0;
-
   left: 0;
-
   width: 100%;
-
   z-index: 1000;
 
-  background:
-    rgba(8,8,8,.90);
+  background: rgba(8,8,8,.92);
 
-  backdrop-filter:
-    blur(18px);
+  backdrop-filter: blur(18px);
 
   border-bottom:
     1px solid rgba(255,255,255,.07);
-
 }
 
-
 .nav {
-
   max-width: 1200px;
-
   margin: auto;
 
   padding: 20px 30px;
 
   display: flex;
-
-  justify-content:
-    space-between;
-
+  justify-content: space-between;
   align-items: center;
-
 }
-
 
 .logo {
-
   font-size: 25px;
-
   font-weight: 700;
-
   letter-spacing: 4px;
-
 }
-
 
 .logo span {
-
-  color:
-    var(--gold);
-
+  color: var(--gold);
 }
 
-
 .back-button {
+  border: 1px solid rgba(255,255,255,.18);
 
-  border:
-    1px solid rgba(255,255,255,.18);
+  padding: 10px 18px;
 
-  padding:
-    10px 18px;
-
-  color:
-    #ccc;
+  color: #ccc;
 
   font-size: 12px;
 
-  text-transform:
-    uppercase;
+  text-transform: uppercase;
 
   letter-spacing: 1px;
 
   transition: .3s;
-
 }
-
 
 .back-button:hover {
-
-  border-color:
-    var(--gold);
-
-  color:
-    var(--gold-light);
-
+  border-color: var(--gold);
+  color: var(--gold-light);
 }
 
 
-/* =====================================================
+/* =========================
    HERO
-===================================================== */
+========================= */
 
 .hero {
+  padding: 170px 30px 80px;
 
-  padding:
-    170px 30px 80px;
-
-  text-align:
-    center;
+  text-align: center;
 
   background:
 
@@ -187,79 +128,54 @@ header {
     ),
 
     #080808;
-
 }
 
-
 .hero-label {
-
-  color:
-    var(--gold-light);
+  color: var(--gold-light);
 
   font-size: 11px;
 
   letter-spacing: 5px;
 
-  text-transform:
-    uppercase;
+  text-transform: uppercase;
 
   margin-bottom: 20px;
-
 }
 
-
 .hero h1 {
-
-  font-size:
-    clamp(42px,6vw,72px);
+  font-size: clamp(42px,6vw,72px);
 
   font-weight: 400;
 
   line-height: 1.1;
-
 }
-
 
 .hero h1 span {
-
-  color:
-    var(--gold-light);
-
+  color: var(--gold-light);
 }
-
 
 .hero p {
-
   max-width: 700px;
 
-  margin:
-    25px auto 0;
+  margin: 25px auto 0;
 
-  color:
-    #999;
+  color: #999;
 
   font-size: 17px;
-
 }
 
 
-/* =====================================================
+/* =========================
    FORMULÁRIO
-===================================================== */
+========================= */
 
 .form-section {
+  padding: 40px 20px 110px;
 
-  padding:
-    40px 20px 110px;
-
-  background:
-    #080808;
-
+  background: #080808;
 }
 
-
 .form-container {
-
   max-width: 950px;
 
   margin: auto;
@@ -278,220 +194,149 @@ header {
 
   box-shadow:
     0 30px 80px rgba(0,0,0,.35);
-
 }
 
-
 .form-title {
+  margin-bottom: 35px;
 
-  margin-bottom:
-    35px;
-
-  padding-bottom:
-    25px;
+  padding-bottom: 25px;
 
   border-bottom:
     1px solid rgba(255,255,255,.08);
-
 }
-
 
 .form-title h2 {
+  font-size: 28px;
 
-  font-size:
-    28px;
-
-  font-weight:
-    400;
-
+  font-weight: 400;
 }
-
 
 .form-title p {
+  color: #777;
 
-  color:
-    #777;
+  margin-top: 8px;
 
-  margin-top:
-    8px;
-
-  font-size:
-    14px;
-
+  font-size: 14px;
 }
 
 
-/* =====================================================
+/* =========================
    GRUPOS
-===================================================== */
+========================= */
 
 .form-group {
-
-  margin-bottom:
-    25px;
-
+  margin-bottom: 25px;
 }
-
 
 .form-group label {
+  display: block;
 
-  display:
-    block;
+  margin-bottom: 9px;
 
-  margin-bottom:
-    9px;
+  color: #ddd;
 
-  color:
-    #ddd;
+  font-size: 13px;
 
-  font-size:
-    13px;
-
-  font-weight:
-    600;
-
+  font-weight: 600;
 }
-
 
 .required {
-
-  color:
-    var(--gold);
-
+  color: var(--gold);
 }
 
-
 .form-row {
-
-  display:
-    grid;
+  display: grid;
 
   grid-template-columns:
     1fr 1fr;
 
-  gap:
-    20px;
-
+  gap: 20px;
 }
 
-
 .form-row-3 {
-
-  display:
-    grid;
+  display: grid;
 
   grid-template-columns:
     2fr 1fr 1fr;
 
-  gap:
-    20px;
-
+  gap: 20px;
 }
 
 
-/* =====================================================
+/* =========================
    INPUTS
-===================================================== */
+========================= */
 
 input,
 select,
 textarea {
 
-  width:
-    100%;
+  width: 100%;
 
-  padding:
-    15px 16px;
+  padding: 15px 16px;
 
-  background:
-    #080808;
+  background: #080808;
 
   border:
     1px solid rgba(255,255,255,.12);
 
-  color:
-    #eee;
+  color: #eee;
 
-  outline:
-    none;
+  outline: none;
 
-  font-family:
-    inherit;
+  font-family: inherit;
 
-  font-size:
-    14px;
+  font-size: 14px;
 
-  transition:
-    .3s;
-
+  transition: .3s;
 }
-
 
 input:focus,
 select:focus,
 textarea:focus {
 
-  border-color:
-    var(--gold);
+  border-color: var(--gold);
 
   box-shadow:
     0 0 0 2px rgba(201,164,92,.08);
-
 }
-
 
 textarea {
+  min-height: 140px;
 
-  min-height:
-    140px;
-
-  resize:
-    vertical;
-
+  resize: vertical;
 }
-
 
 select {
-
-  cursor:
-    pointer;
-
+  cursor: pointer;
 }
 
 
-/* =====================================================
-   DIVISORES
-===================================================== */
+/* =========================
+   DIVISÕES
+========================= */
 
 .form-divider {
+  margin: 45px 0 30px;
 
-  margin:
-    45px 0 30px;
-
-  padding-bottom:
-    12px;
+  padding-bottom: 12px;
 
   border-bottom:
     1px solid rgba(201,164,92,.18);
 
-  color:
-    var(--gold-light);
+  color: var(--gold-light);
 
-  font-size:
-    11px;
+  font-size: 11px;
 
-  text-transform:
-    uppercase;
+  text-transform: uppercase;
 
-  letter-spacing:
-    3px;
-
+  letter-spacing: 3px;
 }
 
 
-/* =====================================================
+/* =========================
    UPLOAD
-===================================================== */
+========================= */
 
 .upload-box {
 
@@ -501,17 +346,12 @@ select {
   background:
     rgba(201,164,92,.035);
 
-  padding:
-    35px 25px;
+  padding: 35px 25px;
 
-  text-align:
-    center;
+  text-align: center;
 
-  transition:
-    .3s;
-
+  transition: .3s;
 }
-
 
 .upload-box:hover {
 
@@ -520,171 +360,135 @@ select {
 
   background:
     rgba(201,164,92,.07);
-
 }
-
 
 .upload-icon {
 
-  font-size:
-    34px;
+  font-size: 34px;
 
-  color:
-    var(--gold);
+  color: var(--gold);
 
-  margin-bottom:
-    10px;
-
+  margin-bottom: 10px;
 }
-
 
 .upload-box h3 {
 
-  font-size:
-    16px;
+  font-size: 16px;
 
-  font-weight:
-    500;
-
+  font-weight: 500;
 }
-
 
 .upload-box p {
 
-  margin-top:
-    7px;
+  margin-top: 7px;
 
-  color:
-    #777;
+  color: #777;
 
-  font-size:
-    12px;
-
+  font-size: 12px;
 }
-
 
 .file-input {
 
-  margin-top:
-    20px;
+  margin-top: 20px;
 
-  border:
-    none;
+  border: none;
 
-  background:
-    transparent;
+  background: transparent;
 
-  padding:
-    0;
+  padding: 0;
 
-  color:
-    #aaa;
-
+  color: #aaa;
 }
 
 
-/* =====================================================
+/* =========================
    LISTA DE ARQUIVOS
-===================================================== */
+========================= */
 
 .file-list {
 
-  margin-top:
-    20px;
+  margin-top: 20px;
 
-  text-align:
-    left;
+  text-align: left;
 
-  color:
-    #aaa;
-
-  font-size:
-    12px;
-
+  display: none;
 }
 
+.file-list-title {
+
+  color: var(--gold-light);
+
+  font-size: 12px;
+
+  margin-bottom: 10px;
+
+  letter-spacing: 1px;
+}
 
 .file-item {
 
-  padding:
-    8px 10px;
+  padding: 9px 12px;
 
-  margin-top:
-    5px;
+  margin-bottom: 6px;
 
-  background:
-    rgba(255,255,255,.04);
+  background: #111;
 
-  border:
-    1px solid rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.08);
 
+  color: #aaa;
+
+  font-size: 12px;
+
+  word-break: break-word;
 }
 
 
-/* =====================================================
+/* =========================
    CHECKBOX
-===================================================== */
+========================= */
 
 .checkbox {
 
-  display:
-    flex;
+  display: flex;
 
-  align-items:
-    flex-start;
+  align-items: flex-start;
 
-  gap:
-    10px;
+  gap: 10px;
 
-  margin-top:
-    25px;
+  margin-top: 25px;
 
-  color:
-    #888;
+  color: #888;
 
-  font-size:
-    12px;
-
+  font-size: 12px;
 }
-
 
 .checkbox input {
 
-  width:
-    17px;
+  width: 17px;
 
-  height:
-    17px;
+  height: 17px;
 
-  margin-top:
-    2px;
+  margin-top: 2px;
 
-  accent-color:
-    var(--gold);
-
+  accent-color: var(--gold);
 }
 
 
-/* =====================================================
+/* =========================
    BOTÃO
-===================================================== */
+========================= */
 
 .submit-button {
 
-  width:
-    100%;
+  width: 100%;
 
-  margin-top:
-    35px;
+  margin-top: 35px;
 
-  padding:
-    18px;
+  padding: 18px;
 
-  border:
-    none;
+  border: none;
 
-  cursor:
-    pointer;
+  cursor: pointer;
 
   background:
     linear-gradient(
@@ -693,77 +497,55 @@ select {
       #a9823c
     );
 
-  color:
-    #080808;
+  color: #080808;
 
-  font-weight:
-    800;
+  font-weight: 800;
 
-  letter-spacing:
-    1px;
+  letter-spacing: 1px;
 
-  font-size:
-    13px;
+  font-size: 13px;
 
-  transition:
-    .3s;
-
+  transition: .3s;
 }
-
 
 .submit-button:hover {
 
-  transform:
-    translateY(-2px);
+  transform: translateY(-2px);
 
   box-shadow:
     0 15px 40px rgba(201,164,92,.25);
-
 }
-
 
 .submit-button:disabled {
 
-  opacity:
-    .6;
+  opacity: .6;
 
-  cursor:
-    wait;
+  cursor: wait;
 
-  transform:
-    none;
-
+  transform: none;
 }
 
 
-/* =====================================================
+/* =========================
    MENSAGEM
-===================================================== */
+========================= */
 
 .message {
 
-  display:
-    none;
+  display: none;
 
-  margin-top:
-    25px;
+  margin-top: 25px;
 
-  padding:
-    18px;
+  padding: 18px;
 
-  text-align:
-    center;
+  text-align: center;
 
-  font-size:
-    14px;
-
+  font-size: 14px;
 }
-
 
 .message.success {
 
-  display:
-    block;
+  display: block;
 
   border:
     1px solid rgba(80,200,120,.3);
@@ -771,16 +553,12 @@ select {
   background:
     rgba(80,200,120,.06);
 
-  color:
-    #8fe0aa;
-
+  color: #8fe0aa;
 }
-
 
 .message.error {
 
-  display:
-    block;
+  display: block;
 
   border:
     1px solid rgba(255,80,80,.3);
@@ -788,165 +566,121 @@ select {
   background:
     rgba(255,80,80,.06);
 
-  color:
-    #ff9b9b;
-
+  color: #ff9b9b;
 }
 
 
-/* =====================================================
+/* =========================
+   AVISO DE TAMANHO
+========================= */
+
+.upload-warning {
+
+  display: none;
+
+  margin-top: 12px;
+
+  color: #ffb3b3;
+
+  font-size: 12px;
+
+  text-align: left;
+}
+
+
+/* =========================
    FOOTER
-===================================================== */
+========================= */
 
 footer {
 
   border-top:
     1px solid rgba(255,255,255,.08);
 
-  padding:
-    35px 30px;
+  padding: 35px 30px;
 
-  background:
-    #060606;
-
+  background: #060606;
 }
-
 
 .footer-content {
 
-  max-width:
-    1200px;
+  max-width: 1200px;
 
-  margin:
-    auto;
+  margin: auto;
 
-  display:
-    flex;
+  display: flex;
 
-  justify-content:
-    space-between;
+  justify-content: space-between;
 
-  align-items:
-    center;
-
+  align-items: center;
 }
-
 
 .footer-logo {
 
-  font-size:
-    20px;
+  font-size: 20px;
 
-  letter-spacing:
-    3px;
-
+  letter-spacing: 3px;
 }
-
 
 .footer-logo span {
-
-  color:
-    var(--gold);
-
+  color: var(--gold);
 }
-
 
 footer p {
 
-  color:
-    #666;
+  color: #666;
 
-  font-size:
-    12px;
-
+  font-size: 12px;
 }
 
 
-/* =====================================================
+/* =========================
    MOBILE
-===================================================== */
+========================= */
 
 @media (max-width: 700px) {
 
   .nav {
-
-    padding:
-      17px 20px;
-
+    padding: 17px 20px;
   }
-
 
   .logo {
-
-    font-size:
-      20px;
-
+    font-size: 20px;
   }
-
 
   .back-button {
+    padding: 9px 12px;
 
-    padding:
-      9px 12px;
-
-    font-size:
-      10px;
-
+    font-size: 10px;
   }
-
 
   .hero {
-
-    padding:
-      140px 20px 60px;
-
+    padding: 140px 20px 60px;
   }
-
 
   .hero h1 {
-
-    font-size:
-      44px;
-
+    font-size: 44px;
   }
-
 
   .hero p {
-
-    font-size:
-      15px;
-
+    font-size: 15px;
   }
-
 
   .form-container {
-
-    padding:
-      30px 20px;
-
+    padding: 30px 20px;
   }
-
 
   .form-row,
   .form-row-3 {
-
-    grid-template-columns:
-      1fr;
-
+    grid-template-columns: 1fr;
   }
 
-
   .footer-content {
+    flex-direction: column;
 
-    flex-direction:
-      column;
+    gap: 15px;
 
-    gap:
-      15px;
-
-    text-align:
-      center;
-
+    text-align: center;
   }
 
 }
@@ -959,9 +693,9 @@ footer p {
 <body>
 
 
-<!-- =====================================================
+<!-- =========================
      HEADER
-===================================================== -->
+========================= -->
 
 <header>
 
@@ -974,7 +708,6 @@ footer p {
       ARQ<span>SELECT</span>
 
     </a>
-
 
     <a
       href="index.html"
@@ -989,18 +722,15 @@ footer p {
 </header>
 
 
-<!-- =====================================================
+<!-- =========================
      HERO
-===================================================== -->
+========================= -->
 
 <section class="hero">
 
   <div class="hero-label">
-
     ARQSELECT • PROJETOS
-
   </div>
-
 
   <h1>
 
@@ -1008,7 +738,6 @@ footer p {
     <span>orçamento.</span>
 
   </h1>
-
 
   <p>
 
@@ -1022,9 +751,9 @@ footer p {
 </section>
 
 
-<!-- =====================================================
+<!-- =========================
      FORMULÁRIO
-===================================================== -->
+========================= -->
 
 <section class="form-section">
 
@@ -1034,34 +763,26 @@ footer p {
     <div class="form-title">
 
       <h2>
-
         Cadastro do projeto
-
       </h2>
 
-
       <p>
-
         Preencha as informações abaixo para
         solicitar seu orçamento.
-
       </p>
 
     </div>
 
 
-    <form
-      id="projectForm">
+    <form id="projectForm">
 
 
-      <!-- =================================================
+      <!-- =========================
            DADOS PROFISSIONAIS
-      ================================================== -->
+      ========================= -->
 
       <div class="form-divider">
-
         01 • Dados profissionais
-
       </div>
 
 
@@ -1071,12 +792,9 @@ footer p {
         <div class="form-group">
 
           <label>
-
             Nome completo
             <span class="required">*</span>
-
           </label>
-
 
           <input
             type="text"
@@ -1090,11 +808,8 @@ footer p {
         <div class="form-group">
 
           <label>
-
             Escritório / Empresa
-
           </label>
-
 
           <input
             type="text"
@@ -1102,6 +817,7 @@ footer p {
             placeholder="Nome do escritório">
 
         </div>
+
 
       </div>
 
@@ -1112,12 +828,9 @@ footer p {
         <div class="form-group">
 
           <label>
-
             E-mail
             <span class="required">*</span>
-
           </label>
-
 
           <input
             type="email"
@@ -1131,12 +844,9 @@ footer p {
         <div class="form-group">
 
           <label>
-
             WhatsApp
             <span class="required">*</span>
-
           </label>
-
 
           <input
             type="tel"
@@ -1145,6 +855,7 @@ footer p {
             required>
 
         </div>
+
 
       </div>
 
@@ -1155,12 +866,9 @@ footer p {
         <div class="form-group">
 
           <label>
-
             Cidade
             <span class="required">*</span>
-
           </label>
-
 
           <input
             type="text"
@@ -1174,12 +882,9 @@ footer p {
         <div class="form-group">
 
           <label>
-
             Estado
             <span class="required">*</span>
-
           </label>
-
 
           <select
             name="estado"
@@ -1225,11 +930,8 @@ footer p {
         <div class="form-group">
 
           <label>
-
             Registro profissional
-
           </label>
-
 
           <input
             type="text"
@@ -1238,29 +940,25 @@ footer p {
 
         </div>
 
+
       </div>
 
 
-      <!-- =================================================
+      <!-- =========================
            PROJETO
-      ================================================== -->
+      ========================= -->
 
       <div class="form-divider">
-
         02 • Informações do projeto
-
       </div>
 
 
       <div class="form-group">
 
         <label>
-
           Nome do projeto
           <span class="required">*</span>
-
         </label>
-
 
         <input
           type="text"
@@ -1277,12 +975,9 @@ footer p {
         <div class="form-group">
 
           <label>
-
             Tipo de projeto
             <span class="required">*</span>
-
           </label>
-
 
           <select
             name="tipo_projeto"
@@ -1292,41 +987,15 @@ footer p {
               Selecione
             </option>
 
-            <option>
-              Residencial
-            </option>
-
-            <option>
-              Comercial
-            </option>
-
-            <option>
-              Corporativo
-            </option>
-
-            <option>
-              Hotelaria
-            </option>
-
-            <option>
-              Restaurante
-            </option>
-
-            <option>
-              Clínica
-            </option>
-
-            <option>
-              Loja
-            </option>
-
-            <option>
-              Área externa
-            </option>
-
-            <option>
-              Outro
-            </option>
+            <option>Residencial</option>
+            <option>Comercial</option>
+            <option>Corporativo</option>
+            <option>Hotelaria</option>
+            <option>Restaurante</option>
+            <option>Clínica</option>
+            <option>Loja</option>
+            <option>Área externa</option>
+            <option>Outro</option>
 
           </select>
 
@@ -1336,11 +1005,8 @@ footer p {
         <div class="form-group">
 
           <label>
-
             Área aproximada
-
           </label>
-
 
           <input
             type="text"
@@ -1348,6 +1014,7 @@ footer p {
             placeholder="Ex.: 180 m²">
 
         </div>
+
 
       </div>
 
@@ -1358,11 +1025,8 @@ footer p {
         <div class="form-group">
 
           <label>
-
             Ambiente / Local
-
           </label>
-
 
           <input
             type="text"
@@ -1375,11 +1039,8 @@ footer p {
         <div class="form-group">
 
           <label>
-
             Prazo desejado
-
           </label>
-
 
           <input
             type="text"
@@ -1388,18 +1049,16 @@ footer p {
 
         </div>
 
+
       </div>
 
 
       <div class="form-group">
 
         <label>
-
           O que você precisa orçar?
           <span class="required">*</span>
-
         </label>
-
 
         <textarea
           name="descricao"
@@ -1412,97 +1071,53 @@ footer p {
       <div class="form-group">
 
         <label>
-
           Faixa de investimento estimada
-
         </label>
-
 
         <select
           name="investimento">
 
           <option value="">
-
             Selecione uma faixa
-
           </option>
 
-
-          <option>
-            Até R$ 5.000
-          </option>
-
-
-          <option>
-            R$ 5.000 a R$ 10.000
-          </option>
-
-
-          <option>
-            R$ 10.000 a R$ 25.000
-          </option>
-
-
-          <option>
-            R$ 25.000 a R$ 50.000
-          </option>
-
-
-          <option>
-            R$ 50.000 a R$ 100.000
-          </option>
-
-
-          <option>
-            Acima de R$ 100.000
-          </option>
-
-
-          <option>
-            Ainda não definido
-          </option>
+          <option>Até R$ 5.000</option>
+          <option>R$ 5.000 a R$ 10.000</option>
+          <option>R$ 10.000 a R$ 25.000</option>
+          <option>R$ 25.000 a R$ 50.000</option>
+          <option>R$ 50.000 a R$ 100.000</option>
+          <option>Acima de R$ 100.000</option>
+          <option>Ainda não definido</option>
 
         </select>
 
       </div>
 
 
-      <!-- =================================================
+      <!-- =========================
            ARQUIVOS
-      ================================================== -->
+      ========================= -->
 
       <div class="form-divider">
-
         03 • Documentos do projeto
-
       </div>
 
 
       <div class="upload-box">
 
-
         <div class="upload-icon">
-
           ◆
-
         </div>
 
-
         <h3>
-
           Envie os arquivos do projeto
-
         </h3>
 
-
         <p>
-
           Plantas, imagens, PDF, memorial descritivo,
           medidas ou outros documentos que ajudem
           na elaboração do orçamento.
-
         </p>
-
 
         <input
           class="file-input"
@@ -1510,37 +1125,42 @@ footer p {
           name="arquivos"
           id="arquivos"
           multiple
-          accept=".pdf,.jpg,.jpeg,.png,.webp,.dwg,.dxf">
-
+          accept=".pdf,.jpg,.jpeg,.png,.webp">
 
         <div
-          id="fileList"
-          class="file-list">
+          class="upload-warning"
+          id="uploadWarning">
         </div>
 
+        <div
+          class="file-list"
+          id="fileList">
+
+          <div class="file-list-title">
+            ARQUIVOS SELECIONADOS
+          </div>
+
+          <div id="fileItems"></div>
+
+        </div>
 
       </div>
 
 
-      <!-- =================================================
+      <!-- =========================
            OBSERVAÇÕES
-      ================================================== -->
+      ========================= -->
 
       <div class="form-divider">
-
         04 • Observações
-
       </div>
 
 
       <div class="form-group">
 
         <label>
-
           Informações adicionais
-
         </label>
-
 
         <textarea
           name="observacoes"
@@ -1549,18 +1169,17 @@ footer p {
       </div>
 
 
-      <!-- =================================================
+      <!-- =========================
            AUTORIZAÇÃO
-      ================================================== -->
+      ========================= -->
 
       <label class="checkbox">
-
 
         <input
           type="checkbox"
           name="autorizacao"
+          value="Sim"
           required>
-
 
         <span>
 
@@ -1571,13 +1190,12 @@ footer p {
 
         </span>
 
-
       </label>
 
 
-      <!-- =================================================
+      <!-- =========================
            BOTÃO
-      ================================================== -->
+      ========================= -->
 
       <button
         type="submit"
@@ -1597,26 +1215,25 @@ footer p {
 
     </form>
 
+
   </div>
 
 </section>
 
 
-<!-- =====================================================
+<!-- =========================
      FOOTER
-===================================================== -->
+========================= -->
 
 <footer>
 
   <div class="footer-content">
-
 
     <div class="footer-logo">
 
       ARQ<span>SELECT</span>
 
     </div>
-
 
     <p>
 
@@ -1625,25 +1242,19 @@ footer p {
 
     </p>
 
-
   </div>
 
 </footer>
 
 
-<!-- =====================================================
-     JAVASCRIPT
-===================================================== -->
-
 <script>
 
-
 /* =====================================================
-   URL DO GOOGLE APPS SCRIPT
+   URL NOVA DO APPS SCRIPT — PROJETOS
 ===================================================== */
 
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbx9KTCJWD06I890aM5KCWEJ-H2hZKQH_OARpCbefGvqOYnxVkLRpe-HTjPIlGDX4ikEBg/exec";
+"https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
 
 
 /* =====================================================
@@ -1651,33 +1262,46 @@ const SCRIPT_URL =
 ===================================================== */
 
 const form =
-document.getElementById(
-  "projectForm"
-);
-
+document.getElementById("projectForm");
 
 const button =
-document.getElementById(
-  "submitButton"
-);
-
+document.getElementById("submitButton");
 
 const message =
-document.getElementById(
-  "message"
-);
-
+document.getElementById("message");
 
 const arquivosInput =
-document.getElementById(
-  "arquivos"
-);
-
+document.getElementById("arquivos");
 
 const fileList =
-document.getElementById(
-  "fileList"
-);
+document.getElementById("fileList");
+
+const fileItems =
+document.getElementById("fileItems");
+
+const uploadWarning =
+document.getElementById("uploadWarning");
+
+
+/* =====================================================
+   LIMITE DE ARQUIVO
+===================================================== */
+
+/*
+   O Apps Script trabalha melhor com arquivos menores.
+
+   Limite definido:
+   10 MB por arquivo.
+
+   Total recomendado:
+   20 MB.
+*/
+
+const MAX_FILE_SIZE =
+10 * 1024 * 1024;
+
+const MAX_TOTAL_SIZE =
+20 * 1024 * 1024;
 
 
 /* =====================================================
@@ -1685,69 +1309,111 @@ document.getElementById(
 ===================================================== */
 
 arquivosInput.addEventListener(
-  "change",
-  function() {
+"change",
+function() {
 
-    fileList.innerHTML = "";
+  fileItems.innerHTML = "";
 
+  uploadWarning.style.display =
+    "none";
 
-    const arquivos =
-      arquivosInput.files;
+  uploadWarning.textContent = "";
 
+  if (!this.files.length) {
 
-    if (
-      !arquivos ||
-      arquivos.length === 0
-    ) {
+    fileList.style.display =
+      "none";
 
-      return;
+    return;
 
-    }
-
-
-    for (
-      let i = 0;
-      i < arquivos.length;
-      i++
-    ) {
-
-      const arquivo =
-        arquivos[i];
+  }
 
 
-      const tamanhoMB =
-        (
-          arquivo.size /
-          (1024 * 1024)
-        ).toFixed(2);
+  let totalSize = 0;
+
+  let erro = false;
+
+
+  Array.from(this.files).forEach(
+    function(file) {
+
+      totalSize += file.size;
 
 
       const item =
-        document.createElement(
-          "div"
-        );
-
+        document.createElement("div");
 
       item.className =
         "file-item";
 
 
+      const tamanhoMB =
+        (
+          file.size /
+          1024 /
+          1024
+        ).toFixed(2);
+
+
       item.textContent =
-        "✓ " +
-        arquivo.name +
+        file.name +
         " — " +
         tamanhoMB +
         " MB";
 
 
-      fileList.appendChild(
+      fileItems.appendChild(
         item
       );
 
+
+      if (
+        file.size >
+        MAX_FILE_SIZE
+      ) {
+
+        erro = true;
+
+      }
+
     }
+  );
+
+
+  if (
+    totalSize >
+    MAX_TOTAL_SIZE
+  ) {
+
+    erro = true;
+
+    uploadWarning.textContent =
+      "O tamanho total dos arquivos ultrapassa 20 MB. Reduza os arquivos e tente novamente.";
 
   }
-);
+
+
+  if (erro) {
+
+    if (
+      !uploadWarning.textContent
+    ) {
+
+      uploadWarning.textContent =
+        "Um ou mais arquivos ultrapassam o limite de 10 MB por arquivo.";
+
+    }
+
+    uploadWarning.style.display =
+      "block";
+
+  }
+
+
+  fileList.style.display =
+    "block";
+
+});
 
 
 /* =====================================================
@@ -1755,38 +1421,48 @@ arquivosInput.addEventListener(
 ===================================================== */
 
 function arquivoParaBase64(
-  arquivo
+  file
 ) {
 
   return new Promise(
     function(resolve, reject) {
-
 
       const reader =
         new FileReader();
 
 
       reader.onload =
-        function() {
+        function(event) {
+
+          /*
+            FileReader retorna:
+
+            data:application/pdf;base64,XXXX
+
+            Precisamos somente da parte
+            depois de "base64,"
+          */
+
+          const resultado =
+            event.target.result;
+
+          const base64 =
+            resultado.split(",")[1];
 
 
           resolve({
 
             nome:
-              arquivo.name,
+              file.name,
 
-            tipo:
-              arquivo.type ||
+            mimeType:
+              file.type ||
               "application/octet-stream",
 
-            tamanho:
-              arquivo.size,
-
-            conteudo:
-              reader.result
+            base64:
+              base64
 
           });
-
 
         };
 
@@ -1794,22 +1470,18 @@ function arquivoParaBase64(
       reader.onerror =
         function() {
 
-
           reject(
-
             new Error(
-              "Erro ao ler o arquivo " +
-              arquivo.name
+              "Não foi possível ler o arquivo " +
+              file.name
             )
-
           );
-
 
         };
 
 
       reader.readAsDataURL(
-        arquivo
+        file
       );
 
     }
@@ -1819,298 +1491,381 @@ function arquivoParaBase64(
 
 
 /* =====================================================
-   ENVIO DO FORMULÁRIO
+   FORMULÁRIO
 ===================================================== */
 
 form.addEventListener(
+"submit",
+async function(event) {
 
-  "submit",
+  event.preventDefault();
 
-  async function(event) {
 
+  /* -----------------------------------------------
+     LIMPAR MENSAGEM
+  ------------------------------------------------ */
 
-    event.preventDefault();
+  message.className =
+    "message";
 
+  message.textContent =
+    "";
 
-    /* -----------------------------------------------
-       BLOQUEIA BOTÃO
-    ------------------------------------------------ */
 
-    button.disabled =
-      true;
+  /* -----------------------------------------------
+     VERIFICAR ARQUIVOS
+  ------------------------------------------------ */
 
+  let totalSize = 0;
 
-    button.textContent =
-      "PREPARANDO PROJETO...";
 
+  for (
+    const file of arquivosInput.files
+  ) {
 
-    message.className =
-      "message";
+    totalSize +=
+      file.size;
 
 
-    message.textContent =
-      "";
-
-
-    try {
-
-
-      /* -----------------------------------------------
-         PEGA DADOS DO FORMULÁRIO
-      ------------------------------------------------ */
-
-      const formData =
-        new FormData(form);
-
-
-      const data = {};
-
-
-      formData.forEach(
-
-        function(value, key) {
-
-
-          if (
-            key !== "arquivos"
-          ) {
-
-            data[key] =
-              value;
-
-          }
-
-        }
-
-      );
-
-
-      /* -----------------------------------------------
-         IDENTIFICA COMO PROJETO
-      ------------------------------------------------ */
-
-      data.tipo =
-        "solicitacao_orcamento";
-
-
-      data.data =
-        new Date()
-          .toLocaleString(
-            "pt-BR"
-          );
-
-
-      /* -----------------------------------------------
-         ARRAY DOS ARQUIVOS
-      ------------------------------------------------ */
-
-      data.arquivos =
-        [];
-
-
-      const arquivos =
-        arquivosInput.files;
-
-
-      /* -----------------------------------------------
-         PROCESSA ARQUIVOS
-      ------------------------------------------------ */
-
-      if (
-        arquivos &&
-        arquivos.length > 0
-      ) {
-
-
-        button.textContent =
-          "PROCESSANDO ARQUIVOS...";
-
-
-        for (
-          let i = 0;
-          i < arquivos.length;
-          i++
-        ) {
-
-
-          const arquivo =
-            arquivos[i];
-
-
-          /* -----------------------------------------
-             LIMITE POR ARQUIVO
-          ------------------------------------------ */
-
-          if (
-            arquivo.size >
-            15 * 1024 * 1024
-          ) {
-
-
-            throw new Error(
-
-              "O arquivo \"" +
-              arquivo.name +
-              "\" é maior que 15 MB. " +
-              "Envie arquivos menores."
-
-            );
-
-          }
-
-
-          /* -----------------------------------------
-             CONVERTE PARA BASE64
-          ------------------------------------------ */
-
-          const arquivoBase64 =
-            await arquivoParaBase64(
-              arquivo
-            );
-
-
-          data.arquivos.push(
-            arquivoBase64
-          );
-
-
-        }
-
-      }
-
-
-      /* -----------------------------------------------
-         ENVIO
-      ------------------------------------------------ */
-
-      button.textContent =
-        "ENVIANDO PARA ARQSELECT...";
-
-
-      await fetch(
-
-        SCRIPT_URL,
-
-        {
-
-          method:
-            "POST",
-
-
-          /*
-             text/plain é utilizado
-             para evitar problemas
-             de CORS / preflight
-             no Google Apps Script.
-          */
-
-          headers: {
-
-            "Content-Type":
-              "text/plain;charset=utf-8"
-
-          },
-
-
-          body:
-            JSON.stringify(
-              data
-            )
-
-        }
-
-      );
-
-
-      /* -----------------------------------------------
-         SUCESSO
-      ------------------------------------------------ */
-
-      message.className =
-        "message success";
-
-
-      message.innerHTML =
-
-        "✓ <strong>Projeto enviado com sucesso!</strong><br><br>" +
-
-        "Recebemos sua solicitação de orçamento. " +
-
-        "Nossa equipe analisará as informações " +
-
-        "e os documentos enviados e entrará " +
-
-        "em contato em breve.";
-
-
-      /* -----------------------------------------------
-         LIMPA FORMULÁRIO
-      ------------------------------------------------ */
-
-      form.reset();
-
-
-      fileList.innerHTML =
-        "";
-
-
-      /* -----------------------------------------------
-         VOLTA AO TOPO
-      ------------------------------------------------ */
-
-      window.scrollTo({
-
-        top: 0,
-
-        behavior:
-          "smooth"
-
-      });
-
-
-    }
-
-    catch(error) {
-
-
-      console.error(
-        "Erro no envio:",
-        error
-      );
-
+    if (
+      file.size >
+      MAX_FILE_SIZE
+    ) {
 
       message.className =
         "message error";
 
-
       message.innerHTML =
+        "Um dos arquivos ultrapassa o limite de 10 MB.";
 
-        "✕ <strong>Não foi possível enviar o projeto.</strong><br><br>" +
+      return;
 
-        (
-          error.message ||
-          "Verifique sua conexão e tente novamente."
+    }
+
+  }
+
+
+  if (
+    totalSize >
+    MAX_TOTAL_SIZE
+  ) {
+
+    message.className =
+      "message error";
+
+    message.innerHTML =
+      "O tamanho total dos arquivos ultrapassa 20 MB.";
+
+    return;
+
+  }
+
+
+  /* -----------------------------------------------
+     DESABILITAR BOTÃO
+  ------------------------------------------------ */
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    "PREPARANDO PROJETO...";
+
+
+  try {
+
+
+    /* -----------------------------------------------
+       PEGAR DADOS DO FORMULÁRIO
+    ------------------------------------------------ */
+
+    const formData =
+      new FormData(form);
+
+
+    const data = {};
+
+
+    formData.forEach(
+      function(value, key) {
+
+        /*
+          Não enviamos o objeto File
+          diretamente.
+
+          Os arquivos serão convertidos
+          para Base64 logo abaixo.
+        */
+
+        if (
+          key !== "arquivos"
+        ) {
+
+          data[key] =
+            value;
+
+        }
+
+      }
+    );
+
+
+    /* -----------------------------------------------
+       TIPO DO FORMULÁRIO
+    ------------------------------------------------ */
+
+    data.tipo =
+      "solicitacao_orcamento";
+
+
+    /* -----------------------------------------------
+       DATA
+    ------------------------------------------------ */
+
+    data.data =
+      new Date().toISOString();
+
+
+    /* -----------------------------------------------
+       ARQUIVOS
+    ------------------------------------------------ */
+
+    data.arquivos = [];
+
+
+    const arquivos =
+      Array.from(
+        arquivosInput.files
+      );
+
+
+    if (
+      arquivos.length > 0
+    ) {
+
+      button.textContent =
+        "PROCESSANDO ARQUIVOS...";
+
+
+      for (
+        let i = 0;
+        i < arquivos.length;
+        i++
+      ) {
+
+        const arquivo =
+          arquivos[i];
+
+
+        button.textContent =
+          "PROCESSANDO ARQUIVO " +
+          (i + 1) +
+          " DE " +
+          arquivos.length +
+          "...";
+
+
+        const convertido =
+          await arquivoParaBase64(
+            arquivo
+          );
+
+
+        data.arquivos.push(
+          convertido
         );
 
+      }
 
     }
 
 
     /* -----------------------------------------------
-       DESBLOQUEIA BOTÃO
+       ENVIAR PARA APPS SCRIPT
     ------------------------------------------------ */
 
-    button.disabled =
-      false;
-
-
     button.textContent =
-      "SOLICITAR ORÇAMENTO";
+      "ENVIANDO PROJETO...";
+
+
+    /*
+      IMPORTANTE:
+
+      NÃO usamos headers customizados.
+
+      Isso evita problemas de CORS
+      com o Google Apps Script.
+
+      O Apps Script recebe o conteúdo
+      em e.postData.contents.
+    */
+
+    const resposta =
+      await fetch(
+        SCRIPT_URL,
+        {
+
+          method: "POST",
+
+          body:
+            JSON.stringify(data)
+
+        }
+      );
+
+
+    /* -----------------------------------------------
+       LER RESPOSTA
+    ------------------------------------------------ */
+
+    let resultado;
+
+
+    try {
+
+      resultado =
+        await resposta.json();
+
+    }
+
+    catch (erroJSON) {
+
+      /*
+        Caso o navegador não consiga
+        interpretar a resposta do Apps Script.
+      */
+
+      resultado = {
+        sucesso: true
+      };
+
+    }
+
+
+    /* -----------------------------------------------
+       VERIFICAR
+    ------------------------------------------------ */
+
+    if (
+      resultado &&
+      resultado.sucesso === false
+    ) {
+
+      throw new Error(
+        resultado.erro ||
+        resultado.mensagem ||
+        "Erro ao enviar projeto."
+      );
+
+    }
+
+
+    /* -----------------------------------------------
+       SUCESSO
+    ------------------------------------------------ */
+
+    message.className =
+      "message success";
+
+
+    let textoSucesso =
+
+      "✓ <strong>Projeto enviado com sucesso!</strong><br><br>" +
+
+      "Recebemos sua solicitação de orçamento. " +
+
+      "Nossa equipe analisará as informações e " +
+
+      "entrará em contato em breve.";
+
+
+    if (
+      resultado &&
+      resultado.idProjeto
+    ) {
+
+      textoSucesso +=
+
+        "<br><br>" +
+
+        "<strong>Número do projeto:</strong> " +
+
+        resultado.idProjeto;
+
+    }
+
+
+    message.innerHTML =
+      textoSucesso;
+
+
+    /* -----------------------------------------------
+       LIMPAR FORMULÁRIO
+    ------------------------------------------------ */
+
+    form.reset();
+
+
+    fileItems.innerHTML = "";
+
+    fileList.style.display =
+      "none";
+
+
+    /* -----------------------------------------------
+       VOLTAR PARA MENSAGEM
+    ------------------------------------------------ */
+
+    setTimeout(
+      function() {
+
+        message.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+
+      },
+      200
+    );
 
 
   }
 
-);
+  catch(error) {
+
+
+    console.error(
+      "Erro:",
+      error
+    );
+
+
+    message.className =
+      "message error";
+
+
+    message.innerHTML =
+
+      "<strong>Não foi possível enviar o projeto.</strong><br><br>" +
+
+      "Verifique sua conexão e tente novamente.";
+
+
+  }
+
+
+  /* -----------------------------------------------
+     REATIVAR BOTÃO
+  ------------------------------------------------ */
+
+  button.disabled =
+    false;
+
+  button.textContent =
+    "SOLICITAR ORÇAMENTO";
+
+});
+
 
 </script>
 
