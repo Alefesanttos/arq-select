@@ -1,0 +1,2680 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0">
+
+<title>ARQSELECT | Painel Administrativo</title>
+
+<meta
+  name="description"
+  content="Painel administrativo ARQSELECT">
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  background: #080808;
+
+  color: #f5f5f5;
+
+  line-height: 1.5;
+
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+
+/* =====================================================
+   CORES
+===================================================== */
+
+:root {
+
+  --gold: #c9a45c;
+
+  --gold-light: #e4c982;
+
+  --black: #080808;
+
+  --black-2: #101010;
+
+  --black-3: #151515;
+
+  --white: #f7f7f7;
+
+  --gray: #999;
+
+  --green: #65d391;
+
+  --red: #ff8585;
+
+  --blue: #72a9ff;
+
+  --border:
+    rgba(201,164,92,.22);
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+header {
+
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+
+  height: 76px;
+
+  z-index: 1000;
+
+  background:
+    rgba(8,8,8,.92);
+
+  backdrop-filter:
+    blur(18px);
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.07);
+
+}
+
+
+.header-content {
+
+  height: 100%;
+
+  max-width: 1400px;
+
+  margin: auto;
+
+  padding:
+    0 30px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content:
+    space-between;
+
+}
+
+
+.logo {
+
+  font-size: 23px;
+
+  font-weight: 700;
+
+  letter-spacing: 4px;
+
+}
+
+.logo span {
+  color: var(--gold);
+}
+
+
+.header-right {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 20px;
+
+}
+
+
+.system-status {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  color: #999;
+
+  font-size: 12px;
+
+}
+
+
+.status-dot {
+
+  width: 8px;
+
+  height: 8px;
+
+  border-radius: 50%;
+
+  background:
+    var(--green);
+
+  box-shadow:
+    0 0 12px
+    rgba(101,211,145,.6);
+
+}
+
+
+.refresh-button {
+
+  border:
+    1px solid
+    rgba(255,255,255,.15);
+
+  background:
+    transparent;
+
+  color: #ccc;
+
+  padding:
+    9px 15px;
+
+  font-size: 12px;
+
+  transition: .3s;
+
+}
+
+
+.refresh-button:hover {
+
+  border-color:
+    var(--gold);
+
+  color:
+    var(--gold-light);
+
+}
+
+
+/* =====================================================
+   LAYOUT
+===================================================== */
+
+main {
+
+  max-width: 1400px;
+
+  margin: auto;
+
+  padding:
+    115px 30px 60px;
+
+}
+
+
+/* =====================================================
+   TITULO
+===================================================== */
+
+.page-title {
+
+  margin-bottom: 35px;
+
+}
+
+
+.page-label {
+
+  color:
+    var(--gold-light);
+
+  font-size: 11px;
+
+  letter-spacing: 4px;
+
+  text-transform:
+    uppercase;
+
+  margin-bottom: 10px;
+
+}
+
+
+.page-title h1 {
+
+  font-size:
+    clamp(36px,5vw,58px);
+
+  font-weight: 400;
+
+  line-height: 1.1;
+
+}
+
+
+.page-title h1 span {
+  color:
+    var(--gold-light);
+}
+
+
+.page-title p {
+
+  color:
+    #888;
+
+  margin-top: 12px;
+
+  max-width: 700px;
+
+  font-size: 15px;
+
+}
+
+
+/* =====================================================
+   CARDS
+===================================================== */
+
+.dashboard-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap: 18px;
+
+  margin-bottom: 35px;
+
+}
+
+
+.card {
+
+  background:
+    linear-gradient(
+      145deg,
+      #121212,
+      #0b0b0b
+    );
+
+  border:
+    1px solid
+    rgba(255,255,255,.08);
+
+  padding: 25px;
+
+  min-height: 130px;
+
+  transition: .3s;
+
+}
+
+
+.card:hover {
+
+  border-color:
+    var(--border);
+
+  transform:
+    translateY(-2px);
+
+}
+
+
+.card-label {
+
+  color: #777;
+
+  font-size: 11px;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing: 2px;
+
+}
+
+
+.card-number {
+
+  margin-top: 15px;
+
+  font-size: 38px;
+
+  font-weight: 300;
+
+  color:
+    var(--gold-light);
+
+}
+
+
+.card-description {
+
+  color: #666;
+
+  font-size: 12px;
+
+  margin-top: 3px;
+
+}
+
+
+/* =====================================================
+   TOOLBAR
+===================================================== */
+
+.toolbar {
+
+  display: flex;
+
+  gap: 15px;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    center;
+
+  margin-bottom: 20px;
+
+  flex-wrap: wrap;
+
+}
+
+
+.search-box {
+
+  flex: 1;
+
+  min-width: 260px;
+
+}
+
+
+.search-box input {
+
+  width: 100%;
+
+  padding: 13px 15px;
+
+  background:
+    #101010;
+
+  border:
+    1px solid
+    rgba(255,255,255,.12);
+
+  color:
+    #eee;
+
+  outline: none;
+
+}
+
+
+.search-box input:focus {
+
+  border-color:
+    var(--gold);
+
+}
+
+
+.filters {
+
+  display: flex;
+
+  gap: 10px;
+
+}
+
+
+.filters select {
+
+  padding:
+    13px 15px;
+
+  background:
+    #101010;
+
+  border:
+    1px solid
+    rgba(255,255,255,.12);
+
+  color:
+    #ccc;
+
+  outline: none;
+
+}
+
+
+/* =====================================================
+   TABELA
+===================================================== */
+
+.table-container {
+
+  width: 100%;
+
+  overflow-x:
+    auto;
+
+  background:
+    #0d0d0d;
+
+  border:
+    1px solid
+    rgba(255,255,255,.08);
+
+}
+
+
+table {
+
+  width: 100%;
+
+  border-collapse:
+    collapse;
+
+  min-width:
+    1050px;
+
+}
+
+
+thead {
+
+  background:
+    #151515;
+
+}
+
+
+th {
+
+  padding:
+    16px;
+
+  text-align:
+    left;
+
+  color:
+    var(--gold-light);
+
+  font-size:
+    10px;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    1.5px;
+
+  white-space:
+    nowrap;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.08);
+
+}
+
+
+td {
+
+  padding:
+    16px;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.06);
+
+  color:
+    #ccc;
+
+  font-size:
+    13px;
+
+  vertical-align:
+    middle;
+
+}
+
+
+tbody tr {
+
+  transition:
+    .2s;
+
+}
+
+
+tbody tr:hover {
+
+  background:
+    #141414;
+
+}
+
+
+/* =====================================================
+   ID
+===================================================== */
+
+.project-id {
+
+  color:
+    var(--gold-light);
+
+  font-weight:
+    700;
+
+  white-space:
+    nowrap;
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status {
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  padding:
+    5px 10px;
+
+  border:
+    1px solid;
+
+  font-size:
+    10px;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    1px;
+
+}
+
+
+.status-novo {
+
+  color:
+    var(--blue);
+
+  border-color:
+    rgba(114,169,255,.3);
+
+  background:
+    rgba(114,169,255,.05);
+
+}
+
+
+.status-analise {
+
+  color:
+    var(--gold-light);
+
+  border-color:
+    rgba(201,164,92,.3);
+
+  background:
+    rgba(201,164,92,.05);
+
+}
+
+
+.status-orcamento {
+
+  color:
+    #d5b5ff;
+
+  border-color:
+    rgba(213,181,255,.3);
+
+  background:
+    rgba(213,181,255,.05);
+
+}
+
+
+.status-fechado {
+
+  color:
+    var(--green);
+
+  border-color:
+    rgba(101,211,145,.3);
+
+  background:
+    rgba(101,211,145,.05);
+
+}
+
+
+/* =====================================================
+   AÇÕES
+===================================================== */
+
+.actions {
+
+  display:
+    flex;
+
+  gap:
+    7px;
+
+  white-space:
+    nowrap;
+
+}
+
+
+.action-button {
+
+  display:
+    inline-block;
+
+  padding:
+    7px 10px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.13);
+
+  background:
+    #111;
+
+  color:
+    #aaa;
+
+  font-size:
+    10px;
+
+  text-decoration:
+    none;
+
+  transition:
+    .25s;
+
+}
+
+
+.action-button:hover {
+
+  border-color:
+    var(--gold);
+
+  color:
+    var(--gold-light);
+
+}
+
+
+.action-whatsapp:hover {
+
+  border-color:
+    var(--green);
+
+  color:
+    var(--green);
+
+}
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loading {
+
+  padding:
+    70px 20px;
+
+  text-align:
+    center;
+
+  color:
+    #777;
+
+}
+
+
+.spinner {
+
+  width:
+    35px;
+
+  height:
+    35px;
+
+  border:
+    2px solid
+    rgba(255,255,255,.1);
+
+  border-top-color:
+    var(--gold);
+
+  border-radius:
+    50%;
+
+  margin:
+    0 auto 18px;
+
+  animation:
+    spin 1s linear infinite;
+
+}
+
+
+@keyframes spin {
+
+  to {
+    transform:
+      rotate(360deg);
+  }
+
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty {
+
+  padding:
+    70px 20px;
+
+  text-align:
+    center;
+
+  color:
+    #666;
+
+}
+
+
+.empty-icon {
+
+  font-size:
+    38px;
+
+  color:
+    var(--gold);
+
+  margin-bottom:
+    12px;
+
+}
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+.error-box {
+
+  display:
+    none;
+
+  margin-bottom:
+    20px;
+
+  padding:
+    16px;
+
+  background:
+    rgba(255,80,80,.05);
+
+  border:
+    1px solid
+    rgba(255,80,80,.25);
+
+  color:
+    #ff9b9b;
+
+  font-size:
+    13px;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:900px) {
+
+  .dashboard-grid {
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+}
+
+
+@media(max-width:600px) {
+
+  header {
+    height:
+      68px;
+  }
+
+  .header-content {
+    padding:
+      0 18px;
+  }
+
+  .logo {
+    font-size:
+      18px;
+  }
+
+  .system-status {
+    display:
+      none;
+  }
+
+  main {
+
+    padding:
+      100px 15px 40px;
+
+  }
+
+  .dashboard-grid {
+
+    grid-template-columns:
+      1fr 1fr;
+
+    gap:
+      10px;
+
+  }
+
+  .card {
+
+    padding:
+      18px;
+
+    min-height:
+      110px;
+
+  }
+
+  .card-number {
+
+    font-size:
+      30px;
+
+  }
+
+  .filters {
+
+    width:
+      100%;
+
+  }
+
+  .filters select {
+
+    flex:
+      1;
+
+  }
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal {
+
+  display:
+    none;
+
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  z-index:
+    2000;
+
+  background:
+    rgba(0,0,0,.78);
+
+  backdrop-filter:
+    blur(8px);
+
+  padding:
+    30px;
+
+  overflow-y:
+    auto;
+
+}
+
+
+.modal.active {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+}
+
+
+.modal-box {
+
+  width:
+    100%;
+
+  max-width:
+    800px;
+
+  background:
+    #111;
+
+  border:
+    1px solid
+    var(--border);
+
+  box-shadow:
+    0 30px 100px
+    rgba(0,0,0,.5);
+
+}
+
+
+.modal-header {
+
+  padding:
+    20px 25px;
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.08);
+
+}
+
+
+.modal-header h2 {
+
+  font-weight:
+    400;
+
+  font-size:
+    20px;
+
+}
+
+
+.close-modal {
+
+  background:
+    transparent;
+
+  border:
+    none;
+
+  color:
+    #888;
+
+  font-size:
+    24px;
+
+}
+
+
+.modal-content {
+
+  padding:
+    25px;
+
+}
+
+
+.detail-grid {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    20px;
+
+}
+
+
+.detail {
+
+  padding:
+    15px;
+
+  background:
+    #0b0b0b;
+
+  border:
+    1px solid
+    rgba(255,255,255,.06);
+
+}
+
+
+.detail.full {
+
+  grid-column:
+    1 / -1;
+
+}
+
+
+.detail-label {
+
+  color:
+    var(--gold);
+
+  font-size:
+    10px;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    1.5px;
+
+  margin-bottom:
+    7px;
+
+}
+
+
+.detail-value {
+
+  color:
+    #ddd;
+
+  font-size:
+    14px;
+
+  white-space:
+    pre-wrap;
+
+  word-break:
+    break-word;
+
+}
+
+
+@media(max-width:600px) {
+
+  .detail-grid {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .detail.full {
+
+    grid-column:
+      auto;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+  <div class="header-content">
+
+    <a
+      href="index.html"
+      class="logo">
+
+      ARQ<span>SELECT</span>
+
+    </a>
+
+
+    <div class="header-right">
+
+      <div class="system-status">
+
+        <span class="status-dot"></span>
+
+        Sistema online
+
+      </div>
+
+
+      <button
+        class="refresh-button"
+        onclick="carregarProjetos()">
+
+        ↻ Atualizar
+
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main>
+
+
+  <div class="page-title">
+
+    <div class="page-label">
+      ARQSELECT • ADMINISTRAÇÃO
+    </div>
+
+    <h1>
+      Painel <span>Administrativo</span>
+    </h1>
+
+    <p>
+      Central de acompanhamento dos projetos
+      recebidos pela ARQSELECT.
+    </p>
+
+  </div>
+
+
+  <!-- ===================================================
+       ERRO
+  ==================================================== -->
+
+  <div
+    id="errorBox"
+    class="error-box">
+  </div>
+
+
+  <!-- ===================================================
+       CARDS
+  ==================================================== -->
+
+  <div class="dashboard-grid">
+
+
+    <div class="card">
+
+      <div class="card-label">
+        Projetos
+      </div>
+
+      <div
+        class="card-number"
+        id="totalProjetos">
+        0
+      </div>
+
+      <div class="card-description">
+        Total recebido
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-label">
+        Novos
+      </div>
+
+      <div
+        class="card-number"
+        id="totalNovos">
+        0
+      </div>
+
+      <div class="card-description">
+        Aguardando análise
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-label">
+        Em orçamento
+      </div>
+
+      <div
+        class="card-number"
+        id="totalOrcamento">
+        0
+      </div>
+
+      <div class="card-description">
+        Projetos em andamento
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-label">
+        Fechados
+      </div>
+
+      <div
+        class="card-number"
+        id="totalFechados">
+        0
+      </div>
+
+      <div class="card-description">
+        Projetos concluídos
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================
+       FILTROS
+  ==================================================== -->
+
+  <div class="toolbar">
+
+
+    <div class="search-box">
+
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="Pesquisar projeto, arquiteto, escritório ou cidade..."
+        oninput="renderizarTabela()">
+
+    </div>
+
+
+    <div class="filters">
+
+      <select
+        id="statusFilter"
+        onchange="renderizarTabela()">
+
+        <option value="">
+          Todos os status
+        </option>
+
+        <option value="Novo">
+          Novo
+        </option>
+
+        <option value="Em análise">
+          Em análise
+        </option>
+
+        <option value="Orçamento">
+          Orçamento
+        </option>
+
+        <option value="Fechado">
+          Fechado
+        </option>
+
+      </select>
+
+
+      <select
+        id="tipoFilter"
+        onchange="renderizarTabela()">
+
+        <option value="">
+          Todos os projetos
+        </option>
+
+      </select>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================
+       TABELA
+  ==================================================== -->
+
+  <div class="table-container">
+
+
+    <div
+      id="loading"
+      class="loading">
+
+      <div class="spinner"></div>
+
+      Carregando projetos...
+
+    </div>
+
+
+    <div
+      id="empty"
+      class="empty"
+      style="display:none;">
+
+      <div class="empty-icon">
+        ◆
+      </div>
+
+      <h3>
+        Nenhum projeto encontrado
+      </h3>
+
+      <p>
+        Os projetos enviados pelos arquitetos
+        aparecerão aqui.
+      </p>
+
+    </div>
+
+
+    <table
+      id="projectsTable"
+      style="display:none;">
+
+      <thead>
+
+        <tr>
+
+          <th>
+            Projeto
+          </th>
+
+          <th>
+            Data
+          </th>
+
+          <th>
+            Arquiteto
+          </th>
+
+          <th>
+            Escritório
+          </th>
+
+          <th>
+            Cidade
+          </th>
+
+          <th>
+            Tipo
+          </th>
+
+          <th>
+            Investimento
+          </th>
+
+          <th>
+            Status
+          </th>
+
+          <th>
+            Ações
+          </th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody
+        id="projectsBody">
+      </tbody>
+
+    </table>
+
+  </div>
+
+</main>
+
+
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div
+  class="modal"
+  id="projectModal">
+
+  <div class="modal-box">
+
+
+    <div class="modal-header">
+
+      <h2 id="modalTitle">
+        Detalhes do projeto
+      </h2>
+
+      <button
+        class="close-modal"
+        onclick="fecharModal()">
+
+        ×
+
+      </button>
+
+    </div>
+
+
+    <div
+      class="modal-content"
+      id="modalContent">
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURAÇÃO
+===================================================== */
+
+/*
+ * URL DO SEU APPS SCRIPT
+ *
+ * É a mesma implantação utilizada
+ * pelo arquitetos.html.
+ */
+
+const SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
+
+
+/* =====================================================
+   VARIÁVEIS
+===================================================== */
+
+let projetos = [];
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    carregarProjetos();
+
+  }
+);
+
+
+/* =====================================================
+   CARREGAR PROJETOS
+===================================================== */
+
+async function carregarProjetos() {
+
+  mostrarLoading();
+
+  esconderErro();
+
+
+  try {
+
+    const resposta =
+      await fetch(
+        SCRIPT_URL +
+        "?acao=projetos&t=" +
+        Date.now()
+      );
+
+
+    if (!resposta.ok) {
+
+      throw new Error(
+        "Erro HTTP " +
+        resposta.status
+      );
+
+    }
+
+
+    const dados =
+      await resposta.json();
+
+
+    if (!dados.sucesso) {
+
+      throw new Error(
+        dados.mensagem ||
+        dados.erro ||
+        "Erro ao carregar projetos."
+      );
+
+    }
+
+
+    projetos =
+      Array.isArray(
+        dados.projetos
+      )
+        ? dados.projetos
+        : [];
+
+
+    atualizarCards();
+
+    atualizarFiltroTipos();
+
+    renderizarTabela();
+
+
+  }
+
+  catch(error) {
+
+    console.error(error);
+
+    mostrarErro(
+      "Não foi possível carregar os projetos. " +
+      "Verifique se o Apps Script foi implantado " +
+      "novamente após adicionar a função doGet()."
+    );
+
+    esconderLoading();
+
+  }
+
+}
+
+
+/* =====================================================
+   CARDS
+===================================================== */
+
+function atualizarCards() {
+
+  const total =
+    projetos.length;
+
+
+  const novos =
+    projetos.filter(
+      p =>
+        normalizar(
+          obter(p,"STATUS")
+        ) === "novo"
+    ).length;
+
+
+  const orcamento =
+    projetos.filter(
+      p =>
+        normalizar(
+          obter(p,"STATUS")
+        ).includes(
+          "orcamento"
+        )
+    ).length;
+
+
+  const fechados =
+    projetos.filter(
+      p =>
+        normalizar(
+          obter(p,"STATUS")
+        ) === "fechado"
+    ).length;
+
+
+  document.getElementById(
+    "totalProjetos"
+  ).textContent =
+    total;
+
+
+  document.getElementById(
+    "totalNovos"
+  ).textContent =
+    novos;
+
+
+  document.getElementById(
+    "totalOrcamento"
+  ).textContent =
+    orcamento;
+
+
+  document.getElementById(
+    "totalFechados"
+  ).textContent =
+    fechados;
+
+}
+
+
+/* =====================================================
+   FILTRO DE TIPOS
+===================================================== */
+
+function atualizarFiltroTipos() {
+
+  const select =
+    document.getElementById(
+      "tipoFilter"
+    );
+
+
+  const atual =
+    select.value;
+
+
+  const tipos =
+    [...new Set(
+
+      projetos
+        .map(
+          p =>
+            obter(
+              p,
+              "TIPO DE PROJETO"
+            )
+        )
+        .filter(Boolean)
+
+    )];
+
+
+  select.innerHTML =
+    '<option value="">Todos os projetos</option>';
+
+
+  tipos
+    .sort()
+    .forEach(
+      function(tipo) {
+
+        const option =
+          document.createElement(
+            "option"
+          );
+
+        option.value =
+          tipo;
+
+        option.textContent =
+          tipo;
+
+        select.appendChild(
+          option
+        );
+
+      }
+    );
+
+
+  if (
+    tipos.includes(atual)
+  ) {
+
+    select.value =
+      atual;
+
+  }
+
+}
+
+
+/* =====================================================
+   RENDERIZAR TABELA
+===================================================== */
+
+function renderizarTabela() {
+
+  const body =
+    document.getElementById(
+      "projectsBody"
+    );
+
+
+  const table =
+    document.getElementById(
+      "projectsTable"
+    );
+
+
+  const empty =
+    document.getElementById(
+      "empty"
+    );
+
+
+  const search =
+    normalizar(
+      document.getElementById(
+        "searchInput"
+      ).value
+    );
+
+
+  const status =
+    normalizar(
+      document.getElementById(
+        "statusFilter"
+      ).value
+    );
+
+
+  const tipo =
+    document.getElementById(
+      "tipoFilter"
+    ).value;
+
+
+  const filtrados =
+    projetos.filter(
+      function(p) {
+
+        const texto =
+
+          obter(
+            p,
+            "ID PROJETO"
+          ) + " " +
+
+          obter(
+            p,
+            "NOME DO PROJETO"
+          ) + " " +
+
+          obter(
+            p,
+            "NOME"
+          ) + " " +
+
+          obter(
+            p,
+            "ESCRITÓRIO"
+          ) + " " +
+
+          obter(
+            p,
+            "CIDADE"
+          );
+
+
+        const correspondeBusca =
+          !search ||
+          normalizar(texto)
+            .includes(search);
+
+
+        const correspondeStatus =
+          !status ||
+          normalizar(
+            obter(p,"STATUS")
+          ) === status;
+
+
+        const correspondeTipo =
+          !tipo ||
+          obter(
+            p,
+            "TIPO DE PROJETO"
+          ) === tipo;
+
+
+        return (
+          correspondeBusca &&
+          correspondeStatus &&
+          correspondeTipo
+        );
+
+      }
+    );
+
+
+  body.innerHTML = "";
+
+
+  if (
+    filtrados.length === 0
+  ) {
+
+    table.style.display =
+      "none";
+
+    empty.style.display =
+      "block";
+
+    esconderLoading();
+
+    return;
+
+  }
+
+
+  empty.style.display =
+    "none";
+
+  table.style.display =
+    "table";
+
+
+  filtrados.forEach(
+    function(projeto) {
+
+      const tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      const id =
+        obter(
+          projeto,
+          "ID PROJETO"
+        );
+
+
+      const data =
+        obter(
+          projeto,
+          "DATA / HORA"
+        );
+
+
+      const nome =
+        obter(
+          projeto,
+          "NOME"
+        );
+
+
+      const escritorio =
+        obter(
+          projeto,
+          "ESCRITÓRIO"
+        );
+
+
+      const cidade =
+        obter(
+          projeto,
+          "CIDADE"
+        );
+
+
+      const estado =
+        obter(
+          projeto,
+          "ESTADO"
+        );
+
+
+      const tipoProjeto =
+        obter(
+          projeto,
+          "TIPO DE PROJETO"
+        );
+
+
+      const investimento =
+        obter(
+          projeto,
+          "INVESTIMENTO"
+        );
+
+
+      const status =
+        obter(
+          projeto,
+          "STATUS"
+        ) ||
+        "Novo";
+
+
+      const pasta =
+        obter(
+          projeto,
+          "PASTA DO PROJETO"
+        );
+
+
+      const whatsapp =
+        obter(
+          projeto,
+          "WHATSAPP"
+        );
+
+
+      tr.innerHTML = `
+
+        <td>
+
+          <div class="project-id">
+            ${escapeHTML(id)}
+          </div>
+
+        </td>
+
+
+        <td>
+          ${escapeHTML(data)}
+        </td>
+
+
+        <td>
+          ${escapeHTML(nome)}
+        </td>
+
+
+        <td>
+          ${escapeHTML(escritorio)}
+        </td>
+
+
+        <td>
+          ${escapeHTML(cidade)}
+          ${estado ? " - " + escapeHTML(estado) : ""}
+        </td>
+
+
+        <td>
+          ${escapeHTML(tipoProjeto)}
+        </td>
+
+
+        <td>
+          ${escapeHTML(investimento)}
+        </td>
+
+
+        <td>
+
+          <span class="status ${classeStatus(status)}">
+
+            ${escapeHTML(status)}
+
+          </span>
+
+        </td>
+
+
+        <td>
+
+          <div class="actions">
+
+            <button
+              class="action-button"
+              onclick="abrirDetalhes(${projeto._linha})">
+
+              DETALHES
+
+            </button>
+
+
+            ${
+              pasta
+              ?
+              `
+              <a
+                class="action-button"
+                href="${escapeAttr(pasta)}"
+                target="_blank">
+
+                DRIVE
+
+              </a>
+              `
+              :
+              ""
+            }
+
+
+            ${
+              criarLinkWhatsApp(
+                projeto
+              )
+              ?
+              `
+              <a
+                class="action-button action-whatsapp"
+                href="${escapeAttr(
+                  criarLinkWhatsApp(projeto)
+                )}"
+                target="_blank">
+
+                WHATSAPP
+
+              </a>
+              `
+              :
+              ""
+            }
+
+          </div>
+
+        </td>
+
+      `;
+
+
+      body.appendChild(
+        tr
+      );
+
+    }
+  );
+
+
+  esconderLoading();
+
+}
+
+
+/* =====================================================
+   DETALHES
+===================================================== */
+
+function abrirDetalhes(
+  linha
+) {
+
+  const projeto =
+    projetos.find(
+      p =>
+        Number(
+          p._linha
+        ) === Number(linha)
+    );
+
+
+  if (!projeto) {
+
+    return;
+
+  }
+
+
+  const id =
+    obter(
+      projeto,
+      "ID PROJETO"
+    );
+
+
+  document.getElementById(
+    "modalTitle"
+  ).textContent =
+    id ||
+    "Detalhes do projeto";
+
+
+  const campos = [
+
+    ["ID PROJETO","ID do projeto"],
+
+    ["DATA / HORA","Data e hora"],
+
+    ["NOME","Arquiteto"],
+
+    ["ESCRITÓRIO","Escritório"],
+
+    ["E-MAIL","E-mail"],
+
+    ["WHATSAPP","WhatsApp"],
+
+    ["CIDADE","Cidade"],
+
+    ["ESTADO","Estado"],
+
+    ["REGISTRO PROFISSIONAL","Registro profissional"],
+
+    ["NOME DO PROJETO","Projeto"],
+
+    ["TIPO DE PROJETO","Tipo de projeto"],
+
+    ["ÁREA","Área"],
+
+    ["AMBIENTE","Ambiente"],
+
+    ["PRAZO","Prazo"],
+
+    ["INVESTIMENTO","Investimento"],
+
+    ["STATUS","Status"],
+
+    ["DESCRIÇÃO / ORÇAMENTO","Descrição / orçamento"],
+
+    ["OBSERVAÇÕES","Observações"],
+
+    ["ARQUIVOS","Arquivos"],
+
+    ["PASTA DO PROJETO","Pasta do projeto"]
+
+  ];
+
+
+  let html =
+    '<div class="detail-grid">';
+
+
+  campos.forEach(
+    function(campo) {
+
+      const valor =
+        obter(
+          projeto,
+          campo[0]
+        );
+
+
+      if (!valor) {
+        return;
+      }
+
+
+      const full =
+        [
+          "DESCRIÇÃO / ORÇAMENTO",
+          "OBSERVAÇÕES",
+          "ARQUIVOS",
+          "PASTA DO PROJETO"
+        ].includes(
+          campo[0]
+        );
+
+
+      html += `
+
+        <div class="detail ${full ? "full" : ""}">
+
+          <div class="detail-label">
+            ${escapeHTML(campo[1])}
+          </div>
+
+          <div class="detail-value">
+            ${escapeHTML(valor)}
+          </div>
+
+        </div>
+
+      `;
+
+    }
+  );
+
+
+  html +=
+    "</div>";
+
+
+  document.getElementById(
+    "modalContent"
+  ).innerHTML =
+    html;
+
+
+  document.getElementById(
+    "projectModal"
+  ).classList.add(
+    "active"
+  );
+
+}
+
+
+/* =====================================================
+   FECHAR MODAL
+===================================================== */
+
+function fecharModal() {
+
+  document.getElementById(
+    "projectModal"
+  ).classList.remove(
+    "active"
+  );
+
+}
+
+
+document.getElementById(
+  "projectModal"
+).addEventListener(
+  "click",
+  function(event) {
+
+    if (
+      event.target === this
+    ) {
+
+      fecharModal();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   WHATSAPP
+===================================================== */
+
+function criarLinkWhatsApp(
+  projeto
+) {
+
+  const numero =
+    obter(
+      projeto,
+      "WHATSAPP"
+    );
+
+
+  if (!numero) {
+    return "";
+  }
+
+
+  let telefone =
+    String(numero)
+      .replace(
+        /\D/g,
+        ""
+      );
+
+
+  if (
+    telefone.length === 10 ||
+    telefone.length === 11
+  ) {
+
+    telefone =
+      "55" +
+      telefone;
+
+  }
+
+
+  const id =
+    obter(
+      projeto,
+      "ID PROJETO"
+    );
+
+
+  const nomeProjeto =
+    obter(
+      projeto,
+      "NOME DO PROJETO"
+    );
+
+
+  const mensagem =
+    "Olá! Aqui é da ARQSELECT. " +
+    "Estamos entrando em contato sobre o projeto " +
+    id +
+    " - " +
+    nomeProjeto +
+    ".";
+
+
+  return (
+    "https://wa.me/" +
+    telefone +
+    "?text=" +
+    encodeURIComponent(
+      mensagem
+    )
+  );
+
+}
+
+
+/* =====================================================
+   OBTER CAMPO
+===================================================== */
+
+function obter(
+  objeto,
+  campo
+) {
+
+  if (
+    Object.prototype.hasOwnProperty.call(
+      objeto,
+      campo
+    )
+  ) {
+
+    return objeto[campo] || "";
+
+  }
+
+
+  /*
+   * Busca sem diferenciar maiúsculas/minúsculas
+   */
+
+  const chave =
+    Object.keys(
+      objeto
+    ).find(
+      function(k) {
+
+        return (
+          normalizar(k) ===
+          normalizar(campo)
+        );
+
+      }
+    );
+
+
+  return chave
+    ? objeto[chave] || ""
+    : "";
+
+}
+
+
+/* =====================================================
+   NORMALIZAR
+===================================================== */
+
+function normalizar(
+  texto
+) {
+
+  return String(
+    texto || ""
+  )
+    .normalize("NFD")
+    .replace(
+      /[\u0300-\u036f]/g,
+      ""
+    )
+    .toLowerCase()
+    .trim();
+
+}
+
+
+/* =====================================================
+   CLASSE STATUS
+===================================================== */
+
+function classeStatus(
+  status
+) {
+
+  const valor =
+    normalizar(status);
+
+
+  if (
+    valor === "novo"
+  ) {
+
+    return "status-novo";
+
+  }
+
+
+  if (
+    valor.includes(
+      "analise"
+    )
+  ) {
+
+    return "status-analise";
+
+  }
+
+
+  if (
+    valor.includes(
+      "orcamento"
+    )
+  ) {
+
+    return "status-orcamento";
+
+  }
+
+
+  if (
+    valor.includes(
+      "fechado"
+    )
+  ) {
+
+    return "status-fechado";
+
+  }
+
+
+  return "status-novo";
+
+}
+
+
+/* =====================================================
+   HTML SAFE
+===================================================== */
+
+function escapeHTML(
+  texto
+) {
+
+  return String(
+    texto || ""
+  )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+function escapeAttr(
+  texto
+) {
+
+  return escapeHTML(
+    texto
+  );
+
+}
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+function mostrarLoading() {
+
+  document.getElementById(
+    "loading"
+  ).style.display =
+    "block";
+
+
+  document.getElementById(
+    "projectsTable"
+  ).style.display =
+    "none";
+
+
+  document.getElementById(
+    "empty"
+  ).style.display =
+    "none";
+
+}
+
+
+function esconderLoading() {
+
+  document.getElementById(
+    "loading"
+  ).style.display =
+    "none";
+
+}
+
+
+/* =====================================================
+   ERRO
+===================================================== */
+
+function mostrarErro(
+  mensagem
+) {
+
+  const box =
+    document.getElementById(
+      "errorBox"
+    );
+
+
+  box.textContent =
+    mensagem;
+
+
+  box.style.display =
+    "block";
+
+}
+
+
+function esconderErro() {
+
+  const box =
+    document.getElementById(
+      "errorBox"
+    );
+
+
+  box.style.display =
+    "none";
+
+}
+
+</script>
+
+
+</body>
+
+</html>
