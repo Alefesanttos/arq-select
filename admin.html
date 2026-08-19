@@ -1,651 +1,387 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>ARQSELECT — Painel Administrativo</title>
 
 <style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f5f5;
+  color:#222;
+}
+header{
+  background:#111;
+  color:#fff;
+  padding:22px 30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+.logo{
+  font-size:25px;
+  font-weight:700;
+  letter-spacing:2px;
+}
+.logo span{color:#c9a45c}
+.header-info{font-size:13px;color:#ccc}
+.container{
+  max-width:1450px;
+  margin:25px auto;
+  padding:0 18px;
+}
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+h1{margin:0;font-size:24px}
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+button{
+  border:0;
+  border-radius:7px;
+  padding:11px 16px;
+  cursor:pointer;
+  font-weight:700;
+}
+.btn-primary{background:#c9a45c;color:#111}
+.btn-dark{background:#222;color:#fff}
+.btn-light{background:#fff;border:1px solid #ddd}
+.btn-danger{background:#b42318;color:#fff}
+button:disabled{opacity:.6;cursor:not-allowed}
 
-* {
-    box-sizing: border-box;
+.status-message{
+  display:none;
+  padding:13px 16px;
+  border-radius:7px;
+  margin-bottom:18px;
+  font-size:14px;
+}
+.status-message.success{display:block;background:#e9f8ef;color:#176b39}
+.status-message.error{display:block;background:#fff0f0;color:#a21d1d}
+.status-message.loading{display:block;background:#f1f1f1;color:#555}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+  margin-bottom:20px;
+}
+.stat{
+  background:#fff;
+  border:1px solid #e5e5e5;
+  border-radius:10px;
+  padding:18px;
+}
+.stat-label{font-size:12px;color:#777;margin-bottom:7px}
+.stat-value{font-size:26px;font-weight:700}
+.filters{
+  background:#fff;
+  border:1px solid #e5e5e5;
+  border-radius:10px;
+  padding:15px;
+  margin-bottom:18px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.filters input,.filters select{
+  padding:11px 12px;
+  border:1px solid #ddd;
+  border-radius:7px;
+  background:#fff;
+}
+.filters input{min-width:280px;flex:1}
+
+.table-wrap{
+  background:#fff;
+  border:1px solid #e5e5e5;
+  border-radius:10px;
+  overflow:auto;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1150px;
+}
+th,td{
+  padding:13px 12px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+  vertical-align:middle;
+  font-size:13px;
+}
+th{
+  background:#fafafa;
+  font-size:12px;
+  color:#666;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
+tr:hover td{background:#fcfaf5}
+.project-id{
+  font-weight:700;
+  color:#8b6a28;
+}
+.project-name{font-weight:700}
+.muted{color:#888}
+.actions-cell{
+  display:flex;
+  gap:7px;
+  align-items:center;
+}
+.small-btn{
+  padding:8px 10px;
+  font-size:12px;
+}
+.status-select{
+  min-width:125px;
+  padding:8px;
+  border:1px solid #ddd;
+  border-radius:6px;
+  background:#fff;
+}
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#eee;
+  font-size:11px;
+  font-weight:700;
+}
+.badge-novo{background:#e9eefb;color:#274690}
+.badge-analise{background:#fff4d8;color:#7c5b00}
+.badge-orcamento{background:#e9f7ef;color:#18733d}
+.badge-fechado{background:#dff5e8;color:#126b35}
+.badge-cancelado{background:#ffe5e5;color:#a31c1c}
+
+.empty{
+  text-align:center;
+  padding:50px 20px;
+  color:#777;
+}
+.loading-box{
+  text-align:center;
+  padding:45px;
+  color:#777;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f4f5f7;
-    color: #222;
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  z-index:999;
+  padding:20px;
+  overflow:auto;
 }
-
-/* =====================================================
-   TOPO
-===================================================== */
-
-.header {
-    background: #111;
-    color: #fff;
-    padding: 20px 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 2px 10px rgba(0,0,0,.15);
+.modal.active{display:block}
+.modal-box{
+  background:#fff;
+  max-width:850px;
+  margin:30px auto;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
 }
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    letter-spacing: 2px;
+.modal-header{
+  background:#111;
+  color:#fff;
+  padding:18px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
-
-.logo span {
-    color: #c9a45c;
+.modal-header h2{margin:0;font-size:19px}
+.close{
+  background:transparent;
+  color:#fff;
+  font-size:26px;
+  padding:0 5px;
 }
-
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+.modal-body{
+  padding:22px;
 }
-
-.status-conexao {
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    gap: 7px;
+.detail-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
 }
-
-.status-bolinha {
-    width: 9px;
-    height: 9px;
-    background: #27ae60;
-    border-radius: 50%;
+.detail{
+  border:1px solid #eee;
+  border-radius:8px;
+  padding:13px;
 }
-
-/* =====================================================
-   CONTAINER
-===================================================== */
-
-.container {
-    max-width: 1400px;
-    margin: 30px auto;
-    padding: 0 20px;
+.detail.full{grid-column:1/-1}
+.detail-label{
+  color:#777;
+  font-size:11px;
+  text-transform:uppercase;
+  margin-bottom:6px;
 }
-
-/* =====================================================
-   DASHBOARD
-===================================================== */
-
-.dashboard {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin-bottom: 25px;
+.detail-value{
+  white-space:pre-wrap;
+  word-break:break-word;
+  font-size:14px;
 }
-
-.card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 22px;
-    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+.detail-value a{
+  color:#87651e;
+  font-weight:700;
 }
-
-.card-label {
-    color: #777;
-    font-size: 13px;
-    margin-bottom: 8px;
+@media(max-width:900px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .detail-grid{grid-template-columns:1fr}
+  .detail.full{grid-column:auto}
 }
-
-.card-value {
-    font-size: 28px;
-    font-weight: bold;
+@media(max-width:550px){
+  header{padding:18px}
+  .stats{grid-template-columns:1fr}
+  .container{padding:0 10px}
 }
-
-.card-value.gold {
-    color: #b28a43;
-}
-
-/* =====================================================
-   BARRA
-===================================================== */
-
-.toolbar {
-    background: #fff;
-    padding: 18px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    box-shadow: 0 2px 10px rgba(0,0,0,.05);
-}
-
-.toolbar input,
-.toolbar select {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 14px;
-}
-
-.toolbar input {
-    flex: 1;
-    min-width: 250px;
-}
-
-button {
-    border: none;
-    cursor: pointer;
-    border-radius: 8px;
-    padding: 11px 16px;
-    font-weight: bold;
-}
-
-.btn-atualizar {
-    background: #111;
-    color: white;
-}
-
-.btn-atualizar:hover {
-    background: #333;
-}
-
-/* =====================================================
-   TABELA
-===================================================== */
-
-.tabela-container {
-    background: #fff;
-    border-radius: 12px;
-    overflow-x: auto;
-    box-shadow: 0 2px 10px rgba(0,0,0,.06);
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 1050px;
-}
-
-thead {
-    background: #111;
-    color: white;
-}
-
-th {
-    padding: 15px;
-    text-align: left;
-    font-size: 13px;
-    white-space: nowrap;
-}
-
-td {
-    padding: 14px 15px;
-    border-bottom: 1px solid #eee;
-    font-size: 13px;
-}
-
-tbody tr:hover {
-    background: #fafafa;
-}
-
-/* =====================================================
-   STATUS
-===================================================== */
-
-.status {
-    display: inline-block;
-    padding: 6px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: bold;
-}
-
-.status-novo {
-    background: #e8f1ff;
-    color: #2463c5;
-}
-
-.status-analise {
-    background: #fff4d6;
-    color: #9a7200;
-}
-
-.status-orcamento {
-    background: #eee5ff;
-    color: #7040b8;
-}
-
-.status-fechado {
-    background: #def7e8;
-    color: #198754;
-}
-
-.status-cancelado {
-    background: #ffe3e3;
-    color: #c0392b;
-}
-
-/* =====================================================
-   BOTÃO DETALHES
-===================================================== */
-
-.btn-detalhes {
-    background: #c9a45c;
-    color: #111;
-    font-size: 12px;
-}
-
-.btn-detalhes:hover {
-    background: #b28a43;
-}
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    inset: 0;
-    background: rgba(0,0,0,.65);
-    padding: 30px;
-    overflow-y: auto;
-}
-
-.modal.active {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-}
-
-.modal-box {
-    width: 100%;
-    max-width: 900px;
-    background: #fff;
-    border-radius: 14px;
-    margin-top: 30px;
-    overflow: hidden;
-    box-shadow: 0 15px 50px rgba(0,0,0,.3);
-}
-
-.modal-header {
-    background: #111;
-    color: white;
-    padding: 20px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.modal-header h2 {
-    margin: 0;
-    font-size: 20px;
-}
-
-.fechar {
-    background: transparent;
-    color: white;
-    font-size: 28px;
-    padding: 0;
-}
-
-.modal-body {
-    padding: 25px;
-}
-
-/* =====================================================
-   DETALHES
-===================================================== */
-
-.detalhes-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-}
-
-.detalhe {
-    background: #f7f7f7;
-    padding: 15px;
-    border-radius: 8px;
-}
-
-.detalhe.full {
-    grid-column: 1 / -1;
-}
-
-.detalhe-label {
-    color: #777;
-    font-size: 11px;
-    text-transform: uppercase;
-    margin-bottom: 7px;
-}
-
-.detalhe-valor {
-    font-size: 15px;
-    font-weight: 600;
-    word-break: break-word;
-    white-space: pre-wrap;
-}
-
-/* =====================================================
-   STATUS NO MODAL
-===================================================== */
-
-.status-area {
-    margin-top: 25px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-}
-
-.status-area label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-.status-area select {
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    width: 250px;
-}
-
-.btn-status {
-    background: #111;
-    color: white;
-    margin-left: 8px;
-}
-
-.btn-status:hover {
-    background: #333;
-}
-
-/* =====================================================
-   LOADING
-===================================================== */
-
-.loading {
-    padding: 50px;
-    text-align: center;
-    color: #777;
-}
-
-.spinner {
-    width: 35px;
-    height: 35px;
-    border: 4px solid #ddd;
-    border-top-color: #c9a45c;
-    border-radius: 50%;
-    margin: 0 auto 15px;
-    animation: girar 1s linear infinite;
-}
-
-@keyframes girar {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* =====================================================
-   ERRO
-===================================================== */
-
-.erro {
-    background: #ffe6e6;
-    color: #b00020;
-    padding: 18px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-/* =====================================================
-   RESPONSIVO
-===================================================== */
-
-@media (max-width: 900px) {
-
-    .dashboard {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .detalhes-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-@media (max-width: 600px) {
-
-    .dashboard {
-        grid-template-columns: 1fr;
-    }
-
-    .header {
-        padding: 15px;
-    }
-
-    .container {
-        padding: 0 10px;
-    }
-
-    .modal {
-        padding: 10px;
-    }
-
-    .modal-box {
-        margin-top: 10px;
-    }
-
-}
-
-/* =====================================================
-   LINKS
-===================================================== */
-
-.link {
-    color: #1266cc;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.link:hover {
-    text-decoration: underline;
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- ===================================================
-     HEADER
-=================================================== -->
-
-<header class="header">
-
-    <div class="logo">
-        ARQ<span>SELECT</span>
-    </div>
-
-    <div class="header-right">
-
-        <div class="status-conexao">
-            <span class="status-bolinha" id="statusBolinha"></span>
-            <span id="statusTexto">Conectando...</span>
-        </div>
-
-    </div>
-
+<header>
+  <div class="logo">ARQ<span>SELECT</span></div>
+  <div class="header-info">Painel Administrativo de Projetos</div>
 </header>
 
+<main class="container">
 
-<!-- ===================================================
-     CONTAINER
-=================================================== -->
-
-<div class="container">
-
-    <div id="mensagemErro"></div>
-
-    <!-- DASHBOARD -->
-
-    <div class="dashboard">
-
-        <div class="card">
-            <div class="card-label">
-                Total de projetos
-            </div>
-
-            <div class="card-value gold"
-                 id="totalProjetos">
-                0
-            </div>
-        </div>
-
-
-        <div class="card">
-            <div class="card-label">
-                Novos
-            </div>
-
-            <div class="card-value"
-                 id="totalNovos">
-                0
-            </div>
-        </div>
-
-
-        <div class="card">
-            <div class="card-label">
-                Em análise
-            </div>
-
-            <div class="card-value"
-                 id="totalAnalise">
-                0
-            </div>
-        </div>
-
-
-        <div class="card">
-            <div class="card-label">
-                Fechados
-            </div>
-
-            <div class="card-value"
-                 id="totalFechados">
-                0
-            </div>
-        </div>
-
+  <div class="topbar">
+    <div>
+      <h1>Projetos recebidos</h1>
+      <div class="muted" style="margin-top:5px">Gestão de solicitações de arquitetos</div>
     </div>
 
+    <div class="actions">
+      <button class="btn-primary" onclick="carregarProjetos()">↻ Atualizar</button>
+      <button class="btn-dark" onclick="testarAPI()">Teste API</button>
+    </div>
+  </div>
 
-    <!-- TOOLBAR -->
+  <div id="mensagem" class="status-message"></div>
 
-    <div class="toolbar">
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-label">TOTAL</div>
+      <div class="stat-value" id="statTotal">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">NOVOS</div>
+      <div class="stat-value" id="statNovo">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">EM ANÁLISE</div>
+      <div class="stat-value" id="statAnalise">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">ORÇAMENTO</div>
+      <div class="stat-value" id="statOrcamento">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">FECHADOS</div>
+      <div class="stat-value" id="statFechado">0</div>
+    </div>
+  </section>
 
-        <input
-            type="text"
-            id="busca"
-            placeholder="Pesquisar projeto, arquiteto, e-mail ou cidade..."
-            oninput="filtrarProjetos()"
-        >
+  <section class="filters">
+    <input
+      id="busca"
+      type="search"
+      placeholder="Buscar por projeto, arquiteto, e-mail, cidade ou ID..."
+      oninput="renderizarTabela()"
+    >
 
-        <select
-            id="filtroStatus"
-            onchange="filtrarProjetos()"
-        >
-            <option value="">Todos os status</option>
-            <option value="Novo">Novo</option>
-            <option value="Em análise">Em análise</option>
-            <option value="Orçamento">Orçamento</option>
-            <option value="Fechado">Fechado</option>
-            <option value="Cancelado">Cancelado</option>
-        </select>
+    <select id="filtroStatus" onchange="renderizarTabela()">
+      <option value="">Todos os status</option>
+      <option value="Novo">Novo</option>
+      <option value="Em análise">Em análise</option>
+      <option value="Orçamento">Orçamento</option>
+      <option value="Fechado">Fechado</option>
+      <option value="Cancelado">Cancelado</option>
+    </select>
 
-        <button
-            class="btn-atualizar"
-            onclick="carregarProjetos()"
-        >
-            ↻ Atualizar
-        </button>
+    <select id="filtroTipo" onchange="renderizarTabela()">
+      <option value="">Todos os tipos</option>
+    </select>
 
+    <button class="btn-light" onclick="limparFiltros()">Limpar filtros</button>
+  </section>
+
+  <section class="table-wrap">
+    <div id="loading" class="loading-box">
+      Carregando projetos...
     </div>
 
+    <table id="tabela" style="display:none">
+      <thead>
+        <tr>
+          <th>Projeto</th>
+          <th>Data</th>
+          <th>Arquiteto</th>
+          <th>Escritório</th>
+          <th>Local</th>
+          <th>Tipo</th>
+          <th>Área</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaBody"></tbody>
+    </table>
 
-    <!-- TABELA -->
+    <div id="vazio" class="empty" style="display:none">
+      Nenhum projeto encontrado.
+    </div>
+  </section>
 
-    <div class="tabela-container"
-         id="tabelaContainer">
+</main>
 
-        <div class="loading">
-
-            <div class="spinner"></div>
-
-            Carregando projetos...
-
-        </div>
-
+<!-- MODAL -->
+<div id="modal" class="modal" onclick="fecharModalFora(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>Detalhes do projeto</h2>
+      <button class="close" onclick="fecharModal()">×</button>
     </div>
 
+    <div class="modal-body">
+      <div id="detalhesProjeto" class="detail-grid"></div>
+    </div>
+  </div>
 </div>
-
-
-<!-- ===================================================
-     MODAL
-=================================================== -->
-
-<div
-    class="modal"
-    id="modal"
-    onclick="fecharModalFora(event)"
->
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h2>
-                Detalhes do projeto
-            </h2>
-
-            <button
-                class="fechar"
-                onclick="fecharModal()"
-            >
-                ×
-            </button>
-
-        </div>
-
-
-        <div class="modal-body"
-             id="modalConteudo">
-
-        </div>
-
-    </div>
-
-</div>
-
 
 <script>
-
 /* =====================================================
    CONFIGURAÇÃO
 ===================================================== */
 
-const API_URL =
-"https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
+const SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
 
+const STATUS_PERMITIDOS = [
+  "Novo",
+  "Em análise",
+  "Orçamento",
+  "Fechado",
+  "Cancelado"
+];
 
 let projetos = [];
-
 let projetoSelecionado = null;
 
 
@@ -653,197 +389,30 @@ let projetoSelecionado = null;
    INICIALIZAÇÃO
 ===================================================== */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
-
-        carregarProjetos();
-
-    }
-);
+document.addEventListener("DOMContentLoaded", function() {
+  carregarProjetos();
+});
 
 
 /* =====================================================
-   PEGAR VALOR CORRETO
- *
- * IMPORTANTE:
- * A planilha antiga e a nova possuem
- * nomes diferentes para algumas colunas.
- *
- * Esta função procura várias possibilidades
- * e usa a primeira que possuir valor.
+   MENSAGEM
 ===================================================== */
 
-function pegar(obj, nomes) {
+function mostrarMensagem(texto, tipo) {
 
-    if (!obj) {
-        return "";
-    }
+  const el = document.getElementById("mensagem");
 
-    for (const nome of nomes) {
-
-        if (
-            Object.prototype.hasOwnProperty.call(
-                obj,
-                nome
-            )
-        ) {
-
-            const valor =
-                obj[nome];
-
-            if (
-                valor !== null &&
-                valor !== undefined &&
-                String(valor).trim() !== ""
-            ) {
-
-                return String(valor).trim();
-
-            }
-
-        }
-
-    }
-
-    return "";
+  el.className = "status-message " + tipo;
+  el.textContent = texto;
 
 }
 
+function esconderMensagem() {
 
-/* =====================================================
-   CAMPOS NORMALIZADOS
-===================================================== */
+  const el = document.getElementById("mensagem");
 
-function normalizarProjeto(p) {
-
-    return {
-
-        original: p,
-
-        linha:
-            pegar(p, ["_linha"]),
-
-        id:
-            pegar(p, [
-                "ID PROJETO",
-                "NUMERO DO PROJETO"
-            ]),
-
-        data:
-            pegar(p, [
-                "DATA / HORA",
-                "DATA"
-            ]),
-
-        nome:
-            pegar(p, [
-                "NOME",
-                "NOME DO ARQUITETO",
-                "ARQUITETO"
-            ]),
-
-        escritorio:
-            pegar(p, [
-                "ESCRITÓRIO",
-                "ESCRITORIO"
-            ]),
-
-        email:
-            pegar(p, [
-                "E-MAIL",
-                "EMAIL"
-            ]),
-
-        whatsapp:
-            pegar(p, [
-                "WHATSAPP"
-            ]),
-
-        cidade:
-            pegar(p, [
-                "CIDADE"
-            ]),
-
-        estado:
-            pegar(p, [
-                "ESTADO"
-            ]),
-
-        registro:
-            pegar(p, [
-                "REGISTRO PROFISSIONAL",
-                "REGISTRO"
-            ]),
-
-        projeto:
-            pegar(p, [
-                "NOME DO PROJETO",
-                "PROJETO"
-            ]),
-
-        tipo:
-            pegar(p, [
-                "TIPO DE PROJETO",
-                "TIPO PROJETO"
-            ]),
-
-        area:
-            pegar(p, [
-                "ÁREA",
-                "AREA"
-            ]),
-
-        ambiente:
-            pegar(p, [
-                "AMBIENTE"
-            ]),
-
-        prazo:
-            pegar(p, [
-                "PRAZO"
-            ]),
-
-        descricao:
-            pegar(p, [
-                "DESCRIÇÃO / ORÇAMENTO",
-                "DESCRIÇÃO",
-                "DESCRIÇÃO / ORCAMENTO"
-            ]),
-
-        investimento:
-            pegar(p, [
-                "INVESTIMENTO"
-            ]),
-
-        observacoes:
-            pegar(p, [
-                "OBSERVAÇÕES",
-                "OBSERVACOES"
-            ]),
-
-        arquivos:
-            pegar(p, [
-                "ARQUIVOS"
-            ]),
-
-        pasta:
-            pegar(p, [
-                "PASTA DO PROJETO"
-            ]),
-
-        status:
-            pegar(p, [
-                "STATUS"
-            ]) || "Novo",
-
-        notificacao:
-            pegar(p, [
-                "NOTIFICAÇÃO",
-                "NOTIFICACAO"
-            ])
-
-    };
+  el.className = "status-message";
+  el.textContent = "";
 
 }
 
@@ -854,608 +423,369 @@ function normalizarProjeto(p) {
 
 async function carregarProjetos() {
 
-    mostrarLoading();
+  const loading = document.getElementById("loading");
+  const tabela = document.getElementById("tabela");
+  const vazio = document.getElementById("vazio");
 
-    esconderErro();
+  loading.style.display = "block";
+  tabela.style.display = "none";
+  vazio.style.display = "none";
 
-    try {
+  mostrarMensagem(
+    "Carregando projetos...",
+    "loading"
+  );
 
-        const resposta =
-            await fetch(
-                API_URL +
-                "?acao=projetos&t=" +
-                Date.now()
-            );
+  try {
 
-        if (!resposta.ok) {
+    const url =
+      SCRIPT_URL +
+      "?acao=projetos&_=" +
+      Date.now();
 
-            throw new Error(
-                "HTTP " +
-                resposta.status
-            );
+    const resposta = await fetch(url, {
+      method: "GET",
+      cache: "no-store"
+    });
 
-        }
+    if (!resposta.ok) {
+      throw new Error(
+        "Erro HTTP " + resposta.status
+      );
+    }
 
-        const dados =
-            await resposta.json();
+    const dados = await resposta.json();
 
-        console.log(
-            "Resposta recebida:",
-            dados
-        );
+    console.log("Resposta projetos:", dados);
 
+    if (!dados.sucesso) {
 
-        if (!dados.sucesso) {
-
-            throw new Error(
-                dados.mensagem ||
-                "Erro ao carregar projetos."
-            );
-
-        }
-
-
-        projetos =
-            Array.isArray(dados.projetos)
-                ? dados.projetos
-                : [];
-
-
-        atualizarDashboard();
-
-        renderizarTabela(
-            projetos
-        );
-
-
-        document.getElementById(
-            "statusTexto"
-        ).textContent =
-            "Sistema conectado";
-
-
-        document.getElementById(
-            "statusBolinha"
-        ).style.background =
-            "#27ae60";
+      throw new Error(
+        dados.erro ||
+        dados.mensagem ||
+        "O Apps Script não conseguiu carregar os projetos."
+      );
 
     }
 
-    catch (erro) {
+    projetos =
+      Array.isArray(dados.projetos)
+        ? dados.projetos
+        : [];
 
-        console.error(
-            "Erro:",
-            erro
-        );
+    atualizarTipos();
+    atualizarEstatisticas();
+    renderizarTabela();
 
-        mostrarErro(
-            "Não foi possível carregar os projetos. " +
-            "Verifique se o Apps Script está publicado " +
-            "e se a implantação está atualizada."
-        );
+    loading.style.display = "none";
 
-
-        document.getElementById(
-            "statusTexto"
-        ).textContent =
-            "Erro de conexão";
-
-
-        document.getElementById(
-            "statusBolinha"
-        ).style.background =
-            "#c0392b";
-
+    if (projetos.length) {
+      tabela.style.display = "table";
+      esconderMensagem();
+    } else {
+      vazio.style.display = "block";
+      mostrarMensagem(
+        "Nenhum projeto encontrado.",
+        "success"
+      );
     }
 
-}
-
-
-/* =====================================================
-   LOADING
-===================================================== */
-
-function mostrarLoading() {
-
-    document.getElementById(
-        "tabelaContainer"
-    ).innerHTML = `
-
-        <div class="loading">
-
-            <div class="spinner"></div>
-
-            Carregando projetos...
-
-        </div>
-
-    `;
-
-}
-
-
-/* =====================================================
-   DASHBOARD
-===================================================== */
-
-function atualizarDashboard() {
-
-    const lista =
-        projetos.map(
-            normalizarProjeto
-        );
-
-
-    document.getElementById(
-        "totalProjetos"
-    ).textContent =
-        lista.length;
-
-
-    document.getElementById(
-        "totalNovos"
-    ).textContent =
-        lista.filter(
-            p => p.status === "Novo"
-        ).length;
-
-
-    document.getElementById(
-        "totalAnalise"
-    ).textContent =
-        lista.filter(
-            p => p.status === "Em análise"
-        ).length;
-
-
-    document.getElementById(
-        "totalFechados"
-    ).textContent =
-        lista.filter(
-            p => p.status === "Fechado"
-        ).length;
-
-}
-
-
-/* =====================================================
-   RENDERIZAR TABELA
-===================================================== */
-
-function renderizarTabela(lista) {
-
-    if (!lista.length) {
-
-        document.getElementById(
-            "tabelaContainer"
-        ).innerHTML = `
-
-            <div class="loading">
-
-                Nenhum projeto encontrado.
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    let html = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>Número</th>
-                    <th>Data</th>
-                    <th>Projeto</th>
-                    <th>Arquiteto</th>
-                    <th>Escritório</th>
-                    <th>Cidade</th>
-                    <th>Área</th>
-                    <th>Status</th>
-                    <th>Ação</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-    `;
-
-
-    lista.forEach(
-        function(item) {
-
-            const p =
-                normalizarProjeto(item);
-
-
-            html += `
-
-                <tr>
-
-                    <td>
-                        <strong>
-                            ${escapar(p.id) || "-"}
-                        </strong>
-                    </td>
-
-                    <td>
-                        ${escapar(p.data) || "-"}
-                    </td>
-
-                    <td>
-                        ${escapar(p.projeto) || "-"}
-                    </td>
-
-                    <td>
-                        ${escapar(p.nome) || "-"}
-                    </td>
-
-                    <td>
-                        ${escapar(p.escritorio) || "-"}
-                    </td>
-
-                    <td>
-                        ${escapar(p.cidade) || "-"}
-                    </td>
-
-                    <td>
-                        ${
-                            p.area
-                                ? escapar(p.area) + " m²"
-                                : "-"
-                        }
-                    </td>
-
-                    <td>
-                        ${criarBadgeStatus(p.status)}
-                    </td>
-
-                    <td>
-
-                        <button
-                            class="btn-detalhes"
-                            onclick="abrirDetalhes(${item._linha})"
-                        >
-                            Ver detalhes
-                        </button>
-
-                    </td>
-
-                </tr>
-
-            `;
-
-        }
+  } catch (erro) {
+
+    console.error(
+      "Erro ao carregar projetos:",
+      erro
     );
 
+    loading.style.display = "none";
+    tabela.style.display = "none";
+    vazio.style.display = "block";
 
-    html += `
+    mostrarMensagem(
+      "Não foi possível carregar os projetos. " +
+      "Verifique se o Apps Script está publicado e se a implantação está atualizada.",
+      "error"
+    );
 
-            </tbody>
-
-        </table>
-
-    `;
-
-
-    document.getElementById(
-        "tabelaContainer"
-    ).innerHTML =
-        html;
+  }
 
 }
 
 
 /* =====================================================
-   BADGE STATUS
+   TIPOS
 ===================================================== */
 
-function criarBadgeStatus(status) {
+function atualizarTipos() {
 
-    let classe =
-        "status-novo";
+  const select =
+    document.getElementById("filtroTipo");
 
+  const atual =
+    select.value;
 
-    if (status === "Em análise") {
-        classe = "status-analise";
-    }
+  const tipos = [
+    ...new Set(
+      projetos
+        .map(p => obter(p, [
+          "TIPO DE PROJETO",
+          "TIPO PROJETO"
+        ]))
+        .filter(Boolean)
+    )
+  ].sort();
 
-    if (status === "Orçamento") {
-        classe = "status-orcamento";
-    }
+  select.innerHTML =
+    '<option value="">Todos os tipos</option>';
 
-    if (status === "Fechado") {
-        classe = "status-fechado";
-    }
+  tipos.forEach(tipo => {
 
-    if (status === "Cancelado") {
-        classe = "status-cancelado";
-    }
+    const option =
+      document.createElement("option");
 
+    option.value = tipo;
+    option.textContent = tipo;
 
-    return `
-        <span class="status ${classe}">
-            ${escapar(status || "Novo")}
-        </span>
-    `;
+    select.appendChild(option);
+
+  });
+
+  if (tipos.includes(atual)) {
+    select.value = atual;
+  }
 
 }
 
 
 /* =====================================================
-   ABRIR DETALHES
+   ESTATÍSTICAS
 ===================================================== */
 
-function abrirDetalhes(linha) {
+function atualizarEstatisticas() {
 
-    const original =
-        projetos.find(
-            function(p) {
+  const contar = status =>
+    projetos.filter(
+      p => normalizarStatus(obter(p, ["STATUS"])) === status
+    ).length;
 
-                return Number(
-                    p._linha
-                ) === Number(linha);
+  document.getElementById("statTotal").textContent =
+    projetos.length;
 
-            }
+  document.getElementById("statNovo").textContent =
+    contar("Novo");
+
+  document.getElementById("statAnalise").textContent =
+    contar("Em análise");
+
+  document.getElementById("statOrcamento").textContent =
+    contar("Orçamento");
+
+  document.getElementById("statFechado").textContent =
+    contar("Fechado");
+
+}
+
+
+/* =====================================================
+   RENDERIZAR
+===================================================== */
+
+function renderizarTabela() {
+
+  const body =
+    document.getElementById("tabelaBody");
+
+  const busca =
+    document.getElementById("busca").value
+      .toLowerCase()
+      .trim();
+
+  const filtroStatus =
+    document.getElementById("filtroStatus").value;
+
+  const filtroTipo =
+    document.getElementById("filtroTipo").value;
+
+  const filtrados =
+    projetos.filter(p => {
+
+      const texto = [
+        obter(p, ["ID PROJETO", "NUMERO DO PROJETO"]),
+        obter(p, ["NOME", "NOME DO ARQUITETO"]),
+        obter(p, ["ESCRITÓRIO"]),
+        obter(p, ["E-MAIL", "EMAIL"]),
+        obter(p, ["CIDADE"]),
+        obter(p, ["ESTADO"]),
+        obter(p, ["NOME DO PROJETO", "PROJETO"]),
+        obter(p, ["DESCRIÇÃO / ORÇAMENTO", "DESCRIÇÃO"])
+      ]
+      .join(" ")
+      .toLowerCase();
+
+      const status =
+        normalizarStatus(
+          obter(p, ["STATUS"])
         );
 
+      const tipo =
+        obter(p, [
+          "TIPO DE PROJETO",
+          "TIPO PROJETO"
+        ]);
 
-    if (!original) {
+      return (
+        (!busca || texto.includes(busca)) &&
+        (!filtroStatus || status === filtroStatus) &&
+        (!filtroTipo || tipo === filtroTipo)
+      );
 
-        alert(
-            "Projeto não encontrado."
-        );
+    });
 
-        return;
+  body.innerHTML = "";
 
-    }
+  if (!filtrados.length) {
 
+    document.getElementById("tabela").style.display = "none";
+    document.getElementById("vazio").style.display = "block";
 
-    const p =
-        normalizarProjeto(
-            original
-        );
+    return;
 
+  }
 
-    projetoSelecionado =
-        p;
+  document.getElementById("tabela").style.display = "table";
+  document.getElementById("vazio").style.display = "none";
 
+  filtrados.forEach(p => {
 
-    const valor =
-        function(v) {
+    const tr =
+      document.createElement("tr");
 
-            return v
-                ? escapar(v)
-                : "Não informado";
+    const id =
+      obter(p, [
+        "ID PROJETO",
+        "NUMERO DO PROJETO"
+      ]) || "Sem ID";
 
-        };
+    const data =
+      obter(p, [
+        "DATA / HORA",
+        "DATA"
+      ]);
 
+    const nome =
+      obter(p, ["NOME"]);
 
-    let arquivosHTML =
-        valor(p.arquivos);
+    const escritorio =
+      obter(p, ["ESCRITÓRIO"]);
 
+    const cidade =
+      obter(p, ["CIDADE"]);
 
-    if (
-        p.arquivos &&
-        p.arquivos.includes("http")
-    ) {
+    const estado =
+      obter(p, ["ESTADO"]);
 
-        arquivosHTML =
-            transformarLinks(
-                p.arquivos
-            );
+    const tipo =
+      obter(p, [
+        "TIPO DE PROJETO",
+        "TIPO PROJETO"
+      ]);
 
-    }
+    const area =
+      obter(p, [
+        "ÁREA",
+        "AREA"
+      ]);
 
+    const status =
+      normalizarStatus(
+        obter(p, ["STATUS"])
+      ) || "Novo";
 
-    let pastaHTML =
-        valor(p.pasta);
-
-
-    if (
-        p.pasta &&
-        p.pasta.includes("http")
-    ) {
-
-        pastaHTML = `
-
-            <a
-                class="link"
-                href="${escaparAtributo(p.pasta)}"
-                target="_blank"
-            >
-                📁 Abrir pasta do projeto
-            </a>
-
-        `;
-
-    }
-
-
-    document.getElementById(
-        "modalConteudo"
-    ).innerHTML = `
-
-        <div class="detalhes-grid">
-
-            ${campo("Número do projeto", valor(p.id))}
-
-            ${campo("Data", valor(p.data))}
-
-            ${campo("Nome", valor(p.nome))}
-
-            ${campo("Escritório", valor(p.escritorio))}
-
-            ${campo("E-mail", valor(p.email))}
-
-            ${campo("WhatsApp", valor(p.whatsapp))}
-
-            ${campo("Cidade", valor(p.cidade))}
-
-            ${campo("Estado", valor(p.estado))}
-
-            ${campo("Registro profissional", valor(p.registro))}
-
-            ${campo("Nome do projeto", valor(p.projeto))}
-
-            ${campo("Tipo de projeto", valor(p.tipo))}
-
-            ${campo(
-                "Área",
-                p.area
-                    ? escapar(p.area) + " m²"
-                    : "Não informado"
-            )}
-
-            ${campo("Ambiente", valor(p.ambiente))}
-
-            ${campo("Prazo", valor(p.prazo))}
-
-            ${campo("Investimento", valor(p.investimento))}
-
-            ${campo(
-                "Status",
-                criarBadgeStatus(p.status)
-            )}
-
-            ${campo(
-                "Notificação",
-                valor(p.notificacao)
-            )}
-
-            ${campoFull(
-                "Descrição / orçamento",
-                valor(p.descricao)
-            )}
-
-            ${campoFull(
-                "Observações",
-                valor(p.observacoes)
-            )}
-
-            ${campoFull(
-                "Arquivos",
-                arquivosHTML
-            )}
-
-            ${campoFull(
-                "Pasta do projeto",
-                pastaHTML
-            )}
-
+    tr.innerHTML = `
+      <td>
+        <div class="project-id">${esc(id)}</div>
+        <div class="project-name">
+          ${esc(
+            obter(p, [
+              "NOME DO PROJETO",
+              "PROJETO"
+            ]) || "Projeto sem nome"
+          )}
         </div>
+      </td>
 
+      <td>${esc(data || "Não informado")}</td>
 
-        <div class="status-area">
+      <td>${esc(nome || "Não informado")}</td>
 
-            <label>
-                Alterar status
-            </label>
+      <td>${esc(escritorio || "Não informado")}</td>
 
-            <select id="novoStatus">
+      <td>
+        ${esc(cidade || "Não informado")}
+        ${estado ? " - " + esc(estado) : ""}
+      </td>
 
-                <option value="Novo"
-                    ${p.status === "Novo" ? "selected" : ""}>
-                    Novo
-                </option>
+      <td>${esc(tipo || "Não informado")}</td>
 
-                <option value="Em análise"
-                    ${p.status === "Em análise" ? "selected" : ""}>
-                    Em análise
-                </option>
+      <td>${esc(area || "Não informado")}</td>
 
-                <option value="Orçamento"
-                    ${p.status === "Orçamento" ? "selected" : ""}>
-                    Orçamento
-                </option>
+      <td>
+        ${criarSelectStatus(p)}
+      </td>
 
-                <option value="Fechado"
-                    ${p.status === "Fechado" ? "selected" : ""}>
-                    Fechado
-                </option>
+      <td>
+        <div class="actions-cell">
+          <button
+            class="btn-primary small-btn"
+            onclick="abrirDetalhes(${Number(p._linha)})"
+          >
+            Detalhes
+          </button>
 
-                <option value="Cancelado"
-                    ${p.status === "Cancelado" ? "selected" : ""}>
-                    Cancelado
-                </option>
-
-            </select>
-
-
-            <button
-                class="btn-status"
-                onclick="alterarStatus()"
-            >
-                Salvar status
-            </button>
-
+          ${criarBotoesLinks(p)}
         </div>
-
+      </td>
     `;
 
+    body.appendChild(tr);
 
-    document.getElementById(
-        "modal"
-    ).classList.add("active");
+  });
 
 }
 
 
 /* =====================================================
-   CAMPO
+   SELECT DE STATUS
 ===================================================== */
 
-function campo(label, valor) {
+function criarSelectStatus(projeto) {
 
-    return `
+  const status =
+    normalizarStatus(
+      obter(projeto, ["STATUS"])
+    ) || "Novo";
 
-        <div class="detalhe">
+  const linha =
+    Number(projeto._linha);
 
-            <div class="detalhe-label">
-                ${label}
-            </div>
+  let html =
+    `<select class="status-select"
+      onchange="alterarStatus(${linha}, this.value, this)"
+      data-linha="${linha}">`;
 
-            <div class="detalhe-valor">
-                ${valor}
-            </div>
+  STATUS_PERMITIDOS.forEach(opcao => {
 
-        </div>
+    html +=
+      `<option value="${escAttr(opcao)}"
+        ${status === opcao ? "selected" : ""}>
+        ${esc(opcao)}
+      </option>`;
 
-    `;
+  });
 
-}
+  html += "</select>";
 
-
-/* =====================================================
-   CAMPO FULL
-===================================================== */
-
-function campoFull(label, valor) {
-
-    return `
-
-        <div class="detalhe full">
-
-            <div class="detalhe-label">
-                ${label}
-            </div>
-
-            <div class="detalhe-valor">
-                ${valor}
-            </div>
-
-        </div>
-
-    `;
+  return html;
 
 }
 
@@ -1464,321 +794,701 @@ function campoFull(label, valor) {
    ALTERAR STATUS
 ===================================================== */
 
-async function alterarStatus() {
+async function alterarStatus(
+  linha,
+  novoStatus,
+  select
+) {
 
-    if (!projetoSelecionado) {
+  const statusAnterior =
+    normalizarStatus(
+      obter(
+        projetos.find(
+          p => Number(p._linha) === Number(linha)
+        ) || {},
+        ["STATUS"]
+      )
+    ) || "Novo";
 
-        return;
+  if (!STATUS_PERMITIDOS.includes(novoStatus)) {
+
+    alert("Status inválido.");
+
+    if (select) {
+      select.value = statusAnterior;
+    }
+
+    return;
+
+  }
+
+  if (!linha) {
+
+    alert("Linha do projeto não informada.");
+
+    return;
+
+  }
+
+  if (select) {
+    select.disabled = true;
+  }
+
+  mostrarMensagem(
+    "Atualizando status para " + novoStatus + "...",
+    "loading"
+  );
+
+  try {
+
+    /*
+     * encodeURIComponent é obrigatório aqui.
+     * Ele corrige "Orçamento" e "Em análise".
+     */
+
+    const url =
+      SCRIPT_URL +
+      "?acao=atualizarStatus" +
+      "&linha=" +
+      encodeURIComponent(linha) +
+      "&status=" +
+      encodeURIComponent(novoStatus) +
+      "&_=" +
+      Date.now();
+
+    console.log(
+      "URL atualização:",
+      url
+    );
+
+    const resposta =
+      await fetch(url, {
+        method: "GET",
+        cache: "no-store"
+      });
+
+    if (!resposta.ok) {
+
+      throw new Error(
+        "Erro HTTP " + resposta.status
+      );
 
     }
 
+    const resultado =
+      await resposta.json();
 
-    const select =
-        document.getElementById(
-            "novoStatus"
-        );
+    console.log(
+      "Resposta atualização:",
+      resultado
+    );
 
+    if (!resultado.sucesso) {
 
-    const novoStatus =
-        select.value;
-
-
-    if (!novoStatus) {
-
-        alert(
-            "Selecione um status."
-        );
-
-        return;
+      throw new Error(
+        resultado.erro ||
+        resultado.mensagem ||
+        "Não foi possível atualizar o status."
+      );
 
     }
 
+    const projeto =
+      projetos.find(
+        p => Number(p._linha) === Number(linha)
+      );
 
-    const linha =
-        projetoSelecionado.linha;
+    if (projeto) {
+
+      projeto["STATUS"] =
+        resultado.status ||
+        novoStatus;
+
+    }
+
+    atualizarEstatisticas();
+
+    mostrarMensagem(
+      "Status atualizado com sucesso para: " +
+      (resultado.status || novoStatus),
+      "success"
+    );
+
+    if (select) {
+      select.disabled = false;
+    }
+
+  } catch (erro) {
+
+    console.error(
+      "Erro ao atualizar status:",
+      erro
+    );
+
+    if (select) {
+      select.value = statusAnterior;
+      select.disabled = false;
+    }
+
+    mostrarMensagem(
+      "Erro ao atualizar status: " +
+      erro.message,
+      "error"
+    );
+
+  }
+
+}
 
 
-    try {
+/* =====================================================
+   DETALHES
+===================================================== */
 
-        const url =
-            API_URL +
-            "?acao=atualizarStatus" +
-            "&linha=" +
-            encodeURIComponent(linha) +
-            "&status=" +
-            encodeURIComponent(novoStatus) +
-            "&t=" +
-            Date.now();
+function abrirDetalhes(linha) {
 
+  const projeto =
+    projetos.find(
+      p => Number(p._linha) === Number(linha)
+    );
 
-        const resposta =
-            await fetch(url);
+  if (!projeto) {
 
+    alert(
+      "Projeto não encontrado."
+    );
 
-        const dados =
-            await resposta.json();
+    return;
 
+  }
 
-        console.log(
-            "Resposta status:",
-            dados
+  projetoSelecionado =
+    projeto;
+
+  const campos = [
+
+    ["Número do projeto", [
+      "ID PROJETO",
+      "NUMERO DO PROJETO"
+    ]],
+
+    ["Data", [
+      "DATA / HORA",
+      "DATA"
+    ]],
+
+    ["Nome", [
+      "NOME"
+    ]],
+
+    ["Escritório", [
+      "ESCRITÓRIO"
+    ]],
+
+    ["E-mail", [
+      "E-MAIL",
+      "EMAIL"
+    ]],
+
+    ["WhatsApp", [
+      "WHATSAPP"
+    ]],
+
+    ["Cidade", [
+      "CIDADE"
+    ]],
+
+    ["Estado", [
+      "ESTADO"
+    ]],
+
+    ["Registro profissional", [
+      "REGISTRO PROFISSIONAL",
+      "REGISTRO"
+    ]],
+
+    ["Nome do projeto", [
+      "NOME DO PROJETO",
+      "PROJETO"
+    ]],
+
+    ["Tipo de projeto", [
+      "TIPO DE PROJETO",
+      "TIPO PROJETO"
+    ]],
+
+    ["Área", [
+      "ÁREA",
+      "AREA"
+    ]],
+
+    ["Ambiente", [
+      "AMBIENTE"
+    ]],
+
+    ["Prazo", [
+      "PRAZO"
+    ]],
+
+    ["Investimento", [
+      "INVESTIMENTO"
+    ]],
+
+    ["Status", [
+      "STATUS"
+    ]],
+
+    ["Notificação", [
+      "NOTIFICAÇÃO"
+    ]],
+
+    ["Descrição / orçamento", [
+      "DESCRIÇÃO / ORÇAMENTO",
+      "DESCRIÇÃO"
+    ]],
+
+    ["Observações", [
+      "OBSERVAÇÕES"
+    ]],
+
+    ["Arquivos", [
+      "ARQUIVOS"
+    ]],
+
+    ["Pasta do projeto", [
+      "PASTA DO PROJETO"
+    ]]
+
+  ];
+
+  const container =
+    document.getElementById(
+      "detalhesProjeto"
+    );
+
+  container.innerHTML = "";
+
+  campos.forEach(
+    function(campo) {
+
+      const label =
+        campo[0];
+
+      const valor =
+        obter(
+          projeto,
+          campo[1]
         );
 
+      const div =
+        document.createElement("div");
 
-        if (!dados.sucesso) {
+      div.className =
+        "detail";
 
-            throw new Error(
-                dados.mensagem ||
-                dados.erro ||
-                "Erro ao atualizar status."
-            );
+      if (
+        label === "Descrição / orçamento" ||
+        label === "Observações" ||
+        label === "Arquivos" ||
+        label === "Pasta do projeto"
+      ) {
+
+        div.classList.add("full");
+
+      }
+
+      div.innerHTML =
+        `
+        <div class="detail-label">
+          ${esc(label)}
+        </div>
+
+        <div class="detail-value">
+          ${formatarDetalhe(
+            label,
+            valor
+          )}
+        </div>
+        `;
+
+      container.appendChild(div);
+
+    }
+  );
+
+  document
+    .getElementById("modal")
+    .classList.add("active");
+
+}
+
+
+/* =====================================================
+   LINKS DA TABELA
+===================================================== */
+
+function criarBotoesLinks(projeto) {
+
+  const pasta =
+    obter(
+      projeto,
+      ["PASTA DO PROJETO"]
+    );
+
+  const whatsapp =
+    obter(
+      projeto,
+      ["WHATSAPP"]
+    );
+
+  let html = "";
+
+  if (
+    pasta &&
+    /^https?:\/\//i.test(pasta)
+  ) {
+
+    html +=
+      `<a
+        class="btn-light small-btn"
+        href="${escAttr(pasta)}"
+        target="_blank"
+        rel="noopener"
+      >Pasta</a>`;
+
+  }
+
+  /*
+   * Quando a célula WHATSAPP contém o link gerado
+   * pelo Apps Script, abrimos diretamente.
+   * Se ela contiver somente "WHATSAPP", não criamos
+   * um link falso.
+   */
+
+  if (
+    whatsapp &&
+    /^https?:\/\//i.test(whatsapp)
+  ) {
+
+    html +=
+      `<a
+        class="btn-light small-btn"
+        href="${escAttr(whatsapp)}"
+        target="_blank"
+        rel="noopener"
+      >WhatsApp</a>`;
+
+  }
+
+  return html;
+
+}
+
+
+/* =====================================================
+   FORMATAR DETALHE
+===================================================== */
+
+function formatarDetalhe(
+  label,
+  valor
+) {
+
+  if (
+    valor === null ||
+    valor === undefined ||
+    String(valor).trim() === ""
+  ) {
+
+    return '<span class="muted">Não informado</span>';
+
+  }
+
+  const texto =
+    String(valor);
+
+  /*
+   * Links
+   */
+
+  if (
+    /^https?:\/\//i.test(texto.trim())
+  ) {
+
+    return `
+      <a
+        href="${escAttr(texto.trim())}"
+        target="_blank"
+        rel="noopener"
+      >
+        Abrir link
+      </a>
+    `;
+
+  }
+
+  /*
+   * Arquivos podem conter vários links,
+   * separados por quebra de linha.
+   */
+
+  if (label === "Arquivos") {
+
+    const partes =
+      texto
+        .split(/\n+/)
+        .map(v => v.trim())
+        .filter(Boolean);
+
+    if (!partes.length) {
+      return '<span class="muted">Não informado</span>';
+    }
+
+    return partes
+      .map(item => {
+
+        const match =
+          item.match(
+            /^(.*?)\s*→\s*(https?:\/\/\S+)$/i
+          );
+
+        if (match) {
+
+          return `
+            <div style="margin-bottom:7px">
+              ${esc(match[1])}
+              →
+              <a
+                href="${escAttr(match[2])}"
+                target="_blank"
+                rel="noopener"
+              >
+                Abrir arquivo
+              </a>
+            </div>
+          `;
 
         }
 
+        return esc(item);
 
-        alert(
-            "Status atualizado com sucesso."
-        );
+      })
+      .join("");
 
+  }
 
-        fecharModal();
+  /*
+   * Quebras de linha
+   */
 
-
-        await carregarProjetos();
-
-    }
-
-    catch (erro) {
-
-        console.error(
-            erro
-        );
-
-        alert(
-            "Não foi possível atualizar o status.\n\n" +
-            erro.message
-        );
-
-    }
+  return esc(texto)
+    .replace(/\n/g, "<br>");
 
 }
 
 
 /* =====================================================
-   FILTRAR
+   NORMALIZAR STATUS
 ===================================================== */
 
-function filtrarProjetos() {
+function normalizarStatus(status) {
 
-    const busca =
-        document.getElementById(
-            "busca"
-        ).value
-        .toLowerCase()
-        .trim();
+  const texto =
+    String(status || "").trim();
 
+  /*
+   * Mantém exatamente os valores usados
+   * pelo Apps Script.
+   */
 
-    const filtro =
-        document.getElementById(
-            "filtroStatus"
-        ).value;
+  if (
+    texto === "Novo" ||
+    texto === "Em análise" ||
+    texto === "Orçamento" ||
+    texto === "Fechado" ||
+    texto === "Cancelado"
+  ) {
+    return texto;
+  }
 
-
-    const filtrados =
-        projetos.filter(
-            function(item) {
-
-                const p =
-                    normalizarProjeto(
-                        item
-                    );
-
-
-                const texto = (
-
-                    p.id + " " +
-                    p.data + " " +
-                    p.nome + " " +
-                    p.escritorio + " " +
-                    p.email + " " +
-                    p.whatsapp + " " +
-                    p.cidade + " " +
-                    p.estado + " " +
-                    p.registro + " " +
-                    p.projeto + " " +
-                    p.tipo + " " +
-                    p.area + " " +
-                    p.descricao + " " +
-                    p.observacoes
-
-                ).toLowerCase();
-
-
-                const correspondeBusca =
-                    !busca ||
-                    texto.includes(busca);
-
-
-                const correspondeStatus =
-                    !filtro ||
-                    p.status === filtro;
-
-
-                return (
-                    correspondeBusca &&
-                    correspondeStatus
-                );
-
-            }
-        );
-
-
-    renderizarTabela(
-        filtrados
-    );
+  return texto || "Novo";
 
 }
 
 
 /* =====================================================
-   FECHAR MODAL
+   OBTER CAMPO COM COMPATIBILIDADE
+===================================================== */
+
+function obter(objeto, nomes) {
+
+  if (!objeto) {
+    return "";
+  }
+
+  for (const nome of nomes) {
+
+    if (
+      Object.prototype.hasOwnProperty.call(
+        objeto,
+        nome
+      )
+    ) {
+
+      const valor =
+        objeto[nome];
+
+      if (
+        valor !== null &&
+        valor !== undefined &&
+        String(valor).trim() !== ""
+      ) {
+
+        return String(valor);
+
+      }
+
+    }
+
+  }
+
+  return "";
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function esc(valor) {
+
+  return String(valor ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+function escAttr(valor) {
+  return esc(valor);
+}
+
+
+/* =====================================================
+   FILTROS
+===================================================== */
+
+function limparFiltros() {
+
+  document.getElementById("busca").value = "";
+  document.getElementById("filtroStatus").value = "";
+  document.getElementById("filtroTipo").value = "";
+
+  renderizarTabela();
+
+}
+
+
+/* =====================================================
+   MODAL
 ===================================================== */
 
 function fecharModal() {
 
-    document.getElementById(
-        "modal"
-    ).classList.remove(
-        "active"
-    );
-
-
-    projetoSelecionado =
-        null;
+  document
+    .getElementById("modal")
+    .classList.remove("active");
 
 }
-
-
-/* =====================================================
-   FECHAR CLICANDO FORA
-===================================================== */
 
 function fecharModalFora(event) {
 
-    if (
-        event.target.id ===
-        "modal"
-    ) {
+  if (
+    event.target.id === "modal"
+  ) {
 
-        fecharModal();
+    fecharModal();
+
+  }
+
+}
+
+document.addEventListener(
+  "keydown",
+  function(event) {
+
+    if (event.key === "Escape") {
+      fecharModal();
+    }
+
+  }
+);
+
+
+/* =====================================================
+   TESTE DA API
+===================================================== */
+
+async function testarAPI() {
+
+  mostrarMensagem(
+    "Testando conexão com o Apps Script...",
+    "loading"
+  );
+
+  try {
+
+    const resposta =
+      await fetch(
+        SCRIPT_URL +
+        "?acao=teste&_=" +
+        Date.now(),
+        {
+          method:"GET",
+          cache:"no-store"
+        }
+      );
+
+    const dados =
+      await resposta.json();
+
+    console.log(
+      "Teste API:",
+      dados
+    );
+
+    if (!dados.sucesso) {
+
+      throw new Error(
+        dados.erro ||
+        dados.mensagem ||
+        "API retornou erro."
+      );
 
     }
 
-}
-
-
-/* =====================================================
-   ERRO
-===================================================== */
-
-function mostrarErro(mensagem) {
-
-    document.getElementById(
-        "mensagemErro"
-    ).innerHTML = `
-
-        <div class="erro">
-
-            ${escapar(mensagem)}
-
-        </div>
-
-    `;
-
-}
-
-
-function esconderErro() {
-
-    document.getElementById(
-        "mensagemErro"
-    ).innerHTML = "";
-
-}
-
-
-/* =====================================================
-   ESCAPAR HTML
-===================================================== */
-
-function escapar(valor) {
-
-    return String(
-        valor === undefined ||
-        valor === null
-            ? ""
-            : valor
-    )
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-    .replace(
-        /</g,
-        "&lt;"
-    )
-    .replace(
-        />/g,
-        "&gt;"
-    )
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-    .replace(
-        /'/g,
-        "&#039;"
+    mostrarMensagem(
+      "API funcionando: " +
+      dados.mensagem,
+      "success"
     );
 
-}
+  } catch (erro) {
 
+    console.error(
+      erro
+    );
 
-/* =====================================================
-   ESCAPAR ATRIBUTO
-===================================================== */
+    mostrarMensagem(
+      "Falha no teste da API: " +
+      erro.message,
+      "error"
+    );
 
-function escaparAtributo(valor) {
-
-    return escapar(valor);
-
-}
-
-
-/* =====================================================
-   TRANSFORMAR LINKS
-===================================================== */
-
-function transformarLinks(texto) {
-
-    return escapar(texto)
-        .replace(
-            /(https?:\/\/[^\s<]+)/g,
-            function(url) {
-
-                return `
-
-                    <a
-                        class="link"
-                        href="${url}"
-                        target="_blank"
-                    >
-                        ${url}
-                    </a>
-
-                `;
-
-            }
-        );
+  }
 
 }
 
@@ -1786,4 +1496,3 @@ function transformarLinks(texto) {
 
 </body>
 </html>
-```
