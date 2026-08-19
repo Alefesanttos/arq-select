@@ -64,13 +64,10 @@ button {
 :root {
 
   --gold: #c9a45c;
-
   --gold-light: #e4c982;
 
   --black: #080808;
-
   --black-2: #101010;
-
   --black-3: #151515;
 
   --white: #f7f7f7;
@@ -78,10 +75,10 @@ button {
   --gray: #999;
 
   --green: #65d391;
-
   --red: #ff8585;
-
   --blue: #72a9ff;
+
+  --purple: #d5b5ff;
 
   --border:
     rgba(201,164,92,.22);
@@ -141,6 +138,10 @@ header {
 
 
 .logo {
+
+  color: #f5f5f5;
+
+  text-decoration: none;
 
   font-size: 23px;
 
@@ -308,6 +309,37 @@ main {
 
 
 /* =====================================================
+   ERRO
+===================================================== */
+
+.error-box {
+
+  display:
+    none;
+
+  margin-bottom:
+    20px;
+
+  padding:
+    16px;
+
+  background:
+    rgba(255,80,80,.05);
+
+  border:
+    1px solid
+    rgba(255,80,80,.25);
+
+  color:
+    #ff9b9b;
+
+  font-size:
+    13px;
+
+}
+
+
+/* =====================================================
    CARDS
 ===================================================== */
 
@@ -338,11 +370,14 @@ main {
     1px solid
     rgba(255,255,255,.08);
 
-  padding: 25px;
+  padding:
+    25px;
 
-  min-height: 130px;
+  min-height:
+    130px;
 
-  transition: .3s;
+  transition:
+    .3s;
 
 }
 
@@ -360,25 +395,31 @@ main {
 
 .card-label {
 
-  color: #777;
+  color:
+    #777;
 
-  font-size: 11px;
+  font-size:
+    11px;
 
   text-transform:
     uppercase;
 
-  letter-spacing: 2px;
+  letter-spacing:
+    2px;
 
 }
 
 
 .card-number {
 
-  margin-top: 15px;
+  margin-top:
+    15px;
 
-  font-size: 38px;
+  font-size:
+    38px;
 
-  font-weight: 300;
+  font-weight:
+    300;
 
   color:
     var(--gold-light);
@@ -388,11 +429,14 @@ main {
 
 .card-description {
 
-  color: #666;
+  color:
+    #666;
 
-  font-size: 12px;
+  font-size:
+    12px;
 
-  margin-top: 3px;
+  margin-top:
+    3px;
 
 }
 
@@ -403,9 +447,11 @@ main {
 
 .toolbar {
 
-  display: flex;
+  display:
+    flex;
 
-  gap: 15px;
+  gap:
+    15px;
 
   justify-content:
     space-between;
@@ -413,27 +459,33 @@ main {
   align-items:
     center;
 
-  margin-bottom: 20px;
+  margin-bottom:
+    20px;
 
-  flex-wrap: wrap;
+  flex-wrap:
+    wrap;
 
 }
 
 
 .search-box {
 
-  flex: 1;
+  flex:
+    1;
 
-  min-width: 260px;
+  min-width:
+    260px;
 
 }
 
 
 .search-box input {
 
-  width: 100%;
+  width:
+    100%;
 
-  padding: 13px 15px;
+  padding:
+    13px 15px;
 
   background:
     #101010;
@@ -445,7 +497,8 @@ main {
   color:
     #eee;
 
-  outline: none;
+  outline:
+    none;
 
 }
 
@@ -460,9 +513,11 @@ main {
 
 .filters {
 
-  display: flex;
+  display:
+    flex;
 
-  gap: 10px;
+  gap:
+    10px;
 
 }
 
@@ -482,7 +537,8 @@ main {
   color:
     #ccc;
 
-  outline: none;
+  outline:
+    none;
 
 }
 
@@ -493,7 +549,8 @@ main {
 
 .table-container {
 
-  width: 100%;
+  width:
+    100%;
 
   overflow-x:
     auto;
@@ -510,13 +567,14 @@ main {
 
 table {
 
-  width: 100%;
+  width:
+    100%;
 
   border-collapse:
     collapse;
 
   min-width:
-    1050px;
+    1100px;
 
 }
 
@@ -614,6 +672,23 @@ tbody tr:hover {
 }
 
 
+.project-name {
+
+  margin-top:
+    4px;
+
+  color:
+    #ddd;
+
+  font-size:
+    12px;
+
+  max-width:
+    220px;
+
+}
+
+
 /* =====================================================
    STATUS
 ===================================================== */
@@ -640,6 +715,9 @@ tbody tr:hover {
 
   letter-spacing:
     1px;
+
+  white-space:
+    nowrap;
 
 }
 
@@ -675,7 +753,7 @@ tbody tr:hover {
 .status-orcamento {
 
   color:
-    #d5b5ff;
+    var(--purple);
 
   border-color:
     rgba(213,181,255,.3);
@@ -858,126 +936,6 @@ tbody tr:hover {
 
 
 /* =====================================================
-   ERROR
-===================================================== */
-
-.error-box {
-
-  display:
-    none;
-
-  margin-bottom:
-    20px;
-
-  padding:
-    16px;
-
-  background:
-    rgba(255,80,80,.05);
-
-  border:
-    1px solid
-    rgba(255,80,80,.25);
-
-  color:
-    #ff9b9b;
-
-  font-size:
-    13px;
-
-}
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media(max-width:900px) {
-
-  .dashboard-grid {
-
-    grid-template-columns:
-      repeat(2,1fr);
-
-  }
-
-}
-
-
-@media(max-width:600px) {
-
-  header {
-    height:
-      68px;
-  }
-
-  .header-content {
-    padding:
-      0 18px;
-  }
-
-  .logo {
-    font-size:
-      18px;
-  }
-
-  .system-status {
-    display:
-      none;
-  }
-
-  main {
-
-    padding:
-      100px 15px 40px;
-
-  }
-
-  .dashboard-grid {
-
-    grid-template-columns:
-      1fr 1fr;
-
-    gap:
-      10px;
-
-  }
-
-  .card {
-
-    padding:
-      18px;
-
-    min-height:
-      110px;
-
-  }
-
-  .card-number {
-
-    font-size:
-      30px;
-
-  }
-
-  .filters {
-
-    width:
-      100%;
-
-  }
-
-  .filters select {
-
-    flex:
-      1;
-
-  }
-
-}
-
-
-/* =====================================================
    MODAL
 ===================================================== */
 
@@ -1030,7 +988,13 @@ tbody tr:hover {
     100%;
 
   max-width:
-    800px;
+    850px;
+
+  max-height:
+    90vh;
+
+  overflow-y:
+    auto;
 
   background:
     #111;
@@ -1057,9 +1021,24 @@ tbody tr:hover {
   justify-content:
     space-between;
 
+  align-items:
+    center;
+
   border-bottom:
     1px solid
     rgba(255,255,255,.08);
+
+  position:
+    sticky;
+
+  top:
+    0;
+
+  background:
+    #111;
+
+  z-index:
+    2;
 
 }
 
@@ -1071,6 +1050,9 @@ tbody tr:hover {
 
   font-size:
     20px;
+
+  color:
+    var(--gold-light);
 
 }
 
@@ -1087,7 +1069,15 @@ tbody tr:hover {
     #888;
 
   font-size:
-    24px;
+    28px;
+
+}
+
+
+.close-modal:hover {
+
+  color:
+    #fff;
 
 }
 
@@ -1109,7 +1099,7 @@ tbody tr:hover {
     1fr 1fr;
 
   gap:
-    20px;
+    15px;
 
 }
 
@@ -1174,7 +1164,115 @@ tbody tr:hover {
 }
 
 
+.detail-value a {
+
+  color:
+    var(--gold-light);
+
+}
+
+
+.detail-value a:hover {
+
+  color:
+    #fff;
+
+}
+
+
+/* =====================================================
+   RESPONSIVO
+===================================================== */
+
+@media(max-width:900px) {
+
+  .dashboard-grid {
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+}
+
+
 @media(max-width:600px) {
+
+  header {
+
+    height:
+      68px;
+
+  }
+
+  .header-content {
+
+    padding:
+      0 18px;
+
+  }
+
+  .logo {
+
+    font-size:
+      18px;
+
+  }
+
+  .system-status {
+
+    display:
+      none;
+
+  }
+
+  main {
+
+    padding:
+      100px 15px 40px;
+
+  }
+
+  .dashboard-grid {
+
+    grid-template-columns:
+      1fr 1fr;
+
+    gap:
+      10px;
+
+  }
+
+  .card {
+
+    padding:
+      18px;
+
+    min-height:
+      110px;
+
+  }
+
+  .card-number {
+
+    font-size:
+      30px;
+
+  }
+
+  .filters {
+
+    width:
+      100%;
+
+  }
+
+  .filters select {
+
+    flex:
+      1;
+
+  }
 
   .detail-grid {
 
@@ -1187,6 +1285,13 @@ tbody tr:hover {
 
     grid-column:
       auto;
+
+  }
+
+  .modal {
+
+    padding:
+      10px;
 
   }
 
@@ -1267,10 +1372,6 @@ tbody tr:hover {
 
   </div>
 
-
-  <!-- ===================================================
-       ERRO
-  ==================================================== -->
 
   <div
     id="errorBox"
@@ -1375,7 +1476,7 @@ tbody tr:hover {
       <input
         type="search"
         id="searchInput"
-        placeholder="Pesquisar projeto, arquiteto, escritório ou cidade..."
+        placeholder="Pesquisar projeto, arquiteto, escritório, cidade ou e-mail..."
         oninput="renderizarTabela()">
 
     </div>
@@ -1568,13 +1669,6 @@ tbody tr:hover {
    CONFIGURAÇÃO
 ===================================================== */
 
-/*
- * URL DO SEU APPS SCRIPT
- *
- * É a mesma implantação utilizada
- * pelo arquitetos.html.
- */
-
 const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
 
@@ -1617,7 +1711,11 @@ async function carregarProjetos() {
       await fetch(
         SCRIPT_URL +
         "?acao=projetos&t=" +
-        Date.now()
+        Date.now(),
+        {
+          method: "GET",
+          cache: "no-store"
+        }
       );
 
 
@@ -1633,6 +1731,12 @@ async function carregarProjetos() {
 
     const dados =
       await resposta.json();
+
+
+    console.log(
+      "Resposta Apps Script:",
+      dados
+    );
 
 
     if (!dados.sucesso) {
@@ -1665,13 +1769,18 @@ async function carregarProjetos() {
 
   catch(error) {
 
-    console.error(error);
+    console.error(
+      "Erro ao carregar projetos:",
+      error
+    );
+
 
     mostrarErro(
       "Não foi possível carregar os projetos. " +
-      "Verifique se o Apps Script foi implantado " +
-      "novamente após adicionar a função doGet()."
+      "Erro: " +
+      error.message
     );
+
 
     esconderLoading();
 
@@ -1681,7 +1790,7 @@ async function carregarProjetos() {
 
 
 /* =====================================================
-   CARDS
+   ATUALIZAR CARDS
 ===================================================== */
 
 function atualizarCards() {
@@ -1692,30 +1801,48 @@ function atualizarCards() {
 
   const novos =
     projetos.filter(
-      p =>
-        normalizar(
-          obter(p,"STATUS")
-        ) === "novo"
+      function(p) {
+
+        return normalizar(
+          obter(
+            p,
+            "STATUS"
+          )
+        ) === "novo";
+
+      }
     ).length;
 
 
   const orcamento =
     projetos.filter(
-      p =>
-        normalizar(
-          obter(p,"STATUS")
+      function(p) {
+
+        return normalizar(
+          obter(
+            p,
+            "STATUS"
+          )
         ).includes(
           "orcamento"
-        )
+        );
+
+      }
     ).length;
 
 
   const fechados =
     projetos.filter(
-      p =>
-        normalizar(
-          obter(p,"STATUS")
-        ) === "fechado"
+      function(p) {
+
+        return normalizar(
+          obter(
+            p,
+            "STATUS"
+          )
+        ) === "fechado";
+
+      }
     ).length;
 
 
@@ -1757,24 +1884,37 @@ function atualizarFiltroTipos() {
     );
 
 
-  const atual =
+  const valorAtual =
     select.value;
 
 
   const tipos =
-    [...new Set(
+    [
+      ...new Set(
 
-      projetos
-        .map(
-          p =>
-            obter(
-              p,
-              "TIPO DE PROJETO"
-            )
-        )
-        .filter(Boolean)
+        projetos
 
-    )];
+          .map(
+            function(p) {
+
+              return obter(
+                p,
+                "TIPO PROJETO"
+              );
+
+            }
+          )
+
+          .filter(
+            function(valor) {
+
+              return valor !== "";
+
+            }
+          )
+
+      )
+    ];
 
 
   select.innerHTML =
@@ -1782,7 +1922,17 @@ function atualizarFiltroTipos() {
 
 
   tipos
-    .sort()
+    .sort(
+      function(a,b) {
+
+        return String(a)
+          .localeCompare(
+            String(b),
+            "pt-BR"
+          );
+
+      }
+    )
     .forEach(
       function(tipo) {
 
@@ -1791,11 +1941,14 @@ function atualizarFiltroTipos() {
             "option"
           );
 
+
         option.value =
           tipo;
 
+
         option.textContent =
           tipo;
+
 
         select.appendChild(
           option
@@ -1806,11 +1959,13 @@ function atualizarFiltroTipos() {
 
 
   if (
-    tipos.includes(atual)
+    tipos.includes(
+      valorAtual
+    )
   ) {
 
     select.value =
-      atual;
+      valorAtual;
 
   }
 
@@ -1867,16 +2022,17 @@ function renderizarTabela() {
     projetos.filter(
       function(p) {
 
+
         const texto =
 
           obter(
             p,
-            "ID PROJETO"
+            "NUMERO DO PROJETO"
           ) + " " +
 
           obter(
             p,
-            "NOME DO PROJETO"
+            "PROJETO"
           ) + " " +
 
           obter(
@@ -1891,20 +2047,51 @@ function renderizarTabela() {
 
           obter(
             p,
+            "EMAIL"
+          ) + " " +
+
+          obter(
+            p,
+            "WHATSAPP"
+          ) + " " +
+
+          obter(
+            p,
             "CIDADE"
+          ) + " " +
+
+          obter(
+            p,
+            "ESTADO"
+          ) + " " +
+
+          obter(
+            p,
+            "REGISTRO"
+          ) + " " +
+
+          obter(
+            p,
+            "TIPO PROJETO"
           );
 
 
         const correspondeBusca =
           !search ||
-          normalizar(texto)
-            .includes(search);
+          normalizar(
+            texto
+          ).includes(
+            search
+          );
 
 
         const correspondeStatus =
           !status ||
           normalizar(
-            obter(p,"STATUS")
+            obter(
+              p,
+              "STATUS"
+            )
           ) === status;
 
 
@@ -1912,7 +2099,7 @@ function renderizarTabela() {
           !tipo ||
           obter(
             p,
-            "TIPO DE PROJETO"
+            "TIPO PROJETO"
           ) === tipo;
 
 
@@ -1936,8 +2123,10 @@ function renderizarTabela() {
     table.style.display =
       "none";
 
+
     empty.style.display =
       "block";
+
 
     esconderLoading();
 
@@ -1948,6 +2137,7 @@ function renderizarTabela() {
 
   empty.style.display =
     "none";
+
 
   table.style.display =
     "table";
@@ -1962,17 +2152,24 @@ function renderizarTabela() {
         );
 
 
-      const id =
+      const numero =
         obter(
           projeto,
-          "ID PROJETO"
+          "NUMERO DO PROJETO"
+        );
+
+
+      const projetoNome =
+        obter(
+          projeto,
+          "PROJETO"
         );
 
 
       const data =
         obter(
           projeto,
-          "DATA / HORA"
+          "DATA"
         );
 
 
@@ -2004,10 +2201,10 @@ function renderizarTabela() {
         );
 
 
-      const tipoProjeto =
+      const tipo =
         obter(
           projeto,
-          "TIPO DE PROJETO"
+          "TIPO PROJETO"
         );
 
 
@@ -2040,51 +2237,84 @@ function renderizarTabela() {
         );
 
 
+      const whatsappLink =
+        criarLinkWhatsApp(
+          projeto
+        );
+
+
       tr.innerHTML = `
 
         <td>
 
           <div class="project-id">
-            ${escapeHTML(id)}
+
+            ${escapeHTML(numero)}
+
+          </div>
+
+          <div class="project-name">
+
+            ${escapeHTML(projetoNome)}
+
           </div>
 
         </td>
 
 
         <td>
+
           ${escapeHTML(data)}
+
         </td>
 
 
         <td>
-          ${escapeHTML(nome)}
+
+          ${escapeHTML(nome || "Não informado")}
+
         </td>
 
 
         <td>
-          ${escapeHTML(escritorio)}
+
+          ${escapeHTML(escritorio || "Não informado")}
+
         </td>
 
 
         <td>
+
           ${escapeHTML(cidade)}
-          ${estado ? " - " + escapeHTML(estado) : ""}
+
+          ${
+            estado
+              ? " - " +
+                escapeHTML(estado)
+              : ""
+          }
+
         </td>
 
 
         <td>
-          ${escapeHTML(tipoProjeto)}
+
+          ${escapeHTML(tipo)}
+
         </td>
 
 
         <td>
-          ${escapeHTML(investimento)}
+
+          ${escapeHTML(investimento || "—")}
+
         </td>
 
 
         <td>
 
-          <span class="status ${classeStatus(status)}">
+          <span
+            class="status ${classeStatus(status)}">
 
             ${escapeHTML(status)}
 
@@ -2097,9 +2327,10 @@ function renderizarTabela() {
 
           <div class="actions">
 
+
             <button
               class="action-button"
-              onclick="abrirDetalhes(${projeto._linha})">
+              onclick="abrirDetalhes(${Number(projeto._linha)})">
 
               DETALHES
 
@@ -2113,7 +2344,8 @@ function renderizarTabela() {
               <a
                 class="action-button"
                 href="${escapeAttr(pasta)}"
-                target="_blank">
+                target="_blank"
+                rel="noopener">
 
                 DRIVE
 
@@ -2125,17 +2357,14 @@ function renderizarTabela() {
 
 
             ${
-              criarLinkWhatsApp(
-                projeto
-              )
+              whatsappLink
               ?
               `
               <a
                 class="action-button action-whatsapp"
-                href="${escapeAttr(
-                  criarLinkWhatsApp(projeto)
-                )}"
-                target="_blank">
+                href="${escapeAttr(whatsappLink)}"
+                target="_blank"
+                rel="noopener">
 
                 WHATSAPP
 
@@ -2144,6 +2373,7 @@ function renderizarTabela() {
               :
               ""
             }
+
 
           </div>
 
@@ -2175,10 +2405,15 @@ function abrirDetalhes(
 
   const projeto =
     projetos.find(
-      p =>
-        Number(
+      function(p) {
+
+        return Number(
           p._linha
-        ) === Number(linha)
+        ) === Number(
+          linha
+        );
+
+      }
     );
 
 
@@ -2189,61 +2424,141 @@ function abrirDetalhes(
   }
 
 
-  const id =
+  const numero =
     obter(
       projeto,
-      "ID PROJETO"
+      "NUMERO DO PROJETO"
+    );
+
+
+  const nomeProjeto =
+    obter(
+      projeto,
+      "PROJETO"
     );
 
 
   document.getElementById(
     "modalTitle"
   ).textContent =
-    id ||
-    "Detalhes do projeto";
+
+    numero
+      ? numero +
+        (
+          nomeProjeto
+            ? " — " +
+              nomeProjeto
+            : ""
+        )
+      : "Detalhes do projeto";
 
 
   const campos = [
 
-    ["ID PROJETO","ID do projeto"],
+    [
+      "NUMERO DO PROJETO",
+      "Número do projeto"
+    ],
 
-    ["DATA / HORA","Data e hora"],
+    [
+      "DATA",
+      "Data e hora"
+    ],
 
-    ["NOME","Arquiteto"],
+    [
+      "NOME",
+      "Arquiteto"
+    ],
 
-    ["ESCRITÓRIO","Escritório"],
+    [
+      "ESCRITÓRIO",
+      "Escritório"
+    ],
 
-    ["E-MAIL","E-mail"],
+    [
+      "EMAIL",
+      "E-mail"
+    ],
 
-    ["WHATSAPP","WhatsApp"],
+    [
+      "WHATSAPP",
+      "WhatsApp"
+    ],
 
-    ["CIDADE","Cidade"],
+    [
+      "CIDADE",
+      "Cidade"
+    ],
 
-    ["ESTADO","Estado"],
+    [
+      "ESTADO",
+      "Estado"
+    ],
 
-    ["REGISTRO PROFISSIONAL","Registro profissional"],
+    [
+      "REGISTRO",
+      "Registro profissional"
+    ],
 
-    ["NOME DO PROJETO","Projeto"],
+    [
+      "PROJETO",
+      "Projeto"
+    ],
 
-    ["TIPO DE PROJETO","Tipo de projeto"],
+    [
+      "TIPO PROJETO",
+      "Tipo de projeto"
+    ],
 
-    ["ÁREA","Área"],
+    [
+      "AREA",
+      "Área"
+    ],
 
-    ["AMBIENTE","Ambiente"],
+    [
+      "AMBIENTE",
+      "Ambiente"
+    ],
 
-    ["PRAZO","Prazo"],
+    [
+      "PRAZO",
+      "Prazo"
+    ],
 
-    ["INVESTIMENTO","Investimento"],
+    [
+      "INVESTIMENTO",
+      "Investimento"
+    ],
 
-    ["STATUS","Status"],
+    [
+      "STATUS",
+      "Status"
+    ],
 
-    ["DESCRIÇÃO / ORÇAMENTO","Descrição / orçamento"],
+    [
+      "NOTIFICAÇÃO",
+      "Notificação"
+    ],
 
-    ["OBSERVAÇÕES","Observações"],
+    [
+      "DESCRIÇÃO",
+      "Descrição / orçamento"
+    ],
 
-    ["ARQUIVOS","Arquivos"],
+    [
+      "OBSERVAÇÕES",
+      "Observações"
+    ],
 
-    ["PASTA DO PROJETO","Pasta do projeto"]
+    [
+      "ARQUIVOS",
+      "Arquivos"
+    ],
+
+    [
+      "PASTA DO PROJETO",
+      "Pasta do projeto"
+    ]
 
   ];
 
@@ -2255,6 +2570,7 @@ function abrirDetalhes(
   campos.forEach(
     function(campo) {
 
+
       const valor =
         obter(
           projeto,
@@ -2262,14 +2578,18 @@ function abrirDetalhes(
         );
 
 
-      if (!valor) {
+      if (
+        valor === ""
+      ) {
+
         return;
+
       }
 
 
       const full =
         [
-          "DESCRIÇÃO / ORÇAMENTO",
+          "DESCRIÇÃO",
           "OBSERVAÇÕES",
           "ARQUIVOS",
           "PASTA DO PROJETO"
@@ -2278,16 +2598,132 @@ function abrirDetalhes(
         );
 
 
+      let valorHTML =
+        escapeHTML(
+          valor
+        );
+
+
+      /*
+       * E-MAIL
+       */
+
+      if (
+        campo[0] === "EMAIL"
+      ) {
+
+        valorHTML =
+          `
+          <a
+            href="mailto:${escapeAttr(valor)}">
+
+            ${escapeHTML(valor)}
+
+          </a>
+          `;
+
+      }
+
+
+      /*
+       * PASTA DO DRIVE
+       */
+
+      if (
+        campo[0] ===
+        "PASTA DO PROJETO" &&
+        isURL(valor)
+      ) {
+
+        valorHTML =
+          `
+          <a
+            href="${escapeAttr(valor)}"
+            target="_blank"
+            rel="noopener">
+
+            ABRIR PASTA DO DRIVE
+
+          </a>
+          `;
+
+      }
+
+
+      /*
+       * ARQUIVOS
+       */
+
+      if (
+        campo[0] === "ARQUIVOS"
+      ) {
+
+        valorHTML =
+          transformarArquivos(
+            valor
+          );
+
+      }
+
+
+      /*
+       * WHATSAPP
+       */
+
+      if (
+        campo[0] === "WHATSAPP" &&
+        /^\d+$/.test(
+          String(valor).replace(
+            /\D/g,
+            ""
+          )
+        )
+      ) {
+
+        const link =
+          criarLinkWhatsApp(
+            projeto
+          );
+
+
+        if (link) {
+
+          valorHTML =
+            `
+            <a
+              href="${escapeAttr(link)}"
+              target="_blank"
+              rel="noopener">
+
+              ${escapeHTML(valor)}
+
+            </a>
+            `;
+
+        }
+
+      }
+
+
       html += `
 
-        <div class="detail ${full ? "full" : ""}">
+        <div
+          class="detail ${
+            full
+              ? "full"
+              : ""
+          }">
 
           <div class="detail-label">
+
             ${escapeHTML(campo[1])}
+
           </div>
 
           <div class="detail-value">
-            ${escapeHTML(valor)}
+
+            ${valorHTML}
+
           </div>
 
         </div>
@@ -2318,36 +2754,84 @@ function abrirDetalhes(
 
 
 /* =====================================================
-   FECHAR MODAL
+   ARQUIVOS
 ===================================================== */
 
-function fecharModal() {
+function transformarArquivos(
+  texto
+) {
 
-  document.getElementById(
-    "projectModal"
-  ).classList.remove(
-    "active"
-  );
+  if (!texto) {
 
-}
-
-
-document.getElementById(
-  "projectModal"
-).addEventListener(
-  "click",
-  function(event) {
-
-    if (
-      event.target === this
-    ) {
-
-      fecharModal();
-
-    }
+    return "";
 
   }
-);
+
+
+  const linhas =
+    String(texto)
+      .split(/\n+/)
+      .filter(Boolean);
+
+
+  if (
+    linhas.length === 0
+  ) {
+
+    return escapeHTML(
+      texto
+    );
+
+  }
+
+
+  return linhas
+    .map(
+      function(linha) {
+
+        const partes =
+          linha.split(
+            " → "
+          );
+
+
+        if (
+          partes.length === 2 &&
+          isURL(partes[1])
+        ) {
+
+          return `
+            <div
+              style="
+                margin-bottom:8px;
+              ">
+
+              <a
+                href="${escapeAttr(partes[1])}"
+                target="_blank"
+                rel="noopener">
+
+                ${escapeHTML(partes[0])}
+
+              </a>
+
+            </div>
+          `;
+
+        }
+
+
+        return `
+          <div>
+            ${escapeHTML(linha)}
+          </div>
+        `;
+
+      }
+    )
+    .join("");
+
+}
 
 
 /* =====================================================
@@ -2366,7 +2850,9 @@ function criarLinkWhatsApp(
 
 
   if (!numero) {
+
     return "";
+
   }
 
 
@@ -2376,6 +2862,20 @@ function criarLinkWhatsApp(
         /\D/g,
         ""
       );
+
+
+  /*
+   * Evita criar link para valores
+   * que não sejam telefone.
+   */
+
+  if (
+    telefone.length < 10
+  ) {
+
+    return "";
+
+  }
 
 
   if (
@@ -2393,14 +2893,14 @@ function criarLinkWhatsApp(
   const id =
     obter(
       projeto,
-      "ID PROJETO"
+      "NUMERO DO PROJETO"
     );
 
 
   const nomeProjeto =
     obter(
       projeto,
-      "NOME DO PROJETO"
+      "PROJETO"
     );
 
 
@@ -2408,8 +2908,12 @@ function criarLinkWhatsApp(
     "Olá! Aqui é da ARQSELECT. " +
     "Estamos entrando em contato sobre o projeto " +
     id +
-    " - " +
-    nomeProjeto +
+    (
+      nomeProjeto
+        ? " - " +
+          nomeProjeto
+        : ""
+    ) +
     ".";
 
 
@@ -2435,19 +2939,35 @@ function obter(
 ) {
 
   if (
+    !objeto
+  ) {
+
+    return "";
+
+  }
+
+
+  /*
+   * Primeiro tenta exatamente.
+   */
+
+  if (
     Object.prototype.hasOwnProperty.call(
       objeto,
       campo
     )
   ) {
 
-    return objeto[campo] || "";
+    return objeto[campo] == null
+      ? ""
+      : String(objeto[campo]);
 
   }
 
 
   /*
-   * Busca sem diferenciar maiúsculas/minúsculas
+   * Depois procura ignorando
+   * maiúsculas/minúsculas e acentos.
    */
 
   const chave =
@@ -2465,9 +2985,16 @@ function obter(
     );
 
 
-  return chave
-    ? objeto[chave] || ""
-    : "";
+  if (!chave) {
+
+    return "";
+
+  }
+
+
+  return objeto[chave] == null
+    ? ""
+    : String(objeto[chave]);
 
 }
 
@@ -2483,12 +3010,18 @@ function normalizar(
   return String(
     texto || ""
   )
-    .normalize("NFD")
+
+    .normalize(
+      "NFD"
+    )
+
     .replace(
       /[\u0300-\u036f]/g,
       ""
     )
+
     .toLowerCase()
+
     .trim();
 
 }
@@ -2503,7 +3036,9 @@ function classeStatus(
 ) {
 
   const valor =
-    normalizar(status);
+    normalizar(
+      status
+    );
 
 
   if (
@@ -2554,6 +3089,23 @@ function classeStatus(
 
 
 /* =====================================================
+   VERIFICAR URL
+===================================================== */
+
+function isURL(
+  texto
+) {
+
+  return /^https?:\/\//i.test(
+    String(
+      texto || ""
+    )
+  );
+
+}
+
+
+/* =====================================================
    HTML SAFE
 ===================================================== */
 
@@ -2564,22 +3116,27 @@ function escapeHTML(
   return String(
     texto || ""
   )
+
     .replace(
       /&/g,
       "&amp;"
     )
+
     .replace(
       /</g,
       "&lt;"
     )
+
     .replace(
       />/g,
       "&gt;"
     )
+
     .replace(
       /"/g,
       "&quot;"
     )
+
     .replace(
       /'/g,
       "&#039;"
@@ -2597,6 +3154,55 @@ function escapeAttr(
   );
 
 }
+
+
+/* =====================================================
+   FECHAR MODAL
+===================================================== */
+
+function fecharModal() {
+
+  document.getElementById(
+    "projectModal"
+  ).classList.remove(
+    "active"
+  );
+
+}
+
+
+document.getElementById(
+  "projectModal"
+).addEventListener(
+  "click",
+  function(event) {
+
+    if (
+      event.target === this
+    ) {
+
+      fecharModal();
+
+    }
+
+  }
+);
+
+
+document.addEventListener(
+  "keydown",
+  function(event) {
+
+    if (
+      event.key === "Escape"
+    ) {
+
+      fecharModal();
+
+    }
+
+  }
+);
 
 
 /* =====================================================
