@@ -49,10 +49,10 @@ const CONFIG = {
   ======================================================== */
 
   ADMIN_USERNAME:
-    "",
+    "alefesantos27",
 
   ADMIN_PASSWORD:
-    "",
+    "@Sucesso01",
 
 
   /* ========================================================
@@ -85,7 +85,7 @@ const CONFIG = {
     "ARQSELECT CRM",
 
   SYSTEM_VERSION:
-    "4.0.0"
+    "3.0.0"
 
 };
 
@@ -486,6 +486,34 @@ function doGet(e) {
 
 
     /* ======================================================
+       PORTAL — ARQUITETO / FORNECEDOR
+    ====================================================== */
+    if (acao === "login_arquiteto") {
+      return loginPortalUsuario({
+        tipo: "ARQUITETO",
+        email: params.email,
+        senha: params.senha || params.password
+      });
+    }
+
+    if (acao === "login_fornecedor") {
+      return loginPortalUsuario({
+        tipo: "FORNECEDOR",
+        email: params.email,
+        senha: params.senha || params.password
+      });
+    }
+
+    if (acao === "portal_sessao") {
+      return validarSessaoPortal({ token: params.token });
+    }
+
+    if (acao === "portal_dashboard") {
+      return obterDashboardPortal(params.token);
+    }
+
+
+    /* ======================================================
        SESSÃO
     ====================================================== */
 
@@ -681,6 +709,12 @@ function doGet(e) {
 
 
     /* ======================================================
+       PORTAL PREMIUM — PROJETOS / STATUS
+    ====================================================== */
+    if (acao === "portal_projetos") return obterProjetosPortalSeguro(params.token);
+    if (acao === "portal_atualizar_status") return atualizarStatusPortalSeguro(params.token, params.id, params.status);
+
+    /* ======================================================
        STATUS
     ====================================================== */
 
@@ -696,8 +730,6 @@ function doGet(e) {
 
     }
 
-
-    if (v2IsAction(acao)) return v2HandleGet(acao, params);
 
     return respostaJSON({
 
@@ -1082,6 +1114,39 @@ function doPost(e) {
 
 
     /* ======================================================
+       PORTAL PREMIUM — PROJETOS / STATUS
+    ====================================================== */
+    if (acao === "portal_projetos") return obterProjetosPortalSeguro(dados.token);
+    if (acao === "portal_atualizar_status") return atualizarStatusPortalSeguro(dados.token, dados.id, dados.status);
+
+    /* ======================================================
+       PORTAL — CADASTRO / LOGIN / DASHBOARD
+    ====================================================== */
+    if (acao === "cadastrar_arquiteto") {
+      return cadastrarPortalUsuario(dados, "ARQUITETO");
+    }
+
+    if (acao === "cadastrar_fornecedor") {
+      return cadastrarPortalUsuario(dados, "FORNECEDOR");
+    }
+
+    if (acao === "login_arquiteto") {
+      return loginPortalUsuario({ tipo:"ARQUITETO", email:dados.email, senha:dados.senha || dados.password });
+    }
+
+    if (acao === "login_fornecedor") {
+      return loginPortalUsuario({ tipo:"FORNECEDOR", email:dados.email, senha:dados.senha || dados.password });
+    }
+
+    if (acao === "portal_dashboard") {
+      return obterDashboardPortal(dados.token);
+    }
+
+    if (acao === "portal_logout") {
+      return logoutPortal(dados.token);
+    }
+
+    /* ======================================================
        RECEBER ARQUITETO
     ====================================================== */
 
@@ -1132,8 +1197,6 @@ function doPost(e) {
 
     }
 
-
-    if (v2IsAction(acao)) return v2HandlePost(acao, dados);
 
     return respostaJSON({
 
@@ -1368,9 +1431,14 @@ function loginAdmin(
       );
 
 
-    const adminCred = v2GetAdminCredentials();
-    const usuarioValido = usuario === adminCred.usuario;
-    const senhaValida = v2Hash(senha) === adminCred.hash;
+    const usuarioValido =
+      usuario ===
+      CONFIG.ADMIN_USERNAME;
+
+
+    const senhaValida =
+      senha ===
+      CONFIG.ADMIN_PASSWORD;
 
 
     if (
@@ -1825,11 +1893,18 @@ function obterPerfilUsuario(
   usuario
 ) {
 
-  const u = String(usuario || "").trim();
-  const admin = v2GetAdminCredentials();
-  if (u && u === admin.usuario) return "ADMIN";
-  const user = v2FindUserByLogin(u);
-  if (user && user.PERFIL) return String(user.PERFIL).toUpperCase();
+  if (
+    String(
+      usuario || ""
+    ) ===
+    CONFIG.ADMIN_USERNAME
+  ) {
+
+    return "ADMIN";
+
+  }
+
+
   return "COMERCIAL";
 
 }
@@ -2404,7 +2479,7 @@ function obterProjetos() {
 
   const projetos =
     lerPlanilha(
-      true
+      false
     );
 
 
@@ -2545,6 +2620,20 @@ function atualizarStatus(
   linha,
   status
 ) {
+
+  const lock = LockService.getScriptLock();
+
+  try {
+    lock.waitLock(10000);
+  } catch (erroLock) {
+    return respostaJSON({
+      sucesso: false,
+      autorizado: true,
+      mensagem: "O sistema está processando outra atualização. Tente novamente."
+    });
+  }
+
+  try {
 
   const numeroLinha =
     Number(
@@ -2695,6 +2784,19 @@ function atualizarStatus(
 
   SpreadsheetApp.flush();
 
+  // IMPORTANTE: o cache antigo não pode reaparecer no próximo refresh.
+  // O status foi gravado na planilha; removemos imediatamente o cache
+  // dos projetos para que o CRM leia o valor novo na próxima consulta.
+  try {
+    CacheService
+      .getScriptCache()
+      .remove(
+        CACHE_PREFIX + "PROJETOS"
+      );
+  } catch (erroCache) {
+    // cache é opcional; a gravação da planilha já foi concluída
+  }
+
 
   const versao =
     incrementarVersaoDados();
@@ -2748,6 +2850,10 @@ function atualizarStatus(
       "Status atualizado com sucesso."
 
   });
+
+  } finally {
+    lock.releaseLock();
+  }
 
 }
 
@@ -3541,6 +3647,183 @@ function salvarArquivo(
 
 }
 
+
+/* ==========================================================
+   PORTAL PREMIUM — ARQUITETOS E FORNECEDORES
+   Contas separadas do ADMIN, com senha armazenada em SHA-256.
+========================================================== */
+
+const PORTAL_SESSION_PREFIX = "ARQSELECT_PORTAL_";
+const PORTAL_SESSION_HOURS = 12;
+
+function hashPortalSenha(senha) {
+  const bytes = Utilities.computeDigest(
+    Utilities.DigestAlgorithm.SHA_256,
+    String(senha || ""),
+    Utilities.Charset.UTF_8
+  );
+  return bytes.map(function(b) {
+    const v = b < 0 ? b + 256 : b;
+    return (v < 16 ? "0" : "") + v.toString(16);
+  }).join("");
+}
+
+function obterAbaPortal(tipo) {
+  const ss = obterPlanilha();
+  const nome = tipo === "ARQUITETO" ? "ACESSOS_ARQUITETOS" : "ACESSOS_FORNECEDORES";
+  let aba = ss.getSheetByName(nome);
+  if (!aba) {
+    aba = ss.insertSheet(nome);
+    aba.getRange(1,1,1,10).setValues([[
+      "ID", "DATA CADASTRO", "NOME", "EMPRESA", "E-MAIL", "TELEFONE", "REGISTRO/CNPJ", "SENHA SHA256", "STATUS", "ULTIMO ACESSO"
+    ]]);
+    aba.setFrozenRows(1);
+    aba.getRange(1,1,1,10).setFontWeight("bold");
+  }
+  return aba;
+}
+
+function localizarPortalUsuario(tipo, email) {
+  const aba = obterAbaPortal(tipo);
+  const valores = aba.getDataRange().getDisplayValues();
+  const alvo = String(email || "").trim().toLowerCase();
+  for (let i=1; i<valores.length; i++) {
+    if (String(valores[i][4] || "").trim().toLowerCase() === alvo) {
+      return { linha:i+1, dados:valores[i] };
+    }
+  }
+  return null;
+}
+
+function cadastrarPortalUsuario(dados, tipo) {
+  try {
+    dados = dados || {};
+    const nome = String(dados.nome || dados.responsavel || "").trim();
+    const email = String(dados.email || "").trim().toLowerCase();
+    const senha = String(dados.senha || dados.password || "");
+    const empresa = String(dados.empresa || dados.escritorio || dados.nome_fantasia || dados.razao_social || "").trim();
+    const telefone = String(dados.telefone || dados.whatsapp || "").trim();
+    const documento = String(dados.registro || dados.registro_profissional || dados.cnpj || "").trim();
+
+    if (!nome || !email || !senha) return respostaJSON({sucesso:false, autorizado:false, mensagem:"Preencha nome, e-mail e senha."});
+    if (!/^\S+@\S+\.\S+$/.test(email)) return respostaJSON({sucesso:false, autorizado:false, mensagem:"Informe um e-mail válido."});
+    if (senha.length < 6) return respostaJSON({sucesso:false, autorizado:false, mensagem:"A senha deve ter no mínimo 6 caracteres."});
+    if (localizarPortalUsuario(tipo, email)) return respostaJSON({sucesso:false, autorizado:false, mensagem:"Já existe um acesso cadastrado para este e-mail."});
+
+    const aba = obterAbaPortal(tipo);
+    const id = (tipo === "ARQUITETO" ? "ARQ-" : "FOR-") + Utilities.getUuid().slice(0,8).toUpperCase();
+    aba.appendRow([id, new Date(), nome, empresa, email, telefone, documento, hashPortalSenha(senha), "ATIVO", ""]);
+    SpreadsheetApp.flush();
+    incrementarVersaoDados();
+
+    // Mantém a integração com o cadastro operacional existente.
+    if (tipo === "ARQUITETO") {
+      try { receberProjetoArquiteto({nome:nome, arquiteto:nome, escritorio:empresa, email:email, whatsapp:telefone, registro:documento, projeto:"Cadastro de arquiteto"}); } catch(e) {}
+    } else {
+      try { receberFornecedor({razao_social:empresa, nome_fantasia:empresa, cnpj:documento, responsavel:nome, email:email, telefone:telefone}); } catch(e) {}
+    }
+
+    registrarAuditoriaPublica(email, "CADASTRO_PORTAL", tipo, id, "", "", "Novo acesso criado.");
+    return respostaJSON({sucesso:true, autorizado:true, id:id, tipo:tipo, mensagem:"Cadastro realizado com sucesso. Agora você já pode entrar no portal."});
+  } catch (erro) {
+    registrarErro(erro, "cadastrarPortalUsuario");
+    return respostaJSON({sucesso:false, autorizado:false, mensagem:"Não foi possível concluir o cadastro."});
+  }
+}
+
+function criarSessaoPortal(tipo, registro) {
+  const token = Utilities.getUuid() + "-" + Utilities.getUuid();
+  const agora = Date.now();
+  const sessao = { token:token, tipo:tipo, id:registro.dados[0], nome:registro.dados[2], empresa:registro.dados[3], email:registro.dados[4], criadoEm:agora, expiraEm:agora + PORTAL_SESSION_HOURS*60*60*1000 };
+  CacheService.getScriptCache().put(PORTAL_SESSION_PREFIX + token, JSON.stringify(sessao), PORTAL_SESSION_HOURS*60);
+  return sessao;
+}
+
+function obterSessaoPortal(token) {
+  if (!token) return null;
+  const raw = CacheService.getScriptCache().get(PORTAL_SESSION_PREFIX + String(token));
+  if (!raw) return null;
+  try {
+    const sessao = JSON.parse(raw);
+    if (!sessao || Date.now() > Number(sessao.expiraEm)) {
+      CacheService.getScriptCache().remove(PORTAL_SESSION_PREFIX + String(token));
+      return null;
+    }
+    return sessao;
+  } catch(e) { return null; }
+}
+
+function loginPortalUsuario(dados) {
+  try {
+    dados = dados || {};
+    const tipo = String(dados.tipo || "").toUpperCase();
+    const email = String(dados.email || "").trim().toLowerCase();
+    const senha = String(dados.senha || "");
+    if (["ARQUITETO","FORNECEDOR"].indexOf(tipo) === -1) return respostaJSON({sucesso:false, autorizado:false, mensagem:"Tipo de acesso inválido."});
+    const registro = localizarPortalUsuario(tipo, email);
+    if (!registro || registro.dados[7] !== hashPortalSenha(senha) || String(registro.dados[8]).toUpperCase() !== "ATIVO") {
+      registrarAuditoriaPublica(email, "LOGIN_FALHA", tipo, "", "", "", "Credenciais inválidas.");
+      return respostaJSON({sucesso:false, autorizado:false, mensagem:"E-mail, senha ou acesso inválido."});
+    }
+    const sessao = criarSessaoPortal(tipo, registro);
+    obterAbaPortal(tipo).getRange(registro.linha, 10).setValue(new Date());
+    registrarAuditoriaPublica(email, "LOGIN_PORTAL", tipo, sessao.id, "", "", "Login realizado.");
+    return respostaJSON({sucesso:true, autorizado:true, token:sessao.token, expiraEm:sessao.expiraEm, perfil:{tipo:tipo,id:sessao.id,nome:sessao.nome,empresa:sessao.empresa,email:sessao.email}, mensagem:"Login realizado com sucesso."});
+  } catch (erro) {
+    registrarErro(erro, "loginPortalUsuario");
+    return respostaJSON({sucesso:false, autorizado:false, mensagem:"Erro ao realizar login."});
+  }
+}
+
+function validarSessaoPortal(dados) {
+  const sessao = obterSessaoPortal(dados && dados.token);
+  if (!sessao) return respostaJSON({sucesso:false, autorizado:false, mensagem:"Sessão expirada. Faça login novamente."});
+  return respostaJSON({sucesso:true, autorizado:true, perfil:sessao, expiraEm:sessao.expiraEm});
+}
+
+function logoutPortal(token) {
+  if (token) CacheService.getScriptCache().remove(PORTAL_SESSION_PREFIX + String(token));
+  return respostaJSON({sucesso:true, autorizado:false, mensagem:"Sessão encerrada."});
+}
+
+function obterDashboardPortal(token) {
+  const sessao = obterSessaoPortal(token);
+  if (!sessao) return respostaJSON({sucesso:false, autorizado:false, mensagem:"Sessão expirada."});
+  const projetos = lerPlanilha(false);
+  const email = String(sessao.email || "").toLowerCase();
+  const meusProjetos = projetos.filter(function(p) {
+    return String(p["E-MAIL"] || "").trim().toLowerCase() === email;
+  });
+  const contagem = {};
+  meusProjetos.forEach(function(p) { const st = String(p["STATUS"] || "Novo").trim(); contagem[st] = (contagem[st]||0)+1; });
+  const recentes = meusProjetos.slice(-8).reverse().map(function(p) {
+    return {id:p["ID PROJETO"]||"", data:p["DATA / HORA"]||"", projeto:p["NOME DO PROJETO"]||"", tipo:p["TIPO DE PROJETO"]||"", investimento:p["INVESTIMENTO"]||"", status:p["STATUS"]||"Novo", cidade:p["CIDADE"]||""};
+  });
+  return respostaJSON({sucesso:true, autorizado:true, perfil:sessao, metricas:{totalProjetos:meusProjetos.length, novos:contagem["Novo"]||0, emAnalise:contagem["Em análise"]||0, orcamentos:contagem["Orçamento"]||0, propostas:contagem["Proposta enviada"]||0, negociacao:contagem["Negociação"]||0, fechados:contagem["Fechado"]||0, execucao:contagem["Em execução"]||0, concluidos:contagem["Concluído"]||0}, recentes:recentes, mensagem:"Dashboard atualizado."});
+}
+
+/* ==========================================================
+   PORTAL PREMIUM — PROJETOS E STATUS COM PERMISSÃO
+========================================================== */
+function obterProjetosPortalSeguro(token) {
+  const sessao = obterSessaoPortal(token);
+  if (!sessao) return respostaJSON({sucesso:false, autorizado:false, mensagem:"Sessão expirada. Faça login novamente."});
+  const projetos = lerPlanilha(false);
+  const email = String(sessao.email || "").trim().toLowerCase();
+  const meus = projetos.filter(function(p){ return String(p["E-MAIL"] || "").trim().toLowerCase() === email; });
+  return respostaJSON({sucesso:true, autorizado:true, projetos:meus.map(function(p){ return {id:p["ID PROJETO"]||"", data:p["DATA / HORA"]||"", projeto:p["NOME DO PROJETO"]||"", tipo:p["TIPO DE PROJETO"]||"", investimento:p["INVESTIMENTO"]||"", status:p["STATUS"]||"Novo", cidade:p["CIDADE"]||"", area:p["ÁREA"]||p["AREA"]||"", prazo:p["PRAZO"]||""}; }), statusValidos:["Novo","Em análise","Orçamento","Proposta enviada","Negociação","Aprovação","Fechado","Em execução","Concluído","Cancelado"], mensagem:"Projetos carregados."});
+}
+
+function atualizarStatusPortalSeguro(token, id, status) {
+  const sessao = obterSessaoPortal(token);
+  if (!sessao) return respostaJSON({sucesso:false, autorizado:false, mensagem:"Sessão expirada. Faça login novamente."});
+  const projeto = obterProjetoInterno(id);
+  if (!projeto) return respostaJSON({sucesso:false, autorizado:true, mensagem:"Projeto não encontrado."});
+  const emailProjeto = String(projeto["E-MAIL"] || "").trim().toLowerCase();
+  const emailSessao = String(sessao.email || "").trim().toLowerCase();
+  if (!emailProjeto || emailProjeto !== emailSessao) return respostaJSON({sucesso:false, autorizado:false, mensagem:"Você não possui permissão para alterar este projeto."});
+  return atualizarStatus(projeto._linha, status);
+}
 
 /* ==========================================================
    RECEBER FORNECEDOR
@@ -6933,7 +7216,10 @@ function registrarErro(
 
 function obterUsuarioSistemaAtual() {
 
-  return (v2GetAdminCredentials().usuario || "SISTEMA");
+  return (
+    CONFIG.ADMIN_USERNAME ||
+    "SISTEMA"
+  );
 
 }
 
@@ -7789,46 +8075,3 @@ function testarIDs() {
   );
 
 }
-
-/* ARQSELECT 2.0 */
-const V2={SHEETS:{USERS:"USUARIOS",SUPPLIERS:"ARQSELECT – FORNECEDORES",ARCHITECTS:"CRM - ARQUITETOS",PROJECTS:"PROJETOS",REQUESTS:"SOLICITACOES",PROPOSALS:"PROPOSTAS",PRODUCTS:"PRODUTOS",SERVICES:"SERVICOS",MESSAGES:"MENSAGENS",NOTIFICATIONS:"CRM - NOTIFICAÇÕES",TIMELINE:"HISTORICO",FAVORITES:"FAVORITOS",CATEGORIES:"CATEGORIAS"},SESSION_PREFIX:"ARQSELECT_V2_SESSION_"};
-const V2_HEADERS={USERS:["ID","LOGIN","NOME","EMAIL","TELEFONE","PERFIL","STATUS","REF_ID","SENHA_HASH","DATA_CRIACAO","DATA_ATUALIZACAO"],REQUESTS:["ID","PROJETO_ID","ARQUITETO_ID","FORNECEDOR_ID","CATEGORIA","PRODUTO","SERVICO","QUANTIDADE","UNIDADE","LOCALIZACAO","PRAZO","DESCRICAO","STATUS","DATA_CRIACAO","DATA_ATUALIZACAO"],PROPOSALS:["ID","SOLICITACAO_ID","PROJETO_ID","FORNECEDOR_ID","ARQUITETO_ID","VALOR","FRETE","DESCONTO","VALOR_TOTAL","PRAZO","PAGAMENTO","VALIDADE","GARANTIA","OBSERVACOES","ANEXOS","STATUS","DATA_CRIACAO","DATA_ATUALIZACAO"],PRODUCTS:["ID","FORNECEDOR_ID","NOME","CODIGO","CATEGORIA","MARCA","DESCRICAO","UNIDADE","PRECO_BASE","GARANTIA","IMAGENS","FICHA_TECNICA","STATUS","DATA_CRIACAO","DATA_ATUALIZACAO"],SERVICES:["ID","FORNECEDOR_ID","NOME","CATEGORIA","DESCRICAO","REGIAO","PRECO_BASE","GARANTIA","STATUS","DATA_CRIACAO","DATA_ATUALIZACAO"],MESSAGES:["ID","PROJETO_ID","SOLICITACAO_ID","REMETENTE_ID","DESTINATARIO_ID","MENSAGEM","ANEXOS","LIDA","DATA_CRIACAO"],TIMELINE:["ID","PROJETO_ID","SOLICITACAO_ID","PROPOSTA_ID","USUARIO_ID","ACAO","DESCRICAO","DATA"],FAVORITES:["ID","USUARIO_ID","TIPO","REGISTRO_ID","DATA"],CATEGORIES:["ID","NOME","TIPO","STATUS","DATA_CRIACAO"],NOTIFICATIONS:["ID","USUARIO_ID","TIPO","TITULO","MENSAGEM","REGISTRO_ID","LINK","LIDA","DATA","DATA_LEITURA"]};
-function v2Hash(v){return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256,String(v||""),Utilities.Charset.UTF_8).map(b=>{b=b<0?b+256:b;return(b<16?"0":"")+b.toString(16)}).join("")}
-function v2GetAdminCredentials(){const p=PropertiesService.getScriptProperties();return{usuario:p.getProperty("ARQSELECT_ADMIN_USERNAME")||CONFIG.ADMIN_USERNAME||"",hash:p.getProperty("ARQSELECT_ADMIN_PASSWORD_HASH")||(CONFIG.ADMIN_PASSWORD?v2Hash(CONFIG.ADMIN_PASSWORD):"")}}
-function v2SetupAdmin(usuario,senha){usuario=String(usuario||"").trim();senha=String(senha||"");if(!usuario||senha.length<8)throw Error("Usuário obrigatório e senha mínima de 8 caracteres.");const p=PropertiesService.getScriptProperties();p.setProperty("ARQSELECT_ADMIN_USERNAME",usuario);p.setProperty("ARQSELECT_ADMIN_PASSWORD_HASH",v2Hash(senha));return{sucesso:true,usuario}}
-function v2EnsureSheet(name,headers){const ss=obterPlanilha();let sh=ss.getSheetByName(name);if(!sh)sh=ss.insertSheet(name);if(sh.getLastRow()===0)sh.getRange(1,1,1,headers.length).setValues([headers]);return sh}
-function v2EnsureSheets(){Object.keys(V2_HEADERS).forEach(k=>v2EnsureSheet(V2.SHEETS[k],V2_HEADERS[k]));return{sucesso:true,abas:Object.values(V2.SHEETS)}}
-function v2Rows(name){const key=Object.keys(V2.SHEETS).find(k=>V2.SHEETS[k]===name);const sh=v2EnsureSheet(name,V2_HEADERS[key]||["ID"]);const v=sh.getDataRange().getValues();if(v.length<2)return[];const h=v[0].map(String);return v.slice(1).filter(r=>r.some(x=>String(x).trim()!=="")).map(r=>{const o={};h.forEach((k,i)=>o[k]=r[i]);return o})}
-function v2FindById(name,id){return v2Rows(name).find(r=>String(r.ID)===String(id))||null}
-function v2FindUserByLogin(login){const x=String(login||"").trim().toLowerCase();return v2Rows(V2.SHEETS.USERS).find(r=>String(r.LOGIN||"").toLowerCase()===x)||null}
-function v2NextId(p){return p+"-"+Utilities.getUuid().split("-")[0].toUpperCase()}
-function v2SessionCreate(u){const token=Utilities.getUuid()+"-"+Utilities.getUuid(),exp=Date.now()+CONFIG.SESSION_HOURS*3600000;CacheService.getScriptCache().put(V2.SESSION_PREFIX+token,JSON.stringify({usuario:u.LOGIN||u.usuario,id:u.ID||"ADMIN",perfil:u.PERFIL||"ADMIN",expiraEm:exp}),CONFIG.SESSION_HOURS*60);return{token,expiraEm:exp}}
-function v2Session(token){const raw=CacheService.getScriptCache().get(V2.SESSION_PREFIX+String(token||""));if(!raw)return null;try{const s=JSON.parse(raw);return Number(s.expiraEm)>Date.now()?s:null}catch(e){return null}}
-function v2Require(token,roles){const s=v2Session(token);if(!s)throw Error("Sessão inválida ou expirada.");if(roles&&roles.length&&!roles.includes(String(s.perfil).toUpperCase()))throw Error("Acesso não autorizado.");return s}
-function v2IsAction(a){return ["login_v2","logout_v2","me","dashboard_v2","projetos_v2","projeto_v2","solicitacoes","solicitacao_v2","propostas","proposta_v2","fornecedores_v2","fornecedor_v2","produtos","produto_v2","servicos","mensagens","notificacoes","timeline","buscar_v2","admin_v2","usuarios_v2","criar_projeto_v2","criar_solicitacao","criar_proposta","enviar_mensagem","marcar_notificacao","favoritar","atualizar_status_v2","aprovar_proposta","recusar_proposta","revisao_proposta"].includes(a)}
-function v2HandleGet(a,p){if(a==="login_v2")return respostaJSON({sucesso:false,mensagem:"Use POST para login."});if(a==="logout_v2"){CacheService.getScriptCache().remove(V2.SESSION_PREFIX+String(p.token||""));return respostaJSON({sucesso:true})}const s=v2Require(p.token);if(a==="me")return respostaJSON({sucesso:true,usuario:v2PublicUser(s)});if(a==="dashboard_v2")return respostaJSON({sucesso:true,dashboard:v2Dashboard(s)});if(a==="projetos_v2")return v2ListProjects(s);if(a==="projeto_v2")return respostaJSON({sucesso:true,projeto:v2ProjectDetail(p.id,s)});if(a==="solicitacoes")return v2ListOwned(V2.SHEETS.REQUESTS,s);if(a==="solicitacao_v2")return respostaJSON({sucesso:true,solicitacao:v2RequestDetail(p.id)});if(a==="propostas")return v2ListOwned(V2.SHEETS.PROPOSALS,s);if(a==="proposta_v2")return respostaJSON({sucesso:true,proposta:v2FindById(V2.SHEETS.PROPOSALS,p.id)});if(a==="fornecedores_v2")return respostaJSON({sucesso:true,fornecedores:v2Rows(V2.SHEETS.SUPPLIERS).filter(r=>!p.q||Object.values(r).some(v=>String(v).toLowerCase().includes(String(p.q).toLowerCase())))});if(a==="fornecedor_v2")return respostaJSON({sucesso:true,fornecedor:v2FindById(V2.SHEETS.SUPPLIERS,p.id)});if(a==="produtos")return respostaJSON({sucesso:true,produtos:v2Rows(V2.SHEETS.PRODUCTS)});if(a==="produto_v2")return respostaJSON({sucesso:true,produto:v2FindById(V2.SHEETS.PRODUCTS,p.id)});if(a==="servicos")return respostaJSON({sucesso:true,servicos:v2Rows(V2.SHEETS.SERVICES)});if(a==="mensagens")return respostaJSON({sucesso:true,mensagens:v2Messages(s,p.projeto_id)});if(a==="notificacoes")return respostaJSON({sucesso:true,notificacoes:v2Notifications(s)});if(a==="timeline")return respostaJSON({sucesso:true,timeline:v2Timeline(p.projeto_id)});if(a==="buscar_v2")return respostaJSON({sucesso:true,resultados:v2Search(p.q)});if(a==="admin_v2"){v2Require(p.token,["ADMIN"]);return respostaJSON({sucesso:true,dashboard:v2AdminDashboard()})}if(a==="usuarios_v2"){v2Require(p.token,["ADMIN"]);return respostaJSON({sucesso:true,usuarios:v2Rows(V2.SHEETS.USERS).map(v2PublicUser)})}return respostaJSON({sucesso:false,mensagem:"Ação não encontrada."})}
-function v2HandlePost(a,d){if(a==="login_v2")return v2Login(d);if(a==="logout_v2"){CacheService.getScriptCache().remove(V2.SESSION_PREFIX+String(d.token||""));return respostaJSON({sucesso:true})}const s=v2Require(d.token);if(a==="criar_projeto_v2")return respostaJSON(v2CreateProject(d,s));if(a==="criar_solicitacao")return respostaJSON(v2CreateRequest(d,s));if(a==="criar_proposta")return respostaJSON(v2CreateProposal(d,s));if(a==="enviar_mensagem")return respostaJSON(v2SendMessage(d,s));if(a==="marcar_notificacao")return respostaJSON(v2MarkNotification(d,s));if(a==="favoritar")return respostaJSON(v2Favorite(d,s));if(a==="atualizar_status_v2")return respostaJSON(v2UpdateStatus(d,s));if(a==="aprovar_proposta")return respostaJSON(v2UpdateStatus({tipo:"PROPOSTA",id:d.id,status:"APROVADA"},s));if(a==="recusar_proposta")return respostaJSON(v2UpdateStatus({tipo:"PROPOSTA",id:d.id,status:"RECUSADA"},s));if(a==="revisao_proposta")return respostaJSON(v2UpdateStatus({tipo:"PROPOSTA",id:d.id,status:"REVISAO_SOLICITADA"},s));return respostaJSON({sucesso:false,mensagem:"Ação não encontrada."})}
-function v2Login(d){v2EnsureSheets();const login=String(d.usuario||d.username||"").trim(),senha=String(d.senha||d.password||"");const ad=v2GetAdminCredentials();if(ad.usuario&&login===ad.usuario&&v2Hash(senha)===ad.hash){const ss=v2SessionCreate({LOGIN:login,ID:"ADMIN",PERFIL:"ADMIN"});return respostaJSON({sucesso:true,token:ss.token,expiraEm:ss.expiraEm,usuario:{ID:"ADMIN",LOGIN:login,NOME:"Administrador",PERFIL:"ADMIN",STATUS:"ATIVO"}})}const u=v2FindUserByLogin(login);if(!u||String(u.STATUS).toUpperCase()!=="ATIVO"||v2Hash(senha)!==String(u.SENHA_HASH))return respostaJSON({sucesso:false,mensagem:"Usuário ou senha inválidos."});const ss=v2SessionCreate(u);return respostaJSON({sucesso:true,token:ss.token,expiraEm:ss.expiraEm,usuario:v2PublicUser(u)})}
-function v2PublicUser(u){return{ID:u.ID||u.id,LOGIN:u.LOGIN||u.usuario,NOME:u.NOME||u.nome,EMAIL:u.EMAIL||u.email,TELEFONE:u.TELEFONE||u.telefone,PERFIL:String(u.PERFIL||u.perfil||"").toUpperCase(),STATUS:u.STATUS||u.status,REF_ID:u.REF_ID||u.ref_id}}
-function v2Write(name,headers,o){const sh=v2EnsureSheet(name,headers),now=new Date();sh.appendRow(headers.map(h=>["DATA","DATA_CRIACAO","DATA_ATUALIZACAO"].includes(h)?now:(o[h]??"")));return o}
-function v2Notify(uid,t,tit,msg,rid,link){v2Write(V2.SHEETS.NOTIFICATIONS,V2_HEADERS.NOTIFICATIONS,{ID:v2NextId("NOT"),USUARIO_ID:uid,TIPO:t,TITULO:tit,MENSAGEM:msg,REGISTRO_ID:rid||"",LINK:link||"",LIDA:"NÃO"})}
-function v2TimelineAdd(pid,sid,prid,uid,a,d){v2Write(V2.SHEETS.TIMELINE,V2_HEADERS.TIMELINE,{ID:v2NextId("HIS"),PROJETO_ID:pid||"",SOLICITACAO_ID:sid||"",PROPOSTA_ID:prid||"",USUARIO_ID:uid||"",ACAO:a,DESCRICAO:d})}
-function v2LoginOnlyUserRole(s,role){if(s.perfil!==role&&s.perfil!=="ADMIN")throw Error("Sem permissão.")}
-function v2CreateProject(d,s){v2LoginOnlyUserRole(s,"ARQUITETO");const u=v2FindUserByLogin(s.usuario),id=v2NextId("PROJ"),sh=obterAbaProjetos(),h=sh.getRange(1,1,1,sh.getLastColumn()).getValues()[0],o={"ID PROJETO":id,"NOME DO PROJETO":d.nome||"","ARQUITETO":d.arquiteto||s.usuario,"E-MAIL":d.email||u?.EMAIL||"","CLIENTE":d.cliente||"","CIDADE":d.cidade||"","ESTADO":d.estado||"","DESCRIÇÃO":d.descricao||"","STATUS":"Novo","DATA DE CRIAÇÃO":new Date()};sh.appendRow(h.map(k=>o[k]??""));incrementarVersaoDados();v2TimelineAdd(id,"","",u?.ID||s.usuario,"PROJETO_CRIADO","Projeto criado");return{sucesso:true,id,mensagem:"Projeto criado com sucesso."}}
-function v2CreateRequest(d,s){v2LoginOnlyUserRole(s,"ARQUITETO");const u=v2FindUserByLogin(s.usuario),o={ID:v2NextId("REQ"),PROJETO_ID:d.projeto_id||"",ARQUITETO_ID:u?.ID||s.usuario,FORNECEDOR_ID:d.fornecedor_id||"",CATEGORIA:d.categoria||"",PRODUTO:d.produto||"",SERVICO:d.servico||"",QUANTIDADE:d.quantidade||"",UNIDADE:d.unidade||"",LOCALIZACAO:d.localizacao||"",PRAZO:d.prazo||"",DESCRICAO:d.descricao||"",STATUS:"ABERTA"};v2Write(V2.SHEETS.REQUESTS,V2_HEADERS.REQUESTS,o);v2TimelineAdd(o.PROJETO_ID,o.ID,"",u?.ID||s.usuario,"SOLICITACAO_CRIADA","Solicitação criada");if(o.FORNECEDOR_ID)v2Notify(o.FORNECEDOR_ID,"SOLICITACAO","Nova solicitação","Uma nova solicitação foi enviada.",o.ID,"solicitacao.html?id="+o.ID);return o}
-function v2CreateProposal(d,s){v2LoginOnlyUserRole(s,"FORNECEDOR");const u=v2FindUserByLogin(s.usuario),req=v2FindById(V2.SHEETS.REQUESTS,d.solicitacao_id),v=n=>Number(String(n||0).replace(/\./g,"").replace(",","."))||0,valor=v(d.valor),frete=v(d.frete),desconto=v(d.desconto),o={ID:v2NextId("PROP"),SOLICITACAO_ID:d.solicitacao_id||"",PROJETO_ID:d.projeto_id||req?.PROJETO_ID||"",FORNECEDOR_ID:u?.ID||s.usuario,ARQUITETO_ID:req?.ARQUITETO_ID||d.arquiteto_id||"",VALOR:valor,FRETE:frete,DESCONTO:desconto,VALOR_TOTAL:Math.max(0,valor+frete-desconto),PRAZO:d.prazo||"",PAGAMENTO:d.pagamento||"",VALIDADE:d.validade||"",GARANTIA:d.garantia||"",OBSERVACOES:d.observacoes||"",ANEXOS:d.anexos||"",STATUS:"ENVIADA"};v2Write(V2.SHEETS.PROPOSALS,V2_HEADERS.PROPOSALS,o);v2TimelineAdd(o.PROJETO_ID,o.SOLICITACAO_ID,o.ID,u?.ID||s.usuario,"PROPOSTA_ENVIADA","Proposta enviada");if(o.ARQUITETO_ID)v2Notify(o.ARQUITETO_ID,"PROPOSTA","Nova proposta","Você recebeu uma nova proposta.",o.ID,"proposta.html?id="+o.ID);return o}
-function v2SendMessage(d,s){const u=v2FindUserByLogin(s.usuario),o={ID:v2NextId("MSG"),PROJETO_ID:d.projeto_id||"",SOLICITACAO_ID:d.solicitacao_id||"",REMETENTE_ID:u?.ID||s.usuario,DESTINATARIO_ID:d.destinatario_id||"",MENSAGEM:String(d.mensagem||"").trim(),ANEXOS:d.anexos||"",LIDA:"NÃO"};if(!o.MENSAGEM)throw Error("Mensagem vazia.");v2Write(V2.SHEETS.MESSAGES,V2_HEADERS.MESSAGES,o);if(o.DESTINATARIO_ID)v2Notify(o.DESTINATARIO_ID,"MENSAGEM","Nova mensagem",o.MENSAGEM.slice(0,120),o.ID,"mensagens.html?projeto_id="+o.PROJETO_ID);return o}
-function v2Messages(s,pid){return v2Rows(V2.SHEETS.MESSAGES).filter(r=>pid?String(r.PROJETO_ID)===String(pid):String(r.REMETENTE_ID)===String(s.id)||String(r.DESTINATARIO_ID)===String(s.id))}
-function v2Notifications(s){return v2Rows(V2.SHEETS.NOTIFICATIONS).filter(r=>String(r.USUARIO_ID)===String(s.id)).sort((a,b)=>new Date(b.DATA)-new Date(a.DATA))}
-function v2MarkNotification(d,s){const sh=v2EnsureSheet(V2.SHEETS.NOTIFICATIONS,V2_HEADERS.NOTIFICATIONS),v=sh.getDataRange().getValues(),h=v[0].map(String),ii=h.indexOf("ID"),iu=h.indexOf("USUARIO_ID"),il=h.indexOf("LIDA"),id=h.indexOf("DATA_LEITURA");for(let r=1;r<v.length;r++)if(String(v[r][ii])===String(d.id)&&String(v[r][iu])===String(s.id)){v[r][il]="SIM";if(id>=0)v[r][id]=new Date();sh.getRange(r+1,1,1,h.length).setValues([v[r]]);return{sucesso:true}}throw Error("Notificação não encontrada.")}
-function v2Favorite(d,s){const rows=v2Rows(V2.SHEETS.FAVORITES),old=rows.find(r=>String(r.USUARIO_ID)===String(s.id)&&String(r.TIPO)===String(d.tipo)&&String(r.REGISTRO_ID)===String(d.registro_id));if(old)return{sucesso:true,removido:true,id:old.ID};const o={ID:v2NextId("FAV"),USUARIO_ID:s.id,TIPO:d.tipo||"",REGISTRO_ID:d.registro_id||""};v2Write(V2.SHEETS.FAVORITES,V2_HEADERS.FAVORITES,o);return{sucesso:true,adicionado:true,id:o.ID}}
-function v2UpdateStatus(d,s){const type=String(d.tipo||"SOLICITACAO").toUpperCase(),name=type==="PROPOSTA"?V2.SHEETS.PROPOSALS:V2.SHEETS.REQUESTS,keys=type==="PROPOSTA"?V2_HEADERS.PROPOSALS:V2_HEADERS.REQUESTS,sh=v2EnsureSheet(name,keys),v=sh.getDataRange().getValues(),h=v[0].map(String),ii=h.indexOf("ID"),is=h.indexOf("STATUS"),iu=h.indexOf("DATA_ATUALIZACAO");for(let r=1;r<v.length;r++)if(String(v[r][ii])===String(d.id)){v[r][is]=d.status;if(iu>=0)v[r][iu]=new Date();sh.getRange(r+1,1,1,h.length).setValues([v[r]]);incrementarVersaoDados();return{sucesso:true}}throw Error("Registro não encontrado.")}
-function v2ListOwned(name,s){const rows=v2Rows(name);if(s.perfil==="ADMIN")return respostaJSON({sucesso:true,registros:rows});const u=v2FindUserByLogin(s.usuario),id=u?.ID,ref=u?.REF_ID;return respostaJSON({sucesso:true,registros:rows.filter(r=>String(r.ARQUITETO_ID)===String(id)||String(r.FORNECEDOR_ID)===String(id)||String(r.ARQUITETO_ID)===String(ref)||String(r.FORNECEDOR_ID)===String(ref))})}
-function v2ListProjects(s){let rows=lerPlanilha(true);if(s.perfil==="ARQUITETO"){const u=v2FindUserByLogin(s.usuario);rows=rows.filter(p=>String(p["E-MAIL"]||"").toLowerCase()===String(u?.EMAIL||"").toLowerCase()||String(p.ARQUITETO||"")===String(u?.NOME||s.usuario))}return respostaJSON({sucesso:true,projetos:rows,versao:obterVersaoDados()})}
-function v2ProjectDetail(id,s){const p=obterProjetoInterno(id);if(!p)throw Error("Projeto não encontrado.");return Object.assign({},p,{solicitacoes:v2Rows(V2.SHEETS.REQUESTS).filter(r=>String(r.PROJETO_ID)===String(id)),propostas:v2Rows(V2.SHEETS.PROPOSALS).filter(r=>String(r.PROJETO_ID)===String(id)),timeline:v2Timeline(id),mensagens:v2Messages(s,id)})}
-function v2RequestDetail(id){const r=v2FindById(V2.SHEETS.REQUESTS,id);if(!r)throw Error("Solicitação não encontrada.");return Object.assign({},r,{propostas:v2Rows(V2.SHEETS.PROPOSALS).filter(p=>String(p.SOLICITACAO_ID)===String(id)),timeline:v2Timeline(r.PROJETO_ID)})}
-function v2Timeline(id){return v2Rows(V2.SHEETS.TIMELINE).filter(r=>!id||String(r.PROJETO_ID)===String(id)).sort((a,b)=>new Date(b.DATA)-new Date(a.DATA))}
-function v2Dashboard(s){const d=v2AdminDashboard();if(s.perfil!=="ADMIN"){const u=v2FindUserByLogin(s.usuario),id=u?.ID,req=v2Rows(V2.SHEETS.REQUESTS).filter(r=>String(r.ARQUITETO_ID)===String(id)||String(r.FORNECEDOR_ID)===String(id)),prop=v2Rows(V2.SHEETS.PROPOSALS).filter(r=>String(r.ARQUITETO_ID)===String(id)||String(r.FORNECEDOR_ID)===String(id));return{projetos:lerPlanilha(true).length,solicitacoes:req.length,propostas:prop.length,mensagens:v2Messages(s).filter(x=>String(x.LIDA).toUpperCase()!=="SIM").length,notificacoes:v2Notifications(s).filter(x=>String(x.LIDA).toUpperCase()!=="SIM").length,projetosAtivos:lerPlanilha(true).filter(x=>!["Concluído","CONCLUÍDO","Cancelado","CANCELADO"].includes(String(x.STATUS))).length}}return d}
-function v2AdminDashboard(){return{usuarios:v2Rows(V2.SHEETS.USERS).length,arquitetos:v2Rows(V2.SHEETS.ARCHITECTS).length,fornecedores:v2Rows(V2.SHEETS.SUPPLIERS).length,projetos:lerPlanilha(true).length,solicitacoes:v2Rows(V2.SHEETS.REQUESTS).length,propostas:v2Rows(V2.SHEETS.PROPOSALS).length,mensagens:v2Rows(V2.SHEETS.MESSAGES).length,notificacoes:v2Rows(V2.SHEETS.NOTIFICATIONS).length}}
-function v2Search(q){const x=String(q||"").toLowerCase();const out=[];[["fornecedor",V2.SHEETS.SUPPLIERS],["produto",V2.SHEETS.PRODUCTS],["servico",V2.SHEETS.SERVICES]].forEach(([tipo,n])=>v2Rows(n).filter(r=>!x||Object.values(r).some(v=>String(v).toLowerCase().includes(x))).slice(0,25).forEach(registro=>out.push({tipo,registro})));return out}
-function ARQSELECT_2_0_SETUP(){v2EnsureSheets();return"Abas ARQSELECT 2.0 criadas/verificadas."}
