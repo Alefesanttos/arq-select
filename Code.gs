@@ -723,6 +723,11 @@ function doGet(e) {
 
 
     /* ======================================================
+       ARQSELECT 4.0 — DIAGNÓSTICO DE CONEXÃO
+    ====================================================== */
+    if (acao === "admin_v4_diagnostico") return diagnosticoAdminV4(dados.token);
+
+    /* ======================================================
        ARQSELECT 4.0 — ADMIN / CRM / COMUNICAÇÃO
     ====================================================== */
     if (acao === "v4_setup" || acao === "admin_v4_setup") {
@@ -3826,7 +3831,120 @@ function garantirEstruturaV4() {
   garantirAbaCRM("arquitetos");
   garantirAbaV4(CRM_SHEETS.NOTIFICACOES, CRM_HEADERS.NOTIFICACOES);
   garantirColunasPortalProjetos();
+
+  // Mantém a V4 sincronizada com as bases legadas já existentes.
+  // A rotina é idempotente e não gera notificações em massa para registros antigos.
+  sincronizarBaseLegadaV4();
+
   return true;
+}
+
+/* ==========================================================
+   SINCRONIZAÇÃO DA BASE LEGADA → ÍNDICE CENTRAL V4
+   Não apaga nem altera as abas antigas.
+========================================================== */
+function sincronizarBaseLegadaV4() {
+  try {
+    const ss = obterPlanilha();
+    const usuariosAba = garantirAbaV4(ARQSELECT_4_SHEETS.USUARIOS, ARQSELECT_4_HEADERS.USUARIOS);
+
+    const porChave = {};
+    const existentes = lerAbaComoObjetos(usuariosAba);
+    existentes.forEach(function(u){
+      const email = String(u["E-MAIL"] || "").trim().toLowerCase();
+      const tipo = String(u.TIPO || "").trim().toUpperCase();
+      const id = String(u.ID || "").trim();
+      if (email && tipo) porChave[tipo + "|" + email] = u;
+      if (id && tipo) porChave[tipo + "|#" + id] = u;
+    });
+
+    function col(headers, nomes) {
+      for (let i=0;i<nomes.length;i++) {
+        const idx = headers.indexOf(nomes[i]);
+        if (idx >= 0) return idx;
+      }
+      return -1;
+    }
+
+    function addOrUpdate(tipo, obj) {
+      const email = String(obj.email || "").trim().toLowerCase();
+      const id = String(obj.id || "").trim();
+      if (!email && !id) return false;
+
+      const atual = (id && porChave[tipo + "|#" + id]) || (email && porChave[tipo + "|" + email]);
+      const uid = id || (atual && atual.ID) || (tipo === "ARQUITETO" ? "ARQ-" : "FOR-") + Utilities.getUuid().slice(0,8).toUpperCase();
+      const row = [
+        uid,
+        tipo,
+        obj.data || (atual && atual["DATA CADASTRO"]) || new Date(),
+        obj.nome || (atual && atual.NOME) || "",
+        obj.empresa || (atual && atual.EMPRESA) || "",
+        email || (atual && atual["E-MAIL"]) || "",
+        obj.telefone || (atual && atual.TELEFONE) || "",
+        obj.documento || (atual && atual.DOCUMENTO) || "",
+        obj.status || (atual && atual.STATUS) || "ATIVO",
+        obj.ultimoAcesso || (atual && atual["ULTIMO ACESSO"]) || "",
+        obj.origem || (atual && atual.ORIGEM) || "LEGADO",
+        typeof obj.dadosJson === "string" ? obj.dadosJson : JSON.stringify(obj.dadosJson || {}),
+        obj.aprovacao || (atual && atual["STATUS APROVACAO"]) || "PENDENTE"
+      ];
+      if (atual && atual._linha) {
+        usuariosAba.getRange(atual._linha,1,1,row.length).setValues([row]);
+        porChave[tipo + "|#" + uid] = Object.assign({}, atual, {ID:uid});
+        if (email) porChave[tipo + "|" + email] = porChave[tipo + "|#" + uid];
+      } else {
+        usuariosAba.appendRow(row);
+        const criado = {_linha:usuariosAba.getLastRow(), ID:uid, TIPO:tipo, "E-MAIL":row[5], NOME:row[3], EMPRESA:row[4]};
+        porChave[tipo + "|#" + uid] = criado;
+        if (email) porChave[tipo + "|" + email] = criado;
+      }
+      return true;
+    }
+
+    // Acessos de arquitetos
+    const arqAcesso = ss.getSheetByName("ACESSOS_ARQUITETOS");
+    if (arqAcesso && arqAcesso.getLastRow() >= 2) {
+      const vals=arqAcesso.getDataRange().getDisplayValues(), h=vals[0];
+      const iId=col(h,["ID"]),iData=col(h,["DATA CADASTRO"]),iNome=col(h,["NOME"]),iEmp=col(h,["EMPRESA"]),iEmail=col(h,["E-MAIL"]),iTel=col(h,["TELEFONE"]),iDoc=col(h,["REGISTRO/CNPJ"]),iStatus=col(h,["STATUS"]),iUlt=col(h,["ULTIMO ACESSO"]);
+      for(let r=1;r<vals.length;r++){ if(!vals[r].join("").trim()) continue; addOrUpdate("ARQUITETO",{id:iId>=0?vals[r][iId]:"",data:iData>=0?vals[r][iData]:"",nome:iNome>=0?vals[r][iNome]:"",empresa:iEmp>=0?vals[r][iEmp]:"",email:iEmail>=0?vals[r][iEmail]:"",telefone:iTel>=0?vals[r][iTel]:"",documento:iDoc>=0?vals[r][iDoc]:"",status:iStatus>=0?vals[r][iStatus]:"ATIVO",ultimoAcesso:iUlt>=0?vals[r][iUlt]:"",origem:"ACESSOS_ARQUITETOS",aprovacao:"APROVADO"}); }
+    }
+
+    // CRM de arquitetos já existente
+    const arqCRM = ss.getSheetByName(CRM_SHEETS.ARQUITETOS);
+    if (arqCRM && arqCRM.getLastRow() >= 2) {
+      const vals=arqCRM.getDataRange().getDisplayValues(), h=vals[0];
+      const iId=col(h,["ID"]),iData=col(h,["DATA DE CRIAÇÃO"]),iNome=col(h,["NOME"]),iEmp=col(h,["ESCRITÓRIO"]),iEmail=col(h,["E-MAIL"]),iTel=col(h,["TELEFONE"]),iDoc=col(h,["CAU"]),iStatus=col(h,["STATUS"]),iCid=col(h,["CIDADE"]),iEst=col(h,["ESTADO"]);
+      for(let r=1;r<vals.length;r++){ if(!vals[r].join("").trim()) continue; addOrUpdate("ARQUITETO",{id:iId>=0?vals[r][iId]:"",data:iData>=0?vals[r][iData]:"",nome:iNome>=0?vals[r][iNome]:"",empresa:iEmp>=0?vals[r][iEmp]:"",email:iEmail>=0?vals[r][iEmail]:"",telefone:iTel>=0?vals[r][iTel]:"",documento:iDoc>=0?vals[r][iDoc]:"",status:iStatus>=0?vals[r][iStatus]:"Pendente",origem:"CRM - ARQUITETOS",dadosJson:{cidade:iCid>=0?vals[r][iCid]:"",estado:iEst>=0?vals[r][iEst]:""}}); }
+    }
+
+    // Acessos de fornecedores
+    const forAcesso = ss.getSheetByName("ACESSOS_FORNECEDORES");
+    if (forAcesso && forAcesso.getLastRow() >= 2) {
+      const vals=forAcesso.getDataRange().getDisplayValues(), h=vals[0];
+      const iId=col(h,["ID"]),iData=col(h,["DATA CADASTRO"]),iNome=col(h,["NOME"]),iEmp=col(h,["EMPRESA"]),iEmail=col(h,["E-MAIL"]),iTel=col(h,["TELEFONE"]),iDoc=col(h,["REGISTRO/CNPJ"]),iStatus=col(h,["STATUS"]),iUlt=col(h,["ULTIMO ACESSO"]);
+      for(let r=1;r<vals.length;r++){ if(!vals[r].join("").trim()) continue; addOrUpdate("FORNECEDOR",{id:iId>=0?vals[r][iId]:"",data:iData>=0?vals[r][iData]:"",nome:iNome>=0?vals[r][iNome]:"",empresa:iEmp>=0?vals[r][iEmp]:"",email:iEmail>=0?vals[r][iEmail]:"",telefone:iTel>=0?vals[r][iTel]:"",documento:iDoc>=0?vals[r][iDoc]:"",status:iStatus>=0?vals[r][iStatus]:"ATIVO",ultimoAcesso:iUlt>=0?vals[r][iUlt]:"",origem:"ACESSOS_FORNECEDORES",aprovacao:"APROVADO"}); }
+    }
+
+    // Cadastro operacional de fornecedores; aceita nomes de abas usados pelas versões anteriores.
+    const nomesFor=[CRM_SHEETS.FORNECEDORES,"FORNECEDORES","ARQSELECT - FORNECEDORES"];
+    let forCRM=null;
+    for(let i=0;i<nomesFor.length;i++){ const a=ss.getSheetByName(nomesFor[i]); if(a){ forCRM=a; break; } }
+    if(forCRM && forCRM.getLastRow()>=2){
+      const vals=forCRM.getDataRange().getDisplayValues(), h=vals[0];
+      const iId=col(h,["ID"]),iData=col(h,["Data","DATA","DATA CADASTRO"]),iRazao=col(h,["Razão Social","RAZÃO SOCIAL"]),iFant=col(h,["Nome Fantasia","NOME FANTASIA"]),iCnpj=col(h,["CNPJ"]),iResp=col(h,["Responsável","RESPONSÁVEL"]),iEmail=col(h,["E-mail","E-MAIL"]),iTel=col(h,["Telefone","TELEFONE"]),iStatus=col(h,["Status","STATUS"]),iSite=col(h,["Site","SITE"]),iCid=col(h,["Cidade","CIDADE"]),iEst=col(h,["Estado","ESTADO"]);
+      for(let r=1;r<vals.length;r++){
+        if(!vals[r].join("").trim()) continue;
+        const empresa=(iFant>=0?vals[r][iFant]:"") || (iRazao>=0?vals[r][iRazao]:"");
+        addOrUpdate("FORNECEDOR",{id:iId>=0?vals[r][iId]:"",data:iData>=0?vals[r][iData]:"",nome:iResp>=0?vals[r][iResp]:"",empresa:empresa,email:iEmail>=0?vals[r][iEmail]:"",telefone:iTel>=0?vals[r][iTel]:"",documento:iCnpj>=0?vals[r][iCnpj]:"",status:iStatus>=0?vals[r][iStatus]:"Novo",origem:"CADASTRO_FORNECEDOR",dadosJson:{razao_social:iRazao>=0?vals[r][iRazao]:"",nome_fantasia:iFant>=0?vals[r][iFant]:"",site:iSite>=0?vals[r][iSite]:"",cidade:iCid>=0?vals[r][iCid]:"",estado:iEst>=0?vals[r][iEst]:""}});
+      }
+    }
+
+    SpreadsheetApp.flush();
+    return true;
+  } catch(e) {
+    registrarErro(e,"sincronizarBaseLegadaV4");
+    return false;
+  }
 }
 
 function localizarFornecedorOperacional(email, cnpj) {
@@ -4134,6 +4252,7 @@ function marcarTodasNotificacoesV4(token) {
 
 function obterUsuariosV4(token, tipo, busca) {
   exigirSessao(token);
+  sincronizarBaseLegadaV4();
   const aba=garantirAbaV4(ARQSELECT_4_SHEETS.USUARIOS,ARQSELECT_4_HEADERS.USUARIOS);
   let dados=lerAbaComoObjetos(aba);
   tipo=String(tipo||"").trim().toUpperCase();
@@ -4166,6 +4285,40 @@ function listarRegistrosV4SemAuth(sheetKey, filtroCol, filtroVal) {
   let dados=lerAbaComoObjetos(aba);
   if(filtroCol) dados=dados.filter(function(x){return String(x[filtroCol]||"").toLowerCase()===String(filtroVal||"").toLowerCase();});
   return dados;
+}
+
+function diagnosticoAdminV4(token) {
+  exigirSessao(token);
+  const ss = obterPlanilha();
+  const nomes = [
+    "PROJETOS",
+    "ARQSELECT - USUARIOS",
+    "ACESSOS_ARQUITETOS",
+    "ACESSOS_FORNECEDORES",
+    "ARQSELECT – FORNECEDORES",
+    "ARQSELECT - FORNECEDORES",
+    "FORNECEDORES",
+    "ARQSELECT - PRODUTOS",
+    "ARQSELECT - SOLICITACOES",
+    "ARQSELECT - PROPOSTAS"
+  ];
+  const abas = nomes.map(function(nome){
+    const a=ss.getSheetByName(nome);
+    return {nome:nome, existe:!!a, linhas:a?a.getLastRow():0, colunas:a?a.getLastColumn():0};
+  });
+  sincronizarBaseLegadaV4();
+  const u=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.USUARIOS,ARQSELECT_4_HEADERS.USUARIOS));
+  const p=lerPlanilha(false);
+  return respostaJSON({
+    sucesso:true,
+    autorizado:true,
+    planilhaId:CONFIG.SPREADSHEET_ID,
+    planilhaNome:ss.getName(),
+    abas:abas,
+    usuarios:{total:u.length,arquitetos:u.filter(x=>x.TIPO==="ARQUITETO").length,fornecedores:u.filter(x=>x.TIPO==="FORNECEDOR").length},
+    projetos:p.length,
+    timestamp:new Date().toISOString()
+  });
 }
 
 function criarConversaV4(token, dados) {
@@ -4409,6 +4562,7 @@ function listarRegistrosAdminV4(token,modulo) {
 function obterDashboardV4(token) {
   exigirSessao(token);
   garantirEstruturaV4();
+  sincronizarBaseLegadaV4();
   const usuarios=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.USUARIOS,ARQSELECT_4_HEADERS.USUARIOS));
   const fornecedores=usuarios.filter(x=>x.TIPO==="FORNECEDOR");
   const arquitetos=usuarios.filter(x=>x.TIPO==="ARQUITETO");
