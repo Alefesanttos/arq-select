@@ -85,7 +85,12 @@ const CONFIG = {
     "ARQSELECT CRM",
 
   SYSTEM_VERSION:
-    "3.0.0"
+    "3.1.0",
+
+  /* E-mail que recebe respostas dos fornecedores.
+     Se vazio, usa o e-mail efetivo do proprietário do Web App. */
+  NOTIFICATION_EMAIL:
+    ""
 
 };
 
@@ -504,6 +509,15 @@ function doGet(e) {
       });
     }
 
+    // CADASTRO PÚBLICO — compatibilidade com os formulários do GitHub Pages
+    if (acao === "cadastrar_arquiteto" || acao === "cadastro_arquiteto" || acao === "registrar_arquiteto") {
+      return cadastrarPortalUsuario(params, "ARQUITETO");
+    }
+
+    if (acao === "cadastrar_fornecedor" || acao === "cadastro_fornecedor" || acao === "registrar_fornecedor") {
+      return cadastrarPortalUsuario(params, "FORNECEDOR");
+    }
+
     if (acao === "portal_sessao") {
       return validarSessaoPortal({ token: params.token });
     }
@@ -709,10 +723,50 @@ function doGet(e) {
 
 
     /* ======================================================
+       ARQSELECT 4.0 — ADMIN / CRM / COMUNICAÇÃO
+    ====================================================== */
+    if (acao === "v4_setup" || acao === "admin_v4_setup") {
+      exigirSessao(dados.token);
+      garantirEstruturaV4();
+      return respostaJSON({sucesso:true,autorizado:true,mensagem:"Estrutura ARQSELECT 4.0 preparada."});
+    }
+    if (acao === "admin_v4_dashboard") return obterDashboardV4(dados.token);
+    if (acao === "admin_v4_painel") return obterPainelAdminV4(dados.token);
+    if (acao === "admin_v4_usuarios") return obterUsuariosV4(dados.token,dados.tipo,dados.busca);
+    if (acao === "admin_v4_fornecedor") return obterFornecedorCRMDetalheV4(dados.token,dados.id);
+    if (acao === "admin_v4_notificacoes") return listarNotificacoesV4(dados.token,dados.limite);
+    if (acao === "admin_v4_notificacao_lida") return marcarNotificacaoV4(dados.token,dados.id);
+    if (acao === "admin_v4_notificacoes_todas_lidas") return marcarTodasNotificacoesV4(dados.token);
+    if (acao === "admin_v4_listar") return listarRegistrosAdminV4(dados.token,dados.modulo);
+    if (acao === "admin_v4_conversa_criar") return criarConversaV4(dados.token,dados);
+    if (acao === "admin_v4_conversas") return listarConversasV4(dados.token);
+    if (acao === "admin_v4_mensagens") return listarMensagensV4(dados.token,dados.conversaId);
+    if (acao === "admin_v4_mensagem_enviar") return enviarMensagemV4(dados.token,dados);
+    if (acao === "admin_v4_produto_moderar") return moderarProdutoV4(dados.token,dados.id,dados.status);
+    if (acao === "admin_v4_projeto_distribuir") return distribuirProjetoV4(dados.token,dados.idProjeto,dados.fornecedores);
+    if (acao === "admin_v4_solicitacao") return criarSolicitacaoV4(dados.token,dados);
+    if (acao === "admin_v4_proposta") return criarPropostaV4(dados.token,dados);
+    /* ======================================================
        PORTAL PREMIUM — PROJETOS / STATUS
     ====================================================== */
     if (acao === "portal_projetos") return obterProjetosPortalSeguro(params.token);
     if (acao === "portal_atualizar_status") return atualizarStatusPortalSeguro(params.token, params.id, params.status);
+    if (acao === "portal_solicitacoes") return obterSolicitacoesPortal(params.token);
+    if (acao === "portal_projeto_detalhe") return obterDetalheProjetoPortal(params.token, params.id);
+    if (acao === "portal_logout") return logoutPortal(params.token);
+    if (acao === "portal_fornecedor_projetos") return obterProjetosFornecedorPortal(params.token);
+    if (acao === "portal_fornecedor_responder") return responderProjetoFornecedorPortal(params);
+    if (acao === "admin_atribuir_fornecedor") {
+      exigirSessao(params.token);
+      return atribuirFornecedorProjeto(params.id, params.fornecedor_email, params.fornecedor_nome);
+    }
+
+    // NOVO PROJETO — formulário público/portal do arquiteto
+    if (acao === "receber_projeto" || acao === "receberProjeto" || acao === "solicitar_orcamento") {
+      const tipoCadastro = String(params.tipo_cadastro || "").toLowerCase();
+      if (tipoCadastro === "arquiteto") return receberProjetoArquiteto(params);
+      return respostaJSON({sucesso:false, autorizado:false, mensagem:"Tipo de cadastro inválido para esta solicitação."});
+    }
 
     /* ======================================================
        STATUS
@@ -1114,6 +1168,30 @@ function doPost(e) {
 
 
     /* ======================================================
+       ARQSELECT 4.0 — ADMIN / CRM / COMUNICAÇÃO
+    ====================================================== */
+    if (acao === "v4_setup" || acao === "admin_v4_setup") {
+      exigirSessao(params.token);
+      garantirEstruturaV4();
+      return respostaJSON({sucesso:true,autorizado:true,mensagem:"Estrutura ARQSELECT 4.0 preparada."});
+    }
+    if (acao === "admin_v4_dashboard") return obterDashboardV4(params.token);
+    if (acao === "admin_v4_painel") return obterPainelAdminV4(params.token);
+    if (acao === "admin_v4_usuarios") return obterUsuariosV4(params.token,params.tipo,params.busca);
+    if (acao === "admin_v4_fornecedor") return obterFornecedorCRMDetalheV4(params.token,params.id);
+    if (acao === "admin_v4_notificacoes") return listarNotificacoesV4(params.token,params.limite);
+    if (acao === "admin_v4_notificacao_lida") return marcarNotificacaoV4(params.token,params.id);
+    if (acao === "admin_v4_notificacoes_todas_lidas") return marcarTodasNotificacoesV4(params.token);
+    if (acao === "admin_v4_listar") return listarRegistrosAdminV4(params.token,params.modulo);
+    if (acao === "admin_v4_conversa_criar") return criarConversaV4(params.token,params);
+    if (acao === "admin_v4_conversas") return listarConversasV4(params.token);
+    if (acao === "admin_v4_mensagens") return listarMensagensV4(params.token,params.conversaId);
+    if (acao === "admin_v4_mensagem_enviar") return enviarMensagemV4(params.token,params);
+    if (acao === "admin_v4_produto_moderar") return moderarProdutoV4(params.token,params.id,params.status);
+    if (acao === "admin_v4_projeto_distribuir") return distribuirProjetoV4(params.token,params.idProjeto,params.fornecedores);
+    if (acao === "admin_v4_solicitacao") return criarSolicitacaoV4(params.token,params);
+    if (acao === "admin_v4_proposta") return criarPropostaV4(params.token,params);
+        /* ======================================================
        PORTAL PREMIUM — PROJETOS / STATUS
     ====================================================== */
     if (acao === "portal_projetos") return obterProjetosPortalSeguro(dados.token);
@@ -1140,6 +1218,14 @@ function doPost(e) {
 
     if (acao === "portal_dashboard") {
       return obterDashboardPortal(dados.token);
+    }
+
+    if (acao === "portal_solicitar_orcamento") {
+      return criarSolicitacaoPortal(dados);
+    }
+
+    if (acao === "portal_fornecedor_responder") {
+      return responderProjetoFornecedorPortal(dados);
     }
 
     if (acao === "portal_logout") {
@@ -2093,7 +2179,13 @@ function configurarCabecalhoProjetos(
     "OBSERVAÇÕES",
     "ARQUIVOS",
     "PASTA DO PROJETO",
-    "STATUS"
+    "STATUS",
+    "FORNECEDOR E-MAIL",
+    "FORNECEDOR NOME",
+    "DATA ENVIO FORNECEDOR",
+    "RESPOSTA FORNECEDOR",
+    "ARQUIVOS DO FORNECEDOR",
+    "ULTIMA INTERAÇÃO"
 
   ];
 
@@ -2138,6 +2230,24 @@ function configurarCabecalhoProjetos(
 /* ==========================================================
    LEITURA DA PLANILHA
 ========================================================== */
+
+function garantirColunasPortalProjetos() {
+  const aba = obterPlanilha().getSheetByName(CRM_SHEETS.PROJETOS);
+  if (!aba) return null;
+  const extras = [
+    "FORNECEDOR E-MAIL", "FORNECEDOR NOME", "DATA ENVIO FORNECEDOR",
+    "RESPOSTA FORNECEDOR", "ARQUIVOS DO FORNECEDOR", "ULTIMA INTERAÇÃO"
+  ];
+  const last = Math.max(aba.getLastColumn(), 1);
+  const headers = aba.getRange(1,1,1,last).getDisplayValues()[0];
+  extras.forEach(function(h){
+    if (headers.indexOf(h) === -1) {
+      aba.getRange(1, aba.getLastColumn()+1).setValue(h);
+      headers.push(h);
+    }
+  });
+  return aba;
+}
 
 function lerPlanilha(
   usarCache
@@ -3528,6 +3638,844 @@ function receberProjetoArquiteto(
 
 
 /* ==========================================================
+   PORTAL PREMIUM — FLUXO COMPLETO ARQUITETO ↔ ADMIN ↔ FORNECEDOR
+========================================================== */
+function criarSolicitacaoPortal(dados) {
+  const sessao = obterSessaoPortal(dados && dados.token);
+  if (!sessao || sessao.tipo !== "ARQUITETO") return respostaJSON({sucesso:false, autorizado:false, mensagem:"Sessão de arquiteto inválida ou expirada."});
+  dados = dados || {};
+  dados.tipo_cadastro = "arquiteto";
+  dados.nome = sessao.nome || dados.nome;
+  dados.escritorio = sessao.empresa || dados.escritorio;
+  dados.email = sessao.email;
+  const r = receberProjetoArquiteto(dados);
+  try {
+    const obj = JSON.parse(r.getContent());
+    if (obj && obj.sucesso) {
+      garantirColunasPortalProjetos();
+      const p = obterProjetoInterno(obj.idProjeto);
+      if (p) {
+        const aba = obterPlanilha().getSheetByName(CRM_SHEETS.PROJETOS);
+        aba.getRange(p._linha, 26).setValue(new Date());
+      }
+    }
+  } catch(e) {}
+  return r;
+}
+
+function obterSolicitacoesPortal(token) {
+  const sessao = obterSessaoPortal(token);
+  if (!sessao) return respostaJSON({sucesso:false, autorizado:false, mensagem:"Sessão expirada."});
+  garantirColunasPortalProjetos();
+  const projetos = lerPlanilha(false);
+  const email = String(sessao.email||"").trim().toLowerCase();
+  const meus = projetos.filter(function(p){
+    if (sessao.tipo === "ARQUITETO") return String(p["E-MAIL"]||"").trim().toLowerCase() === email;
+    return String(p["FORNECEDOR E-MAIL"]||"").trim().toLowerCase() === email;
+  });
+  return respostaJSON({sucesso:true, autorizado:true, tipo:sessao.tipo, projetos:meus.map(serializarProjetoPortalDetalhado)});
+}
+
+function serializarProjetoPortalDetalhado(p) {
+  return {
+    id:p["ID PROJETO"]||"", data:p["DATA / HORA"]||"", nome:p["NOME"]||"", escritorio:p["ESCRITÓRIO"]||"",
+    email:p["E-MAIL"]||"", whatsapp:p["WHATSAPP"]||"", cidade:p["CIDADE"]||"", estado:p["ESTADO"]||"",
+    projeto:p["NOME DO PROJETO"]||"", tipo:p["TIPO DE PROJETO"]||"", area:p["ÁREA"]||"", ambiente:p["AMBIENTE"]||"",
+    prazo:p["PRAZO"]||"", descricao:p["DESCRIÇÃO / ORÇAMENTO"]||"", investimento:p["INVESTIMENTO"]||"", observacoes:p["OBSERVAÇÕES"]||"",
+    arquivos:extrairURLs(p["ARQUIVOS"]||""), pasta:extrairURL(p["PASTA DO PROJETO"]||""), status:p["STATUS"]||"Novo",
+    fornecedorEmail:p["FORNECEDOR E-MAIL"]||"", fornecedorNome:p["FORNECEDOR NOME"]||"",
+    respostaFornecedor:p["RESPOSTA FORNECEDOR"]||"", arquivosFornecedor:extrairURLs(p["ARQUIVOS DO FORNECEDOR"]||""),
+    dataResposta:p["DATA ENVIO FORNECEDOR"]||"", ultimaInteracao:p["ULTIMA INTERAÇÃO"]||""
+  };
+}
+
+function obterDetalheProjetoPortal(token,id) {
+  const sessao = obterSessaoPortal(token);
+  if (!sessao) return respostaJSON({sucesso:false, autorizado:false, mensagem:"Sessão expirada."});
+  const p = obterProjetoInterno(id);
+  if (!p) return respostaJSON({sucesso:false, autorizado:true, mensagem:"Projeto não encontrado."});
+  const email = String(sessao.email||"").trim().toLowerCase();
+  const permitido = sessao.tipo === "ARQUITETO"
+    ? String(p["E-MAIL"]||"").trim().toLowerCase() === email
+    : String(p["FORNECEDOR E-MAIL"]||"").trim().toLowerCase() === email;
+  if (!permitido) return respostaJSON({sucesso:false, autorizado:false, mensagem:"Você não possui acesso a este projeto."});
+  return respostaJSON({sucesso:true, autorizado:true, projeto:serializarProjetoPortalDetalhado(p)});
+}
+
+function obterProjetosFornecedorPortal(token) {
+  const sessao = obterSessaoPortal(token);
+  if (!sessao || sessao.tipo !== "FORNECEDOR") return respostaJSON({sucesso:false, autorizado:false, mensagem:"Sessão de fornecedor inválida."});
+  return obterSolicitacoesPortal(token);
+}
+
+function atribuirFornecedorProjeto(id, fornecedorEmail, fornecedorNome) {
+  const email = String(fornecedorEmail||"").trim().toLowerCase();
+  if (!email || !/^\S+@\S+\.\S+$/.test(email)) return respostaJSON({sucesso:false, autorizado:true,mensagem:"Informe um e-mail de fornecedor válido."});
+  const p = obterProjetoInterno(id);
+  if (!p) return respostaJSON({sucesso:false, autorizado:true,mensagem:"Projeto não encontrado."});
+  garantirColunasPortalProjetos();
+  const aba = obterPlanilha().getSheetByName(CRM_SHEETS.PROJETOS);
+  aba.getRange(p._linha,21,1,2).setValues([[email, fornecedorNome||email]]);
+  aba.getRange(p._linha,26).setValue(new Date());
+  aba.getRange(p._linha,20).setValue("Em análise");
+  SpreadsheetApp.flush();
+  try {
+    const assunto = "ARQSELECT | Novo projeto direcionado — " + (p["NOME DO PROJETO"]||id);
+    const corpo = "Você recebeu um novo projeto no portal ARQSELECT.\n\nProjeto: " + (p["NOME DO PROJETO"]||id) + "\nArquiteto: " + (p["NOME"]||"") + "\nE-mail: " + (p["E-MAIL"]||"") + "\n\nAcesse o dashboard do fornecedor para consultar os arquivos e enviar sua resposta/orçamento.";
+    MailApp.sendEmail(email, assunto, corpo);
+  } catch(e) { registrarErro(e,"emailFornecedorProjeto"); }
+  registrarAuditoria("ADMIN","ATRIBUIR","PROJETOS",id,"",email,"Projeto direcionado ao fornecedor.");
+  return respostaJSON({sucesso:true, autorizado:true,mensagem:"Projeto direcionado ao fornecedor com sucesso.",fornecedorEmail:email});
+}
+
+function responderProjetoFornecedorPortal(dados) {
+  const sessao = obterSessaoPortal(dados && dados.token);
+  if (!sessao || sessao.tipo !== "FORNECEDOR") return respostaJSON({sucesso:false, autorizado:false,mensagem:"Sessão de fornecedor inválida."});
+  const p = obterProjetoInterno(dados.id);
+  if (!p) return respostaJSON({sucesso:false, autorizado:true,mensagem:"Projeto não encontrado."});
+  if (String(p["FORNECEDOR E-MAIL"]||"").trim().toLowerCase() !== String(sessao.email||"").trim().toLowerCase()) return respostaJSON({sucesso:false, autorizado:false,mensagem:"Este projeto não está direcionado à sua empresa."});
+  garantirColunasPortalProjetos();
+  const aba = obterPlanilha().getSheetByName(CRM_SHEETS.PROJETOS);
+  let arquivos = dados.arquivos || [];
+  if (typeof arquivos === "string") { try { arquivos = JSON.parse(arquivos); } catch(e) { arquivos=[]; } }
+  const pastaUrl = p["PASTA DO PROJETO"] ? extrairURL(p["PASTA DO PROJETO"]) : "";
+  let pasta = null;
+  try { const m = String(pastaUrl||"").match(/[-\w]{20,}/); if (m) pasta = DriveApp.getFolderById(m[0]); } catch(e) {}
+  if (!pasta) {
+    const raiz = obterPastaPrincipal(); pasta = raiz.createFolder(String(p["ID PROJETO"]||dados.id)+" - RESPOSTAS FORNECEDOR");
+  }
+  const links=[];
+  (Array.isArray(arquivos)?arquivos:[]).forEach(function(a){ const salvo=salvarArquivo(a,pasta); if(salvo) links.push(salvo.url); });
+  const resposta = String(dados.resposta||dados.orcamento||dados.mensagem||"").trim();
+  aba.getRange(p._linha,23,1,4).setValues([[new Date(), resposta, links.join("\n"), new Date()]]);
+  aba.getRange(p._linha,20).setValue("Proposta enviada");
+  SpreadsheetApp.flush();
+  const destino = CONFIG.NOTIFICATION_EMAIL || Session.getEffectiveUser().getEmail();
+  const destinatarios = [];
+  if (destino) destinatarios.push(destino);
+  const emailArquiteto = String(p["E-MAIL"]||"").trim();
+  if (emailArquiteto && destinatarios.indexOf(emailArquiteto) === -1) destinatarios.push(emailArquiteto);
+  try {
+    if (destinatarios.length) {
+      destinatarios.forEach(function(dest){
+        MailApp.sendEmail({to:dest,subject:"ARQSELECT | Resposta de fornecedor — "+(p["NOME DO PROJETO"]||p["ID PROJETO"]),body:"O fornecedor " + (sessao.empresa||sessao.nome||sessao.email) + " respondeu ao projeto.\n\nProjeto: "+(p["NOME DO PROJETO"]||p["ID PROJETO"]) + "\nArquiteto: "+(p["NOME"]||"")+"\n\nResposta/orçamento:\n"+resposta+"\n\nArquivos:\n"+(links.join("\n")||"Nenhum")});
+      });
+    }
+  } catch(e) { registrarErro(e,"emailRespostaFornecedor"); }
+  registrarAuditoria(sessao.email,"RESPONDER","PROJETOS",dados.id,"",resposta,"Fornecedor enviou resposta/orçamento.");
+  return respostaJSON({sucesso:true, autorizado:true,mensagem:"Resposta enviada com sucesso.",arquivos:links,status:"Proposta enviada"});
+}
+
+
+/* ==========================================================
+   ARQSELECT 4.0 — CENTRAL DE USUÁRIOS, NOTIFICAÇÕES, CHAT,
+   PRODUTOS, SOLICITAÇÕES, PROPOSTAS E DISTRIBUIÇÃO DE PROJETOS
+   Camada incremental: preserva as funções existentes.
+========================================================== */
+
+const ARQSELECT_4_SHEETS = {
+  USUARIOS: "ARQSELECT - USUARIOS",
+  PRODUTOS: "ARQSELECT - PRODUTOS",
+  CONVERSAS: "ARQSELECT - CONVERSAS",
+  MENSAGENS: "ARQSELECT - MENSAGENS",
+  SOLICITACOES: "ARQSELECT - SOLICITACOES",
+  PROPOSTAS: "ARQSELECT - PROPOSTAS",
+  PROJETO_FORNECEDORES: "ARQSELECT - PROJETO_FORNECEDORES",
+  HISTORICO: "ARQSELECT - HISTORICO"
+};
+
+const ARQSELECT_4_HEADERS = {
+  USUARIOS:["ID","TIPO","DATA CADASTRO","NOME","EMPRESA","E-MAIL","TELEFONE","DOCUMENTO","STATUS","ULTIMO ACESSO","ORIGEM","DADOS JSON","STATUS APROVACAO"],
+  PRODUTOS:["ID","FORNECEDOR ID","FORNECEDOR E-MAIL","NOME","SKU","CATEGORIA","SUBCATEGORIA","MARCA","MODELO","DESCRICAO","CARACTERISTICAS","DIMENSOES","MATERIAL","ACABAMENTO","COR","UNIDADE","PRECO","FAIXA PRECO","DISPONIBILIDADE","PRAZO","REGIAO","LINK","FICHA TECNICA","CATALOGO PDF","FOTOS","VIDEOS","STATUS","DATA CRIACAO","DATA ATUALIZACAO"],
+  CONVERSAS:["ID","DATA CRIACAO","TIPO","PARTICIPANTE A","PARTICIPANTE A ID","PARTICIPANTE B","PARTICIPANTE B ID","PROJETO ID","PRODUTO ID","SOLICITACAO ID","PROPOSTA ID","ULTIMA MENSAGEM","ULTIMA DATA","STATUS"],
+  MENSAGENS:["ID","CONVERSA ID","DATA","REMETENTE TIPO","REMETENTE ID","REMETENTE NOME","DESTINATARIO TIPO","DESTINATARIO ID","DESTINATARIO E-MAIL","PROJETO ID","MENSAGEM","ARQUIVOS","LIDA","DATA LEITURA"],
+  SOLICITACOES:["ID","DATA","PROJETO ID","PRODUTO ID","ARQUITETO ID","ARQUITETO E-MAIL","FORNECEDOR ID","FORNECEDOR E-MAIL","PRODUTO","QUANTIDADE","MEDIDA","ESPECIFICACAO","PRAZO","OBSERVACOES","STATUS","DATA ATUALIZACAO"],
+  PROPOSTAS:["ID","DATA","SOLICITACAO ID","PROJETO ID","FORNECEDOR ID","FORNECEDOR E-MAIL","ARQUITETO ID","ARQUITETO E-MAIL","PRODUTO","QUANTIDADE","VALOR UNITARIO","VALOR TOTAL","FRETE","PRAZO","VALIDADE","CONDICAO","OBSERVACOES","ANEXOS","STATUS","DATA ATUALIZACAO"],
+  PROJETO_FORNECEDORES:["ID","DATA","PROJETO ID","FORNECEDOR ID","FORNECEDOR E-MAIL","FORNECEDOR NOME","STATUS","DATA LEITURA","DATA RESPOSTA","OBSERVACOES"],
+  HISTORICO:["ID","DATA","TIPO","USUARIO ID","USUARIO","MODULO","REGISTRO ID","ACAO","DESCRICAO","DADOS JSON"]
+};
+
+function garantirAbaV4(nome, headers) {
+  const ss = obterPlanilha();
+  let aba = ss.getSheetByName(nome);
+  if (!aba) {
+    aba = ss.insertSheet(nome);
+    aba.getRange(1,1,1,headers.length).setValues([headers]);
+    aba.setFrozenRows(1);
+    aba.getRange(1,1,1,headers.length).setFontWeight("bold");
+    try { aba.autoResizeColumns(1, headers.length); } catch(e) {}
+    return aba;
+  }
+  const lastCol = Math.max(aba.getLastColumn(), 1);
+  const atual = aba.getRange(1,1,1,lastCol).getDisplayValues()[0];
+  headers.forEach(function(h){
+    if (atual.indexOf(h) === -1) {
+      aba.getRange(1, aba.getLastColumn()+1).setValue(h);
+      atual.push(h);
+    }
+  });
+  return aba;
+}
+
+function garantirEstruturaV4() {
+  Object.keys(ARQSELECT_4_SHEETS).forEach(function(k){
+    garantirAbaV4(ARQSELECT_4_SHEETS[k], ARQSELECT_4_HEADERS[k]);
+  });
+  obterAbaPortal("ARQUITETO");
+  obterAbaPortal("FORNECEDOR");
+  garantirAbaCRM("arquitetos");
+  garantirAbaV4(CRM_SHEETS.NOTIFICACOES, CRM_HEADERS.NOTIFICACOES);
+  garantirColunasPortalProjetos();
+  return true;
+}
+
+function localizarFornecedorOperacional(email, cnpj) {
+  try {
+    const aba = obterPlanilha().getSheetByName(CRM_SHEETS.FORNECEDORES);
+    if (!aba || aba.getLastRow() < 2) return null;
+    const vals = aba.getDataRange().getDisplayValues();
+    const headers = vals[0];
+    const idxEmail = headers.indexOf("E-mail");
+    const idxCnpj = headers.indexOf("CNPJ");
+    const e = String(email || "").trim().toLowerCase();
+    const c = String(cnpj || "").replace(/\D/g,"");
+    for (let i=1;i<vals.length;i++) {
+      const rowEmail = idxEmail >= 0 ? String(vals[i][idxEmail]||"").trim().toLowerCase() : "";
+      const rowCnpj = idxCnpj >= 0 ? String(vals[i][idxCnpj]||"").replace(/\D/g,"") : "";
+      if (e && rowEmail && e === rowEmail) return {linha:i+1,dados:vals[i]};
+      if (c && rowCnpj && c === rowCnpj) return {linha:i+1,dados:vals[i]};
+    }
+  } catch(e) {}
+  return null;
+}
+
+function localizarUsuarioV4(id, tipo) {
+  const aba = garantirAbaV4(ARQSELECT_4_SHEETS.USUARIOS, ARQSELECT_4_HEADERS.USUARIOS);
+  const vals = aba.getDataRange().getDisplayValues();
+  for (let i=1;i<vals.length;i++) {
+    if (String(vals[i][0]||"") === String(id||"") &&
+        (!tipo || String(vals[i][1]||"").toUpperCase() === String(tipo).toUpperCase())) {
+      const o={_linha:i+1};
+      ARQSELECT_4_HEADERS.USUARIOS.forEach(function(h,c){ o[h]=vals[i][c] || ""; });
+      return o;
+    }
+  }
+  return null;
+}
+
+function localizarUsuarioPorEmailV4(email, tipo) {
+  const aba = garantirAbaV4(ARQSELECT_4_SHEETS.USUARIOS, ARQSELECT_4_HEADERS.USUARIOS);
+  const vals = aba.getDataRange().getDisplayValues();
+  const alvo=String(email||"").trim().toLowerCase();
+  for (let i=1;i<vals.length;i++) {
+    if (String(vals[i][5]||"").trim().toLowerCase() === alvo &&
+        (!tipo || String(vals[i][1]||"").toUpperCase()===String(tipo).toUpperCase())) {
+      const o={_linha:i+1};
+      ARQSELECT_4_HEADERS.USUARIOS.forEach(function(h,c){o[h]=vals[i][c]||"";});
+      return o;
+    }
+  }
+  return null;
+}
+
+function registrarCadastroPortalCRM(info) {
+  try {
+    garantirEstruturaV4();
+
+    const tipo = String(info.tipo || "").toUpperCase();
+    const aba = garantirAbaV4(ARQSELECT_4_SHEETS.USUARIOS, ARQSELECT_4_HEADERS.USUARIOS);
+    let usuario = localizarUsuarioV4(info.id, tipo) || localizarUsuarioPorEmailV4(info.email, tipo);
+
+    const dadosJson = JSON.stringify(info.dados || {});
+    if (usuario) {
+      const row = usuario._linha;
+      const mapa = {};
+      ARQSELECT_4_HEADERS.USUARIOS.forEach(function(h,i){ mapa[h]=i+1; });
+      const patch = {
+        "NOME":info.nome || "",
+        "EMPRESA":info.empresa || "",
+        "E-MAIL":info.email || "",
+        "TELEFONE":info.telefone || "",
+        "DOCUMENTO":info.documento || "",
+        "STATUS":info.status || "ATIVO",
+        "ORIGEM":info.origem || "PORTAL",
+        "DADOS JSON":dadosJson,
+        "STATUS APROVACAO":info.statusAprovacao || "PENDENTE"
+      };
+      Object.keys(patch).forEach(function(k){ if(mapa[k]) aba.getRange(row,mapa[k]).setValue(patch[k]); });
+      info.id = usuario.ID;
+    } else {
+      aba.appendRow([
+        info.id,
+        tipo,
+        new Date(),
+        info.nome || "",
+        info.empresa || "",
+        info.email || "",
+        info.telefone || "",
+        info.documento || "",
+        info.status || "ATIVO",
+        "",
+        info.origem || "PORTAL",
+        dadosJson,
+        info.statusAprovacao || "PENDENTE"
+      ]);
+    }
+
+    if (tipo === "ARQUITETO") {
+      sincronizarArquitetoCRMV4(info);
+    } else if (tipo === "FORNECEDOR") {
+      sincronizarFornecedorCRMV4(info);
+    }
+
+    const tituloCadastro = "Novo " + (tipo === "FORNECEDOR" ? "fornecedor" : "arquiteto") + " cadastrado";
+    const mensagemCadastro = (info.empresa || info.nome || "Novo usuário") +
+      " foi cadastrado na plataforma.";
+    criarNotificacaoV4({
+      usuario:"ADMIN",
+      tipo:"CADASTRO",
+      titulo:tituloCadastro,
+      mensagem:mensagemCadastro,
+      registro:info.id,
+      extras:{tipo:tipo,email:info.email,nome:info.nome,empresa:info.empresa}
+    });
+    enviarEmailCadastroV4(tipo, info, tituloCadastro, mensagemCadastro);
+
+    registrarHistoricoV4(
+      tipo,
+      info.id,
+      info.email,
+      "CADASTRO",
+      "Novo " + tipo.toLowerCase() + " cadastrado e sincronizado."
+    );
+
+    return true;
+  } catch (erro) {
+    registrarErro(erro, "registrarCadastroPortalCRM");
+    return false;
+  }
+}
+
+function sincronizarArquitetoCRMV4(info) {
+  const aba = garantirAbaCRM("arquitetos");
+  const headers = CRM_HEADERS.ARQUITETOS;
+  const email = String(info.email||"").trim().toLowerCase();
+  const vals = aba.getDataRange().getDisplayValues();
+  let linha = 0;
+  for (let i=1;i<vals.length;i++) {
+    if (String(vals[i][headers.indexOf("E-MAIL")]||"").trim().toLowerCase()===email) { linha=i+1; break; }
+  }
+
+  const registro = {
+    ID:info.id,
+    NOME:info.nome,
+    ESCRITÓRIO:info.empresa,
+    CAU:info.documento,
+    TELEFONE:info.telefone,
+    WHATSAPP:info.telefone,
+    "E-MAIL":info.email,
+    STATUS:"Pendente",
+    "ÚLTIMA INTERAÇÃO":new Date(),
+    "DATA DE CRIAÇÃO":new Date(),
+    "DATA DE ATUALIZAÇÃO":new Date()
+  };
+
+  const row = headers.map(function(h){ return registro[h] !== undefined ? registro[h] : ""; });
+  if (linha) aba.getRange(linha,1,1,headers.length).setValues([row]);
+  else aba.appendRow(row);
+}
+
+function sincronizarFornecedorCRMV4(info) {
+  try {
+    const d=info.dados || {};
+    const aba=obterPlanilha().getSheetByName(CRM_SHEETS.FORNECEDORES);
+    if(!aba) return false;
+    const headers=aba.getRange(1,1,1,Math.max(aba.getLastColumn(),1)).getDisplayValues()[0];
+    const rowData={
+      "Razão Social":d.razao_social || info.empresa || "",
+      "Nome Fantasia":d.nome_fantasia || info.empresa || "",
+      "CNPJ":d.cnpj || info.documento || "",
+      "Site":d.site || "",
+      "Instagram":d.instagram || "",
+      "Cidade":d.cidade || "",
+      "Estado":d.estado || "",
+      "Responsável":d.responsavel || info.nome || "",
+      "Cargo":d.cargo || "",
+      "E-mail":d.email || info.email || "",
+      "Telefone":d.telefone || info.telefone || "",
+      "Produtos":d.produtos || "",
+      "Marcas":d.marcas || "",
+      "Prazo de Entrega":d.prazo_entrega || "",
+      "Região":d.regiao || "",
+      "Pedido Mínimo":d.pedido_minimo || "",
+      "Pagamento":d.pagamento || "",
+      "Tabela":d.tabela || "",
+      "Proposta":d.proposta || "",
+      "Status":d.status || "Novo"
+    };
+    const email=String(info.email||d.email||"").trim().toLowerCase();
+    const cnpj=String(info.documento||d.cnpj||"").replace(/\D/g,"");
+    const vals=aba.getDataRange().getDisplayValues();
+    const iEmail=headers.indexOf("E-mail"), iCnpj=headers.indexOf("CNPJ");
+    let row=0;
+    for(let i=1;i<vals.length;i++){
+      const re=iEmail>=0?String(vals[i][iEmail]||"").trim().toLowerCase():"";
+      const rc=iCnpj>=0?String(vals[i][iCnpj]||"").replace(/\D/g,""):"";
+      if((email&&re===email)||(cnpj&&rc===cnpj)){row=i+1;break;}
+    }
+    if(!row){
+      const linha=headers.map(function(h){return h==="Data"?new Date():(rowData[h]!==undefined?rowData[h]:"");});
+      aba.appendRow(linha);
+    }else{
+      headers.forEach(function(h,c){if(rowData[h]!==undefined)aba.getRange(row,c+1).setValue(rowData[h]);});
+    }
+    SpreadsheetApp.flush();
+    return true;
+  } catch(e) {
+    registrarErro(e,"sincronizarFornecedorCRMV4");
+    return false;
+  }
+}
+
+function enviarEmailCadastroV4(tipo, info, titulo, mensagem) {
+  try {
+    const destino = CONFIG.NOTIFICATION_EMAIL || Session.getEffectiveUser().getEmail();
+    if(!destino) return false;
+    MailApp.sendEmail({
+      to: destino,
+      subject:"ARQSELECT | "+titulo,
+      body:[
+        titulo,
+        "",
+        "Tipo: "+tipo,
+        "ID: "+(info.id||""),
+        "Nome: "+(info.nome||""),
+        "Empresa: "+(info.empresa||""),
+        "E-mail: "+(info.email||""),
+        "Telefone: "+(info.telefone||""),
+        "Documento: "+(info.documento||""),
+        "",
+        mensagem,
+        "",
+        "Acesse o CRM ARQSELECT para visualizar o cadastro."
+      ].join("\n")
+    });
+    return true;
+  } catch(e) {
+    registrarErro(e,"enviarEmailCadastroV4");
+    return false;
+  }
+}
+
+function criarNotificacaoV4(opts) {
+  try {
+    const aba = garantirAbaV4(CRM_SHEETS.NOTIFICACOES, CRM_HEADERS.NOTIFICACOES);
+    const id = gerarIdCRM("NOT");
+    aba.appendRow([
+      id,
+      new Date(),
+      opts.usuario || "ADMIN",
+      opts.tipo || "SISTEMA",
+      opts.titulo || "Nova notificação",
+      opts.mensagem || "",
+      opts.registro || "",
+      "NÃO",
+      "",
+    ]);
+    incrementarVersaoDados();
+    return id;
+  } catch(erro) {
+    registrarErro(erro, "criarNotificacaoV4");
+    return "";
+  }
+}
+
+function listarNotificacoesV4(token, limite) {
+  exigirSessao(token);
+  const aba = garantirAbaV4(CRM_SHEETS.NOTIFICACOES, CRM_HEADERS.NOTIFICACOES);
+  const vals = lerAbaComoObjetos(aba);
+  const n = Math.min(Math.max(Number(limite)||50,1),200);
+  const ordenadas = vals.reverse().slice(0,n);
+  return respostaJSON({
+    sucesso:true,
+    autorizado:true,
+    notificacoes:ordenadas,
+    naoLidas:ordenadas.filter(function(x){ return String(x.LIDA).toUpperCase()!=="SIM"; }).length,
+    versao:obterVersaoDados()
+  });
+}
+
+function marcarNotificacaoV4(token, id) {
+  exigirSessao(token);
+  const aba = garantirAbaV4(CRM_SHEETS.NOTIFICACOES, CRM_HEADERS.NOTIFICACOES);
+  const row = encontrarLinhaPorID(aba,id);
+  if (!row) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Notificação não encontrada."});
+  const h=obterCabecalhosAba(aba);
+  const cLida=encontrarColuna(h,"LIDA");
+  const cData=encontrarColuna(h,"DATA DE LEITURA");
+  if (cLida) aba.getRange(row,cLida).setValue("SIM");
+  if (cData) aba.getRange(row,cData).setValue(new Date());
+  incrementarVersaoDados();
+  return respostaJSON({sucesso:true,autorizado:true});
+}
+
+function marcarTodasNotificacoesV4(token) {
+  exigirSessao(token);
+  const aba = garantirAbaV4(CRM_SHEETS.NOTIFICACOES, CRM_HEADERS.NOTIFICACOES);
+  const last=aba.getLastRow();
+  if(last<2) return respostaJSON({sucesso:true,autorizado:true,quantidade:0});
+  const h=obterCabecalhosAba(aba);
+  const cLida=encontrarColuna(h,"LIDA"), cData=encontrarColuna(h,"DATA DE LEITURA");
+  if(cLida) aba.getRange(2,cLida,last-1,1).setValues(Array.from({length:last-1},()=>["SIM"]));
+  if(cData) aba.getRange(2,cData,last-1,1).setValues(Array.from({length:last-1},()=>[new Date()]));
+  incrementarVersaoDados();
+  return respostaJSON({sucesso:true,autorizado:true,quantidade:last-1});
+}
+
+function obterUsuariosV4(token, tipo, busca) {
+  exigirSessao(token);
+  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.USUARIOS,ARQSELECT_4_HEADERS.USUARIOS);
+  let dados=lerAbaComoObjetos(aba);
+  tipo=String(tipo||"").trim().toUpperCase();
+  busca=String(busca||"").trim().toLowerCase();
+  if(tipo) dados=dados.filter(x=>String(x.TIPO||"").toUpperCase()===tipo);
+  if(busca) dados=dados.filter(x=>[x.ID,x.NOME,x.EMPRESA,x["E-MAIL"],x.TELEFONE,x.DOCUMENTO].some(v=>String(v||"").toLowerCase().indexOf(busca)!==-1));
+  const arquitetos=dados.filter(x=>x.TIPO==="ARQUITETO").length;
+  const fornecedores=dados.filter(x=>x.TIPO==="FORNECEDOR").length;
+  return respostaJSON({sucesso:true,autorizado:true,usuarios:dados,totais:{arquitetos:arquitetos,fornecedores:fornecedores,total:dados.length}});
+}
+
+function obterFornecedorCRMDetalheV4(token, id) {
+  exigirSessao(token);
+  const u=localizarUsuarioV4(id,"FORNECEDOR");
+  if(!u) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Fornecedor não encontrado."});
+  const produtos=listarRegistrosV4SemAuth("PRODUTOS", "FORNECEDOR ID", u.ID);
+  const projetos=lerPlanilha(false).filter(function(p){
+    const e=String(p["FORNECEDOR E-MAIL"]||"").toLowerCase();
+    return e===String(u["E-MAIL"]||"").toLowerCase();
+  });
+  const msgs=listarMensagensInternasV4(u.ID).slice(-20).reverse();
+  return respostaJSON({sucesso:true,autorizado:true,usuario:u,produtos:produtos,projetos:projetos,mensagens:msgs});
+}
+
+function listarRegistrosV4SemAuth(sheetKey, filtroCol, filtroVal) {
+  const nome=ARQSELECT_4_SHEETS[sheetKey];
+  const headers=ARQSELECT_4_HEADERS[sheetKey];
+  if(!nome||!headers) return [];
+  const aba=garantirAbaV4(nome,headers);
+  let dados=lerAbaComoObjetos(aba);
+  if(filtroCol) dados=dados.filter(function(x){return String(x[filtroCol]||"").toLowerCase()===String(filtroVal||"").toLowerCase();});
+  return dados;
+}
+
+function criarConversaV4(token, dados) {
+  const sessao=obterSessaoAdmin(token);
+  if(!sessao) { exigirSessao(token); }
+  dados=dados||{};
+  const a=String(dados.participanteAId||dados.remetenteId||"").trim();
+  const b=String(dados.participanteBId||dados.destinatarioId||"").trim();
+  if(!a||!b) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Informe os dois participantes."});
+  const id="CONV-"+Utilities.getUuid().slice(0,8).toUpperCase();
+  garantirAbaV4(ARQSELECT_4_SHEETS.CONVERSAS,ARQSELECT_4_HEADERS.CONVERSAS).appendRow([
+    id,new Date(),dados.tipo||"GERAL",
+    dados.participanteANome||"",a,
+    dados.participanteBNome||"",b,
+    dados.projetoId||"",dados.produtoId||"",dados.solicitacaoId||"",dados.propostaId||"",
+    "",new Date(),"ABERTA"
+  ]);
+  incrementarVersaoDados();
+  registrarHistoricoV4(id,"ADMIN","ADMIN","CRIAR","Conversa criada.");
+  return respostaJSON({sucesso:true,autorizado:true,id:id});
+}
+
+function obterSessaoAdmin(token) {
+  return obterSessao(token);
+}
+
+function enviarMensagemV4(token,dados) {
+  const sessao=obterSessaoPortal(token) || obterSessao(token);
+  if(!sessao) return respostaJSON({sucesso:false,autorizado:false,mensagem:"Sessão inválida ou expirada."});
+  dados=dados||{};
+  const conversaId=String(dados.conversaId||dados.conversaid||"").trim();
+  const mensagem=String(dados.mensagem||"").trim();
+  if(!conversaId||!mensagem) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Informe a conversa e a mensagem."});
+  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.MENSAGENS,ARQSELECT_4_HEADERS.MENSAGENS);
+  const id="MSG-"+Utilities.getUuid().slice(0,8).toUpperCase();
+  const origemTipo=sessao.tipo || "ADMIN";
+  const origemId=sessao.id || CONFIG.ADMIN_USERNAME;
+  const origemNome=sessao.nome || "ADMIN";
+  const destinoTipo=dados.destinatarioTipo||"";
+  const destinoId=dados.destinatarioId||"";
+  const destinoEmail=dados.destinatarioEmail||"";
+  aba.appendRow([
+    id,conversaId,new Date(),origemTipo,origemId,origemNome,
+    destinoTipo,destinoId,destinoEmail,dados.projetoId||"",mensagem,
+    dados.arquivos||"","NÃO",""
+  ]);
+  atualizarConversaUltimaMensagemV4(conversaId,mensagem);
+  criarNotificacaoV4({
+    usuario:destinoId || "ADMIN",
+    tipo:"MENSAGEM",
+    titulo:"Nova mensagem",
+    mensagem:origemNome + ": " + limitarTexto(mensagem,180),
+    registro:conversaId
+  });
+  registrarHistoricoV4(origemId,origemId,origemNome,"MENSAGEM","Nova mensagem enviada.");
+  incrementarVersaoDados();
+  return respostaJSON({sucesso:true,autorizado:true,id:id});
+}
+
+function atualizarConversaUltimaMensagemV4(conversaId,mensagem) {
+  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.CONVERSAS,ARQSELECT_4_HEADERS.CONVERSAS);
+  const row=encontrarLinhaPorID(aba,conversaId);
+  if(!row) return false;
+  const h=obterCabecalhosAba(aba);
+  const cMsg=encontrarColuna(h,"ULTIMA MENSAGEM"), cData=encontrarColuna(h,"ULTIMA DATA");
+  if(cMsg) aba.getRange(row,cMsg).setValue(limitarTexto(mensagem,500));
+  if(cData) aba.getRange(row,cData).setValue(new Date());
+  return true;
+}
+
+function listarConversasV4(token) {
+  const sessao=obterSessaoPortal(token) || obterSessao(token);
+  if(!sessao) return respostaJSON({sucesso:false,autorizado:false,mensagem:"Sessão inválida."});
+  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.CONVERSAS,ARQSELECT_4_HEADERS.CONVERSAS);
+  let dados=lerAbaComoObjetos(aba);
+  if(sessao.tipo!=="ADMIN") {
+    const id=String(sessao.id||"");
+    dados=dados.filter(x=>String(x["PARTICIPANTE A ID"]||"")===id || String(x["PARTICIPANTE B ID"]||"")===id);
+  }
+  return respostaJSON({sucesso:true,autorizado:true,conversas:dados.reverse()});
+}
+
+function listarMensagensV4(token, conversaId) {
+  const sessao=obterSessaoPortal(token) || obterSessao(token);
+  if(!sessao) return respostaJSON({sucesso:false,autorizado:false,mensagem:"Sessão inválida."});
+  const conv=garantirAbaV4(ARQSELECT_4_SHEETS.CONVERSAS,ARQSELECT_4_HEADERS.CONVERSAS);
+  const cs=lerAbaComoObjetos(conv).find(x=>String(x.ID||"")===String(conversaId||""));
+  if(!cs) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Conversa não encontrada."});
+  if(sessao.tipo!=="ADMIN" && String(cs["PARTICIPANTE A ID"]||"")!==String(sessao.id||"") && String(cs["PARTICIPANTE B ID"]||"")!==String(sessao.id||"")) {
+    return respostaJSON({sucesso:false,autorizado:false,mensagem:"Acesso negado."});
+  }
+  const dados=listarMensagensInternasV4(conversaId);
+  return respostaJSON({sucesso:true,autorizado:true,mensagens:dados});
+}
+
+function listarMensagensInternasV4(valor) {
+  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.MENSAGENS,ARQSELECT_4_HEADERS.MENSAGENS);
+  return lerAbaComoObjetos(aba).filter(function(x){
+    return String(x["CONVERSA ID"]||"")===String(valor||"") || String(x["REMETENTE ID"]||"")===String(valor||"") || String(x["DESTINATARIO ID"]||"")===String(valor||"");
+  });
+}
+
+function criarProdutoV4(token,dados) {
+  const sessao=obterSessaoPortal(token);
+  if(!sessao || sessao.tipo!=="FORNECEDOR") return respostaJSON({sucesso:false,autorizado:false,mensagem:"Sessão de fornecedor inválida."});
+  dados=dados||{};
+  const nome=String(dados.nome||"").trim();
+  if(!nome) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Informe o nome do produto."});
+  const id="PROD-"+Utilities.getUuid().slice(0,8).toUpperCase();
+  const agora=new Date();
+  garantirAbaV4(ARQSELECT_4_SHEETS.PRODUTOS,ARQSELECT_4_HEADERS.PRODUTOS).appendRow([
+    id,sessao.id,sessao.email,nome,dados.sku||"",dados.categoria||"",dados.subcategoria||"",
+    dados.marca||"",dados.modelo||"",dados.descricao||"",dados.caracteristicas||"",dados.dimensoes||"",
+    dados.material||"",dados.acabamento||"",dados.cor||"",dados.unidade||"",dados.preco||"",
+    dados.faixa_preco||"",dados.disponibilidade||"",dados.prazo||"",dados.regiao||"",dados.link||"",
+    dados.ficha_tecnica||"",dados.catalogo_pdf||"",dados.fotos||"",dados.videos||"",
+    "PENDENTE",agora,agora
+  ]);
+  criarNotificacaoV4({usuario:"ADMIN",tipo:"PRODUTO",titulo:"Novo produto pendente",mensagem:nome+" foi cadastrado por "+(sessao.empresa||sessao.nome),registro:id});
+  registrarHistoricoV4(sessao.id,sessao.id,sessao.nome,"CRIAR","Produto criado: "+nome);
+  incrementarVersaoDados();
+  return respostaJSON({sucesso:true,autorizado:true,id:id,status:"PENDENTE",mensagem:"Produto enviado para aprovação."});
+}
+
+function listarProdutosV4(token,filtro) {
+  const sessao=obterSessaoPortal(token);
+  if(!sessao && token) { /* catálogo público não exige sessão */ }
+  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.PRODUTOS,ARQSELECT_4_HEADERS.PRODUTOS);
+  let dados=lerAbaComoObjetos(aba);
+  if(!sessao || sessao.tipo!=="ADMIN") dados=dados.filter(x=>String(x.STATUS||"").toUpperCase()==="APROVADO");
+  filtro=filtro||{};
+  Object.keys(filtro).forEach(function(k){
+    const v=String(filtro[k]||"").toLowerCase().trim();
+    if(v) dados=dados.filter(function(x){return String(x[k]||"").toLowerCase().indexOf(v)!==-1;});
+  });
+  return respostaJSON({sucesso:true,autorizado:!!sessao,produtos:dados});
+}
+
+function moderarProdutoV4(token,id,status) {
+  exigirSessao(token);
+  const st=String(status||"").toUpperCase();
+  if(["APROVADO","RECUSADO","PENDENTE","OCULTO","ALTERAR"].indexOf(st)===-1) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Status de produto inválido."});
+  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.PRODUTOS,ARQSELECT_4_HEADERS.PRODUTOS);
+  const row=encontrarLinhaPorID(aba,id);
+  if(!row) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Produto não encontrado."});
+  const h=obterCabecalhosAba(aba); const cStatus=encontrarColuna(h,"STATUS"), cData=encontrarColuna(h,"DATA ATUALIZACAO"), cNome=encontrarColuna(h,"NOME"), cFor=encontrarColuna(h,"FORNECEDOR E-MAIL");
+  if(cStatus) aba.getRange(row,cStatus).setValue(st);
+  if(cData) aba.getRange(row,cData).setValue(new Date());
+  if(cFor) criarNotificacaoV4({usuario:aba.getRange(row,cFor).getDisplayValue(),tipo:"PRODUTO",titulo:"Status do produto atualizado",mensagem:String(cNome?aba.getRange(row,cNome).getDisplayValue():"Produto")+" → "+st,registro:id});
+  incrementarVersaoDados();
+  registrarHistoricoV4(CONFIG.ADMIN_USERNAME,CONFIG.ADMIN_USERNAME,"ADMIN","MODERAR","Produto "+id+" -> "+st);
+  return respostaJSON({sucesso:true,autorizado:true,status:st});
+}
+
+function distribuirProjetoV4(token,idProjeto,fornecedores) {
+  exigirSessao(token);
+  const p=obterProjetoInterno(idProjeto);
+  if(!p) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Projeto não encontrado."});
+  fornecedores=Array.isArray(fornecedores)?fornecedores: String(fornecedores||"").split(",").map(function(x){return x.trim();}).filter(Boolean);
+  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.PROJETO_FORNECEDORES,ARQSELECT_4_HEADERS.PROJETO_FORNECEDORES);
+  const usuarios=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.USUARIOS,ARQSELECT_4_HEADERS.USUARIOS)).filter(x=>x.TIPO==="FORNECEDOR");
+  let enviados=0;
+  fornecedores.forEach(function(ref){
+    const u=usuarios.find(function(x){return String(x.ID)===String(ref)||String(x["E-MAIL"]).toLowerCase()===String(ref).toLowerCase();});
+    if(!u) return;
+    const id="PF-"+Utilities.getUuid().slice(0,8).toUpperCase();
+    aba.appendRow([id,new Date(),idProjeto,u.ID,u["E-MAIL"],u.EMPRESA||u.NOME,"ENVIADO","", "", ""]);
+    criarNotificacaoV4({usuario:u.ID,tipo:"PROJETO",titulo:"Novo projeto disponível",mensagem:(p["NOME DO PROJETO"]||idProjeto)+" foi enviado para sua empresa.",registro:idProjeto});
+    enviados++;
+  });
+  registrarHistoricoV4(CONFIG.ADMIN_USERNAME,CONFIG.ADMIN_USERNAME,"ADMIN","DISTRIBUIR","Projeto "+idProjeto+" enviado para "+enviados+" fornecedor(es).");
+  incrementarVersaoDados();
+  return respostaJSON({sucesso:true,autorizado:true,enviados:enviados});
+}
+
+function criarSolicitacaoV4(token,dados) {
+  const sessao=obterSessaoPortal(token) || obterSessao(token);
+  if(!sessao) return respostaJSON({sucesso:false,autorizado:false,mensagem:"Sessão inválida."});
+  if(sessao.tipo!=="ARQUITETO" && sessao.tipo!=="ADMIN") return respostaJSON({sucesso:false,autorizado:false,mensagem:"Somente arquiteto ou ADMIN pode solicitar."});
+  dados=dados||{};
+  const id="SOL-"+Utilities.getUuid().slice(0,8).toUpperCase();
+  const arquitetoId=sessao.tipo==="ARQUITETO"?sessao.id:(dados.arquitetoId||"");
+  const arquitetoEmail=sessao.tipo==="ARQUITETO"?sessao.email:(dados.arquitetoEmail||"");
+  const p=dados.projetoId?obterProjetoInterno(dados.projetoId):null;
+  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.SOLICITACOES,ARQSELECT_4_HEADERS.SOLICITACOES);
+  aba.appendRow([
+    id,new Date(),dados.projetoId||"",dados.produtoId||"",arquitetoId,arquitetoEmail,
+    dados.fornecedorId||"",dados.fornecedorEmail||"",dados.produto||"",dados.quantidade||"",dados.medida||"",
+    dados.especificacao||"",dados.prazo||"",dados.observacoes||"","NOVA",new Date()
+  ]);
+  if(dados.fornecedorId || dados.fornecedorEmail) criarNotificacaoV4({
+    usuario:dados.fornecedorId||dados.fornecedorEmail,
+    tipo:"SOLICITACAO",
+    titulo:"Nova solicitação de cotação",
+    mensagem:"Você recebeu uma nova solicitação"+(p?" para o projeto "+(p["NOME DO PROJETO"]||dados.projetoId):"."),
+    registro:id
+  });
+  incrementarVersaoDados();
+  return respostaJSON({sucesso:true,autorizado:true,id:id,status:"NOVA"});
+}
+
+function criarPropostaV4(token,dados) {
+  const sessao=obterSessaoPortal(token);
+  if(!sessao || sessao.tipo!=="FORNECEDOR") return respostaJSON({sucesso:false,autorizado:false,mensagem:"Somente fornecedor pode enviar proposta."});
+  dados=dados||{};
+  const id="PROP-"+Utilities.getUuid().slice(0,8).toUpperCase();
+  const qtd=Number(dados.quantidade||0);
+  const unit=Number(String(dados.valorUnitario||dados.valor_unitario||"0").replace(",","."))||0;
+  const total=Number(dados.valorTotal||dados.valor_total||qtd*unit)||0;
+  garantirAbaV4(ARQSELECT_4_SHEETS.PROPOSTAS,ARQSELECT_4_HEADERS.PROPOSTAS).appendRow([
+    id,new Date(),dados.solicitacaoId||"",dados.projetoId||"",sessao.id,sessao.email,
+    dados.arquitetoId||"",dados.arquitetoEmail||"",dados.produto||"",dados.quantidade||"",
+    unit,total,dados.frete||"",dados.prazo||"",dados.validade||"",dados.condicao||"",
+    dados.observacoes||"",dados.anexos||"","ENVIADA",new Date()
+  ]);
+  criarNotificacaoV4({usuario:dados.arquitetoId||dados.arquitetoEmail||"ADMIN",tipo:"PROPOSTA",titulo:"Nova proposta recebida",mensagem:"O fornecedor "+(sessao.empresa||sessao.nome)+" enviou uma proposta.",registro:id});
+  incrementarVersaoDados();
+  return respostaJSON({sucesso:true,autorizado:true,id:id,status:"ENVIADA",valorTotal:total});
+}
+
+function listarRegistrosAdminV4(token,modulo) {
+  exigirSessao(token);
+  const mapa={
+    usuarios:[ARQSELECT_4_SHEETS.USUARIOS,ARQSELECT_4_HEADERS.USUARIOS],
+    produtos:[ARQSELECT_4_SHEETS.PRODUTOS,ARQSELECT_4_HEADERS.PRODUTOS],
+    conversas:[ARQSELECT_4_SHEETS.CONVERSAS,ARQSELECT_4_HEADERS.CONVERSAS],
+    mensagens:[ARQSELECT_4_SHEETS.MENSAGENS,ARQSELECT_4_HEADERS.MENSAGENS],
+    solicitacoes:[ARQSELECT_4_SHEETS.SOLICITACOES,ARQSELECT_4_HEADERS.SOLICITACOES],
+    propostas:[ARQSELECT_4_SHEETS.PROPOSTAS,ARQSELECT_4_HEADERS.PROPOSTAS],
+    distribuicoes:[ARQSELECT_4_SHEETS.PROJETO_FORNECEDORES,ARQSELECT_4_HEADERS.PROJETO_FORNECEDORES],
+    historico:[ARQSELECT_4_SHEETS.HISTORICO,ARQSELECT_4_HEADERS.HISTORICO],
+    projetos:["PROJETOS",[]]
+  };
+  const m=mapa[String(modulo||"").toLowerCase()];
+  if(!m) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Módulo inválido."});
+  const aba=(m[0]==="PROJETOS" ? obterAbaProjetos() : garantirAbaV4(m[0],m[1]));
+  const dados=lerAbaComoObjetos(aba).reverse();
+  return respostaJSON({sucesso:true,autorizado:true,modulo:modulo,dados:dados});
+}
+
+function obterDashboardV4(token) {
+  exigirSessao(token);
+  garantirEstruturaV4();
+  const usuarios=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.USUARIOS,ARQSELECT_4_HEADERS.USUARIOS));
+  const fornecedores=usuarios.filter(x=>x.TIPO==="FORNECEDOR");
+  const arquitetos=usuarios.filter(x=>x.TIPO==="ARQUITETO");
+  const produtos=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.PRODUTOS,ARQSELECT_4_HEADERS.PRODUTOS));
+  const solicitacoes=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.SOLICITACOES,ARQSELECT_4_HEADERS.SOLICITACOES));
+  const propostas=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.PROPOSTAS,ARQSELECT_4_HEADERS.PROPOSTAS));
+  const conversas=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.CONVERSAS,ARQSELECT_4_HEADERS.CONVERSAS));
+  const projetos=lerPlanilha(false);
+  const notificacoes=lerAbaComoObjetos(garantirAbaV4(CRM_SHEETS.NOTIFICACOES,CRM_HEADERS.NOTIFICACOES));
+  return respostaJSON({
+    sucesso:true,autorizado:true,
+    indicadores:{
+      arquitetos:arquitetos.length,
+      fornecedores:fornecedores.length,
+      fornecedoresPendentes:fornecedores.filter(x=>String(x["STATUS APROVACAO"]||"PENDENTE").toUpperCase()!=="APROVADO").length,
+      fornecedoresAprovados:fornecedores.filter(x=>String(x["STATUS APROVACAO"]||"").toUpperCase()==="APROVADO").length,
+      produtos:produtos.length,
+      produtosPendentes:produtos.filter(x=>String(x.STATUS).toUpperCase()==="PENDENTE").length,
+      projetos:projetos.length,
+      projetosAtivos:projetos.filter(x=>["NOVO","Novo","EM ANÁLISE","Em análise","ORÇAMENTO","Orçamento","PROPOSTA_ENVIADA","Proposta enviada","NEGOCIAÇÃO","Negociação","APROVAÇÃO","Aprovação","EM_EXECUÇÃO","Em execução"].indexOf(String(x.STATUS||""))>=0).length,
+      solicitacoes:solicitacoes.length,
+      propostas:propostas.length,
+      conversas:conversas.length,
+      mensagensNaoLidas:listarMensagensNaoLidasV4("ADMIN").length,
+      notificacoesNaoLidas:notificacoes.filter(x=>String(x.LIDA).toUpperCase()!=="SIM").length,
+      novosCadastros:usuarios.filter(function(x){
+        const d=converterData(x["DATA CADASTRO"]);
+        if(!d) return false;
+        const hoje=zerarHora(new Date());
+        return zerarHora(d).getTime()===hoje.getTime();
+      }).length
+    },
+    ultimosUsuarios:usuarios.reverse().slice(0,12),
+    ultimasNotificacoes:notificacoes.reverse().slice(0,12)
+  });
+}
+
+function listarMensagensNaoLidasV4(destinoId) {
+  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.MENSAGENS,ARQSELECT_4_HEADERS.MENSAGENS);
+  return lerAbaComoObjetos(aba).filter(function(x){return String(x["DESTINATARIO ID"]||"").toUpperCase()===String(destinoId||"").toUpperCase() && String(x.LIDA||"").toUpperCase()!=="SIM";});
+}
+
+function registrarHistoricoV4(usuarioId, modulo, usuarioNome, acao, descricao, registroId, dados) {
+  try {
+    const aba=garantirAbaV4(ARQSELECT_4_SHEETS.HISTORICO,ARQSELECT_4_HEADERS.HISTORICO);
+    aba.appendRow([
+      gerarIdCRM("HST"),new Date(),modulo||"SISTEMA",usuarioId||"",usuarioNome||"",
+      modulo||"SISTEMA",registroId||"",acao||"",descricao||"",dados?JSON.stringify(dados):""
+    ]);
+  } catch(e) {}
+}
+
+function obterPainelAdminV4(token) {
+  exigirSessao(token);
+  const dash=JSON.parse(obterDashboardV4(token).getContent());
+  const usuarios=JSON.parse(obterUsuariosV4(token,"","").getContent());
+  return respostaJSON({
+    sucesso:true,autorizado:true,
+    dashboard:dash.indicadores,
+    usuarios:usuarios.usuarios,
+    notificacoes:dash.ultimasNotificacoes || [],
+    timestamp:new Date().toISOString(),
+    versao:obterVersaoDados()
+  });
+}
+
+/* ==========================================================
    SALVAR ARQUIVO DRIVE
 ========================================================== */
 
@@ -3698,36 +4646,145 @@ function localizarPortalUsuario(tipo, email) {
 function cadastrarPortalUsuario(dados, tipo) {
   try {
     dados = dados || {};
+    tipo = String(tipo || "").toUpperCase();
+
+    if (["ARQUITETO","FORNECEDOR"].indexOf(tipo) === -1) {
+      return respostaJSON({sucesso:false, autorizado:false, mensagem:"Tipo de cadastro inválido."});
+    }
+
     const nome = String(dados.nome || dados.responsavel || "").trim();
     const email = String(dados.email || "").trim().toLowerCase();
     const senha = String(dados.senha || dados.password || "");
-    const empresa = String(dados.empresa || dados.escritorio || dados.nome_fantasia || dados.razao_social || "").trim();
-    const telefone = String(dados.telefone || dados.whatsapp || "").trim();
-    const documento = String(dados.registro || dados.registro_profissional || dados.cnpj || "").trim();
+    const empresa = String(
+      dados.empresa ||
+      dados.escritorio ||
+      dados.nome_fantasia ||
+      dados.razao_social ||
+      ""
+    ).trim();
+    const telefone = String(
+      dados.telefone ||
+      dados.whatsapp ||
+      ""
+    ).trim();
+    const documento = String(
+      dados.registro ||
+      dados.registro_profissional ||
+      dados.cau ||
+      dados.cnpj ||
+      ""
+    ).trim();
 
-    if (!nome || !email || !senha) return respostaJSON({sucesso:false, autorizado:false, mensagem:"Preencha nome, e-mail e senha."});
-    if (!/^\S+@\S+\.\S+$/.test(email)) return respostaJSON({sucesso:false, autorizado:false, mensagem:"Informe um e-mail válido."});
-    if (senha.length < 6) return respostaJSON({sucesso:false, autorizado:false, mensagem:"A senha deve ter no mínimo 6 caracteres."});
-    if (localizarPortalUsuario(tipo, email)) return respostaJSON({sucesso:false, autorizado:false, mensagem:"Já existe um acesso cadastrado para este e-mail."});
-
-    const aba = obterAbaPortal(tipo);
-    const id = (tipo === "ARQUITETO" ? "ARQ-" : "FOR-") + Utilities.getUuid().slice(0,8).toUpperCase();
-    aba.appendRow([id, new Date(), nome, empresa, email, telefone, documento, hashPortalSenha(senha), "ATIVO", ""]);
-    SpreadsheetApp.flush();
-    incrementarVersaoDados();
-
-    // Mantém a integração com o cadastro operacional existente.
-    if (tipo === "ARQUITETO") {
-      try { receberProjetoArquiteto({nome:nome, arquiteto:nome, escritorio:empresa, email:email, whatsapp:telefone, registro:documento, projeto:"Cadastro de arquiteto"}); } catch(e) {}
-    } else {
-      try { receberFornecedor({razao_social:empresa, nome_fantasia:empresa, cnpj:documento, responsavel:nome, email:email, telefone:telefone}); } catch(e) {}
+    if (!nome || !email || !senha) {
+      return respostaJSON({
+        sucesso:false,
+        autorizado:false,
+        mensagem:"Preencha nome, e-mail e senha."
+      });
     }
 
-    registrarAuditoriaPublica(email, "CADASTRO_PORTAL", tipo, id, "", "", "Novo acesso criado.");
-    return respostaJSON({sucesso:true, autorizado:true, id:id, tipo:tipo, mensagem:"Cadastro realizado com sucesso. Agora você já pode entrar no portal."});
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      return respostaJSON({
+        sucesso:false,
+        autorizado:false,
+        mensagem:"Informe um e-mail válido."
+      });
+    }
+
+    if (senha.length < 6) {
+      return respostaJSON({
+        sucesso:false,
+        autorizado:false,
+        mensagem:"A senha deve ter no mínimo 6 caracteres."
+      });
+    }
+
+    if (localizarPortalUsuario(tipo, email)) {
+      return respostaJSON({
+        sucesso:false,
+        autorizado:false,
+        mensagem:"Já existe um acesso cadastrado para este e-mail."
+      });
+    }
+
+    const lock = LockService.getScriptLock();
+    lock.waitLock(15000);
+
+    try {
+      // Dobra a proteção contra dois cadastros simultâneos do mesmo e-mail.
+      if (localizarPortalUsuario(tipo, email)) {
+        return respostaJSON({
+          sucesso:false,
+          autorizado:false,
+          mensagem:"Já existe um acesso cadastrado para este e-mail."
+        });
+      }
+
+      const aba = obterAbaPortal(tipo);
+      const id = (tipo === "ARQUITETO" ? "ARQ-" : "FOR-") +
+        Utilities.getUuid().slice(0,8).toUpperCase();
+
+      const statusInicial = "ATIVO";
+
+      aba.appendRow([
+        id,
+        new Date(),
+        nome,
+        empresa,
+        email,
+        telefone,
+        documento,
+        hashPortalSenha(senha),
+        statusInicial,
+        ""
+      ]);
+
+      SpreadsheetApp.flush();
+
+      const versao = incrementarVersaoDados();
+
+      // Integração correta: cadastro de acesso -> CRM/usuários -> notificação.
+      registrarCadastroPortalCRM({
+        tipo: tipo,
+        id: id,
+        nome: nome,
+        empresa: empresa,
+        email: email,
+        telefone: telefone,
+        documento: documento,
+        dados: dados
+      });
+
+      registrarAuditoriaPublica(
+        email,
+        "CADASTRO_PORTAL",
+        tipo,
+        id,
+        "",
+        "",
+        "Novo acesso criado e sincronizado com o CRM."
+      );
+
+      return respostaJSON({
+        sucesso:true,
+        autorizado:true,
+        id:id,
+        tipo:tipo,
+        versao:versao,
+        mensagem:"Cadastro realizado com sucesso. Seu cadastro já foi enviado para análise administrativa."
+      });
+    } finally {
+      try { lock.releaseLock(); } catch (e) {}
+    }
+
   } catch (erro) {
     registrarErro(erro, "cadastrarPortalUsuario");
-    return respostaJSON({sucesso:false, autorizado:false, mensagem:"Não foi possível concluir o cadastro."});
+    return respostaJSON({
+      sucesso:false,
+      autorizado:false,
+      mensagem:"Não foi possível concluir o cadastro.",
+      detalhe:obterMensagemErro(erro)
+    });
   }
 }
 
@@ -3792,12 +4849,15 @@ function obterDashboardPortal(token) {
   const projetos = lerPlanilha(false);
   const email = String(sessao.email || "").toLowerCase();
   const meusProjetos = projetos.filter(function(p) {
+    if (sessao.tipo === "FORNECEDOR") {
+      return String(p["FORNECEDOR E-MAIL"] || "").trim().toLowerCase() === email;
+    }
     return String(p["E-MAIL"] || "").trim().toLowerCase() === email;
   });
   const contagem = {};
   meusProjetos.forEach(function(p) { const st = String(p["STATUS"] || "Novo").trim(); contagem[st] = (contagem[st]||0)+1; });
   const recentes = meusProjetos.slice(-8).reverse().map(function(p) {
-    return {id:p["ID PROJETO"]||"", data:p["DATA / HORA"]||"", projeto:p["NOME DO PROJETO"]||"", tipo:p["TIPO DE PROJETO"]||"", investimento:p["INVESTIMENTO"]||"", status:p["STATUS"]||"Novo", cidade:p["CIDADE"]||""};
+    return {id:p["ID PROJETO"]||"", data:p["DATA / HORA"]||"", projeto:p["NOME DO PROJETO"]||"", tipo:p["TIPO DE PROJETO"]||"", investimento:p["INVESTIMENTO"]||"", status:p["STATUS"]||"Novo", cidade:p["CIDADE"]||"", fornecedorNome:p["FORNECEDOR NOME"]||"", fornecedorEmail:p["FORNECEDOR E-MAIL"]||"", respostaFornecedor:p["RESPOSTA FORNECEDOR"]||""};
   });
   return respostaJSON({sucesso:true, autorizado:true, perfil:sessao, metricas:{totalProjetos:meusProjetos.length, novos:contagem["Novo"]||0, emAnalise:contagem["Em análise"]||0, orcamentos:contagem["Orçamento"]||0, propostas:contagem["Proposta enviada"]||0, negociacao:contagem["Negociação"]||0, fechados:contagem["Fechado"]||0, execucao:contagem["Em execução"]||0, concluidos:contagem["Concluído"]||0}, recentes:recentes, mensagem:"Dashboard atualizado."});
 }
@@ -3836,156 +4896,126 @@ function receberFornecedor(
 
   try {
 
-    dados =
-      dados || {};
+    dados = dados || {};
 
+    const planilha = obterPlanilha();
+    const nomeAba = CRM_SHEETS.FORNECEDORES;
 
-    const planilha =
-      obterPlanilha();
+    let aba = planilha.getSheetByName(nomeAba);
 
-
-    const nomeAba =
-      CRM_SHEETS.FORNECEDORES;
-
-
-    let aba =
-      planilha.getSheetByName(
-        nomeAba
-      );
-
-
-    if (
-      !aba
-    ) {
-
-      aba =
-        planilha.insertSheet(
-          nomeAba
-        );
-
-
-      configurarCabecalhoFornecedor(
-        aba
-      );
-
+    if (!aba) {
+      aba = planilha.insertSheet(nomeAba);
+      configurarCabecalhoFornecedor(aba);
+    } else {
+      configurarCabecalhoFornecedor(aba);
     }
 
+    const email = String(dados.email || "").trim().toLowerCase();
+    const cnpj = String(dados.cnpj || "").trim();
+    const razao = String(dados.razao_social || "").trim();
 
-    aba.appendRow([
+    // Compatibilidade: evita duplicar o mesmo fornecedor em reenviados.
+    const existente = localizarFornecedorOperacional(email, cnpj);
+    let linha;
 
-      new Date(),
+    if (existente) {
+      linha = existente.linha;
+      const cab = aba.getRange(1,1,1,aba.getLastColumn()).getDisplayValues()[0];
+      const mapa = {};
+      for (let i=0;i<cab.length;i++) mapa[String(cab[i]||"").trim()] = i + 1;
 
-      dados.razao_social ||
-      "",
+      const atualizacoes = {
+        "Razão Social": dados.razao_social || "",
+        "Nome Fantasia": dados.nome_fantasia || "",
+        "CNPJ": dados.cnpj || "",
+        "Site": dados.site || "",
+        "Instagram": dados.instagram || "",
+        "Cidade": dados.cidade || "",
+        "Estado": dados.estado || "",
+        "Responsável": dados.responsavel || "",
+        "Cargo": dados.cargo || "",
+        "E-mail": dados.email || "",
+        "Telefone": dados.telefone || "",
+        "Produtos": dados.produtos || "",
+        "Marcas": dados.marcas || "",
+        "Prazo de Entrega": dados.prazo_entrega || "",
+        "Região": dados.regiao || "",
+        "Pedido Mínimo": dados.pedido_minimo || "",
+        "Pagamento": dados.pagamento || "",
+        "Tabela": dados.tabela || "",
+        "Proposta": dados.proposta || "",
+        "Status": dados.status || "Novo"
+      };
 
-      dados.nome_fantasia ||
-      "",
-
-      dados.cnpj ||
-      "",
-
-      dados.site ||
-      "",
-
-      dados.instagram ||
-      "",
-
-      dados.cidade ||
-      "",
-
-      dados.estado ||
-      "",
-
-      dados.responsavel ||
-      "",
-
-      dados.cargo ||
-      "",
-
-      dados.email ||
-      "",
-
-      dados.telefone ||
-      "",
-
-      dados.produtos ||
-      "",
-
-      dados.marcas ||
-      "",
-
-      dados.prazo_entrega ||
-      "",
-
-      dados.regiao ||
-      "",
-
-      dados.pedido_minimo ||
-      "",
-
-      dados.pagamento ||
-      "",
-
-      dados.tabela ||
-      "",
-
-      dados.proposta ||
-      "",
-
-      "Novo"
-
-    ]);
-
+      Object.keys(atualizacoes).forEach(function(chave){
+        if (mapa[chave]) aba.getRange(linha, mapa[chave]).setValue(atualizacoes[chave]);
+      });
+    } else {
+      aba.appendRow([
+        new Date(),
+        dados.razao_social || "",
+        dados.nome_fantasia || "",
+        dados.cnpj || "",
+        dados.site || "",
+        dados.instagram || "",
+        dados.cidade || "",
+        dados.estado || "",
+        dados.responsavel || "",
+        dados.cargo || "",
+        dados.email || "",
+        dados.telefone || "",
+        dados.produtos || "",
+        dados.marcas || "",
+        dados.prazo_entrega || "",
+        dados.regiao || "",
+        dados.pedido_minimo || "",
+        dados.pagamento || "",
+        dados.tabela || "",
+        dados.proposta || "",
+        dados.status || "Novo"
+      ]);
+      linha = aba.getLastRow();
+    }
 
     SpreadsheetApp.flush();
 
+    const versao = incrementarVersaoDados();
 
-    const versao =
-      incrementarVersaoDados();
+    const fornecedorId = "FOR-" + Utilities.getUuid().slice(0,8).toUpperCase();
 
-
-    registrarAuditoria(
-
-      "SISTEMA",
-
-      "CRIAR",
-
-      "FORNECEDORES",
-
-      dados.cnpj ||
-      dados.razao_social ||
-      "",
-
-      "",
-
-      JSON.stringify(
-        dados
-      ),
-
-      "Cadastro de fornecedor recebido."
-
-    );
-
-
-    return respostaJSON({
-
-      sucesso: true,
-      autorizado: true,
-
-      tipo:
-        "fornecedor",
-
-      versao:
-        versao,
-
-      mensagem:
-        "Cadastro de fornecedor recebido com sucesso."
-
+    registrarCadastroPortalCRM({
+      tipo:"FORNECEDOR",
+      id:fornecedorId,
+      nome:dados.responsavel || "",
+      empresa:dados.nome_fantasia || razao,
+      email:email,
+      telefone:dados.telefone || "",
+      documento:cnpj,
+      dados:dados,
+      origem:"FORMULARIO_PUBLICO_FORNECEDOR"
     });
 
-  }
+    registrarAuditoria(
+      "SISTEMA",
+      "CRIAR",
+      "FORNECEDORES",
+      cnpj || razao || fornecedorId,
+      "",
+      JSON.stringify(dados),
+      "Cadastro de fornecedor recebido, sincronizado com CRM e notificação gerada."
+    );
 
-  catch (erro) {
+    return respostaJSON({
+      sucesso:true,
+      autorizado:true,
+      tipo:"fornecedor",
+      fornecedorId:fornecedorId,
+      linha:linha,
+      versao:versao,
+      mensagem:"Cadastro de fornecedor recebido com sucesso e enviado ao CRM."
+    });
+
+  } catch (erro) {
 
     registrarErro(
       erro,
@@ -3993,17 +5023,12 @@ function receberFornecedor(
     );
 
     return respostaJSON({
-
-      sucesso: false,
-      autorizado: false,
-
-      mensagem:
-        "Não foi possível cadastrar o fornecedor."
-
+      sucesso:false,
+      autorizado:false,
+      mensagem:"Não foi possível cadastrar o fornecedor.",
+      detalhe:obterMensagemErro(erro)
     });
-
   }
-
 }
 
 
@@ -7389,6 +8414,17 @@ function zerarHora(
 /* ==========================================================
    WHATSAPP
 ========================================================== */
+
+function extrairURLs(valor) {
+  const texto = String(valor || "");
+  const encontrados = texto.match(/https?:\/\/[^\s<>"']+/g) || [];
+  return encontrados.map(function(u){ return u.replace(/[\)\]\.,;]+$/g, ""); });
+}
+
+function extrairURL(valor) {
+  const urls = extrairURLs(valor);
+  return urls.length ? urls[0] : "";
+}
 
 function extrairWhatsAppUrl(
   valor

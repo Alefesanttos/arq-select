@@ -518,6 +518,19 @@
 
         </div>
 
+        <div>
+
+          <label>Senha de acesso ao Portal ARQSELECT *</label>
+
+          <input
+            type="password"
+            name="senha"
+            minlength="6"
+            required
+            placeholder="Mínimo de 6 caracteres">
+
+        </div>
+
       </div>
 
 
@@ -704,7 +717,7 @@
 
 <script>
 
-const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbx9KTCJWD06I890aM5KCWEJ-H2hZKQH_OARpCbefGvqOYnxVkLRpe-HTjPIlGDX4ikEBg/exec";
+const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
 
 document
   .getElementById("fornecedorForm")
@@ -718,6 +731,8 @@ document
     botao.innerText = "ENVIANDO CADASTRO...";
 
     const dados = {
+
+      acao: "cadastrar_fornecedor",
 
       razao_social:
         this.querySelector('[name="razao_social"]').value,
@@ -751,6 +766,9 @@ document
 
       telefone:
         this.querySelector('[name="telefone"]').value,
+
+      senha:
+        this.querySelector('[name="senha"]').value,
 
       produtos:
         this.querySelector('[name="produtos"]').value,
@@ -795,7 +813,7 @@ document
       });
 
       alert(
-        "Cadastro enviado com sucesso!\n\n" +
+        "Cadastro enviado e acesso ao portal criado com sucesso!\n\n" +
         "Obrigado pelo interesse em ser fornecedor parceiro da ARQSELECT.\n\n" +
         "Nossa equipe Comercial analisará suas informações e " +
         "entrará em contato em breve."
