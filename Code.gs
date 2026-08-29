@@ -430,6 +430,11 @@ function doGet(e) {
         ? e.parameter
         : {};
 
+    // Compatibilidade: alguns handlers legados/V4 usam o nome "dados".
+    // No GET, os parâmetros chegam em "params"; mantemos ambos apontando
+    // para o mesmo objeto para evitar ReferenceError e divergência de contrato.
+    const dados = params;
+
     const acao =
       String(
         params.acao ||
@@ -840,6 +845,9 @@ function doPost(e) {
     const dados =
       obterParametrosPost(e);
 
+    // Compatibilidade: os handlers V4 também podem receber "params".
+    // No POST, o corpo normalizado fica em "dados"; mantemos um alias seguro.
+    const params = dados;
 
     const acao =
       String(
