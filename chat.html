@@ -99,6 +99,30 @@ function initials(name){const s=String(name||'ARQ').trim().split(/\s+/).filter(B
 function convName(x){const a=x['PARTICIPANTE A']||'',b=x['PARTICIPANTE B']||'';const me=String(type||'').toUpperCase()==='ARQUITETO'?a:b;const other=me===a?b:a;return other||'Conversa'}
 function convOtherId(x){return String(type||'').toUpperCase()==='ARQUITETO'?x['PARTICIPANTE B ID']:x['PARTICIPANTE A ID']}
 function convSignature(list){return JSON.stringify(list.map(x=>[x.ID,x['ULTIMA MENSAGEM'],x['ULTIMA DATA'],x['NAO LIDAS'],x['NÃO LIDAS']]))}
+async function loadContacts(){
+  try{
+    const j=await get({acao:'portal_contatos',token});
+    if(!j.sucesso) throw new Error(j.mensagem||'Falha ao carregar contatos.');
+    const list=Array.isArray(j.contatos)?j.contatos:[];
+    const current=String(type||'').toUpperCase();
+    const sel=$('newUser');
+    const options=list.filter(u=>String(u.TIPO||'').toUpperCase()!==current).map(u=>{
+      const id=String(u.ID||''); const nome=String(u.NOME||u.EMPRESA||u['E-MAIL']||id); const tipo=String(u.TIPO||''); const email=String(u['E-MAIL']||'');
+      return `<option value="${esc(id)}" data-type="${esc(tipo)}" data-name="${esc(nome)}" data-email="${esc(email)}">${esc(nome)} · ${esc(tipo)}</option>`;
+    }).join('');
+    sel.innerHTML=options||'<option value="">Nenhum contato disponível</option>';
+  }catch(e){$('newUser').innerHTML='<option value="">Não foi possível carregar contatos</option>';console.error('[ARQSELECT CHAT] contatos',e)}
+}
+function toggleNewChat(){const box=$('newChatBox');box.classList.toggle('hidden');if(!box.classList.contains('hidden'))loadContacts()}
+async function createNewConversation(){
+  const sel=$('newUser');const opt=sel.options[sel.selectedIndex];if(!opt||!opt.value)return showToast('Selecione um contato.');
+  const nome=opt.dataset.name||opt.textContent.trim();const projeto=$('newProject').value.trim();
+  const meuId=localStorage.getItem('ARQSELECT_PORTAL_ID')||'';const meuNome=localStorage.getItem('ARQSELECT_PORTAL_NOME')||'';const meuEmail=localStorage.getItem('ARQSELECT_PORTAL_EMAIL')||'';
+  if(!meuId)return showToast('Sessão sem identificador de usuário. Faça login novamente.');
+  const isArq=String(type||'').toUpperCase()==='ARQUITETO';
+  const payload={acao:'portal_conversa_criar',token,tipo:projeto?'PROJETO':'GERAL',participanteAId:isArq?meuId:opt.value,participanteANome:isArq?meuNome:nome,participanteBId:isArq?opt.value:meuId,participanteBNome:isArq?nome:meuNome,projetoId:projeto,participanteAEmail:isArq?meuEmail:(opt.dataset.email||'')};
+  try{const j=await post(payload);if(!j.sucesso)throw new Error(j.mensagem||'Não foi possível criar a conversa.');$('newProject').value='';$('newChatBox').classList.add('hidden');await loadConvs({initial:true});if(j.id)openConv(j.id)}catch(e){console.error('[ARQSELECT CHAT] criar conversa',e);showToast(e.message||'Erro ao criar conversa.')}
+}
 async function loadConvs({initial=false}={}){
   if(loadingConvs)return;loadingConvs=true;
   try{
@@ -171,8 +195,20 @@ function clearReply(){ }
 async function toggleRec(){
   if(rec){rec.stop();return}
   if(!navigator.mediaDevices?.getUserMedia)return showToast('Seu navegador não oferece gravação de áudio.');
-  try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});rec=new MediaRecorder(stream);chunks=[];rec.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};rec.onstop=async()=>{stream.getTracks().forEach(t=>t.stop());const blob=new Blob(chunks,{type:rec.mimeType||'audio/webm'});if(blob.size>5*1024*1024){$('record').textContent='Áudio muito grande.';rec=null;return}window._audio={nome:'audio-'+Date.now()+'.webm',mimeType:blob.type||'audio/webm',base64:await toData(blob)};$('record').textContent='✓ Áudio pronto — clique em enviar';$('mic').textContent='🎙️';rec=null};rec.start();$('mic').textContent='⏹️';$('record').textContent='Gravando... clique novamente para parar.'}
-  catch(e){$('record').textContent='Permissão de microfone negada ou indisponível.';rec=null}
+  try{
+    $('record').textContent='Solicitando acesso ao microfone...';
+    const stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}});
+    const mime=['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus'].find(x=>window.MediaRecorder&&MediaRecorder.isTypeSupported(x))||'';
+    rec=mime?new MediaRecorder(stream,{mimeType:mime}):new MediaRecorder(stream);
+    chunks=[];
+    rec.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
+    rec.onstop=async()=>{stream.getTracks().forEach(t=>t.stop());const blob=new Blob(chunks,{type:rec.mimeType||'audio/webm'});if(blob.size>5*1024*1024){$('record').textContent='Áudio maior que 5 MB. Grave uma mensagem mais curta.';rec=null;return}window._audio={nome:'audio-'+Date.now()+'.webm',mimeType:blob.type||'audio/webm',base64:await toData(blob)};$('record').textContent='✓ Áudio pronto — clique em enviar';$('mic').textContent='🎙️';rec=null};
+    rec.start();$('mic').textContent='⏹️';$('record').textContent='Gravando... clique novamente para parar.';
+  }catch(e){
+    console.error('[ARQSELECT CHAT] microfone',e);
+    $('record').textContent=e&&e.name==='NotAllowedError'?'Microfone bloqueado. Autorize o microfone nas permissões do navegador e tente novamente.':'Microfone indisponível neste dispositivo ou navegador.';
+    rec=null;
+  }
 }
 $('search').addEventListener('input',renderConvs);
 if(auth()){loadConvs({initial:true});pollTimer=setInterval(async()=>{await loadConvs();if(active)await loadMsgs({initial:false})},5000)}
