@@ -1,35 +1,10 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="global.css"><link rel="stylesheet" href="dashboard.css"><link rel="stylesheet" href="forms.css"><link rel="stylesheet" href="responsive.css"><script src="app.js"></script><style>
-/* ARQSELECT PREMIUM DESIGN SYSTEM 3.0 */
-:root{
-  --arq-bg:#070707;--arq-bg2:#0d0d0d;--arq-card:rgba(19,19,19,.88);--arq-card2:#121212;
-  --arq-gold:#d4af37;--arq-gold2:#f3df8a;--arq-text:#f8f7f2;--arq-muted:#a9a49a;
-  --arq-line:rgba(212,175,55,.18);--arq-shadow:0 18px 55px rgba(0,0,0,.42);
-}
-html{scroll-behavior:smooth}body{background:
- radial-gradient(circle at 85% -10%,rgba(212,175,55,.10),transparent 30%),
- radial-gradient(circle at 10% 100%,rgba(212,175,55,.055),transparent 28%),var(--arq-bg)!important;color:var(--arq-text)!important;}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.18;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 95%);}
-.top,.nav,.sidebar,.header,.toolbar{backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);}
-.top{background:rgba(7,7,7,.82)!important;border-bottom:1px solid var(--arq-line)!important;box-shadow:0 8px 35px rgba(0,0,0,.22)}
-.brand,.logo{color:var(--arq-text)!important;text-shadow:0 2px 18px rgba(212,175,55,.16)}
-.brand span,.logo span{color:var(--arq-gold2)!important}
-.card,.panel,.box,.item,.list,.product,.profile,.stat,.metric,.tile,.table-wrap,.composer,.conversation,.sidebar,.modal,.sheet,.empty,.notice{background:linear-gradient(145deg,rgba(24,24,24,.95),rgba(12,12,12,.92))!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:var(--arq-shadow)!important;color:var(--arq-text)!important}
-.card:hover,.product:hover,.profile:hover,.tile:hover,.item:hover{transform:translateY(-2px);border-color:rgba(212,175,55,.30)!important;box-shadow:0 22px 65px rgba(0,0,0,.48),0 0 0 1px rgba(212,175,55,.04) inset!important;transition:.22s ease}
-input,textarea,select{background:rgba(255,255,255,.055)!important;color:#fff!important;border:1px solid rgba(255,255,255,.11)!important;border-radius:12px!important;outline:none!important}
-input:focus,textarea:focus,select:focus{border-color:rgba(212,175,55,.75)!important;box-shadow:0 0 0 3px rgba(212,175,55,.10)!important}
-button,.btn{border-radius:12px!important;transition:.2s ease}
-.btn.gold,.gold,.primary,.btn-primary,.cta{background:linear-gradient(135deg,#f0d87a,#b78a2f)!important;color:#16120a!important;box-shadow:0 10px 30px rgba(212,175,55,.18)!important;border:1px solid rgba(255,255,255,.15)!important}
-.btn.gold:hover,.gold:hover,.primary:hover,.btn-primary:hover,.cta:hover{transform:translateY(-1px);filter:brightness(1.06)}
-.btn,.light,.secondary{background:rgba(255,255,255,.065)!important;color:#f3f1ea!important;border:1px solid rgba(255,255,255,.10)!important}
-.muted,.meta,.small,.ey,.role,.hint{color:var(--arq-muted)!important}
-.badge,.tag,.pill{background:rgba(212,175,55,.12)!important;color:var(--arq-gold2)!important;border:1px solid rgba(212,175,55,.2)!important}
-hr{border-color:rgba(255,255,255,.08)!important}
-table{color:#f6f4ed!important}th{color:var(--arq-gold2)!important;background:rgba(212,175,55,.06)!important}td{border-color:rgba(255,255,255,.07)!important}
-::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-track{background:#080808}::-webkit-scrollbar-thumb{background:linear-gradient(#8d6a25,#d4af37);border-radius:10px}
-@media(max-width:700px){.top{padding:13px 16px!important}.nav{gap:6px!important}.btn{padding:10px 12px!important}.card,.panel,.box{border-radius:16px!important}}
-/* WhatsApp CTA */
-.arq-whatsapp{position:fixed;right:22px;bottom:22px;z-index:9999;display:flex;align-items:center;gap:10px;padding:13px 17px;border-radius:999px;background:linear-gradient(135deg,#20d466,#13a653);color:#fff!important;font-weight:900;letter-spacing:.01em;box-shadow:0 16px 38px rgba(0,0,0,.36),0 0 0 1px rgba(255,255,255,.16) inset;text-decoration:none!important}
-.arq-whatsapp:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 20px 45px rgba(0,0,0,.42),0 0 0 1px rgba(255,255,255,.20) inset}
-.arq-whatsapp svg{width:22px;height:22px;flex:none;fill:currentColor}
-.arq-whatsapp span{white-space:nowrap}@media(max-width:520px){.arq-whatsapp{width:56px;height:56px;justify-content:center;padding:0;right:15px;bottom:15px}.arq-whatsapp span{display:none}.arq-whatsapp svg{width:27px;height:27px}}
-</style></head><body><div class="app"><aside class="sidebar"><div class="brand">ARQSELECT</div><nav class="nav"><a href="dashboard-arquiteto.html">Dashboard</a><a href="projeto.html">Projeto</a><a href="solicitacao.html">Solicitação</a><a href="proposta.html">Proposta</a><a href="fornecedor.html">Fornecedor</a><a href="mensagens.html">Mensagens</a><a href="notificacoes.html">Notificações</a><a href="#" data-logout>Sair</a></nav></aside><main class="main"><div class="topbar"><div><h1 class="title">Dashboard do Fornecedor</h1><div class="muted">Olá, <span data-user></span></div></div></div><div id="m" class="grid"></div><section class="card section"><h2 class="section-title">Visão geral</h2><div id="info" class="empty">Carregando...</div></section></main></div><script src="dashboard.js"></script><script>const s=layout('Dashboard do Fornecedor','FORNECEDOR');if(s)loadDashboardV2().then(d=>{m.innerHTML=[['Projetos',d.projetos],['Solicitações',d.solicitacoes],['Propostas',d.propostas],['Mensagens',d.mensagens]].map(x=>`<div class="card"><div class="muted">${x[0]}</div><div class="metric">${x[1]}</div></div>`).join('');info.innerHTML=`<span class="badge">${d.projetosAtivos} projetos ativos</span> <span class="badge">${d.notificacoes} notificações</span>`}).catch(e=>toast(e.message))</script></body></html>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0;url=dashboard-fornecedor.html"><title>ARQSELECT</title><script>location.replace('dashboard-fornecedor.html');</script><style id="arqselect-contrast-lock">
+/* ARQSELECT premium contrast lock */
+*[style*="background:#fff"],[style*="background: #fff"],[style*="background-color:#fff"],[style*="background-color: #fff"]{background:var(--arq-surface,#151515)!important}
+*[style*="background:white"],[style*="background: white"]{background:var(--arq-surface,#151515)!important}
+.login-card,.auth-card,.form-card,.form-panel{background:linear-gradient(145deg,#171717,#0d0d0d)!important;color:var(--arq-text,#f5f2e9)!important;border:1px solid var(--arq-line,rgba(255,255,255,.09))!important;box-shadow:var(--arq-shadow,0 18px 55px rgba(0,0,0,.35))!important}
+.field label,.form-group label,label{color:var(--arq-text,#f5f2e9)!important}
+input.input,.input,input[type="text"],input[type="email"],input[type="password"],input[type="number"],input[type="tel"],input[type="url"],textarea,select{color:var(--arq-text,#f5f2e9)!important;background:rgba(255,255,255,.055)!important}
+select option{background:#171717;color:#f5f2e9}
+</style>
+</head><body style="margin:0;background:#070707;color:#f8f7f2;font-family:Arial;padding:40px">Abrindo o painel ARQSELECT…</body></html>

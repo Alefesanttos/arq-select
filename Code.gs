@@ -85,7 +85,7 @@ const CONFIG = {
     "ARQSELECT CRM",
 
   SYSTEM_VERSION:
-    "3.2.0",
+    "3.1.0",
 
   /* E-mail que recebe respostas dos fornecedores.
      Se vazio, usa o e-mail efetivo do proprietário do Web App. */
@@ -430,8 +430,6 @@ function doGet(e) {
         ? e.parameter
         : {};
 
-    // Compatibilidade: alguns módulos antigos usam `dados`.
-    const dados = params;
     const acao =
       String(
         params.acao ||
@@ -527,16 +525,6 @@ function doGet(e) {
     if (acao === "portal_dashboard") {
       return obterDashboardPortal(params.token);
     }
-
-    /* ======================================================
-       PORTAL PREMIUM — CHAT / MENSAGENS
-       Compatibilidade explícita com o chat do portal.
-    ====================================================== */
-    if (acao === "portal_conversas") return listarConversasV4(params.token);
-    if (acao === "portal_mensagens") return listarMensagensV4(params.token, params.conversaId || params.conversaid || params.id);
-    if (acao === "portal_mensagem_enviar") return enviarMensagemV4(params.token, params);
-    if (acao === "portal_conversa_criar") return criarConversaV4(params.token, params);
-    if (acao === "portal_contatos") return listarContatosPortal(params.token, params.tipo);
 
 
     /* ======================================================
@@ -764,25 +752,6 @@ function doGet(e) {
     if (acao === "admin_v4_solicitacao") return criarSolicitacaoV4(dados.token,dados);
     if (acao === "admin_v4_proposta") return criarPropostaV4(dados.token,dados);
     /* ======================================================
-       ARQSELECT COMERCIAL — OPORTUNIDADES / NEGOCIOS / TERMOS
-    ====================================================== */
-    if (acao === "admin_comercial_resumo") return obterResumoComercialV4(params.token);
-    if (acao === "admin_oportunidades") return listarOportunidadesComerciaisV4(params.token, params.status);
-    if (acao === "admin_negocios") return listarNegociosComerciaisV4(params.token, params.status);
-    if (acao === "admin_comissao_config") return obterConfiguracaoComissaoV4(params.token);
-    if (acao === "admin_comissao_salvar") return salvarConfiguracaoComissaoV4(params.token, params);
-    if (acao === "admin_negocio_criar") return criarNegocioComercialV4(params.token, params);
-    if (acao === "admin_negocio_status") return atualizarStatusNegocioV4(params.token, params);
-    if (acao === "admin_oportunidade_criar") return criarOportunidadeComercialV4(params.token, params);
-    if (acao === "admin_oportunidade_conexao_aprovar") return aprovarConexaoARQSELECTV4(params.token, params);
-    if (acao === "admin_comercial_auditoria") return listarAuditoriaComercialV4(params.token, params.limite);
-    if (acao === "portal_comercial_status") return obterStatusComercialFornecedorV4(params.token);
-    if (acao === "portal_comercial_termos") return obterTermosComerciaisV4(params.token, params.oportunidadeId);
-    if (acao === "portal_comercial_aceite") return registrarAceiteTermosV4(params.token, params);
-    if (acao === "portal_oportunidade_detalhe") return obterOportunidadeFornecedorV4(params.token, params.id);
-    if (acao === "portal_conexao_arqselect") return solicitarConexaoARQSELECTV4(params.token, params);
-
-    /* ======================================================
        PORTAL PREMIUM — PROJETOS / STATUS
     ====================================================== */
     if (acao === "portal_projetos") return obterProjetosPortalSeguro(params.token);
@@ -872,8 +841,6 @@ function doPost(e) {
       obterParametrosPost(e);
 
 
-    // Compatibilidade: alguns módulos antigos usam `params`.
-    const params = dados;
     const acao =
       String(
 
@@ -1230,25 +1197,6 @@ function doPost(e) {
     if (acao === "admin_v4_solicitacao") return criarSolicitacaoV4(params.token,params);
     if (acao === "admin_v4_proposta") return criarPropostaV4(params.token,params);
         /* ======================================================
-       ARQSELECT COMERCIAL — OPORTUNIDADES / NEGOCIOS / TERMOS
-    ====================================================== */
-    if (acao === "admin_comercial_resumo") return obterResumoComercialV4(dados.token);
-    if (acao === "admin_oportunidades") return listarOportunidadesComerciaisV4(dados.token, dados.status);
-    if (acao === "admin_negocios") return listarNegociosComerciaisV4(dados.token, dados.status);
-    if (acao === "admin_comissao_config") return obterConfiguracaoComissaoV4(dados.token);
-    if (acao === "admin_comissao_salvar") return salvarConfiguracaoComissaoV4(dados.token, dados);
-    if (acao === "admin_negocio_criar") return criarNegocioComercialV4(dados.token, dados);
-    if (acao === "admin_negocio_status") return atualizarStatusNegocioV4(dados.token, dados);
-    if (acao === "admin_oportunidade_criar") return criarOportunidadeComercialV4(dados.token, dados);
-    if (acao === "admin_oportunidade_conexao_aprovar") return aprovarConexaoARQSELECTV4(dados.token, dados);
-    if (acao === "admin_comercial_auditoria") return listarAuditoriaComercialV4(dados.token, dados.limite);
-    if (acao === "portal_comercial_status") return obterStatusComercialFornecedorV4(dados.token);
-    if (acao === "portal_comercial_termos") return obterTermosComerciaisV4(dados.token, dados.oportunidadeId);
-    if (acao === "portal_comercial_aceite") return registrarAceiteTermosV4(dados.token, dados);
-    if (acao === "portal_oportunidade_detalhe") return obterOportunidadeFornecedorV4(dados.token, dados.id);
-    if (acao === "portal_conexao_arqselect") return solicitarConexaoARQSELECTV4(dados.token, dados);
-
-    /* ======================================================
        PORTAL PREMIUM — PROJETOS / STATUS
     ====================================================== */
     if (acao === "portal_projetos") return obterProjetosPortalSeguro(dados.token);
@@ -1288,16 +1236,6 @@ function doPost(e) {
     if (acao === "portal_logout") {
       return logoutPortal(dados.token);
     }
-
-    /* ======================================================
-       PORTAL PREMIUM — CHAT / MENSAGENS
-       POST compatível com o mesmo contrato usado pelo frontend.
-    ====================================================== */
-    if (acao === "portal_conversas") return listarConversasV4(dados.token);
-    if (acao === "portal_mensagens") return listarMensagensV4(dados.token, dados.conversaId || dados.conversaid || dados.id);
-    if (acao === "portal_mensagem_enviar") return enviarMensagemV4(dados.token, dados);
-    if (acao === "portal_conversa_criar") return criarConversaV4(dados.token, dados);
-    if (acao === "portal_contatos") return listarContatosPortal(dados.token, dados.tipo);
 
     /* ======================================================
        RECEBER ARQUITETO
@@ -3772,16 +3710,7 @@ function obterDetalheProjetoPortal(token,id) {
 function obterProjetosFornecedorPortal(token) {
   const sessao = obterSessaoPortal(token);
   if (!sessao || sessao.tipo !== "FORNECEDOR") return respostaJSON({sucesso:false, autorizado:false, mensagem:"Sessão de fornecedor inválida."});
-  garantirModuloComercialARQSELECT();
-  const base=obterSolicitacoesPortal(token);
-  try {
-    const parsed=JSON.parse(base.getContent());
-    const ops=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.OPORTUNIDADES,ARQSELECT_4_HEADERS.OPORTUNIDADES)).filter(function(x){return String(x["FORNECEDOR ID"]||"")===String(sessao.id||"");}).map(function(x){
-      return {id:x["ID OPORTUNIDADE"],projetoId:x["ID PROJETO"],tipo:"OPORTUNIDADE ARQSELECT",status:x.STATUS,conexaoStatus:x["CONEXAO STATUS"],bloqueada:!fornecedorConectadoV4(sessao.id),valorEstimado:x["VALOR ESTIMADO"]||"",origem:x.ORIGEM||"ARQSELECT"};
-    });
-    parsed.oportunidadesARQSELECT=ops;
-    return respostaJSON(parsed);
-  } catch(e) { return base; }
+  return obterSolicitacoesPortal(token);
 }
 
 function atribuirFornecedorProjeto(id, fornecedorEmail, fornecedorNome) {
@@ -3857,14 +3786,7 @@ const ARQSELECT_4_SHEETS = {
   SOLICITACOES: "ARQSELECT - SOLICITACOES",
   PROPOSTAS: "ARQSELECT - PROPOSTAS",
   PROJETO_FORNECEDORES: "ARQSELECT - PROJETO_FORNECEDORES",
-  HISTORICO: "ARQSELECT - HISTORICO",
-  CONEXOES_ARQSELECT: "ARQSELECT - CONEXOES_COMERCIAIS",
-  OPORTUNIDADES: "ARQSELECT - OPORTUNIDADES",
-  NEGOCIOS: "ARQSELECT - NEGOCIOS",
-  TERMOS: "ARQSELECT - TERMOS",
-  ACEITES: "ARQSELECT - ACEITES",
-  COMISSOES: "ARQSELECT - COMISSOES",
-  AUDITORIA_COMERCIAL: "ARQSELECT - AUDITORIA_COMERCIAL"
+  HISTORICO: "ARQSELECT - HISTORICO"
 };
 
 const ARQSELECT_4_HEADERS = {
@@ -3875,14 +3797,7 @@ const ARQSELECT_4_HEADERS = {
   SOLICITACOES:["ID","DATA","PROJETO ID","PRODUTO ID","ARQUITETO ID","ARQUITETO E-MAIL","FORNECEDOR ID","FORNECEDOR E-MAIL","PRODUTO","QUANTIDADE","MEDIDA","ESPECIFICACAO","PRAZO","OBSERVACOES","STATUS","DATA ATUALIZACAO"],
   PROPOSTAS:["ID","DATA","SOLICITACAO ID","PROJETO ID","FORNECEDOR ID","FORNECEDOR E-MAIL","ARQUITETO ID","ARQUITETO E-MAIL","PRODUTO","QUANTIDADE","VALOR UNITARIO","VALOR TOTAL","FRETE","PRAZO","VALIDADE","CONDICAO","OBSERVACOES","ANEXOS","STATUS","DATA ATUALIZACAO"],
   PROJETO_FORNECEDORES:["ID","DATA","PROJETO ID","FORNECEDOR ID","FORNECEDOR E-MAIL","FORNECEDOR NOME","STATUS","DATA LEITURA","DATA RESPOSTA","OBSERVACOES"],
-  HISTORICO:["ID","DATA","TIPO","USUARIO ID","USUARIO","MODULO","REGISTRO ID","ACAO","DESCRICAO","DADOS JSON"],
-  CONEXOES_ARQSELECT:["ID","DATA","FORNECEDOR ID","FORNECEDOR E-MAIL","EMPRESA","STATUS","SOLICITADO EM","APROVADO EM","TERMO VERSAO","ACEITE ID","OBSERVACOES"],
-  OPORTUNIDADES:["ID OPORTUNIDADE","ID PROJETO","ARQUITETO ID","ARQUITETO E-MAIL","FORNECEDOR ID","FORNECEDOR E-MAIL","DATA DIRECIONAMENTO","RESPONSAVEL ARQSELECT","CATEGORIA","PRODUTO","VALOR ESTIMADO","STATUS","COMISSAO %","COMISSAO VALOR","ORIGEM","CONEXAO STATUS","ACEITE TERMO","TERMOS VERSAO","ULTIMA ATUALIZACAO","OBSERVACOES"],
-  NEGOCIOS:["ID","OPORTUNIDADE ID","PROJETO ID","ARQUITETO ID","ARQUITETO E-MAIL","FORNECEDOR ID","FORNECEDOR E-MAIL","PRODUTO","VALOR","DATA FECHAMENTO","ORIGEM","STATUS","COMISSAO %","VALOR COMISSAO","VENCIMENTO COMISSAO","PAGAMENTO STATUS","PAGAMENTO DATA","COMPROVANTE","RESPONSAVEL","OBSERVACOES","DATA ATUALIZACAO"],
-  TERMOS:["ID","TIPO","VERSAO","TITULO","CONTEUDO","DATA PUBLICACAO","ATIVO","OBSERVACOES"],
-  ACEITES:["ID","TERMO ID","VERSAO","DATA","USUARIO ID","USUARIO TIPO","EMPRESA","OPORTUNIDADE ID","ACEITE","IP/ORIGEM","OBSERVACOES"],
-  COMISSOES:["ID","VALOR MIN","VALOR MAX","PERCENTUAL","ATIVO","ORDEM","OBSERVACOES","DATA ATUALIZACAO"],
-  AUDITORIA_COMERCIAL:["ID","DATA","USUARIO ID","USUARIO TIPO","ACAO","OPORTUNIDADE ID","NEGOCIO ID","PROJETO ID","FORNECEDOR ID","ARQUITETO ID","DETALHES"]
+  HISTORICO:["ID","DATA","TIPO","USUARIO ID","USUARIO","MODULO","REGISTRO ID","ACAO","DESCRICAO","DADOS JSON"]
 };
 
 function garantirAbaV4(nome, headers) {
@@ -3916,7 +3831,6 @@ function garantirEstruturaV4() {
   garantirAbaCRM("arquitetos");
   garantirAbaV4(CRM_SHEETS.NOTIFICACOES, CRM_HEADERS.NOTIFICACOES);
   garantirColunasPortalProjetos();
-  garantirModuloComercialARQSELECT();
 
   // Mantém a V4 sincronizada com as bases legadas já existentes.
   // A rotina é idempotente e não gera notificações em massa para registros antigos.
@@ -4407,25 +4321,6 @@ function diagnosticoAdminV4(token) {
   });
 }
 
-function listarContatosPortal(token, tipoFiltro) {
-  const sessao = obterSessaoPortal(token) || obterSessao(token);
-  if (!sessao) return respostaJSON({sucesso:false,autorizado:false,mensagem:"Sessão inválida ou expirada."});
-  garantirEstruturaV4();
-  const aba = garantirAbaV4(ARQSELECT_4_SHEETS.USUARIOS, ARQSELECT_4_HEADERS.USUARIOS);
-  let contatos = lerAbaComoObjetos(aba);
-  const meuId = String(sessao.id||"");
-  const tipo = String(tipoFiltro||"").trim().toUpperCase();
-  if (tipo) contatos = contatos.filter(function(x){ return String(x.TIPO||"").toUpperCase()===tipo; });
-  contatos = contatos.filter(function(x){
-    const id=String(x.ID||"");
-    const status=String(x.STATUS||"ATIVO").toUpperCase();
-    return id && id!==meuId && !["BLOQUEADO","INATIVO","ENCERRADO"].includes(status);
-  }).map(function(x){
-    return {ID:x.ID,TIPO:x.TIPO,NOME:x.NOME||x.EMPRESA||"",EMPRESA:x.EMPRESA||"","E-MAIL":x["E-MAIL"]||"",STATUS:x.STATUS||""};
-  });
-  return respostaJSON({sucesso:true,autorizado:true,contatos:contatos});
-}
-
 function criarConversaV4(token, dados) {
   const sessao=obterSessaoAdmin(token);
   if(!sessao) { exigirSessao(token); }
@@ -4456,9 +4351,7 @@ function enviarMensagemV4(token,dados) {
   dados=dados||{};
   const conversaId=String(dados.conversaId||dados.conversaid||"").trim();
   const mensagem=String(dados.mensagem||"").trim();
-  const arquivos=dados.arquivos || [];
-  const temArquivos=Array.isArray(arquivos) ? arquivos.length>0 : String(arquivos).trim()!=="";
-  if(!conversaId||(!mensagem&&!temArquivos)) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Informe a conversa, uma mensagem ou um anexo."});
+  if(!conversaId||!mensagem) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Informe a conversa e a mensagem."});
   const aba=garantirAbaV4(ARQSELECT_4_SHEETS.MENSAGENS,ARQSELECT_4_HEADERS.MENSAGENS);
   const id="MSG-"+Utilities.getUuid().slice(0,8).toUpperCase();
   const origemTipo=sessao.tipo || "ADMIN";
@@ -4470,7 +4363,7 @@ function enviarMensagemV4(token,dados) {
   aba.appendRow([
     id,conversaId,new Date(),origemTipo,origemId,origemNome,
     destinoTipo,destinoId,destinoEmail,dados.projetoId||"",mensagem,
-    Array.isArray(arquivos)?JSON.stringify(arquivos):(arquivos||""),"NÃO",""
+    dados.arquivos||"","NÃO",""
   ]);
   atualizarConversaUltimaMensagemV4(conversaId,mensagem);
   criarNotificacaoV4({
@@ -6743,14 +6636,6 @@ function encontrarLinhaPorID(
   id
 ) {
 
-  // Compatibilidade: encontrarLinhaPorID(aba, id)
-  // ou encontrarLinhaPorID(aba, coluna, id)
-  if (arguments.length === 2) {
-    id = colunaID;
-    const headers = obterCabecalhosAba(aba);
-    colunaID = encontrarColuna(headers, "ID");
-  }
-
   if (
     !colunaID ||
     aba.getLastRow() < 2
@@ -8233,297 +8118,6 @@ function sincronizarCRM(
 
 }
 
-
-
-/* ==========================================================
-   ARQSELECT 3.2 — PROTEÇÃO COMERCIAL / INTERMEDIAÇÃO / COMISSÕES
-========================================================== */
-function gerarIdComercial(prefixo){ return String(prefixo||"COM")+"-"+Utilities.getUuid().slice(0,8).toUpperCase(); }
-
-function garantirModuloComercialARQSELECT(){
-  garantirAbaV4(ARQSELECT_4_SHEETS.CONEXOES_ARQSELECT, ARQSELECT_4_HEADERS.CONEXOES_ARQSELECT);
-  garantirAbaV4(ARQSELECT_4_SHEETS.OPORTUNIDADES, ARQSELECT_4_HEADERS.OPORTUNIDADES);
-  garantirAbaV4(ARQSELECT_4_SHEETS.NEGOCIOS, ARQSELECT_4_HEADERS.NEGOCIOS);
-  garantirAbaV4(ARQSELECT_4_SHEETS.TERMOS, ARQSELECT_4_HEADERS.TERMOS);
-  garantirAbaV4(ARQSELECT_4_SHEETS.ACEITES, ARQSELECT_4_HEADERS.ACEITES);
-  garantirAbaV4(ARQSELECT_4_SHEETS.COMISSOES, ARQSELECT_4_HEADERS.COMISSOES);
-  garantirAbaV4(ARQSELECT_4_SHEETS.AUDITORIA_COMERCIAL, ARQSELECT_4_HEADERS.AUDITORIA_COMERCIAL);
-  garantirConfiguracaoComissaoPadraoV4();
-  garantirTermosPadraoV4();
-  return true;
-}
-
-function garantirConfiguracaoComissaoPadraoV4(){
-  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.COMISSOES,ARQSELECT_4_HEADERS.COMISSOES);
-  if(aba.getLastRow()>1) return;
-  [[0,20000,15,1,1,"Faixa padrão ARQSELECT"],[20000,50000,10,1,2,"Faixa padrão ARQSELECT"],[50000,100000,8,1,3,"Faixa padrão ARQSELECT"],[100000,"",7,1,4,"Faixa padrão ARQSELECT"]]
-    .forEach(function(r){ aba.appendRow([gerarIdComercial("COM"),r[0],r[1],r[2],r[3],r[4],r[5],new Date()]); });
-}
-
-function garantirTermosPadraoV4(){
-  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.TERMOS,ARQSELECT_4_HEADERS.TERMOS);
-  const ativos=lerAbaComoObjetos(aba).filter(function(x){return String(x.ATIVO||"").toUpperCase()==="SIM";});
-  if(ativos.length) return;
-  const conteudo=[
-    "TERMOS DE PARCERIA E INTERMEDIAÇÃO ARQSELECT",
-    "Versão 1.0",
-    "",
-    "A oportunidade identificada como originada ou oficialmente direcionada pela ARQSELECT permanece vinculada ao acompanhamento comercial da plataforma, conforme contrato e política comercial aplicáveis.",
-    "A eventual comissão é devida somente quando houver negócio efetivamente fechado e nos termos do instrumento comercial aceito pelo fornecedor.",
-    "Nenhuma comissão é devida exclusivamente por cadastro, visualização, conexão, conversa, orçamento ou proposta.",
-    "O fornecedor declara ciência de que a ARQSELECT registra a origem da oportunidade, o histórico da negociação e os eventos comerciais para fins de acompanhamento e auditoria, respeitando a legislação e os limites de acesso aplicáveis.",
-    "Este texto é um modelo técnico da plataforma e deve ser substituído/validado pelos instrumentos jurídicos adotados pela ARQSELECT."
-  ].join("\n");
-  aba.appendRow(["TERM-1","INTERMEDIACAO","1.0","Termos de Parceria e Intermediação ARQSELECT",conteudo,new Date(),"SIM","Modelo inicial — validar juridicamente antes da publicação."]);
-}
-
-function obterFaixaComissaoV4(valor){
-  const n=Number(valor||0); if(!isFinite(n)||n<0) return null;
-  const faixas=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.COMISSOES,ARQSELECT_4_HEADERS.COMISSOES))
-    .filter(function(x){return String(x.ATIVO||"").toUpperCase()==="1" || String(x.ATIVO||"").toUpperCase()==="SIM" || String(x.ATIVO||"").toUpperCase()==="TRUE";})
-    .sort(function(a,b){return Number(a["VALOR MIN"]||0)-Number(b["VALOR MIN"]||0);});
-  for(let i=0;i<faixas.length;i++){
-    const min=Number(faixas[i]["VALOR MIN"]||0);
-    const max=String(faixas[i]["VALOR MAX"]||"").trim()===""?Infinity:Number(faixas[i]["VALOR MAX"]);
-    if(n>=min && n<max) return {percentual:Number(faixas[i]["PERCENTUAL"]||0),id:faixas[i].ID,faixa:faixas[i]};
-  }
-  return null;
-}
-
-function calcularComissaoV4(valor,percentualOverride){
-  const n=Number(valor||0);
-  const faixa=percentualOverride!==undefined && percentualOverride!==null && percentualOverride!==""
-    ? {percentual:Number(percentualOverride||0),id:"EXCECAO",faixa:null}
-    : obterFaixaComissaoV4(n);
-  if(!faixa) return {percentual:0,valor:0,faixaId:""};
-  return {percentual:faixa.percentual,valor:Number((n*faixa.percentual/100).toFixed(2)),faixaId:faixa.id};
-}
-
-function obterConexaoComercialFornecedorV4(fornecedorId){
-  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.CONEXOES_ARQSELECT,ARQSELECT_4_HEADERS.CONEXOES_ARQSELECT);
-  const registros=lerAbaComoObjetos(aba).filter(function(x){return String(x["FORNECEDOR ID"]||"")===String(fornecedorId||"");});
-  return registros.length?registros[registros.length-1]:null;
-}
-
-function garantirConexaoFornecedorV4(usuario){
-  const id=String(usuario&&usuario.ID||"");
-  if(!id) return null;
-  const existente=obterConexaoComercialFornecedorV4(id);
-  if(existente) return existente;
-  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.CONEXOES_ARQSELECT,ARQSELECT_4_HEADERS.CONEXOES_ARQSELECT);
-  const now=new Date();
-  const registro=[gerarIdComercial("CONEX"),now,id,usuario["E-MAIL"]||"",usuario.EMPRESA||usuario.NOME||"","PENDENTE",now,"","","",""];
-  aba.appendRow(registro);
-  return lerAbaComoObjetos(aba).pop();
-}
-
-function solicitarConexaoARQSELECTV4(token,dados){
-  const sessao=obterSessaoPortal(token);
-  if(!sessao || sessao.tipo!=="FORNECEDOR") return respostaJSON({sucesso:false,autorizado:false,mensagem:"Sessão de fornecedor inválida."});
-  garantirModuloComercialARQSELECT();
-  const u=localizarUsuarioV4(sessao.id,"FORNECEDOR");
-  if(!u) return respostaJSON({sucesso:false,autorizado:false,mensagem:"Fornecedor não encontrado no CRM."});
-  const atual=garantirConexaoFornecedorV4(u);
-  if(String(atual.STATUS||"").toUpperCase()==="CONECTADO") return respostaJSON({sucesso:true,autorizado:true,status:"CONECTADO",mensagem:"Sua empresa já está conectada à ARQSELECT."});
-  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.CONEXOES_ARQSELECT,ARQSELECT_4_HEADERS.CONEXOES_ARQSELECT);
-  const row=encontrarLinhaPorID(aba,atual.ID);
-  const h=obterCabecalhosAba(aba); const cStatus=encontrarColuna(h,"STATUS"), cSolic=encontrarColuna(h,"SOLICITADO EM"), cObs=encontrarColuna(h,"OBSERVACOES");
-  if(cStatus) aba.getRange(row,cStatus).setValue("AGUARDANDO APROVAÇÃO");
-  if(cSolic) aba.getRange(row,cSolic).setValue(new Date());
-  if(cObs && dados && dados.observacoes) aba.getRange(row,cObs).setValue(String(dados.observacoes));
-  criarNotificacaoV4({usuario:"ADMIN",tipo:"CONEXAO_COMERCIAL",titulo:"Fornecedor solicitou conexão com a ARQSELECT",mensagem:(u.EMPRESA||u.NOME||u["E-MAIL"])+" solicitou conexão comercial.",registro:u.ID});
-  registrarAuditoriaComercialV4({usuarioId:u.ID,usuarioTipo:"FORNECEDOR",acao:"SOLICITAR_CONEXAO",fornecedorId:u.ID,detalhes:"Solicitação de conexão comercial."});
-  incrementarVersaoDados();
-  return respostaJSON({sucesso:true,autorizado:true,status:"AGUARDANDO APROVAÇÃO",mensagem:"Solicitação enviada à ARQSELECT."});
-}
-
-function aprovarConexaoARQSELECTV4(token,dados){
-  exigirSessao(token);
-  garantirModuloComercialARQSELECT();
-  const fornecedorId=String(dados.fornecedorId||dados.id||"");
-  const status=String(dados.status||"CONECTADO").toUpperCase();
-  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.CONEXOES_ARQSELECT,ARQSELECT_4_HEADERS.CONEXOES_ARQSELECT);
-  const registros=lerAbaComoObjetos(aba);
-  const r=registros.filter(function(x){return String(x["FORNECEDOR ID"]||"")===fornecedorId;}).pop();
-  if(!r) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Conexão comercial não encontrada."});
-  const row=encontrarLinhaPorID(aba,r.ID); const h=obterCabecalhosAba(aba);
-  const cs=encontrarColuna(h,"STATUS"), ca=encontrarColuna(h,"APROVADO EM");
-  if(cs) aba.getRange(row,cs).setValue(status);
-  if(ca && status==="CONECTADO") aba.getRange(row,ca).setValue(new Date());
-  criarNotificacaoV4({usuario:fornecedorId,tipo:"CONEXAO_COMERCIAL",titulo:"Status da conexão ARQSELECT atualizado",mensagem:"Sua conexão comercial foi atualizada para: "+status,registro:r.ID});
-  registrarAuditoriaComercialV4({usuarioId:CONFIG.ADMIN_USERNAME,usuarioTipo:"ADMIN",acao:"ATUALIZAR_CONEXAO",fornecedorId:fornecedorId,detalhes:"Status: "+status});
-  incrementarVersaoDados();
-  return respostaJSON({sucesso:true,autorizado:true,status:status});
-}
-
-function fornecedorConectadoV4(fornecedorId){
-  const c=obterConexaoComercialFornecedorV4(fornecedorId);
-  return !!c && String(c.STATUS||"").toUpperCase()==="CONECTADO";
-}
-
-function criarOportunidadeComercialV4(token,dados){
-  exigirSessao(token);
-  garantirModuloComercialARQSELECT();
-  const projetoId=String(dados.projetoId||dados.idProjeto||"").trim();
-  const fornecedorId=String(dados.fornecedorId||"").trim();
-  if(!projetoId||!fornecedorId) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Projeto e fornecedor são obrigatórios."});
-  const p=obterProjetoInterno(projetoId);
-  const u=localizarUsuarioV4(fornecedorId,"FORNECEDOR");
-  if(!p||!u) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Projeto ou fornecedor não encontrado."});
-  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.OPORTUNIDADES,ARQSELECT_4_HEADERS.OPORTUNIDADES);
-  const id=gerarIdComercial("OP");
-  const statusConexao=fornecedorConectadoV4(u.ID)?"CONECTADO":"AGUARDANDO APROVAÇÃO";
-  const produto=dados.produto||"";
-  const valorEstimado=Number(dados.valorEstimado||dados.valor||0)||0;
-  const origem="ARQSELECT";
-  const categoria=dados.categoria||"";
-  const agora=new Date();
-  aba.appendRow([id,projetoId,p["ARQUITETO ID"]||"",p["E-MAIL"]||"",u.ID,u["E-MAIL"]||"",agora,CONFIG.ADMIN_USERNAME,categoria,produto,valorEstimado,"OPORTUNIDADE",0,0,origem,statusConexao,"NAO","1.0",agora,dados.observacoes||""]);
-  if(statusConexao!=="CONECTADO") garantirConexaoFornecedorV4(u);
-  // distribuição interna
-  const pf=garantirAbaV4(ARQSELECT_4_SHEETS.PROJETO_FORNECEDORES,ARQSELECT_4_HEADERS.PROJETO_FORNECEDORES);
-  pf.appendRow([gerarIdComercial("PF"),agora,projetoId,u.ID,u["E-MAIL"]||"",u.EMPRESA||u.NOME||"","CONVITE","","","","",id,origem]);
-  criarNotificacaoV4({usuario:u.ID,tipo:"OPORTUNIDADE",titulo:"Nova oportunidade ARQSELECT",mensagem:"Sua empresa foi selecionada para uma oportunidade direcionada pela ARQSELECT.",registro:id});
-  registrarHistoricoV4(CONFIG.ADMIN_USERNAME,CONFIG.ADMIN_USERNAME,"ADMIN","OPORTUNIDADE","Oportunidade ARQSELECT criada: "+id,projetoId,{fornecedorId:u.ID,origem:origem});
-  registrarAuditoriaComercialV4({usuarioId:CONFIG.ADMIN_USERNAME,usuarioTipo:"ADMIN",acao:"CRIAR_OPORTUNIDADE",oportunidadeId:id,projetoId:projetoId,fornecedorId:u.ID,detalhes:"Oportunidade direcionada pela ARQSELECT."});
-  incrementarVersaoDados();
-  return respostaJSON({sucesso:true,autorizado:true,id:id,conexaoStatus:statusConexao,acessoLiberado:statusConexao==="CONECTADO"});
-}
-
-function obterOportunidadeFornecedorV4(token,id){
-  const sessao=obterSessaoPortal(token);
-  if(!sessao || sessao.tipo!=="FORNECEDOR") return respostaJSON({sucesso:false,autorizado:false,mensagem:"Sessão de fornecedor inválida."});
-  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.OPORTUNIDADES,ARQSELECT_4_HEADERS.OPORTUNIDADES);
-  const o=lerAbaComoObjetos(aba).find(function(x){return String(x["ID OPORTUNIDADE"]||"")===String(id||"") && String(x["FORNECEDOR ID"]||"")===String(sessao.id||"");});
-  if(!o) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Oportunidade não encontrada."});
-  if(!fornecedorConectadoV4(sessao.id)) return respostaJSON({sucesso:true,autorizado:true,bloqueada:true,conexaoStatus:"AGUARDANDO APROVAÇÃO",mensagem:"Esta oportunidade foi direcionada pela ARQSELECT. Para acessar os detalhes comerciais, sua empresa precisa estar conectada e aprovada pela ARQSELECT."});
-  const aceite=obterAceiteTermoV4(sessao.id,o["ID OPORTUNIDADE"],o["TERMOS VERSAO"]||"1.0");
-  if(!aceite) return respostaJSON({sucesso:true,autorizado:true,bloqueada:true,exigeAceite:true,conexaoStatus:"CONECTADO",termVersion:o["TERMOS VERSAO"]||"1.0",mensagem:"Leia e aceite os termos comerciais antes de acessar esta oportunidade."});
-  return respostaJSON({sucesso:true,autorizado:true,bloqueada:false,oportunidade:o,aceite:aceite});
-}
-
-function obterStatusComercialFornecedorV4(token){
-  const sessao=obterSessaoPortal(token);
-  if(!sessao || sessao.tipo!=="FORNECEDOR") return respostaJSON({sucesso:false,autorizado:false,mensagem:"Sessão de fornecedor inválida."});
-  garantirModuloComercialARQSELECT();
-  const c=garantirConexaoFornecedorV4(localizarUsuarioV4(sessao.id,"FORNECEDOR"));
-  return respostaJSON({sucesso:true,autorizado:true,status:c&&c.STATUS||"PENDENTE",conexao:c||null,termoAtivo:lerTermoAtivoV4()});
-}
-
-function lerTermoAtivoV4(){
-  const termos=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.TERMOS,ARQSELECT_4_HEADERS.TERMOS)).filter(function(x){return String(x.ATIVO||"").toUpperCase()==="SIM";});
-  return termos.length?termos[termos.length-1]:null;
-}
-
-function obterTermosComerciaisV4(token,oportunidadeId){
-  const sessao=obterSessaoPortal(token);
-  if(!sessao || sessao.tipo!=="FORNECEDOR") return respostaJSON({sucesso:false,autorizado:false,mensagem:"Sessão de fornecedor inválida."});
-  const o=obterOportunidadeFornecedorSemBloqueioV4(sessao.id,oportunidadeId);
-  const termo=lerTermoAtivoV4();
-  if(!o||!termo) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Termos ou oportunidade não encontrados."});
-  return respostaJSON({sucesso:true,autorizado:true,termo:termo,oportunidade:o});
-}
-function obterOportunidadeFornecedorSemBloqueioV4(fornecedorId,oportunidadeId){
-  return lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.OPORTUNIDADES,ARQSELECT_4_HEADERS.OPORTUNIDADES)).find(function(x){return String(x["ID OPORTUNIDADE"]||"")===String(oportunidadeId||"") && String(x["FORNECEDOR ID"]||"")===String(fornecedorId||"");});
-}
-function obterAceiteTermoV4(fornecedorId,oportunidadeId,versao){
-  return lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.ACEITES,ARQSELECT_4_HEADERS.ACEITES)).filter(function(x){return String(x["USUARIO ID"]||"")===String(fornecedorId||"") && String(x["OPORTUNIDADE ID"]||"")===String(oportunidadeId||"") && String(x.VERSAO||"")===String(versao||"") && String(x.ACEITE||"").toUpperCase()==="SIM";}).pop()||null;
-}
-function registrarAceiteTermosV4(token,dados){
-  const sessao=obterSessaoPortal(token);
-  if(!sessao || sessao.tipo!=="FORNECEDOR") return respostaJSON({sucesso:false,autorizado:false,mensagem:"Sessão de fornecedor inválida."});
-  if(String(dados.aceite||"").toUpperCase()!=="SIM") return respostaJSON({sucesso:false,autorizado:true,mensagem:"O aceite precisa ser explícito."});
-  const o=obterOportunidadeFornecedorSemBloqueioV4(sessao.id,dados.oportunidadeId);
-  const termo=lerTermoAtivoV4();
-  if(!o||!termo) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Oportunidade ou termo não encontrado."});
-  if(!fornecedorConectadoV4(sessao.id)) return respostaJSON({sucesso:false,autorizado:false,mensagem:"Sua empresa ainda não está conectada à ARQSELECT."});
-  const id=gerarIdComercial("ACE");
-  garantirAbaV4(ARQSELECT_4_SHEETS.ACEITES,ARQSELECT_4_HEADERS.ACEITES).appendRow([id,termo.ID,termo.VERSAO,new Date(),sessao.id,sessao.tipo,sessao.empresa||"",String(o["ID OPORTUNIDADE"]||""),"SIM",String(dados.ipOrigem||"NÃO INFORMADO"),"Aceite eletrônico explícito."]);
-  registrarAuditoriaComercialV4({usuarioId:sessao.id,usuarioTipo:sessao.tipo,acao:"ACEITAR_TERMOS",oportunidadeId:o["ID OPORTUNIDADE"],fornecedorId:sessao.id,detalhes:"Termo "+termo.VERSAO+" aceito.",ipOrigem:dados.ipOrigem||"NÃO INFORMADO"});
-  incrementarVersaoDados();
-  return respostaJSON({sucesso:true,autorizado:true,aceiteId:id,versao:termo.VERSAO});
-}
-
-function criarNegocioComercialV4(token,dados){
-  exigirSessao(token);
-  const oportunidadeId=String(dados.oportunidadeId||"");
-  const o=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.OPORTUNIDADES,ARQSELECT_4_HEADERS.OPORTUNIDADES)).find(function(x){return String(x["ID OPORTUNIDADE"]||"")===oportunidadeId;});
-  if(!o) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Oportunidade não encontrada."});
-  const valor=Number(dados.valor||dados.valorFinal||0)||0;
-  if(valor<=0) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Informe o valor final do negócio."});
-  const status=String(dados.status||"NEGÓCIO FECHADO").toUpperCase();
-  if(["NEGÓCIO FECHADO","FECHADO","CLOSED","NEGOCIO FECHADO"].indexOf(status)<0) return respostaJSON({sucesso:false,autorizado:true,mensagem:"A comissão só pode ser calculada quando o negócio estiver efetivamente fechado."});
-  const percentualExcecao=(dados.comissaoPercentual!==undefined && dados.comissaoPercentual!==null && dados.comissaoPercentual!=="")?dados.comissaoPercentual:null;
-  if(percentualExcecao!==null && !String(dados.justificativa||"").trim()) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Informe uma justificativa para alterar excepcionalmente a comissão."});
-  const calc=calcularComissaoV4(valor,percentualExcecao);
-  const id=gerarIdComercial("NEG");
-  garantirAbaV4(ARQSELECT_4_SHEETS.NEGOCIOS,ARQSELECT_4_HEADERS.NEGOCIOS).appendRow([
-    id,oportunidadeId,o["ID PROJETO"]||"",o["ARQUITETO ID"]||"",o["ARQUITETO E-MAIL"]||"",o["FORNECEDOR ID"]||"",o["FORNECEDOR E-MAIL"]||"",o.PRODUTO||dados.produto||"",valor,dados.dataFechamento||new Date(),o.ORIGEM||"ARQSELECT",status,calc.percentual,calc.valor,dados.vencimentoComissao||"","PENDENTE","",dados.comprovante||"",CONFIG.ADMIN_USERNAME,dados.observacoes||((percentualExcecao!==null?"Exceção de comissão: "+percentualExcecao+"%. Justificativa: "+String(dados.justificativa||""):"")),new Date()
-  ]);
-  const oaba=garantirAbaV4(ARQSELECT_4_SHEETS.OPORTUNIDADES,ARQSELECT_4_HEADERS.OPORTUNIDADES);
-  const orow=encontrarLinhaPorID(oaba,oportunidadeId); const oh=obterCabecalhosAba(oaba);
-  const cStatus=encontrarColuna(oh,"STATUS"), cCP=encontrarColuna(oh,"COMISSAO %"), cCV=encontrarColuna(oh,"COMISSAO VALOR"), cUpd=encontrarColuna(oh,"ULTIMA ATUALIZACAO");
-  if(cStatus) oaba.getRange(orow,cStatus).setValue(status);
-  if(cCP) oaba.getRange(orow,cCP).setValue(calc.percentual);
-  if(cCV) oaba.getRange(orow,cCV).setValue(calc.valor);
-  if(cUpd) oaba.getRange(orow,cUpd).setValue(new Date());
-  registrarAuditoriaComercialV4({usuarioId:CONFIG.ADMIN_USERNAME,usuarioTipo:"ADMIN",acao:"CRIAR_NEGOCIO",oportunidadeId:oportunidadeId,negocioId:id,projetoId:o["ID PROJETO"],fornecedorId:o["FORNECEDOR ID"],arquitetoId:o["ARQUITETO ID"],detalhes:"Negócio fechado. Valor: "+valor+"; Comissão: "+calc.percentual+"% / "+calc.valor+(percentualExcecao!==null?"; EXCEÇÃO: "+String(dados.justificativa||""):"")});
-  criarNotificacaoV4({usuario:"ADMIN",tipo:"NEGOCIO",titulo:"Negócio registrado",mensagem:"Negócio "+id+" registrado. Comissão: R$ "+calc.valor.toFixed(2),registro:id});
-  incrementarVersaoDados();
-  return respostaJSON({sucesso:true,autorizado:true,id:id,comissao:calc,valor:valor,status:status});
-}
-
-function listarOportunidadesComerciaisV4(token,status){
-  exigirSessao(token); garantirModuloComercialARQSELECT();
-  let dados=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.OPORTUNIDADES,ARQSELECT_4_HEADERS.OPORTUNIDADES));
-  if(status) dados=dados.filter(function(x){return String(x.STATUS||"").toUpperCase()===String(status).toUpperCase();});
-  return respostaJSON({sucesso:true,autorizado:true,oportunidades:dados.reverse()});
-}
-function listarNegociosComerciaisV4(token,status){
-  exigirSessao(token); garantirModuloComercialARQSELECT();
-  let dados=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.NEGOCIOS,ARQSELECT_4_HEADERS.NEGOCIOS));
-  if(status) dados=dados.filter(function(x){return String(x.STATUS||"").toUpperCase()===String(status).toUpperCase();});
-  return respostaJSON({sucesso:true,autorizado:true,negocios:dados.reverse()});
-}
-function obterConfiguracaoComissaoV4(token){ exigirSessao(token); garantirModuloComercialARQSELECT(); return respostaJSON({sucesso:true,autorizado:true,faixas:lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.COMISSOES,ARQSELECT_4_HEADERS.COMISSOES))}); }
-function salvarConfiguracaoComissaoV4(token,dados){
-  exigirSessao(token); garantirModuloComercialARQSELECT();
-  const faixas=Array.isArray(dados.faixas)?dados.faixas:[];
-  if(!faixas.length) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Nenhuma faixa informada."});
-  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.COMISSOES,ARQSELECT_4_HEADERS.COMISSOES); const h=obterCabecalhosAba(aba); const rows=[];
-  faixas.forEach(function(f,i){rows.push([String(f.id||gerarIdComercial("COM")),Number(f.min||0),f.max===""?"":Number(f.max),Number(f.percentual||0),String(f.ativo===false?"0":"1"),i+1,String(f.observacoes||""),new Date()]);});
-  if(aba.getLastRow()>1) aba.getRange(2,1,aba.getLastRow()-1,h.length).clearContent();
-  aba.getRange(2,1,rows.length,h.length).setValues(rows);
-  registrarAuditoriaComercialV4({usuarioId:CONFIG.ADMIN_USERNAME,usuarioTipo:"ADMIN",acao:"ALTERAR_COMISSOES",detalhes:"Configuração de comissões atualizada."});
-  incrementarVersaoDados();
-  return respostaJSON({sucesso:true,autorizado:true,faixas:rows});
-}
-function atualizarStatusNegocioV4(token,dados){
-  exigirSessao(token); const id=String(dados.negocioId||dados.id||""); const status=String(dados.status||"").toUpperCase();
-  if(!id||!status) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Negócio e status são obrigatórios."});
-  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.NEGOCIOS,ARQSELECT_4_HEADERS.NEGOCIOS); const row=encontrarLinhaPorID(aba,id); if(!row) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Negócio não encontrado."});
-  const h=obterCabecalhosAba(aba); const cs=encontrarColuna(h,"STATUS"), cp=encontrarColuna(h,"PAGAMENTO STATUS"), cd=encontrarColuna(h,"PAGAMENTO DATA"), cu=encontrarColuna(h,"DATA ATUALIZACAO");
-  if(cs) aba.getRange(row,cs).setValue(status);
-  if(status==="PAGA" && cp) aba.getRange(row,cp).setValue("PAGO");
-  if(status==="PAGA" && cd) aba.getRange(row,cd).setValue(new Date());
-  if(cu) aba.getRange(row,cu).setValue(new Date());
-  registrarAuditoriaComercialV4({usuarioId:CONFIG.ADMIN_USERNAME,usuarioTipo:"ADMIN",acao:"ALTERAR_STATUS_NEGOCIO",negocioId:id,detalhes:"Status: "+status});
-  incrementarVersaoDados(); return respostaJSON({sucesso:true,autorizado:true,status:status});
-}
-function obterResumoComercialV4(token){
-  exigirSessao(token); garantirModuloComercialARQSELECT();
-  const ops=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.OPORTUNIDADES,ARQSELECT_4_HEADERS.OPORTUNIDADES));
-  const neg=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.NEGOCIOS,ARQSELECT_4_HEADERS.NEGOCIOS));
-  const abertas=ops.filter(function(x){return ["NEGÓCIO FECHADO","CANCELADO"].indexOf(String(x.STATUS||"").toUpperCase())<0;});
-  const fechadas=neg.filter(function(x){return String(x.STATUS||"").toUpperCase().indexOf("FECHADO")>=0 || String(x.STATUS||"").toUpperCase()==="NEGÓCIO FECHADO";});
-  const volume=neg.reduce(function(t,x){return t+(Number(x.VALOR||0)||0);},0);
-  const comPend=neg.filter(function(x){return String(x["PAGAMENTO STATUS"]||"").toUpperCase()!=="PAGO" && Number(x["VALOR COMISSAO"]||0)>0;});
-  const comRec=neg.filter(function(x){return String(x["PAGAMENTO STATUS"]||"").toUpperCase()==="PAGO";});
-  const conversion=ops.length?((fechadas.length/ops.length)*100):0;
-  return respostaJSON({sucesso:true,autorizado:true,resumo:{oportunidadesAbertas:abertas.length,negociacoes:ops.filter(function(x){return String(x.STATUS||"").toUpperCase().indexOf("NEGOC")>=0;}).length,negociosFechados:fechadas.length,volumeMovimentado:Number(volume.toFixed(2)),comissoesPendentes:Number(comPend.reduce(function(t,x){return t+(Number(x["VALOR COMISSAO"]||0)||0);},0).toFixed(2)),comissoesRecebidas:Number(comRec.reduce(function(t,x){return t+(Number(x["VALOR COMISSAO"]||0)||0);},0).toFixed(2)),taxaConversao:Number(conversion.toFixed(2))}});
-}
-function registrarAuditoriaComercialV4(o){ try{ garantirAbaV4(ARQSELECT_4_SHEETS.AUDITORIA_COMERCIAL,ARQSELECT_4_HEADERS.AUDITORIA_COMERCIAL).appendRow([gerarIdComercial("AUDC"),new Date(),o.usuarioId||"",o.usuarioTipo||"",o.acao||"",o.oportunidadeId||"",o.negocioId||"",o.projetoId||"",o.fornecedorId||"",o.arquitetoId||"",JSON.stringify(o) ]); }catch(e){registrarErro(e,"registrarAuditoriaComercialV4");} }
-function listarAuditoriaComercialV4(token,limite){ exigirSessao(token); let d=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.AUDITORIA_COMERCIAL,ARQSELECT_4_HEADERS.AUDITORIA_COMERCIAL)).reverse(); return respostaJSON({sucesso:true,autorizado:true,registros:d.slice(0,Number(limite||100))}); }
 
 /* ==========================================================
    STATUS DO SISTEMA

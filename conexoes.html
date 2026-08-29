@@ -32,4 +32,74 @@ table{color:#f6f4ed!important}th{color:var(--arq-gold2)!important;background:rgb
 .arq-whatsapp:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 20px 45px rgba(0,0,0,.42),0 0 0 1px rgba(255,255,255,.20) inset}
 .arq-whatsapp svg{width:22px;height:22px;flex:none;fill:currentColor}
 .arq-whatsapp span{white-space:nowrap}@media(max-width:520px){.arq-whatsapp{width:56px;height:56px;justify-content:center;padding:0;right:15px;bottom:15px}.arq-whatsapp span{display:none}.arq-whatsapp svg{width:27px;height:27px}}
-</style></head><body><header class="top"><div class="brand">ARQ<span>SELECT</span></div><nav class="nav"><a class="btn light" href="explorar.html">Explorar</a><a class="btn gold" href="chat.html">Chat</a></nav></header><main class="wrap"><section class="hero"><div class="ey">REDE PROFISSIONAL</div><h1>Minhas conexões</h1><div class="muted">Centralize contatos que já interagiram com seus projetos.</div></section><div id="app" class="grid"><div class="card">Carregando...</div></div></main><script>const API='https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec',token=localStorage.getItem('ARQSELECT_PORTAL_TOKEN');function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}async function load(){const u=new URL(API);u.searchParams.set('acao','portal_conexoes');u.searchParams.set('token',token||'');const j=await fetch(u).then(r=>r.json());const d=j.conexoes||[];document.getElementById('app').innerHTML=d.length?d.map(x=>`<article class="card"><div class="ey">${esc(x['USUARIO A TIPO']||'')} ↔ ${esc(x['USUARIO B TIPO']||'')}</div><h3>${esc(x['USUARIO A ID']===localStorage.getItem('ARQSELECT_PORTAL_ID')?x['USUARIO B ID']:x['USUARIO A ID'])}</h3><div class="muted">Status: ${esc(x.STATUS)} · Última interação: ${esc(x['ULTIMA INTERACAO'])}</div><a class="btn gold" href="chat.html">Abrir chat</a></article>`).join(''):'<div class="card">Você ainda não possui conexões.</div>'}load();</script></body></html>
+</style>
+<style id="arqselect-unified-theme">
+:root{
+ --arq-bg:#070707;--arq-bg-2:#0c0c0c;--arq-surface:#121212;--arq-surface-2:#171717;
+ --arq-text:#f5f2e9;--arq-muted:#aaa49a;--arq-gold:#d4af37;--arq-gold-2:#f2dc86;
+ --arq-line:rgba(255,255,255,.09);--arq-shadow:0 18px 55px rgba(0,0,0,.35);--arq-radius:18px;
+}
+html{background:var(--arq-bg)!important;color:var(--arq-text)!important;color-scheme:dark;scroll-behavior:smooth}
+body{background:
+ radial-gradient(circle at 90% -8%,rgba(212,175,55,.10),transparent 28%),
+ radial-gradient(circle at 4% 105%,rgba(255,255,255,.035),transparent 30%),var(--arq-bg)!important;
+ color:var(--arq-text)!important}
+body,button,input,select,textarea{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);background-size:28px 28px;opacity:.55}
+h1,h2,h3,h4,h5,h6,p,div,span,li,label,td,th{color:inherit}
+a{color:inherit}
+.top,.nav,.header,.navbar{background:rgba(7,7,7,.86)!important;border-color:var(--arq-line)!important;backdrop-filter:blur(16px)!important}
+.btn,.button,.actions button,.nav a{border:1px solid var(--arq-line)!important;background:rgba(255,255,255,.055)!important;color:var(--arq-text)!important;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.btn.gold,.gold,.primary,.btn-primary,.cta-button{background:linear-gradient(135deg,var(--arq-gold-2),var(--arq-gold))!important;color:#151108!important;border-color:rgba(255,255,255,.18)!important}
+.btn:hover,.button:hover,.nav a:hover{border-color:rgba(212,175,55,.42)!important;transform:translateY(-1px)}
+.card,.panel,.box,.tile,.item,.list,.table,.table-wrap,.product,.profile,.stat,.metric,.notice,.sheet,.conversation,.sidebar,.hero-card,.feature-card,.post,.opportunity,.profile-card,.request-card,.proposal-card{background:linear-gradient(145deg,rgba(22,22,22,.97),rgba(12,12,12,.94))!important;border:1px solid var(--arq-line)!important;color:var(--arq-text)!important;box-shadow:var(--arq-shadow)!important}
+.card h1,.card h2,.card h3,.card h4,.panel h1,.panel h2,.panel h3,.panel h4,.box h1,.box h2,.box h3,.box h4,.product h3{color:var(--arq-text)!important}
+.muted,.meta,.small,.hint,.ey,.subtle,.role{color:var(--arq-muted)!important}
+input,select,textarea{background:rgba(255,255,255,.055)!important;color:var(--arq-text)!important;border:1px solid rgba(255,255,255,.12)!important}
+input::placeholder,textarea::placeholder{color:#7e796f!important}
+input:focus,select:focus,textarea:focus{border-color:rgba(212,175,55,.75)!important;box-shadow:0 0 0 3px rgba(212,175,55,.11)!important}
+.badge,.tag,.pill{background:rgba(212,175,55,.12)!important;color:var(--arq-gold-2)!important;border:1px solid rgba(212,175,55,.22)!important}
+table{color:var(--arq-text)!important}th{background:rgba(212,175,55,.07)!important;color:var(--arq-gold-2)!important}td{border-color:var(--arq-line)!important}
+.modal{background:rgba(0,0,0,.72)!important}
+.modalbox,.modal-content,.dialog,.dropdown,.menu,.sheet-content{background:linear-gradient(145deg,#1b1b1b,#0e0e0e)!important;color:var(--arq-text)!important;border:1px solid var(--arq-line)!important;box-shadow:0 30px 80px rgba(0,0,0,.55)!important}
+.close{background:rgba(255,255,255,.08)!important;color:var(--arq-text)!important;border:1px solid var(--arq-line)!important}
+.messages,.chat-window,.chat-body,.chat-main{background:#0b0b0b!important;color:var(--arq-text)!important}
+.composer,.composer-wrap,.chat-head{background:#111!important;color:var(--arq-text)!important;border-color:var(--arq-line)!important}
+.conv,.conversation-item{background:rgba(255,255,255,.035)!important;color:var(--arq-text)!important;border-color:var(--arq-line)!important}
+.bubble{background:#1a1a1a!important;color:var(--arq-text)!important;border:1px solid var(--arq-line)!important}
+.bubble.mine{background:linear-gradient(135deg,#2b2415,#3b3019)!important;color:#fff9df!important;border-color:rgba(212,175,55,.24)!important}
+.empty,.empty-card{color:var(--arq-muted)!important}
+.thumb{background:#111!important}
+img{border-radius:inherit}
+hr{border-color:var(--arq-line)!important}
+::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-track{background:#080808}::-webkit-scrollbar-thumb{background:linear-gradient(#8e6b28,#d4af37);border-radius:10px}
+/* Unified WhatsApp */
+.arq-whatsapp,.wa-float{background:linear-gradient(135deg,#25d366,#16a34a)!important;color:#fff!important;border:1px solid rgba(255,255,255,.16)!important;text-decoration:none!important;box-shadow:0 18px 42px rgba(0,0,0,.36),0 0 0 1px rgba(255,255,255,.10) inset!important}
+.arq-whatsapp svg,.wa-float svg{width:22px;height:22px;fill:currentColor;flex:none}
+/* prevent inherited light theme from returning after dynamic renders */
+#app,#root,#main,.main,.wrap{color:var(--arq-text)!important}
+@media(max-width:760px){.btn,.button,.nav a{padding:10px 12px!important}.card,.panel,.box{border-radius:16px!important}}
+</style>
+<style id="arqselect-contrast-lock">
+/* ARQSELECT premium contrast lock */
+*[style*="background:#fff"],[style*="background: #fff"],[style*="background-color:#fff"],[style*="background-color: #fff"]{background:var(--arq-surface,#151515)!important}
+*[style*="background:white"],[style*="background: white"]{background:var(--arq-surface,#151515)!important}
+.login-card,.auth-card,.form-card,.form-panel{background:linear-gradient(145deg,#171717,#0d0d0d)!important;color:var(--arq-text,#f5f2e9)!important;border:1px solid var(--arq-line,rgba(255,255,255,.09))!important;box-shadow:var(--arq-shadow,0 18px 55px rgba(0,0,0,.35))!important}
+.field label,.form-group label,label{color:var(--arq-text,#f5f2e9)!important}
+input.input,.input,input[type="text"],input[type="email"],input[type="password"],input[type="number"],input[type="tel"],input[type="url"],textarea,select{color:var(--arq-text,#f5f2e9)!important;background:rgba(255,255,255,.055)!important}
+select option{background:#171717;color:#f5f2e9}
+</style>
+</head><body><header class="top"><div class="brand">ARQ<span>SELECT</span></div><nav class="nav"><a class="btn light" href="explorar.html">Explorar</a><a class="btn gold" href="chat.html">Chat</a></nav></header><main class="wrap"><section class="hero"><div class="ey">REDE PROFISSIONAL</div><h1>Minhas conexões</h1><div class="muted">Centralize contatos que já interagiram com seus projetos.</div></section><div id="app" class="grid"><div class="card">Carregando...</div></div></main><script>const API='https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec',token=localStorage.getItem('ARQSELECT_PORTAL_TOKEN');function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}async function load(){const u=new URL(API);u.searchParams.set('acao','portal_conexoes');u.searchParams.set('token',token||'');const j=await fetch(u).then(r=>r.json());const d=j.conexoes||[];document.getElementById('app').innerHTML=d.length?d.map(x=>`<article class="card"><div class="ey">${esc(x['USUARIO A TIPO']||'')} ↔ ${esc(x['USUARIO B TIPO']||'')}</div><h3>${esc(x['USUARIO A ID']===localStorage.getItem('ARQSELECT_PORTAL_ID')?x['USUARIO B ID']:x['USUARIO A ID'])}</h3><div class="muted">Status: ${esc(x.STATUS)} · Última interação: ${esc(x['ULTIMA INTERACAO'])}</div><a class="btn gold" href="chat.html">Abrir chat</a></article>`).join(''):'<div class="card">Você ainda não possui conexões.</div>'}load();</script>
+<script id="arqselect-role-nav">
+(function(){
+  try{
+    const type=(localStorage.getItem('ARQSELECT_PORTAL_TIPO')||'').toUpperCase();
+    const nav=document.querySelector('.nav'); if(!nav || nav.querySelector('[data-arq-panel]')) return;
+    if(type!=='ARQUITETO' && type!=='FORNECEDOR') return;
+    const a=document.createElement('a'); a.className='btn light'; a.dataset.arqPanel='1';
+    a.href=type==='FORNECEDOR'?'ARQSELECT_DASHBOARD_FORNECEDOR.html':'ARQSELECT_DASHBOARD_ARQUITETO.html';
+    a.textContent='Meu painel'; nav.insertBefore(a,nav.firstChild);
+  }catch(e){console.warn('[ARQSELECT] navegação de perfil:',e)}
+})();
+</script>
+</body></html>
