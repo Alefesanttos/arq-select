@@ -65,7 +65,7 @@ $("closeModal").onclick=()=>$("modal").classList.remove("open");$("modal").oncli
 async function apiNoToken(acao,data={}){const p=new URLSearchParams({acao,...data});let r;try{r=await fetch(API_URL+"?"+p.toString(),{cache:"no-store"})}catch(e){throw new Error("Falha de conexão com o Web App ARQSELECT.")}const texto=await r.text();try{return JSON.parse(texto)}catch(e){throw new Error("Resposta inválida do Apps Script.")}}
 async function login(e){e.preventDefault();$("loginMsg").textContent="Entrando...";try{const j=await apiNoToken("login",{usuario:$("user").value,senha:$("pass").value});if(!j.sucesso)throw Error(j.mensagem||"Login inválido");token=j.token;localStorage.setItem(SK,token);start()}catch(x){$("loginMsg").textContent=x.message}}
 function logout(reload=true){localStorage.removeItem(SK);token="";if(autoRefresh)clearInterval(autoRefresh);$("app").classList.add("hidden");$("login").classList.remove("hidden");if(reload)location.reload()}
-$("loginForm").onsubmit=login;$("logout").onclick=()=>logout();$("refresh").onclick=()=>loadPageData(currentPage);
+$("loginForm").onsubmit=login;$("logout").onclick=()=>logout();$("refresh").onclick=async()=>{try{await loadPageData(currentPage);toast("Dados atualizados.")}catch(e){toast(e?.message||"Falha ao atualizar.")}};
 async function start(){$("login").classList.add("hidden");$("app").classList.remove("hidden");try{await api("sessao");await loadDashboard();startPolling()}catch(e){toast(e.message);logout(false)}}
 async function loadDashboard(){try{const j=await api("admin_v4_dashboard");if(!j.sucesso)throw Error(j.mensagem||"Falha");dashboard=j.indicadores;usuarios=j.ultimosUsuarios||[];notificacoes=j.ultimasNotificacoes||[];$("notifCount").textContent=dashboard.notificacoesNaoLidas??0;render()}catch(e){toast(e.message)}}
 function startPolling(){if(autoRefresh)clearInterval(autoRefresh);autoRefresh=setInterval(async()=>{try{const j=await api("admin_v4_dashboard");if(j.sucesso){dashboard=j.indicadores;usuarios=j.ultimosUsuarios||usuarios;notificacoes=j.ultimasNotificacoes||notificacoes;$("notifCount").textContent=dashboard.notificacoesNaoLidas??0;if(currentPage==="dashboard")render()}}catch(e){}},12000)}
@@ -85,9 +85,29 @@ async function openSupplier(id){try{const j=await api("admin_v4_fornecedor",{id}
 function renderNotifs(){const n=(pageData.notificacoes&&pageData.notificacoes.notificacoes)||notificacoes||[];$("content").innerHTML=`<div class="section-head"><h2>Central de notificações</h2><button class="btn light" onclick="readAll()">Marcar todas como lidas</button></div><div class="card">${n.length?n.map(x=>`<div class="notif" style="cursor:pointer" onclick="readNotif('${esc(x.ID)}')"><div class="dot"></div><div><b>${esc(x.TITULO)}</b><div class="muted">${esc(x.MENSAGEM)}</div><div class="muted" style="margin-top:4px">${esc(x.DATA||"")} · ${badge(x.LIDA)}</div></div></div>`).join(""):'<div class="empty">Nenhuma notificação.</div>'}</div>`}
 async function loadNotifs(){const j=await api("admin_v4_notificacoes",{limite:100});notificacoes=j.notificacoes||[];$("notifCount").textContent=j.naoLidas??0;pageData.notificacoes=j;renderNotifs()}
 async function readNotif(id){await api("admin_v4_notificacao_lida",{id});await loadNotifs()}async function readAll(){await api("admin_v4_notificacoes_todas_lidas");await loadNotifs();toast("Notificações marcadas como lidas")}
-function renderChat(){$("content").innerHTML=`<div class="section-head"><h2>Central de conversas</h2></div><div id="chatBox" class="card"><div class="loader">Carregando conversas...</div></div>`;loadChat()}
-async function loadChat(){try{const j=await api("admin_v4_conversas");const c=j.conversas||[];$("chatBox").innerHTML=c.length?c.map(x=>`<div class="notif"><div class="avatar">💬</div><div><b>${esc(x["PARTICIPANTE A"])} ↔ ${esc(x["PARTICIPANTE B"])}</b><div class="muted">${esc(x["ULTIMA MENSAGEM"]||"Sem mensagens")} · ${esc(x["ULTIMA DATA"]||"")}</div><div class="actions" style="margin-top:7px"><button class="btn light" onclick="openConv('${esc(x.ID)}')">Abrir conversa</button></div></div></div>`).join(""):'<div class="empty">Nenhuma conversa criada ainda.</div>'}catch(e){$("chatBox").innerHTML='<div class="empty">Não foi possível carregar as conversas.</div>'}}
-async function openConv(id){const j=await api("admin_v4_mensagens",{conversaId:id});if(!j.sucesso){toast(j.mensagem);return}const msgs=j.mensagens||[];modal("Conversa",`<div style="display:grid;gap:10px">${msgs.map(m=>`<div class="kv"><b>${esc(m["REMETENTE NOME"]||m["REMETENTE ID"])}</b>${esc(m.MENSAGEM)}<div class="muted" style="margin-top:5px">${esc(m.DATA)}</div></div>`).join("")||'<div class="empty">Sem mensagens.</div>'}</div>`)}
+function renderChat(){$("content").innerHTML=`<div class="section-head"><h2>Central de conversas</h2><button class="btn light" onclick="loadChat()">Atualizar</button></div><div id="chatBox" class="card"><div class="loader">Carregando conversas...</div></div>`;loadChat()}
+async function loadChat(){
+  const box=$("chatBox");
+  if(!box) return;
+  box.innerHTML='<div class="loader">Carregando conversas...</div>';
+  try{
+    const j=await api("admin_v4_conversas");
+    if(!j || j.sucesso===false) throw new Error(j?.mensagem||"O servidor não conseguiu carregar as conversas.");
+    const c=Array.isArray(j.conversas)?j.conversas:[];
+    box.innerHTML=c.length?c.map(x=>`<div class="notif"><div class="avatar">💬</div><div><b>${esc(x["PARTICIPANTE A"]||"—")} ↔ ${esc(x["PARTICIPANTE B"]||"—")}</b><div class="muted">${esc(x["ULTIMA MENSAGEM"]||"Sem mensagens")} · ${esc(x["ULTIMA DATA"]||"")}</div><div class="actions" style="margin-top:7px"><button class="btn light" onclick="openConv('${esc(x.ID||"")}')">Abrir conversa</button></div></div></div>`).join(''):'<div class="empty">Nenhuma conversa criada ainda.</div>';
+  }catch(e){
+    const msg=esc(e?.message||"Falha desconhecida ao carregar o chat.");
+    box.innerHTML=`<div class="empty"><b>Falha ao carregar chat.</b><div style="margin-top:8px">${msg}</div><button class="btn light" style="margin-top:14px" onclick="loadChat()">Tentar novamente</button></div>`;
+  }
+}
+async function openConv(id){
+  try{
+    const j=await api("admin_v4_mensagens",{conversaId:id});
+    if(!j || j.sucesso===false) throw new Error(j?.mensagem||"Não foi possível abrir a conversa.");
+    const msgs=Array.isArray(j.mensagens)?j.mensagens:[];
+    modal("Conversa",`<div style="display:grid;gap:10px">${msgs.map(m=>`<div class="kv"><b>${esc(m["REMETENTE NOME"]||m["REMETENTE ID"]||"—")}</b>${esc(m.MENSAGEM||"")}<div class="muted" style="margin-top:5px">${esc(m.DATA||"")}</div></div>`).join("")||'<div class="empty">Sem mensagens.</div>'}</div>`);
+  }catch(e){ toast(e?.message||"Falha ao abrir conversa."); }
+}
 function renderTable(page){if(page==="projetos"){loadProjectsTable();return}const d=(pageData[page]&&pageData[page].dados)||[];if(!d.length){$("content").innerHTML='<div class="card empty">Nenhum registro encontrado. Use Atualizar para carregar.</div>';loadPageData(page);return}const keys=Object.keys(d[0]).filter(k=>k!=="_linha").slice(0,9);$("content").innerHTML=`<div class="card"><div class="table-wrap"><table><thead><tr>${keys.map(k=>`<th>${esc(k)}</th>`).join("")}</tr></thead><tbody>${d.slice(0,150).map(r=>`<tr>${keys.map(k=>`<td>${esc(r[k])}</td>`).join("")}</tr>`).join("")}</tbody></table></div></div>`}
 async function loadProjectsTable(){try{const j=await api("admin_v4_listar",{modulo:"projetos"});pageData.projetos=j;const d=j.dados||[];$("content").innerHTML=`<div class="card"><div class="table-wrap"><table><thead><tr><th>ID</th><th>Projeto</th><th>Arquiteto</th><th>Fornecedor</th><th>Status</th><th>Data</th><th>Interação</th></tr></thead><tbody>${d.slice(0,150).map(r=>`<tr><td>${esc(r["ID PROJETO"])}</td><td><b>${esc(r["NOME DO PROJETO"])}</b></td><td>${esc(r.NOME)}</td><td>${esc(r["FORNECEDOR NOME"])}</td><td>${badge(r.STATUS)}</td><td>${esc(r["DATA / HORA"])}</td><td>${esc(r["ULTIMA INTERAÇÃO"])}</td></tr>`).join("")||'<tr><td colspan="7">Nenhum projeto.</td></tr>'}</tbody></table></div></div>`}catch(e){toast(e.message)}}
 async function init(){if(!token)return;try{await api("sessao");await start()}catch(e){logout(false)}}init();
