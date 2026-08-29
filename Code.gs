@@ -430,8 +430,9 @@ function doGet(e) {
         ? e.parameter
         : {};
 
-    // Compatibilidade: blocos legados do mesmo doGet podem usar "dados".
-    // Mantemos um único objeto de entrada para impedir ReferenceError e facilitar evolução.
+    // Compatibilidade interna: alguns handlers legados/V4 ainda
+    // utilizam o nome `dados`. Mantemos um alias somente leitura
+    // para impedir ReferenceError e preservar os contratos existentes.
     const dados = params;
 
     const acao =
@@ -729,32 +730,32 @@ function doGet(e) {
     /* ======================================================
        ARQSELECT 4.0 — DIAGNÓSTICO DE CONEXÃO
     ====================================================== */
-    if (acao === "admin_v4_diagnostico") return diagnosticoAdminV4(params.token);
+    if (acao === "admin_v4_diagnostico") return diagnosticoAdminV4(dados.token);
 
     /* ======================================================
        ARQSELECT 4.0 — ADMIN / CRM / COMUNICAÇÃO
     ====================================================== */
     if (acao === "v4_setup" || acao === "admin_v4_setup") {
-      exigirSessao(params.token);
+      exigirSessao(dados.token);
       garantirEstruturaV4();
       return respostaJSON({sucesso:true,autorizado:true,mensagem:"Estrutura ARQSELECT 4.0 preparada."});
     }
-    if (acao === "admin_v4_dashboard") return obterDashboardV4(params.token);
-    if (acao === "admin_v4_painel") return obterPainelAdminV4(params.token);
-    if (acao === "admin_v4_usuarios") return obterUsuariosV4(params.token,params.tipo,params.busca);
-    if (acao === "admin_v4_fornecedor") return obterFornecedorCRMDetalheV4(params.token,params.id);
-    if (acao === "admin_v4_notificacoes") return listarNotificacoesV4(params.token,params.limite);
-    if (acao === "admin_v4_notificacao_lida") return marcarNotificacaoV4(params.token,params.id);
-    if (acao === "admin_v4_notificacoes_todas_lidas") return marcarTodasNotificacoesV4(params.token);
-    if (acao === "admin_v4_listar") return listarRegistrosAdminV4(params.token,params.modulo);
-    if (acao === "admin_v4_conversa_criar") return criarConversaV4(params.token,params);
-    if (acao === "admin_v4_conversas") return listarConversasV4(params.token);
-    if (acao === "admin_v4_mensagens") return listarMensagensV4(params.token,params.conversaId);
-    if (acao === "admin_v4_mensagem_enviar") return enviarMensagemV4(params.token,params);
-    if (acao === "admin_v4_produto_moderar") return moderarProdutoV4(params.token,params.id,params.status);
-    if (acao === "admin_v4_projeto_distribuir") return distribuirProjetoV4(params.token,params.idProjeto,params.fornecedores);
-    if (acao === "admin_v4_solicitacao") return criarSolicitacaoV4(params.token,params);
-    if (acao === "admin_v4_proposta") return criarPropostaV4(params.token,params);
+    if (acao === "admin_v4_dashboard") return obterDashboardV4(dados.token);
+    if (acao === "admin_v4_painel") return obterPainelAdminV4(dados.token);
+    if (acao === "admin_v4_usuarios") return obterUsuariosV4(dados.token,dados.tipo,dados.busca);
+    if (acao === "admin_v4_fornecedor") return obterFornecedorCRMDetalheV4(dados.token,dados.id);
+    if (acao === "admin_v4_notificacoes") return listarNotificacoesV4(dados.token,dados.limite);
+    if (acao === "admin_v4_notificacao_lida") return marcarNotificacaoV4(dados.token,dados.id);
+    if (acao === "admin_v4_notificacoes_todas_lidas") return marcarTodasNotificacoesV4(dados.token);
+    if (acao === "admin_v4_listar") return listarRegistrosAdminV4(dados.token,dados.modulo);
+    if (acao === "admin_v4_conversa_criar") return criarConversaV4(dados.token,dados);
+    if (acao === "admin_v4_conversas") return listarConversasV4(dados.token);
+    if (acao === "admin_v4_mensagens") return listarMensagensV4(dados.token,dados.conversaId);
+    if (acao === "admin_v4_mensagem_enviar") return enviarMensagemV4(dados.token,dados);
+    if (acao === "admin_v4_produto_moderar") return moderarProdutoV4(dados.token,dados.id,dados.status);
+    if (acao === "admin_v4_projeto_distribuir") return distribuirProjetoV4(dados.token,dados.idProjeto,dados.fornecedores);
+    if (acao === "admin_v4_solicitacao") return criarSolicitacaoV4(dados.token,dados);
+    if (acao === "admin_v4_proposta") return criarPropostaV4(dados.token,dados);
     /* ======================================================
        PORTAL PREMIUM — PROJETOS / STATUS
     ====================================================== */
@@ -844,6 +845,9 @@ function doPost(e) {
     const dados =
       obterParametrosPost(e);
 
+    // Compatibilidade interna: os handlers V4/portal podem receber
+    // `params` ou `dados` dependendo da versão do endpoint.
+    const params = dados;
 
     const acao =
       String(
