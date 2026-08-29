@@ -1,149 +1,7652 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ARQSELECT | CRM 4.0</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ARQSELECT | CRM Administrativo</title>
+
+<meta name="theme-color" content="#0f172a">
+
 <style>
-:root{--bg:#f5f7fb;--surface:#fff;--surface2:#f8fafc;--text:#101828;--muted:#667085;--line:#e4e7ec;--dark:#0b1220;--accent:#c8a457;--success:#12b76a;--warn:#f79009;--danger:#f04438;--shadow:0 14px 40px rgba(16,24,40,.08);--r:18px}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
-button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
-.login{min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 20% 10%,#c8a45722,transparent 35%),linear-gradient(135deg,#07101e,#111827)}
-.login-card{width:min(430px,100%);background:#fff;border-radius:28px;padding:34px;box-shadow:0 40px 120px #0007}.logo{font-weight:950;letter-spacing:.14em;font-size:24px}.logo span{color:var(--accent)}.ey{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#8b6b24;font-weight:900;margin-top:18px}
-h1,h2,h3,p{margin:0}.login h1{font-size:32px;margin-top:8px}.muted{color:var(--muted);line-height:1.6}label{display:block;font-size:12px;font-weight:800;margin:18px 0 7px}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px;background:#fff;color:var(--text);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px #c8a45719}
-.btn{border:0;border-radius:12px;padding:12px 15px;font-weight:850;background:#101828;color:#fff}.btn.gold{background:linear-gradient(135deg,#e2c783,#b88e35);color:#16120a}.btn.light{background:#eef2f6;color:#101828}.btn.danger{background:#fee4e2;color:#b42318}
-.msg{min-height:18px;margin-top:12px;font-size:13px;color:var(--danger)}
-.shell{display:grid;grid-template-columns:260px 1fr;min-height:100vh}.side{position:sticky;top:0;height:100vh;background:var(--dark);color:#fff;padding:22px 16px;display:flex;flex-direction:column}
-.side-brand{padding:8px 10px 24px;border-bottom:1px solid #ffffff14}.side-brand .logo span{color:#e7c977}.admin-user{margin-top:16px;padding:12px;border:1px solid #ffffff12;border-radius:14px;background:#ffffff08}
-.nav{display:grid;gap:7px;margin-top:20px}.nav button{text-align:left;border:0;background:transparent;color:#cbd5e1;padding:12px 13px;border-radius:12px;font-weight:750}.nav button:hover,.nav button.active{background:#ffffff10;color:#fff}
-.main{padding:26px;overflow:hidden}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}.top-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px}.stat-label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:900}.stat-value{font-size:31px;font-weight:950;margin-top:7px}.stat-sub{font-size:12px;color:var(--muted);margin-top:4px}
-.section{margin-top:18px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:12px}.section-head h2{font-size:18px}.toolbar{display:flex;gap:9px;flex-wrap:wrap}.toolbar>*{max-width:300px}
-.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px}table{width:100%;min-width:940px;border-collapse:collapse}th,td{padding:13px 12px;border-bottom:1px solid var(--line);text-align:left;font-size:13px;vertical-align:top}th{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);background:var(--surface2)}tbody tr:hover{background:#fafbfc}
-.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;font-size:10px;font-weight:900;background:#eef2f6;color:#475467}.badge.green{background:#d1fadf;color:#067647}.badge.gold{background:#fff4cc;color:#8b6b24}.badge.red{background:#fee4e2;color:#b42318}.badge.blue{background:#dbeafe;color:#1d4ed8}
-.user-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.user-card{display:grid;grid-template-columns:56px 1fr auto;gap:14px;align-items:center}.avatar{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#101828,#344054);color:#fff;display:grid;place-items:center;font-weight:950}.actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
-.notif{display:flex;gap:12px;align-items:flex-start;border-bottom:1px solid var(--line);padding:14px 2px}.notif:last-child{border-bottom:0}.dot{width:10px;height:10px;background:#f79009;border-radius:50%;margin-top:7px;flex:0 0 auto}
-.empty{padding:50px;text-align:center;color:var(--muted)}.loader{display:grid;place-items:center;min-height:120px;color:var(--muted)}
-.toast{position:fixed;right:20px;bottom:20px;z-index:100;display:none;background:#101828;color:#fff;padding:13px 16px;border-radius:12px;box-shadow:0 20px 50px #0003}.toast.show{display:block}
-.modal{position:fixed;inset:0;background:#0008;display:none;place-items:center;padding:18px;z-index:90}.modal.open{display:grid}.modal-card{background:#fff;width:min(900px,100%);max-height:90vh;overflow:auto;border-radius:22px;padding:22px}.modal-head{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:15px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.detail{display:grid;gap:9px}.kv{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface2)}.kv b{display:block;font-size:10px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
-@media(max-width:1050px){.grid{grid-template-columns:repeat(2,1fr)}.user-grid{grid-template-columns:1fr}.shell{grid-template-columns:1fr}.side{position:static;height:auto}.nav{grid-template-columns:repeat(4,minmax(0,1fr))}.main{padding:16px}}
-@media(max-width:650px){.grid{grid-template-columns:1fr 1fr}.nav{grid-template-columns:repeat(2,1fr)}.topbar{align-items:flex-start;flex-direction:column}.two{grid-template-columns:1fr}}
-</style>
-<style>
-/* ARQSELECT PREMIUM DESIGN SYSTEM 3.0 */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
 :root{
-  --arq-bg:#070707;--arq-bg2:#0d0d0d;--arq-card:rgba(19,19,19,.88);--arq-card2:#121212;
-  --arq-gold:#d4af37;--arq-gold2:#f3df8a;--arq-text:#f8f7f2;--arq-muted:#a9a49a;
-  --arq-line:rgba(212,175,55,.18);--arq-shadow:0 18px 55px rgba(0,0,0,.42);
+
+  --bg:#f4f7fb;
+  --surface:#ffffff;
+  --surface2:#f8fafc;
+
+  --text:#0f172a;
+  --muted:#64748b;
+
+  --border:#e2e8f0;
+
+  --primary:#0f172a;
+  --primary2:#1e293b;
+
+  --blue:#2563eb;
+  --green:#16a34a;
+  --orange:#d97706;
+  --purple:#7c3aed;
+  --red:#dc2626;
+
+  --shadow:0 8px 30px rgba(15,23,42,.07);
+
+  --radius:16px;
 }
-html{scroll-behavior:smooth}body{background:
- radial-gradient(circle at 85% -10%,rgba(212,175,55,.10),transparent 30%),
- radial-gradient(circle at 10% 100%,rgba(212,175,55,.055),transparent 28%),var(--arq-bg)!important;color:var(--arq-text)!important;}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.18;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 95%);}
-.top,.nav,.sidebar,.header,.toolbar{backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);}
-.top{background:rgba(7,7,7,.82)!important;border-bottom:1px solid var(--arq-line)!important;box-shadow:0 8px 35px rgba(0,0,0,.22)}
-.brand,.logo{color:var(--arq-text)!important;text-shadow:0 2px 18px rgba(212,175,55,.16)}
-.brand span,.logo span{color:var(--arq-gold2)!important}
-.card,.panel,.box,.item,.list,.product,.profile,.stat,.metric,.tile,.table-wrap,.composer,.conversation,.sidebar,.modal,.sheet,.empty,.notice{background:linear-gradient(145deg,rgba(24,24,24,.95),rgba(12,12,12,.92))!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:var(--arq-shadow)!important;color:var(--arq-text)!important}
-.card:hover,.product:hover,.profile:hover,.tile:hover,.item:hover{transform:translateY(-2px);border-color:rgba(212,175,55,.30)!important;box-shadow:0 22px 65px rgba(0,0,0,.48),0 0 0 1px rgba(212,175,55,.04) inset!important;transition:.22s ease}
-input,textarea,select{background:rgba(255,255,255,.055)!important;color:#fff!important;border:1px solid rgba(255,255,255,.11)!important;border-radius:12px!important;outline:none!important}
-input:focus,textarea:focus,select:focus{border-color:rgba(212,175,55,.75)!important;box-shadow:0 0 0 3px rgba(212,175,55,.10)!important}
-button,.btn{border-radius:12px!important;transition:.2s ease}
-.btn.gold,.gold,.primary,.btn-primary,.cta{background:linear-gradient(135deg,#f0d87a,#b78a2f)!important;color:#16120a!important;box-shadow:0 10px 30px rgba(212,175,55,.18)!important;border:1px solid rgba(255,255,255,.15)!important}
-.btn.gold:hover,.gold:hover,.primary:hover,.btn-primary:hover,.cta:hover{transform:translateY(-1px);filter:brightness(1.06)}
-.btn,.light,.secondary{background:rgba(255,255,255,.065)!important;color:#f3f1ea!important;border:1px solid rgba(255,255,255,.10)!important}
-.muted,.meta,.small,.ey,.role,.hint{color:var(--arq-muted)!important}
-.badge,.tag,.pill{background:rgba(212,175,55,.12)!important;color:var(--arq-gold2)!important;border:1px solid rgba(212,175,55,.2)!important}
-hr{border-color:rgba(255,255,255,.08)!important}
-table{color:#f6f4ed!important}th{color:var(--arq-gold2)!important;background:rgba(212,175,55,.06)!important}td{border-color:rgba(255,255,255,.07)!important}
-::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-track{background:#080808}::-webkit-scrollbar-thumb{background:linear-gradient(#8d6a25,#d4af37);border-radius:10px}
-@media(max-width:700px){.top{padding:13px 16px!important}.nav{gap:6px!important}.btn{padding:10px 12px!important}.card,.panel,.box{border-radius:16px!important}}
-/* WhatsApp CTA */
-.arq-whatsapp{position:fixed;right:22px;bottom:22px;z-index:9999;display:flex;align-items:center;gap:10px;padding:13px 17px;border-radius:999px;background:linear-gradient(135deg,#20d466,#13a653);color:#fff!important;font-weight:900;letter-spacing:.01em;box-shadow:0 16px 38px rgba(0,0,0,.36),0 0 0 1px rgba(255,255,255,.16) inset;text-decoration:none!important}
-.arq-whatsapp:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 20px 45px rgba(0,0,0,.42),0 0 0 1px rgba(255,255,255,.20) inset}
-.arq-whatsapp svg{width:22px;height:22px;flex:none;fill:currentColor}
-.arq-whatsapp span{white-space:nowrap}@media(max-width:520px){.arq-whatsapp{width:56px;height:56px;justify-content:center;padding:0;right:15px;bottom:15px}.arq-whatsapp span{display:none}.arq-whatsapp svg{width:27px;height:27px}}
-</style></head>
-<body>
-<div id="login" class="login">
-  <form id="loginForm" class="login-card">
-    <div class="logo">ARQ<span>SELECT</span></div><div class="ey">CRM administrativo 4.0</div>
-    <h1>Central de gestão</h1><p class="muted" style="margin-top:8px">Controle arquitetos, fornecedores, produtos, projetos, oportunidades, notificações e relacionamento.</p>
-    <label>Usuário</label><input id="user" autocomplete="username" required>
-    <label>Senha</label><input id="pass" type="password" autocomplete="current-password" required>
-    <button class="btn gold" style="width:100%;margin-top:20px">Entrar no CRM</button><div id="loginMsg" class="msg"></div>
-  </form>
-</div>
-<div id="app" class="shell hidden">
-  <aside class="side">
-    <div class="side-brand"><div class="logo">ARQ<span>SELECT</span></div><div class="ey" style="color:#d6b96b">ADMIN</div><div class="admin-user"><div style="font-size:11px;color:#98a2b3">Sessão</div><div id="adminName" style="margin-top:4px;font-weight:850">Administrador</div></div></div>
-    <div class="nav">
-      <button class="active" data-page="dashboard">Dashboard</button><button data-page="usuarios">Usuários</button><button data-page="fornecedores">Fornecedores</button><button data-page="produtos">Produtos</button><button data-page="projetos">Projetos</button><button data-page="solicitacoes">Solicitações</button><button data-page="propostas">Propostas</button><button data-page="chat">Chat</button><button data-page="notificacoes">Notificações <span id="notifCount" class="badge gold" style="float:right">0</span></button><button data-page="historico">Histórico</button><button id="logout">Sair</button>
-    </div>
-  </aside>
-  <main class="main">
-    <div class="topbar"><div><div class="ey">ARQSELECT CRM</div><h1 id="pageTitle" style="font-size:28px;margin-top:5px">Dashboard</h1></div><div class="top-actions"><button class="btn light" id="refresh">Atualizar</button><button class="btn light" id="diagnostic">Diagnóstico</button><button class="btn gold" id="setup">Sincronizar base</button></div></div>
-    <div id="content"><div class="loader">Carregando CRM...</div></div>
-  </main>
-</div>
-<div id="modal" class="modal"><div class="modal-card"><div class="modal-head"><h2 id="modalTitle">Detalhes</h2><button class="btn light" id="closeModal">Fechar</button></div><div id="modalBody"></div></div></div>
-<div id="toast" class="toast"></div>
-<script>
-const API_URL="https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec"; const SK="ARQSELECT_ADMIN_TOKEN"; let token=localStorage.getItem(SK)||"",dashboard=null,usuarios=[],notificacoes=[],currentPage="dashboard",autoRefresh=null;
-const $=id=>document.getElementById(id), esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]));
-async function api(acao,data={}){const p=new URLSearchParams();p.set("acao",acao);Object.entries({...data,token}).forEach(([k,v])=>{if(v!==undefined&&v!==null)p.set(k,Array.isArray(v)?v.join(","):String(v))});const url=API_URL+"?"+p.toString();console.debug("[ARQSELECT] API →",acao,{url,data});const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),20000);let r;try{r=await fetch(url,{method:"GET",cache:"no-store",headers:{"Accept":"application/json"},signal:controller.signal})}catch(e){clearTimeout(timer);console.error("[ARQSELECT] Falha de rede",{acao,error:e});if(e?.name==="AbortError")throw new Error("O servidor demorou mais de 20 segundos para responder. Verifique a implantação /exec do Apps Script.");throw new Error("Não foi possível conectar ao servidor ARQSELECT. Verifique o Web App do Apps Script e a conexão.")}clearTimeout(timer);const texto=await r.text();let j;try{j=JSON.parse(texto)}catch(e){console.error("[ARQSELECT] Resposta não-JSON",{acao,httpStatus:r.status,texto:texto.slice(0,1000)});throw new Error("O Apps Script não retornou JSON válido. Confirme a implantação /exec e a versão publicada.")}console.debug("[ARQSELECT] API ←",acao,j);if(j.autorizado===false&&/sessão|login|expirada|credenciais|não autorizado|nao autorizado/i.test(j.mensagem||"")){logout(false);throw new Error(j.mensagem||"Sessão expirada.")}if(j.error===true||j.success===false||j.sucesso===false){const detalhe=j.detalhe||j.errorMessage||j.error||"";console.error("[ARQSELECT] Erro de backend",{acao,status:r.status,resposta:j});throw new Error(j.mensagem||j.message||detalhe||"Erro no servidor ARQSELECT.")}if(j.success===true&&j.sucesso===undefined)j.sucesso=true;return j}
-function toast(msg){ $("toast").textContent=msg;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2600)}
-function badge(v){const s=String(v||"");const c=/aprov|ativo|conclu|enviada|aceita/i.test(s)?"green":/pend|nova|negoc/i.test(s)?"gold":/recus|bloq|inativ/i.test(s)?"red":"blue";return `<span class="badge ${c}">${esc(s||"—")}</span>`}
-function modal(title,html){$("modalTitle").textContent=title;$("modalBody").innerHTML=html;$("modal").classList.add("open")}
-$("closeModal").onclick=()=>$("modal").classList.remove("open");$("modal").onclick=e=>{if(e.target===$("modal"))$("modal").classList.remove("open")};
-async function apiNoToken(acao,data={}){const p=new URLSearchParams();p.set("acao",acao);Object.entries(data||{}).forEach(([k,v])=>{if(v!==undefined&&v!==null)p.set(k,Array.isArray(v)?v.join(","):String(v))});const url=API_URL+"?"+p.toString();console.debug("[ARQSELECT] API pública →",acao);const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),20000);let r;try{r=await fetch(url,{cache:"no-store",headers:{"Accept":"application/json"},signal:controller.signal})}catch(e){clearTimeout(timer);console.error("[ARQSELECT] Falha pública",e);if(e?.name==="AbortError")throw new Error("O servidor demorou mais de 20 segundos para responder.");throw new Error("Falha de conexão com o Web App ARQSELECT.")}clearTimeout(timer);const texto=await r.text();try{const j=JSON.parse(texto);console.debug("[ARQSELECT] API pública ←",acao,j);return j}catch(e){console.error("[ARQSELECT] Resposta pública inválida",texto.slice(0,1000));throw new Error("Resposta inválida do Apps Script.")}}
-async function login(e){e.preventDefault();$("loginMsg").textContent="Entrando...";try{const j=await apiNoToken("login",{usuario:$("user").value,senha:$("pass").value});if(!j.sucesso)throw Error(j.mensagem||"Login inválido");token=j.token;localStorage.setItem(SK,token);start()}catch(x){$("loginMsg").textContent=x.message}}
-function logout(reload=true){localStorage.removeItem(SK);token="";if(autoRefresh)clearInterval(autoRefresh);$("app").classList.add("hidden");$("login").classList.remove("hidden");if(reload)location.reload()}
-$("loginForm").onsubmit=login;$("logout").onclick=()=>logout();$("refresh").onclick=async()=>{try{await loadPageData(currentPage);toast("Dados atualizados.")}catch(e){toast(e?.message||"Falha ao atualizar.")}};
-async function start(){$("login").classList.add("hidden");$("app").classList.remove("hidden");try{await api("sessao");await loadDashboard();startPolling()}catch(e){console.error("[ARQSELECT] Start",e);toast(e?.message||"Falha ao iniciar CRM.");logout(false)}}
-async function loadDashboard(){const content=$("content");if(content&&!dashboard)content.innerHTML='<div class="card loader">Carregando CRM...</div>';try{const j=await api("admin_v4_dashboard");if(!j.sucesso)throw Error(j.mensagem||"Falha ao carregar dashboard.");dashboard=j.indicadores||{};usuarios=Array.isArray(j.ultimosUsuarios)?j.ultimosUsuarios:[];notificacoes=Array.isArray(j.ultimasNotificacoes)?j.ultimasNotificacoes:[];$("notifCount").textContent=dashboard.notificacoesNaoLidas??0;render()}catch(e){console.error("[ARQSELECT] Dashboard",e);if(content)content.innerHTML='<div class="card empty"><b>Falha ao carregar o Dashboard.</b><div style="margin-top:8px">'+esc(e?.message||"Erro desconhecido.")+'</div><button class="btn light" style="margin-top:14px" onclick="loadDashboard()">Tentar novamente</button></div>';toast(e?.message||"Falha ao carregar dashboard.")}}
-function startPolling(){if(autoRefresh)clearInterval(autoRefresh);autoRefresh=setInterval(async()=>{try{const j=await api("admin_v4_dashboard");if(j.sucesso){dashboard=j.indicadores;usuarios=j.ultimosUsuarios||usuarios;notificacoes=j.ultimasNotificacoes||notificacoes;$("notifCount").textContent=dashboard.notificacoesNaoLidas??0;if(currentPage==="dashboard")render()}}catch(e){}},12000)}
-function nav(page){currentPage=page;document.querySelectorAll(".nav button[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));$("pageTitle").textContent={dashboard:"Dashboard",usuarios:"Usuários",fornecedores:"Fornecedores",produtos:"Produtos",projetos:"Projetos",solicitacoes:"Solicitações",propostas:"Propostas",chat:"Chat",notificacoes:"Notificações",historico:"Histórico"}[page]||"ARQSELECT";$("content").innerHTML='<div class="card loader">Carregando '+esc($("pageTitle").textContent)+'...</div>';loadPageData(page)}
-document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>nav(b.dataset.page));
-$("setup").onclick=async()=>{try{const j=await api("v4_setup");toast(j.mensagem||"Base sincronizada");await loadDashboard();if(currentPage!=="dashboard")await loadPageData(currentPage)}catch(e){toast(e.message)}};
-$("diagnostic").onclick=async()=>{try{const j=await api("admin_v4_diagnostico");const existentes=(j.abas||[]).map(x=>`<tr><td>${esc(x.nome)}</td><td>${x.existe?"✅":"❌"}</td><td>${x.linhas??0}</td><td>${x.colunas??0}</td></tr>`).join("");modal("Diagnóstico da conexão",`<div class="grid"><div class="card"><div class="stat-label">Planilha</div><div style="margin-top:7px;font-weight:800">${esc(j.planilhaNome||"—")}</div></div><div class="card"><div class="stat-label">Usuários</div><div style="margin-top:7px;font-weight:800">${j.usuarios?.total??0}</div></div><div class="card"><div class="stat-label">Projetos</div><div style="margin-top:7px;font-weight:800">${j.projetos??0}</div></div></div><div class="table-wrap" style="margin-top:15px"><table style="min-width:600px"><thead><tr><th>Aba</th><th>Existe</th><th>Linhas</th><th>Colunas</th></tr></thead><tbody>${existentes}</tbody></table></div>`)}catch(e){toast(e.message)}};
-const pageData={};
-async function loadPageData(page){if(page==="dashboard")return loadDashboard();try{let j;if(page==="usuarios"||page==="fornecedores")j=await api("admin_v4_usuarios",{tipo:page==="fornecedores"?"FORNECEDOR":"","busca":""});else if(page==="notificacoes")j=await api("admin_v4_notificacoes",{limite:100});else j=await api("admin_v4_listar",{modulo:page});if(j)pageData[page]=j;renderPage(page)}catch(e){$("content").innerHTML='<div class="card empty"><b>Falha ao carregar '+esc(page)+'.</b><div style="margin-top:8px">'+esc(e.message)+'</div><button class="btn light" style="margin-top:14px" onclick="loadPageData(\''+esc(page)+'\')">Tentar novamente</button></div>';toast(e.message)}}
-function render(){renderPage(currentPage)} function renderPage(page){if(page==="dashboard")renderDashboard();else if(page==="usuarios"||page==="fornecedores")renderUsuarios(page);else if(page==="notificacoes")renderNotifs();else if(page==="chat")renderChat();else renderTable(page)}
-function renderDashboard(){const d=dashboard||{};$("content").innerHTML=`<div class="grid">${[["Arquitetos",d.arquitetos,"Usuários cadastrados"],["Fornecedores",d.fornecedores,"Parceiros cadastrados"],["Fornecedores pendentes",d.fornecedoresPendentes,"Aguardando análise"],["Produtos",d.produtos,"Catálogo"],["Projetos",d.projetos,"Total"],["Projetos ativos",d.projetosAtivos,"Em andamento"],["Solicitações",d.solicitacoes,"Cotações"],["Propostas",d.propostas,"Recebidas"],["Conversas",d.conversas,"Relacionamento"],["Mensagens não lidas",d.mensagensNaoLidas,"Atendimento"],["Notificações",d.notificacoesNaoLidas,"Não lidas"],["Novos cadastros",d.novosCadastros,"Hoje"]].map(x=>`<div class="card"><div class="stat-label">${esc(x[0])}</div><div class="stat-value">${x[1]??0}</div><div class="stat-sub">${esc(x[2])}</div></div>`).join("")}</div><div class="section"><div class="section-head"><h2>Últimos cadastros</h2><button class="btn light" onclick="nav('usuarios')">Ver usuários</button></div><div class="card">${(usuarios||[]).slice(0,8).map(u=>`<div class="notif"><div class="avatar">${esc((u.NOME||"?").slice(0,1).toUpperCase())}</div><div><b>${esc(u.NOME||"—")}</b><div class="muted">${esc(u.EMPRESA||"")} · ${esc(u.TIPO||"")}</div><div style="margin-top:4px">${badge(u.STATUS)} <span class="muted" style="margin-left:7px">${esc(u["E-MAIL"]||"")}</span></div></div></div>`).join("")||'<div class="empty">Nenhum cadastro.</div>'}</div></div>`}
-function renderUsuarios(page){const list=(pageData[page]&&pageData[page].usuarios)||usuarios;const filtr=list.filter(x=>page==="fornecedores"?x.TIPO==="FORNECEDOR":true);$("content").innerHTML=`<div class="section-head"><div class="toolbar"><input id="searchUser" placeholder="Buscar nome, empresa, e-mail, CNPJ/CAU..." oninput="filterUsers(this.value)"></div><div class="muted">${filtr.length} registro(s)</div></div><div id="userGrid" class="user-grid">${renderUserCards(filtr)}</div>`}
-function renderUserCards(list){return list.length?list.map(u=>`<div class="card user-card"><div class="avatar">${esc((u.NOME||"?").slice(0,1).toUpperCase())}</div><div><b>${esc(u.NOME||"—")}</b><div class="muted">${esc(u.EMPRESA||"—")}</div><div style="margin-top:5px">${badge(u.TIPO)} ${badge(u.STATUS)}</div><div class="muted" style="margin-top:5px">${esc(u["E-MAIL"]||"")} · ${esc(u.TELEFONE||"")}</div></div><div class="actions"><button class="btn light" onclick='showUser(${JSON.stringify(u)})'>Ver</button>${u.TIPO==="FORNECEDOR"?`<button class="btn gold" onclick="openSupplier('${esc(u.ID)}')">CRM</button>`:""}</div></div>`).join(""):'<div class="card empty" style="grid-column:1/-1">Nenhum usuário encontrado.</div>'}
-function filterUsers(q){const all=(pageData[currentPage]&&pageData[currentPage].usuarios)||usuarios;const list=all.filter(x=>currentPage==="fornecedores"?x.TIPO==="FORNECEDOR":true).filter(x=>JSON.stringify(x).toLowerCase().includes(q.toLowerCase()));$("userGrid").innerHTML=renderUserCards(list)}
-function showUser(u){modal("Cadastro completo",`<div class="detail">${Object.entries(u).filter(([k])=>k!=="_linha").map(([k,v])=>`<div class="kv"><b>${esc(k)}</b>${esc(v||"—")}</div>`).join("")}</div>`)}
-async function openSupplier(id){try{const j=await api("admin_v4_fornecedor",{id});if(!j.sucesso)throw Error(j.mensagem||"Erro");modal("CRM do fornecedor",`<div class="grid"><div class="card"><div class="stat-label">Produtos</div><div class="stat-value">${j.produtos.length}</div></div><div class="card"><div class="stat-label">Projetos</div><div class="stat-value">${j.projetos.length}</div></div></div><div class="section"><div class="kv"><b>Empresa</b>${esc(j.usuario.EMPRESA||j.usuario.NOME)}</div><div class="kv"><b>E-mail</b>${esc(j.usuario["E-MAIL"])}</div></div>`)}catch(e){toast(e.message)}}
-function renderNotifs(){const n=(pageData.notificacoes&&pageData.notificacoes.notificacoes)||notificacoes||[];$("content").innerHTML=`<div class="section-head"><h2>Central de notificações</h2><button class="btn light" onclick="readAll()">Marcar todas como lidas</button></div><div class="card">${n.length?n.map(x=>`<div class="notif" style="cursor:pointer" onclick="readNotif('${esc(x.ID)}')"><div class="dot"></div><div><b>${esc(x.TITULO)}</b><div class="muted">${esc(x.MENSAGEM)}</div><div class="muted" style="margin-top:4px">${esc(x.DATA||"")} · ${badge(x.LIDA)}</div></div></div>`).join(""):'<div class="empty">Nenhuma notificação.</div>'}</div>`}
-async function loadNotifs(){const j=await api("admin_v4_notificacoes",{limite:100});notificacoes=j.notificacoes||[];$("notifCount").textContent=j.naoLidas??0;pageData.notificacoes=j;renderNotifs()}
-async function readNotif(id){await api("admin_v4_notificacao_lida",{id});await loadNotifs()}async function readAll(){await api("admin_v4_notificacoes_todas_lidas");await loadNotifs();toast("Notificações marcadas como lidas")}
-function renderChat(){$("content").innerHTML=`<div class="section-head"><h2>Central de conversas</h2><button class="btn light" onclick="loadChat()">Atualizar</button></div><div id="chatBox" class="card"><div class="loader">Carregando conversas...</div></div>`;loadChat()}
-async function loadChat(){
-  const box=$("chatBox");
-  if(!box) return;
-  box.innerHTML='<div class="loader">Carregando conversas...</div>';
-  try{
-    const j=await api("admin_v4_conversas");
-    if(!j || j.sucesso===false) throw new Error(j?.mensagem||"O servidor não conseguiu carregar as conversas.");
-    const c=Array.isArray(j.conversas)?j.conversas:[];
-    box.innerHTML=c.length?c.map(x=>`<div class="notif"><div class="avatar">💬</div><div><b>${esc(x["PARTICIPANTE A"]||"—")} ↔ ${esc(x["PARTICIPANTE B"]||"—")}</b><div class="muted">${esc(x["ULTIMA MENSAGEM"]||"Sem mensagens")} · ${esc(x["ULTIMA DATA"]||"")}</div><div class="actions" style="margin-top:7px"><button class="btn light" onclick="openConv('${esc(x.ID||"")}')">Abrir conversa</button></div></div></div>`).join(''):'<div class="empty">Nenhuma conversa criada ainda.</div>';
-  }catch(e){
-    const msg=esc(e?.message||"Falha desconhecida ao carregar o chat.");
-    box.innerHTML=`<div class="empty"><b>Falha ao carregar chat.</b><div style="margin-top:8px">${msg}</div><button class="btn light" style="margin-top:14px" onclick="loadChat()">Tentar novamente</button></div>`;
+
+body.dark{
+
+  --bg:#0b1120;
+  --surface:#111827;
+  --surface2:#172033;
+
+  --text:#f8fafc;
+  --muted:#94a3b8;
+
+  --border:#263247;
+
+  --primary:#f8fafc;
+  --primary2:#e2e8f0;
+
+  --shadow:0 10px 35px rgba(0,0,0,.30);
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  background:var(--bg);
+  color:var(--text);
+
+  min-height:100vh;
+
+  transition:
+    background .2s,
+    color .2s;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+#loginPage{
+
+  min-height:100vh;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:25px;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(37,99,235,.25),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(124,58,237,.20),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #020617,
+      #0f172a 55%,
+      #1e293b
+    );
+}
+
+.login-wrapper{
+  width:100%;
+  max-width:440px;
+}
+
+.login-card{
+
+  background:#fff;
+
+  border:1px solid rgba(255,255,255,.12);
+
+  border-radius:24px;
+
+  padding:40px;
+
+  box-shadow:
+    0 35px 100px rgba(0,0,0,.35);
+
+  animation:
+    loginAppear .45s ease;
+}
+
+@keyframes loginAppear{
+
+  from{
+    opacity:0;
+    transform:translateY(20px);
   }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
 }
-async function openConv(id){
+
+.login-logo{
+
+  text-align:center;
+
+  margin-bottom:35px;
+}
+
+.login-logo-mark{
+
+  width:64px;
+  height:64px;
+
+  border-radius:18px;
+
+  margin:0 auto 17px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  color:#fff;
+
+  font-size:22px;
+  font-weight:900;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0f172a,
+      #334155
+    );
+
+  box-shadow:
+    0 12px 25px rgba(15,23,42,.25);
+}
+
+.login-logo h1{
+
+  color:#0f172a;
+
+  font-size:28px;
+
+  letter-spacing:3px;
+}
+
+.login-logo p{
+
+  color:#64748b;
+
+  font-size:13px;
+
+  margin-top:7px;
+}
+
+.form-group{
+  margin-bottom:19px;
+}
+
+.form-group label{
+
+  display:block;
+
+  margin-bottom:8px;
+
+  color:#334155;
+
+  font-size:13px;
+
+  font-weight:800;
+}
+
+.input-wrapper{
+  position:relative;
+}
+
+.form-group input{
+
+  width:100%;
+
+  height:50px;
+
+  padding:
+    0 15px;
+
+  border:
+    1px solid #dbe1ea;
+
+  border-radius:11px;
+
+  outline:none;
+
+  color:#0f172a;
+
+  background:#fff;
+
+  transition:.2s;
+}
+
+.form-group input:focus{
+
+  border-color:#2563eb;
+
+  box-shadow:
+    0 0 0 4px rgba(37,99,235,.10);
+}
+
+.password-toggle{
+
+  position:absolute;
+
+  right:8px;
+  top:7px;
+
+  width:36px;
+  height:36px;
+
+  border:0;
+
+  background:#f1f5f9;
+
+  border-radius:8px;
+
+  color:#475569;
+}
+
+.btn-login{
+
+  width:100%;
+
+  height:51px;
+
+  border:0;
+
+  border-radius:11px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0f172a,
+      #1e293b
+    );
+
+  color:#fff;
+
+  font-weight:900;
+
+  letter-spacing:.3px;
+
+  transition:.2s;
+}
+
+.btn-login:hover{
+
+  transform:translateY(-1px);
+
+  box-shadow:
+    0 10px 25px rgba(15,23,42,.20);
+}
+
+.login-error{
+
+  margin-top:15px;
+
+  padding:12px 14px;
+
+  border-radius:10px;
+
+  background:#fee2e2;
+
+  color:#991b1b;
+
+  font-size:13px;
+
+  font-weight:700;
+
+  text-align:center;
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
+#appPage{
+  min-height:100vh;
+}
+
+.app-shell{
+  display:flex;
+  min-height:100vh;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+
+  width:250px;
+
+  position:fixed;
+
+  left:0;
+  top:0;
+  bottom:0;
+
+  z-index:200;
+
+  background:
+    linear-gradient(
+      180deg,
+      #0b1220,
+      #111827
+    );
+
+  color:#fff;
+
+  display:flex;
+  flex-direction:column;
+
+  border-right:
+    1px solid rgba(255,255,255,.05);
+
+  transition:.25s;
+}
+
+.sidebar-brand{
+
+  height:78px;
+
+  display:flex;
+  align-items:center;
+
+  padding:0 23px;
+
+  gap:12px;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.06);
+}
+
+.brand-symbol{
+
+  width:38px;
+  height:38px;
+
+  border-radius:10px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#fff;
+
+  color:#0f172a;
+
+  font-weight:900;
+}
+
+.brand-name{
+
+  font-weight:900;
+
+  letter-spacing:1.8px;
+
+  font-size:17px;
+}
+
+.brand-subtitle{
+
+  display:block;
+
+  color:#94a3b8;
+
+  font-size:10px;
+
+  margin-top:2px;
+}
+
+.sidebar-menu{
+
+  padding:20px 13px;
+
+  flex:1;
+}
+
+.menu-title{
+
+  color:#64748b;
+
+  font-size:10px;
+
+  text-transform:uppercase;
+
+  font-weight:900;
+
+  letter-spacing:1px;
+
+  padding:
+    0 12px 10px;
+}
+
+.menu-item{
+
+  width:100%;
+
+  border:0;
+
+  background:transparent;
+
+  color:#94a3b8;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:11px;
+
+  padding:
+    12px 13px;
+
+  border-radius:10px;
+
+  margin-bottom:5px;
+
+  font-size:13px;
+
+  font-weight:700;
+
+  text-align:left;
+
+  transition:.15s;
+}
+
+.menu-item:hover{
+
+  color:#fff;
+
+  background:
+    rgba(255,255,255,.06);
+}
+
+.menu-item.active{
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(37,99,235,.95),
+      rgba(79,70,229,.95)
+    );
+
+  box-shadow:
+    0 7px 20px rgba(37,99,235,.22);
+}
+
+.menu-icon{
+
+  width:21px;
+
+  text-align:center;
+
+  font-size:15px;
+}
+
+.sidebar-footer{
+
+  padding:16px;
+
+  border-top:
+    1px solid rgba(255,255,255,.06);
+}
+
+.user-card{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  padding:10px;
+
+  border-radius:12px;
+
+  background:
+    rgba(255,255,255,.045);
+}
+
+.user-avatar{
+
+  width:37px;
+  height:37px;
+
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#2563eb;
+
+  color:#fff;
+
+  font-size:12px;
+
+  font-weight:900;
+}
+
+.user-info{
+
+  min-width:0;
+}
+
+.user-info strong{
+
+  display:block;
+
+  font-size:12px;
+
+  color:#fff;
+
+  white-space:nowrap;
+
+  overflow:hidden;
+
+  text-overflow:ellipsis;
+}
+
+.user-info span{
+
+  color:#64748b;
+
+  font-size:10px;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main-area{
+
+  margin-left:250px;
+
+  min-width:0;
+
+  width:
+    calc(100% - 250px);
+}
+
+.topbar{
+
+  height:78px;
+
+  background:var(--surface);
+
+  border-bottom:
+    1px solid var(--border);
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  padding:
+    0 30px;
+
+  position:sticky;
+
+  top:0;
+
+  z-index:100;
+
+  box-shadow:
+    0 2px 10px rgba(15,23,42,.025);
+}
+
+.topbar-left{
+
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.mobile-menu{
+
+  display:none;
+
+  width:40px;
+  height:40px;
+
+  border:1px solid var(--border);
+
+  background:var(--surface);
+
+  color:var(--text);
+
+  border-radius:9px;
+}
+
+.page-title{
+
+  font-size:20px;
+
+  font-weight:900;
+
+  color:var(--text);
+}
+
+.page-subtitle{
+
+  margin-top:3px;
+
+  color:var(--muted);
+
+  font-size:11px;
+}
+
+.topbar-actions{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+}
+
+.connection{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:7px;
+
+  padding:
+    7px 10px;
+
+  border-radius:9px;
+
+  background:var(--surface2);
+
+  color:var(--muted);
+
+  font-size:11px;
+
+  font-weight:700;
+}
+
+.connection-dot{
+
+  width:8px;
+  height:8px;
+
+  border-radius:50%;
+
+  background:#22c55e;
+
+  box-shadow:
+    0 0 0 4px rgba(34,197,94,.10);
+}
+
+.connection-dot.offline{
+
+  background:#ef4444;
+
+  box-shadow:
+    0 0 0 4px rgba(239,68,68,.10);
+}
+
+.icon-btn{
+
+  width:38px;
+  height:38px;
+
+  border:1px solid var(--border);
+
+  background:var(--surface);
+
+  color:var(--text);
+
+  border-radius:9px;
+
+  transition:.15s;
+}
+
+.icon-btn:hover{
+
+  background:var(--surface2);
+
+  transform:translateY(-1px);
+}
+
+.logout-top{
+
+  height:38px;
+
+  padding:
+    0 13px;
+
+  border:1px solid var(--border);
+
+  background:var(--surface);
+
+  color:var(--text);
+
+  border-radius:9px;
+
+  font-size:11px;
+
+  font-weight:800;
+}
+
+.content{
+
+  width:100%;
+
+  max-width:1700px;
+
+  margin:0 auto;
+
+  padding:28px 30px 45px;
+}
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.dashboard-header{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:flex-end;
+
+  gap:20px;
+
+  margin-bottom:23px;
+}
+
+.dashboard-header h2{
+
+  font-size:26px;
+
+  font-weight:900;
+}
+
+.dashboard-header p{
+
+  color:var(--muted);
+
+  margin-top:5px;
+
+  font-size:13px;
+}
+
+.header-actions{
+
+  display:flex;
+
+  gap:8px;
+}
+
+.primary-btn{
+
+  height:40px;
+
+  padding:
+    0 15px;
+
+  border:0;
+
+  border-radius:9px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0f172a,
+      #1e293b
+    );
+
+  color:#fff;
+
+  font-size:11px;
+
+  font-weight:900;
+
+  transition:.15s;
+}
+
+.primary-btn:hover{
+
+  transform:translateY(-1px);
+
+  box-shadow:
+    0 8px 18px rgba(15,23,42,.15);
+}
+
+.secondary-btn{
+
+  height:40px;
+
+  padding:
+    0 14px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius:9px;
+
+  background:var(--surface);
+
+  color:var(--text);
+
+  font-size:11px;
+
+  font-weight:800;
+}
+
+.stats-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(5,minmax(0,1fr));
+
+  gap:14px;
+
+  margin-bottom:22px;
+}
+
+.stat-card{
+
+  position:relative;
+
+  overflow:hidden;
+
+  background:var(--surface);
+
+  border:
+    1px solid var(--border);
+
+  border-radius:15px;
+
+  padding:18px;
+
+  box-shadow:var(--shadow);
+}
+
+.stat-card::after{
+
+  content:"";
+
+  position:absolute;
+
+  width:65px;
+  height:65px;
+
+  border-radius:50%;
+
+  right:-20px;
+  bottom:-20px;
+
+  background:var(--stat-color,#2563eb);
+
+  opacity:.06;
+}
+
+.stat-top{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+}
+
+.stat-label{
+
+  color:var(--muted);
+
+  font-size:10px;
+
+  font-weight:900;
+
+  text-transform:uppercase;
+
+  letter-spacing:.5px;
+}
+
+.stat-icon{
+
+  width:34px;
+  height:34px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  border-radius:9px;
+
+  background:var(--surface2);
+
+  color:var(--stat-color,#2563eb);
+
+  font-size:15px;
+}
+
+.stat-number{
+
+  margin-top:10px;
+
+  font-size:29px;
+
+  line-height:1;
+
+  font-weight:950;
+
+  color:var(--text);
+}
+
+.stat-description{
+
+  margin-top:8px;
+
+  color:var(--muted);
+
+  font-size:10px;
+}
+
+/* =========================================================
+   KPI
+========================================================= */
+
+.kpi-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    minmax(0,1.5fr)
+    minmax(0,1fr);
+
+  gap:16px;
+
+  margin-bottom:22px;
+}
+
+.panel{
+
+  background:var(--surface);
+
+  border:
+    1px solid var(--border);
+
+  border-radius:15px;
+
+  box-shadow:var(--shadow);
+
+  overflow:hidden;
+}
+
+.panel-header{
+
+  min-height:58px;
+
+  padding:
+    15px 18px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  border-bottom:
+    1px solid var(--border);
+}
+
+.panel-title{
+
+  font-size:13px;
+
+  font-weight:900;
+}
+
+.panel-subtitle{
+
+  color:var(--muted);
+
+  font-size:10px;
+
+  margin-top:3px;
+}
+
+.status-overview{
+
+  padding:18px;
+}
+
+.progress-row{
+
+  margin-bottom:14px;
+}
+
+.progress-row:last-child{
+  margin-bottom:0;
+}
+
+.progress-meta{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  margin-bottom:6px;
+
+  font-size:11px;
+}
+
+.progress-meta span:first-child{
+
+  color:var(--muted);
+
+  font-weight:800;
+}
+
+.progress-meta span:last-child{
+
+  color:var(--text);
+
+  font-weight:900;
+}
+
+.progress-track{
+
+  height:7px;
+
+  border-radius:10px;
+
+  background:var(--surface2);
+
+  overflow:hidden;
+}
+
+.progress-bar{
+
+  height:100%;
+
+  width:0;
+
+  border-radius:10px;
+
+  transition:
+    width .5s ease;
+}
+
+.progress-blue{
+  background:#2563eb;
+}
+
+.progress-orange{
+  background:#d97706;
+}
+
+.progress-purple{
+  background:#7c3aed;
+}
+
+.progress-green{
+  background:#16a34a;
+}
+
+.progress-red{
+  background:#dc2626;
+}
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+.filters-panel{
+
+  margin-bottom:18px;
+
+  padding:14px;
+
+  display:grid;
+
+  grid-template-columns:
+    minmax(250px,1fr)
+    180px
+    170px
+    auto;
+
+  gap:9px;
+
+  background:var(--surface);
+
+  border:
+    1px solid var(--border);
+
+  border-radius:14px;
+
+  box-shadow:var(--shadow);
+}
+
+.field{
+
+  position:relative;
+}
+
+.field input,
+.field select{
+
+  width:100%;
+
+  height:42px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius:9px;
+
+  padding:
+    0 12px;
+
+  outline:none;
+
+  color:var(--text);
+
+  background:var(--surface);
+
+  font-size:11px;
+
+  transition:.15s;
+}
+
+.field input:focus,
+.field select:focus{
+
+  border-color:#2563eb;
+
+  box-shadow:
+    0 0 0 3px rgba(37,99,235,.08);
+}
+
+.filter-actions{
+
+  display:flex;
+
+  gap:7px;
+}
+
+.filter-btn{
+
+  height:42px;
+
+  padding:
+    0 13px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius:9px;
+
+  background:var(--surface2);
+
+  color:var(--text);
+
+  font-size:11px;
+
+  font-weight:800;
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-panel{
+
+  overflow:hidden;
+}
+
+.table-toolbar{
+
+  padding:
+    14px 18px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+  border-bottom:
+    1px solid var(--border);
+}
+
+.results-info{
+
+  color:var(--muted);
+
+  font-size:11px;
+
+  font-weight:700;
+}
+
+.table-wrapper{
+
+  width:100%;
+
+  overflow:auto;
+}
+
+table{
+
+  width:100%;
+
+  min-width:1250px;
+
+  border-collapse:collapse;
+}
+
+thead{
+
+  background:var(--surface2);
+}
+
+th{
+
+  padding:
+    12px 13px;
+
+  text-align:left;
+
+  white-space:nowrap;
+
+  color:var(--muted);
+
+  border-bottom:
+    1px solid var(--border);
+
+  font-size:9px;
+
+  font-weight:900;
+
+  text-transform:uppercase;
+
+  letter-spacing:.5px;
+}
+
+td{
+
+  padding:
+    13px;
+
+  border-bottom:
+    1px solid var(--border);
+
+  font-size:11px;
+
+  vertical-align:middle;
+
+  color:var(--text);
+}
+
+tbody tr{
+
+  transition:.12s;
+}
+
+tbody tr:hover{
+
+  background:
+    rgba(148,163,184,.045);
+}
+
+.project-id{
+
+  color:#2563eb;
+
+  font-size:10px;
+
+  font-weight:950;
+
+  white-space:nowrap;
+}
+
+.project-name{
+
+  max-width:190px;
+
+  font-weight:850;
+
+  white-space:nowrap;
+
+  overflow:hidden;
+
+  text-overflow:ellipsis;
+}
+
+.project-person{
+
+  font-weight:800;
+
+  white-space:nowrap;
+}
+
+.muted{
+
+  color:var(--muted);
+}
+
+.status-badge{
+
+  display:inline-flex;
+
+  align-items:center;
+
+  gap:5px;
+
+  padding:
+    5px 9px;
+
+  border-radius:999px;
+
+  font-size:9px;
+
+  font-weight:950;
+
+  white-space:nowrap;
+}
+
+.status-badge::before{
+
+  content:"";
+
+  width:5px;
+  height:5px;
+
+  border-radius:50%;
+
+  background:currentColor;
+}
+
+.status-novo{
+
+  background:#dbeafe;
+
+  color:#1d4ed8;
+}
+
+.status-analise{
+
+  background:#fef3c7;
+
+  color:#92400e;
+}
+
+.status-orcamento{
+
+  background:#ede9fe;
+
+  color:#6d28d9;
+}
+
+.status-fechado{
+
+  background:#dcfce7;
+
+  color:#166534;
+}
+
+.status-cancelado{
+
+  background:#fee2e2;
+
+  color:#991b1b;
+}
+
+.status-proposta{background:#cffafe;color:#155e75;}
+.status-negociacao{background:#ffedd5;color:#9a3412;}
+.status-aprovacao{background:#fae8ff;color:#86198f;}
+.status-execucao{background:#dbeafe;color:#1e40af;}
+.status-concluido{background:#d1fae5;color:#047857;}
+
+.status-buttons{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:4px;
+
+  min-width:390px;
+}
+
+.status-btn{
+
+  border:
+    1px solid var(--border);
+
+  background:var(--surface);
+
+  color:var(--muted);
+
+  padding:
+    6px 8px;
+
+  border-radius:7px;
+
+  font-size:8px;
+
+  font-weight:900;
+
+  transition:.12s;
+}
+
+.status-btn:hover{
+
+  transform:translateY(-1px);
+
+  border-color:#94a3b8;
+}
+
+.status-btn.active{
+
+  color:#fff;
+
+  border-color:transparent;
+}
+
+.status-btn.novo.active{
+  background:#2563eb;
+}
+
+.status-btn.analise.active{
+  background:#d97706;
+}
+
+.status-btn.orcamento.active{
+  background:#7c3aed;
+}
+
+.status-btn.fechado.active{
+  background:#16a34a;
+}
+
+.status-btn.cancelado.active{
+  background:#dc2626;
+}
+
+.status-select{
+  min-width:170px;
+  min-height:38px;
+  padding:9px 34px 9px 12px;
+  border:2px solid var(--border);
+  border-radius:10px;
+  background:var(--surface);
+  color:var(--text);
+  font-weight:900;
+  font-size:11px;
+  cursor:pointer;
+  outline:none;
+  transition:.18s ease;
+  appearance:auto;
+}
+.status-select.status-novo{background:#eff6ff;color:#1d4ed8;border-color:#93c5fd;}
+.status-select.status-analise{background:#fffbeb;color:#92400e;border-color:#fbbf24;}
+.status-select.status-orcamento{background:#f5f3ff;color:#6d28d9;border-color:#a78bfa;}
+.status-select.status-fechado{background:#f0fdf4;color:#166534;border-color:#86efac;}
+.status-select.status-cancelado{background:#fef2f2;color:#991b1b;border-color:#fca5a5;}
+.status-select.status-proposta{background:#ecfeff;color:#155e75;border-color:#67e8f9;}
+.status-select.status-negociacao{background:#fff7ed;color:#9a3412;border-color:#fdba74;}
+.status-select.status-aprovacao{background:#fdf4ff;color:#86198f;border-color:#f0abfc;}
+.status-select.status-execucao{background:#eff6ff;color:#1e40af;border-color:#93c5fd;}
+.status-select.status-concluido{background:#ecfdf5;color:#047857;border-color:#6ee7b7;}
+.status-select option{background:#fff;color:#0f172a;font-weight:800;}
+.status-select:hover{
+  border-color:var(--primary);
+  transform:translateY(-1px);
+}
+.status-select:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(37,99,235,.12);
+}
+.status-select.loading{
+  opacity:.6;
+  pointer-events:none;
+}
+
+.status-btn.loading{
+
+  opacity:.4;
+
+  pointer-events:none;
+}
+
+.action-group{
+
+  display:flex;
+
+  gap:5px;
+}
+
+.action-btn{
+
+  height:30px;
+
+  padding:
+    0 9px;
+
+  border:
+    1px solid var(--border);
+
+  background:var(--surface);
+
+  color:var(--text);
+
+  border-radius:7px;
+
+  font-size:9px;
+
+  font-weight:900;
+
+  white-space:nowrap;
+}
+
+.action-btn.primary{
+
+  background:#0f172a;
+
+  border-color:#0f172a;
+
+  color:#fff;
+}
+
+body.dark .action-btn.primary{
+
+  background:#f8fafc;
+
+  color:#0f172a;
+
+  border-color:#f8fafc;
+}
+
+.action-btn:hover{
+
+  transform:translateY(-1px);
+}
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+.pagination{
+
+  padding:
+    13px 18px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+  border-top:
+    1px solid var(--border);
+}
+
+.pagination-info{
+
+  color:var(--muted);
+
+  font-size:10px;
+
+  font-weight:700;
+}
+
+.pagination-buttons{
+
+  display:flex;
+
+  gap:5px;
+}
+
+.page-btn{
+
+  min-width:32px;
+
+  height:32px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius:7px;
+
+  background:var(--surface);
+
+  color:var(--text);
+
+  font-size:10px;
+
+  font-weight:900;
+}
+
+.page-btn.active{
+
+  color:#fff;
+
+  background:#2563eb;
+
+  border-color:#2563eb;
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty-state{
+
+  padding:65px 20px;
+
+  text-align:center;
+
+  color:var(--muted);
+}
+
+.empty-icon{
+
+  width:52px;
+  height:52px;
+
+  margin:0 auto 12px;
+
+  border-radius:14px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  background:var(--surface2);
+
+  font-size:20px;
+}
+
+.empty-state strong{
+
+  display:block;
+
+  color:var(--text);
+
+  font-size:13px;
+
+  margin-bottom:5px;
+}
+
+.empty-state span{
+
+  font-size:11px;
+}
+
+.spinner{
+
+  width:30px;
+  height:30px;
+
+  margin:
+    0 auto 12px;
+
+  border:
+    3px solid var(--border);
+
+  border-top-color:#2563eb;
+
+  border-radius:50%;
+
+  animation:
+    spin .75s linear infinite;
+}
+
+@keyframes spin{
+
+  to{
+    transform:rotate(360deg);
+  }
+
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal-overlay{
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:1000;
+
+  padding:20px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  background:
+    rgba(2,6,23,.70);
+
+  backdrop-filter:
+    blur(7px);
+}
+
+.modal{
+
+  width:100%;
+
+  max-width:1000px;
+
+  max-height:92vh;
+
+  overflow:hidden;
+
+  display:flex;
+
+  flex-direction:column;
+
+  background:var(--surface);
+
+  border:
+    1px solid var(--border);
+
+  border-radius:18px;
+
+  box-shadow:
+    0 30px 100px rgba(0,0,0,.35);
+
+  animation:
+    modalAppear .22s ease;
+}
+
+@keyframes modalAppear{
+
+  from{
+
+    opacity:0;
+
+    transform:
+      translateY(15px)
+      scale(.98);
+  }
+
+  to{
+
+    opacity:1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
+
+.modal-header{
+
+  padding:
+    18px 20px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:15px;
+
+  border-bottom:
+    1px solid var(--border);
+}
+
+.modal-header-left h3{
+
+  font-size:16px;
+
+  font-weight:950;
+}
+
+.modal-header-left p{
+
+  margin-top:4px;
+
+  color:var(--muted);
+
+  font-size:10px;
+}
+
+.close-modal{
+
+  width:34px;
+  height:34px;
+
+  border:0;
+
+  border-radius:8px;
+
+  background:var(--surface2);
+
+  color:var(--text);
+
+  font-size:19px;
+}
+
+.modal-body{
+
+  padding:20px;
+
+  overflow:auto;
+}
+
+.detail-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:10px;
+}
+
+.detail-item{
+
+  padding:13px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius:10px;
+
+  background:var(--surface2);
+}
+
+.detail-item.full{
+
+  grid-column:1 / -1;
+}
+
+.detail-label{
+
+  color:var(--muted);
+
+  font-size:8px;
+
+  font-weight:950;
+
+  text-transform:uppercase;
+
+  letter-spacing:.6px;
+
+  margin-bottom:6px;
+}
+
+.detail-value{
+
+  color:var(--text);
+
+  font-size:11px;
+
+  line-height:1.5;
+
+  word-break:break-word;
+
+  white-space:pre-wrap;
+}
+
+.detail-value a{
+
+  color:#2563eb;
+
+  text-decoration:none;
+
+  font-weight:900;
+}
+
+.modal-actions{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:7px;
+
+  margin-bottom:17px;
+
+  padding-bottom:17px;
+
+  border-bottom:
+    1px solid var(--border);
+}
+
+/* =========================================================
+   FILE LINKS
+========================================================= */
+
+.file-list{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:7px;
+}
+
+.file-link{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+  padding:10px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius:9px;
+
+  color:#2563eb;
+
+  text-decoration:none;
+
+  background:var(--surface);
+}
+
+.file-link:hover{
+
+  background:var(--surface2);
+}
+
+.file-link-name{
+
+  overflow:hidden;
+
+  text-overflow:ellipsis;
+
+  white-space:nowrap;
+
+  font-size:10px;
+
+  font-weight:800;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+#toast{
+
+  position:fixed;
+
+  right:20px;
+
+  bottom:20px;
+
+  z-index:3000;
+
+  min-width:280px;
+
+  max-width:420px;
+
+  padding:
+    13px 15px;
+
+  border-radius:10px;
+
+  color:#fff;
+
+  background:#0f172a;
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.25);
+
+  font-size:11px;
+
+  font-weight:800;
+
+  opacity:0;
+
+  transform:
+    translateY(15px);
+
+  pointer-events:none;
+
+  transition:.25s;
+}
+
+#toast.show{
+
+  opacity:1;
+
+  transform:
+    translateY(0);
+}
+
+#toast.success{
+
+  background:#166534;
+}
+
+#toast.error{
+
+  background:#991b1b;
+}
+
+#toast.info{
+
+  background:#1d4ed8;
+}
+
+/* =========================================================
+   LOADING OVERLAY
+========================================================= */
+
+.loading-overlay{
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:4000;
+
+  display:none;
+
+  align-items:center;
+
+  justify-content:center;
+
+  background:rgba(2,6,23,.40);
+
+  backdrop-filter:blur(2px);
+}
+
+.loading-overlay.show{
+  display:flex;
+}
+
+.loading-box{
+
+  padding:22px 28px;
+
+  background:var(--surface);
+
+  border-radius:14px;
+
+  box-shadow:0 20px 50px rgba(0,0,0,.20);
+
+  text-align:center;
+}
+
+.loading-box .spinner{
+  margin-bottom:10px;
+}
+
+.loading-box span{
+
+  color:var(--text);
+
+  font-size:11px;
+
+  font-weight:800;
+}
+
+/* =========================================================
+   RESPONSIVO
+========================================================= */
+
+@media(max-width:1250px){
+
+  .stats-grid{
+    grid-template-columns:
+      repeat(3,1fr);
+  }
+
+  .filters-panel{
+
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .kpi-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:850px){
+
+  .sidebar{
+
+    transform:
+      translateX(-100%);
+  }
+
+  .sidebar.open{
+
+    transform:
+      translateX(0);
+  }
+
+  .main-area{
+
+    margin-left:0;
+
+    width:100%;
+  }
+
+  .mobile-menu{
+
+    display:block;
+  }
+
+  .stats-grid{
+
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .connection{
+    display:none;
+  }
+
+  .content{
+
+    padding:
+      20px 15px 35px;
+  }
+
+  .topbar{
+
+    padding:
+      0 15px;
+  }
+
+}
+
+@media(max-width:600px){
+
+  .stats-grid{
+
+    grid-template-columns:1fr;
+  }
+
+  .filters-panel{
+
+    grid-template-columns:1fr;
+  }
+
+  .dashboard-header{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+  }
+
+  .header-actions{
+
+    width:100%;
+  }
+
+  .header-actions button{
+
+    flex:1;
+  }
+
+  .detail-grid{
+
+    grid-template-columns:1fr;
+  }
+
+  .detail-item.full{
+
+    grid-column:auto;
+  }
+
+  .login-card{
+
+    padding:28px 21px;
+  }
+
+  .page-title{
+
+    font-size:16px;
+  }
+
+  .logout-top{
+
+    display:none;
+  }
+
+  #toast{
+
+    left:15px;
+    right:15px;
+
+    min-width:0;
+
+    max-width:none;
+  }
+
+  .pagination{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+  }
+
+}
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+@media print{
+
+  .sidebar,
+  .topbar,
+  .filters-panel,
+  .header-actions,
+  .pagination,
+  .status-buttons,
+  .action-group{
+
+    display:none!important;
+  }
+
+  .main-area{
+
+    margin:0;
+
+    width:100%;
+  }
+
+  .content{
+
+    padding:0;
+  }
+
+  .panel{
+
+    box-shadow:none;
+
+    border:1px solid #ddd;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =======================================================
+     LOGIN
+======================================================== -->
+
+<section id="loginPage">
+
+  <div class="login-wrapper">
+
+    <div class="login-card">
+
+      <div class="login-logo">
+
+        <div class="login-logo-mark">
+          AS
+        </div>
+
+        <h1>ARQSELECT</h1>
+
+        <p>
+          CRM • Painel Administrativo
+        </p>
+
+      </div>
+
+      <form id="loginForm">
+
+        <div class="form-group">
+
+          <label for="username">
+            Usuário
+          </label>
+
+          <input
+            id="username"
+            name="username"
+            type="text"
+            autocomplete="username"
+            placeholder="Digite seu usuário"
+            required
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="password">
+            Senha
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              placeholder="Digite sua senha"
+              required
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              id="passwordToggle"
+              aria-label="Mostrar senha"
+            >
+              👁
+            </button>
+
+          </div>
+
+        </div>
+
+        <button
+          type="submit"
+          class="btn-login"
+          id="loginButton"
+        >
+          ENTRAR NO PAINEL
+        </button>
+
+      </form>
+
+      <div
+        id="loginError"
+        class="login-error hidden"
+      ></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     APLICAÇÃO
+======================================================== -->
+
+<section
+  id="appPage"
+  class="hidden"
+>
+
+  <div class="app-shell">
+
+    <!-- SIDEBAR -->
+
+    <aside
+      class="sidebar"
+      id="sidebar"
+    >
+
+      <div class="sidebar-brand">
+
+        <div class="brand-symbol">
+          AS
+        </div>
+
+        <div>
+
+          <div class="brand-name">
+            ARQSELECT
+          </div>
+
+          <span class="brand-subtitle">
+            CRM ADMINISTRATIVO
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <nav class="sidebar-menu">
+
+        <div class="menu-title">
+          Gestão
+        </div>
+
+        <button
+          class="menu-item active"
+          data-view="dashboard"
+        >
+
+          <span class="menu-icon">▦</span>
+
+          Dashboard
+
+        </button>
+
+        <button
+          class="menu-item"
+          data-view="projects"
+        >
+
+          <span class="menu-icon">▤</span>
+
+          Projetos
+
+        </button>
+
+        <button
+          class="menu-item"
+          data-view="crm"
+        >
+
+          <span class="menu-icon">◎</span>
+
+          CRM
+
+        </button>
+
+        <div
+          class="menu-title"
+          style="margin-top:22px"
+        >
+          Sistema
+        </div>
+
+        <button
+          class="menu-item"
+          id="exportMenu"
+        >
+
+          <span class="menu-icon">⇩</span>
+
+          Exportar dados
+
+        </button>
+
+        <button
+          class="menu-item"
+          id="printMenu"
+        >
+
+          <span class="menu-icon">▣</span>
+
+          Imprimir
+
+        </button>
+
+      </nav>
+
+
+      <div class="sidebar-footer">
+
+        <div class="user-card">
+
+          <div
+            class="user-avatar"
+            id="userAvatar"
+          >
+            AD
+          </div>
+
+          <div class="user-info">
+
+            <strong id="sidebarUser">
+              Administrador
+            </strong>
+
+            <span>
+              Acesso administrativo
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <div class="main-area">
+
+      <header class="topbar">
+
+        <div class="topbar-left">
+
+          <button
+            class="mobile-menu"
+            id="mobileMenu"
+          >
+            ☰
+          </button>
+
+          <div>
+
+            <div
+              class="page-title"
+              id="pageTitle"
+            >
+              Dashboard
+            </div>
+
+            <div class="page-subtitle">
+              Gestão comercial ARQSELECT
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="topbar-actions">
+
+          <div class="connection">
+
+            <span
+              id="connectionDot"
+              class="connection-dot"
+            ></span>
+
+            <span id="connectionText">
+              Conectado
+            </span>
+
+          </div>
+
+          <button
+            class="icon-btn"
+            id="themeButton"
+            title="Alternar tema"
+          >
+            ☾
+          </button>
+
+          <button
+            class="icon-btn"
+            id="refreshTopButton"
+            title="Atualizar"
+          >
+            ↻
+          </button>
+
+          <button
+            class="logout-top"
+            id="logoutButton"
+          >
+            Sair
+          </button>
+
+        </div>
+
+      </header>
+
+
+      <main class="content">
+
+        <!-- =================================================
+             DASHBOARD
+        ================================================== -->
+
+        <section id="dashboardView">
+
+          <div class="dashboard-header">
+
+            <div>
+
+              <h2>
+                Visão geral
+              </h2>
+
+              <p>
+                Acompanhe seus projetos, oportunidades e andamento comercial.
+              </p>
+
+            </div>
+
+            <div class="header-actions">
+
+              <button
+                class="secondary-btn"
+                id="refreshButton"
+              >
+                ↻ Atualizar
+              </button>
+
+              <button
+                class="primary-btn"
+                id="exportButton"
+              >
+                ⇩ Exportar CSV
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="stats-grid">
+
+            <div
+              class="stat-card"
+              style="--stat-color:#2563eb"
+            >
+
+              <div class="stat-top">
+
+                <div class="stat-label">
+                  Total de projetos
+                </div>
+
+                <div class="stat-icon">
+                  ▦
+                </div>
+
+              </div>
+
+              <div
+                class="stat-number"
+                id="statTotal"
+              >
+                0
+              </div>
+
+              <div class="stat-description">
+                Todos os projetos recebidos
+              </div>
+
+            </div>
+
+
+            <div
+              class="stat-card"
+              style="--stat-color:#2563eb"
+            >
+
+              <div class="stat-top">
+
+                <div class="stat-label">
+                  Novos
+                </div>
+
+                <div class="stat-icon">
+                  +
+                </div>
+
+              </div>
+
+              <div
+                class="stat-number"
+                id="statNovo"
+              >
+                0
+              </div>
+
+              <div class="stat-description">
+                Aguardando atendimento
+              </div>
+
+            </div>
+
+
+            <div
+              class="stat-card"
+              style="--stat-color:#d97706"
+            >
+
+              <div class="stat-top">
+
+                <div class="stat-label">
+                  Em análise
+                </div>
+
+                <div class="stat-icon">
+                  ◌
+                </div>
+
+              </div>
+
+              <div
+                class="stat-number"
+                id="statAnalise"
+              >
+                0
+              </div>
+
+              <div class="stat-description">
+                Projetos em avaliação
+              </div>
+
+            </div>
+
+
+            <div
+              class="stat-card"
+              style="--stat-color:#7c3aed"
+            >
+
+              <div class="stat-top">
+
+                <div class="stat-label">
+                  Orçamentos
+                </div>
+
+                <div class="stat-icon">
+                  $
+                </div>
+
+              </div>
+
+              <div
+                class="stat-number"
+                id="statOrcamento"
+              >
+                0
+              </div>
+
+              <div class="stat-description">
+                Em fase comercial
+              </div>
+
+            </div>
+
+
+            <div
+              class="stat-card"
+              style="--stat-color:#16a34a"
+            >
+
+              <div class="stat-top">
+
+                <div class="stat-label">
+                  Fechados
+                </div>
+
+                <div class="stat-icon">
+                  ✓
+                </div>
+
+              </div>
+
+              <div
+                class="stat-number"
+                id="statFechado"
+              >
+                0
+              </div>
+
+              <div class="stat-description">
+                Projetos concluídos
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="kpi-grid">
+
+            <div class="panel">
+
+              <div class="panel-header">
+
+                <div>
+
+                  <div class="panel-title">
+                    Distribuição dos projetos
+                  </div>
+
+                  <div class="panel-subtitle">
+                    Situação atual da carteira
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="status-overview">
+
+                <div class="progress-row">
+
+                  <div class="progress-meta">
+
+                    <span>
+                      Novos
+                    </span>
+
+                    <span id="percentNovo">
+                      0%
+                    </span>
+
+                  </div>
+
+                  <div class="progress-track">
+
+                    <div
+                      id="progressNovo"
+                      class="progress-bar progress-blue"
+                    ></div>
+
+                  </div>
+
+                </div>
+
+
+                <div class="progress-row">
+
+                  <div class="progress-meta">
+
+                    <span>
+                      Em análise
+                    </span>
+
+                    <span id="percentAnalise">
+                      0%
+                    </span>
+
+                  </div>
+
+                  <div class="progress-track">
+
+                    <div
+                      id="progressAnalise"
+                      class="progress-bar progress-orange"
+                    ></div>
+
+                  </div>
+
+                </div>
+
+
+                <div class="progress-row">
+
+                  <div class="progress-meta">
+
+                    <span>
+                      Orçamento
+                    </span>
+
+                    <span id="percentOrcamento">
+                      0%
+                    </span>
+
+                  </div>
+
+                  <div class="progress-track">
+
+                    <div
+                      id="progressOrcamento"
+                      class="progress-bar progress-purple"
+                    ></div>
+
+                  </div>
+
+                </div>
+
+
+                <div class="progress-row">
+
+                  <div class="progress-meta">
+
+                    <span>
+                      Fechado
+                    </span>
+
+                    <span id="percentFechado">
+                      0%
+                    </span>
+
+                  </div>
+
+                  <div class="progress-track">
+
+                    <div
+                      id="progressFechado"
+                      class="progress-bar progress-green"
+                    ></div>
+
+                  </div>
+
+                </div>
+
+
+                <div class="progress-row">
+
+                  <div class="progress-meta">
+
+                    <span>
+                      Cancelado
+                    </span>
+
+                    <span id="percentCancelado">
+                      0%
+                    </span>
+
+                  </div>
+
+                  <div class="progress-track">
+
+                    <div
+                      id="progressCancelado"
+                      class="progress-bar progress-red"
+                    ></div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="panel">
+
+              <div class="panel-header">
+
+                <div>
+
+                  <div class="panel-title">
+                    Última atualização
+                  </div>
+
+                  <div class="panel-subtitle">
+                    Sincronização com Google Sheets
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div
+                style="
+                  padding:25px 18px;
+                  text-align:center;
+                "
+              >
+
+                <div
+                  id="lastUpdateBig"
+                  style="
+                    font-size:22px;
+                    font-weight:950;
+                  "
+                >
+                  Aguardando...
+                </div>
+
+                <div
+                  id="lastUpdate"
+                  style="
+                    margin-top:8px;
+                    color:var(--muted);
+                    font-size:11px;
+                  "
+                >
+                  Aguardando atualização...
+                </div>
+
+                <div
+                  style="
+                    margin-top:17px;
+                    color:var(--muted);
+                    font-size:10px;
+                    line-height:1.5;
+                  "
+                >
+                  O painel consulta automaticamente o backend
+                  e mantém os dados sincronizados.
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PROJETOS
+        ================================================== -->
+
+        <section
+          id="projectsView"
+          class="hidden"
+        >
+
+          <div class="dashboard-header">
+
+            <div>
+
+              <h2>
+                Projetos
+              </h2>
+
+              <p>
+                Gerencie projetos, contatos, arquivos e status.
+              </p>
+
+            </div>
+
+            <div class="header-actions">
+
+              <button
+                class="secondary-btn"
+                id="clearFiltersButton"
+              >
+                Limpar filtros
+              </button>
+
+              <button
+                class="primary-btn"
+                id="exportProjectsButton"
+              >
+                ⇩ Exportar
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="filters-panel">
+
+            <div class="field">
+
+              <input
+                id="searchInput"
+                type="search"
+                placeholder="Pesquisar projeto, arquiteto, escritório, cidade, e-mail..."
+              >
+
+            </div>
+
+            <div class="field">
+
+              <select id="statusFilter">
+
+                <option value="">
+                  Todos os status
+                </option>
+
+                <option value="Novo">
+                  Novo
+                </option>
+
+                <option value="Em análise">
+                  Em análise
+                </option>
+
+                <option value="Orçamento">
+                  Orçamento
+                </option>
+                <option value="Proposta enviada">
+                  Proposta enviada
+                </option>
+                <option value="Negociação">
+                  Negociação
+                </option>
+                <option value="Aprovação">
+                  Aprovação
+                </option>
+                <option value="Em execução">
+                  Em execução
+                </option>
+                <option value="Concluído">
+                  Concluído
+                </option>
+
+                <option value="Fechado">
+                  Fechado
+                </option>
+
+                <option value="Cancelado">
+                  Cancelado
+                </option>
+
+              </select>
+
+            </div>
+
+            <div class="field">
+
+              <select id="sortFilter">
+
+                <option value="recent">
+                  Mais recentes
+                </option>
+
+                <option value="old">
+                  Mais antigos
+                </option>
+
+                <option value="name">
+                  Nome A-Z
+                </option>
+
+                <option value="status">
+                  Status
+                </option>
+
+              </select>
+
+            </div>
+
+            <div class="filter-actions">
+
+              <button
+                class="filter-btn"
+                id="refreshFilterButton"
+              >
+                ↻ Atualizar
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="panel table-panel">
+
+            <div class="table-toolbar">
+
+              <div
+                class="results-info"
+                id="resultsInfo"
+              >
+                0 projetos
+              </div>
+
+              <div
+                class="results-info"
+                id="filterInfo"
+              >
+                Todos os projetos
+              </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+              <table>
+
+                <thead>
+
+                  <tr>
+
+                    <th>
+                      ID
+                    </th>
+
+                    <th>
+                      Data
+                    </th>
+
+                    <th>
+                      Arquiteto
+                    </th>
+
+                    <th>
+                      Escritório
+                    </th>
+
+                    <th>
+                      Projeto
+                    </th>
+
+                    <th>
+                      Cidade
+                    </th>
+
+                    <th>
+                      Investimento
+                    </th>
+
+                    <th>
+                      Status
+                    </th>
+
+                    <th>
+                      Alterar status
+                    </th>
+
+                    <th>
+                      Ações
+                    </th>
+
+                  </tr>
+
+                </thead>
+
+                <tbody id="projectsBody">
+
+                  <tr>
+
+                    <td
+                      colspan="10"
+                      style="padding:0"
+                    >
+
+                      <div class="empty-state">
+
+                        <div class="spinner"></div>
+
+                        <strong>
+                          Carregando projetos...
+                        </strong>
+
+                        <span>
+                          Aguarde enquanto sincronizamos os dados.
+                        </span>
+
+                      </div>
+
+                    </td>
+
+                  </tr>
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+
+            <div class="pagination">
+
+              <div
+                class="pagination-info"
+                id="paginationInfo"
+              >
+                Página 1
+              </div>
+
+              <div
+                class="pagination-buttons"
+                id="paginationButtons"
+              ></div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             CRM
+        ================================================== -->
+
+        <section
+          id="crmView"
+          class="hidden"
+        >
+
+          <div class="dashboard-header">
+
+            <div>
+
+              <h2>
+                CRM
+              </h2>
+
+              <p>
+                Visão comercial dos contatos e oportunidades recebidas.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="stats-grid">
+
+            <div class="stat-card">
+
+              <div class="stat-label">
+                Contatos
+              </div>
+
+              <div
+                class="stat-number"
+                id="crmContatos"
+              >
+                0
+              </div>
+
+              <div class="stat-description">
+                Arquitetos cadastrados
+              </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+              <div class="stat-label">
+                Escritórios
+              </div>
+
+              <div
+                class="stat-number"
+                id="crmEscritorios"
+              >
+                0
+              </div>
+
+              <div class="stat-description">
+                Escritórios identificados
+              </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+              <div class="stat-label">
+                Com WhatsApp
+              </div>
+
+              <div
+                class="stat-number"
+                id="crmWhatsApp"
+              >
+                0
+              </div>
+
+              <div class="stat-description">
+                Contatos disponíveis
+              </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+              <div class="stat-label">
+                Com e-mail
+              </div>
+
+              <div
+                class="stat-number"
+                id="crmEmail"
+              >
+                0
+              </div>
+
+              <div class="stat-description">
+                Contatos disponíveis
+              </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+              <div class="stat-label">
+                Com arquivos
+              </div>
+
+              <div
+                class="stat-number"
+                id="crmArquivos"
+              >
+                0
+              </div>
+
+              <div class="stat-description">
+                Projetos com documentos
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="panel-header">
+
+              <div>
+
+                <div class="panel-title">
+                  Oportunidades recentes
+                </div>
+
+                <div class="panel-subtitle">
+                  Projetos em ordem de recebimento
+                </div>
+
+              </div>
+
+              <button
+                class="secondary-btn"
+                id="crmProjectsButton"
+              >
+                Ver projetos
+              </button>
+
+            </div>
+
+            <div
+              id="crmRecentList"
+              style="padding:10px"
+            ></div>
+
+          </div>
+
+        </section>
+
+      </main>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     MODAL
+======================================================== -->
+
+<div
+  id="projectModal"
+  class="modal-overlay hidden"
+>
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <div class="modal-header-left">
+
+        <h3 id="modalTitle">
+          Detalhes do projeto
+        </h3>
+
+        <p id="modalSubtitle">
+          Informações completas
+        </p>
+
+      </div>
+
+      <button
+        class="close-modal"
+        id="closeModal"
+      >
+        ×
+      </button>
+
+    </div>
+
+    <div
+      class="modal-body"
+      id="modalBody"
+    ></div>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     TOAST
+======================================================== -->
+
+<div id="toast"></div>
+
+
+<!-- =======================================================
+     LOADING
+======================================================== -->
+
+<div
+  class="loading-overlay"
+  id="loadingOverlay"
+>
+
+  <div class="loading-box">
+
+    <div class="spinner"></div>
+
+    <span id="loadingText">
+      Processando...
+    </span>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   CONFIGURAÇÃO
+========================================================= */
+
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
+
+const REFRESH_INTERVAL = 10000;
+
+const SESSION_KEY =
+  "ARQSELECT_ADMIN_TOKEN";
+
+const USER_KEY =
+  "ARQSELECT_ADMIN_USER";
+
+const THEME_KEY =
+  "ARQSELECT_ADMIN_THEME";
+
+const PAGE_SIZE = 15;
+
+
+/* =========================================================
+   ESTADO
+========================================================= */
+
+let token =
+  localStorage.getItem(
+    SESSION_KEY
+  ) || "";
+
+let usuario =
+  localStorage.getItem(
+    USER_KEY
+  ) || "";
+
+let projetos = [];
+
+let projetosFiltrados = [];
+
+let intervaloAtualizacao = null;
+
+let atualizando = false;
+let statusEmAtualizacao = new Map();
+
+let paginaAtual = 1;
+
+let projetoModalAtual = null;
+
+let toastTimeout = null;
+
+
+/* =========================================================
+   ELEMENTOS
+========================================================= */
+
+const loginPage =
+  document.getElementById(
+    "loginPage"
+  );
+
+const appPage =
+  document.getElementById(
+    "appPage"
+  );
+
+const loginForm =
+  document.getElementById(
+    "loginForm"
+  );
+
+const loginButton =
+  document.getElementById(
+    "loginButton"
+  );
+
+const loginError =
+  document.getElementById(
+    "loginError"
+  );
+
+const logoutButton =
+  document.getElementById(
+    "logoutButton"
+  );
+
+const refreshButton =
+  document.getElementById(
+    "refreshButton"
+  );
+
+const refreshTopButton =
+  document.getElementById(
+    "refreshTopButton"
+  );
+
+const refreshFilterButton =
+  document.getElementById(
+    "refreshFilterButton"
+  );
+
+const exportButton =
+  document.getElementById(
+    "exportButton"
+  );
+
+const exportProjectsButton =
+  document.getElementById(
+    "exportProjectsButton"
+  );
+
+const exportMenu =
+  document.getElementById(
+    "exportMenu"
+  );
+
+const printMenu =
+  document.getElementById(
+    "printMenu"
+  );
+
+const searchInput =
+  document.getElementById(
+    "searchInput"
+  );
+
+const statusFilter =
+  document.getElementById(
+    "statusFilter"
+  );
+
+const sortFilter =
+  document.getElementById(
+    "sortFilter"
+  );
+
+const projectsBody =
+  document.getElementById(
+    "projectsBody"
+  );
+
+const resultsInfo =
+  document.getElementById(
+    "resultsInfo"
+  );
+
+const filterInfo =
+  document.getElementById(
+    "filterInfo"
+  );
+
+const paginationInfo =
+  document.getElementById(
+    "paginationInfo"
+  );
+
+const paginationButtons =
+  document.getElementById(
+    "paginationButtons"
+  );
+
+const projectModal =
+  document.getElementById(
+    "projectModal"
+  );
+
+const modalBody =
+  document.getElementById(
+    "modalBody"
+  );
+
+const closeModal =
+  document.getElementById(
+    "closeModal"
+  );
+
+const mobileMenu =
+  document.getElementById(
+    "mobileMenu"
+  );
+
+const sidebar =
+  document.getElementById(
+    "sidebar"
+  );
+
+const themeButton =
+  document.getElementById(
+    "themeButton"
+  );
+
+
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  inicializar
+);
+
+
+async function inicializar(){
+
+  configurarEventos();
+
+  carregarTema();
+
+  atualizarUsuarioVisual();
+
+  if(token){
+
+    await validarSessao();
+
+  }else{
+
+    mostrarLogin();
+
+  }
+
+}
+
+
+/* =========================================================
+   EVENTOS
+========================================================= */
+
+function configurarEventos(){
+
+  loginForm.addEventListener(
+    "submit",
+    fazerLogin
+  );
+
+
+  document
+    .getElementById("passwordToggle")
+    .addEventListener(
+      "click",
+      alternarSenha
+    );
+
+
+  logoutButton.addEventListener(
+    "click",
+    fazerLogout
+  );
+
+
+  refreshButton.addEventListener(
+    "click",
+    () => carregarProjetos(true)
+  );
+
+
+  refreshTopButton.addEventListener(
+    "click",
+    () => carregarProjetos(true)
+  );
+
+
+  refreshFilterButton.addEventListener(
+    "click",
+    () => carregarProjetos(true)
+  );
+
+
+  searchInput.addEventListener(
+    "input",
+    function(){
+
+      paginaAtual = 1;
+
+      aplicarFiltros();
+
+    }
+  );
+
+
+  statusFilter.addEventListener(
+    "change",
+    function(){
+
+      paginaAtual = 1;
+
+      aplicarFiltros();
+
+    }
+  );
+
+
+  sortFilter.addEventListener(
+    "change",
+    function(){
+
+      paginaAtual = 1;
+
+      aplicarFiltros();
+
+    }
+  );
+
+
+  document
+    .getElementById("clearFiltersButton")
+    .addEventListener(
+      "click",
+      limparFiltros
+    );
+
+
+  exportButton.addEventListener(
+    "click",
+    exportarCSV
+  );
+
+
+  exportProjectsButton.addEventListener(
+    "click",
+    exportarCSV
+  );
+
+
+  exportMenu.addEventListener(
+    "click",
+    function(){
+
+      exportarCSV();
+
+      fecharSidebarMobile();
+
+    }
+  );
+
+
+  printMenu.addEventListener(
+    "click",
+    function(){
+
+      window.print();
+
+      fecharSidebarMobile();
+
+    }
+  );
+
+
+  mobileMenu.addEventListener(
+    "click",
+    function(){
+
+      sidebar.classList.toggle(
+        "open"
+      );
+
+    }
+  );
+
+
+  themeButton.addEventListener(
+    "click",
+    alternarTema
+  );
+
+
+  closeModal.addEventListener(
+    "click",
+    fecharModal
+  );
+
+
+  projectModal.addEventListener(
+    "click",
+    function(event){
+
+      if(
+        event.target ===
+        projectModal
+      ){
+
+        fecharModal();
+
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    "keydown",
+    function(event){
+
+      if(
+        event.key === "Escape"
+      ){
+
+        fecharModal();
+
+      }
+
+    }
+  );
+
+
+  document
+    .getElementById("crmProjectsButton")
+    .addEventListener(
+      "click",
+      function(){
+
+        mudarView("projects");
+
+      }
+    );
+
+
+  document
+    .querySelectorAll(".menu-item[data-view]")
+    .forEach(
+      function(button){
+
+        button.addEventListener(
+          "click",
+          function(){
+
+            mudarView(
+              button.dataset.view
+            );
+
+            fecharSidebarMobile();
+
+          }
+        );
+
+      }
+    );
+
+
+  projectsBody.addEventListener(
+    "click",
+    tratarCliqueTabela
+  );
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function fazerLogin(event){
+
+  event.preventDefault();
+
+  const username =
+    document
+      .getElementById("username")
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById("password")
+      .value;
+
+  if(!username || !password){
+
+    mostrarErroLogin(
+      "Informe usuário e senha."
+    );
+
+    return;
+
+  }
+
+
+  loginButton.disabled = true;
+
+  loginButton.textContent =
+    "VALIDANDO ACESSO...";
+
+  esconderErroLogin();
+
+
   try{
-    const j=await api("admin_v4_mensagens",{conversaId:id});
-    if(!j || j.sucesso===false) throw new Error(j?.mensagem||"Não foi possível abrir a conversa.");
-    const msgs=Array.isArray(j.mensagens)?j.mensagens:[];
-    modal("Conversa",`<div style="display:grid;gap:10px">${msgs.map(m=>`<div class="kv"><b>${esc(m["REMETENTE NOME"]||m["REMETENTE ID"]||"—")}</b>${esc(m.MENSAGEM||"")}<div class="muted" style="margin-top:5px">${esc(m.DATA||"")}</div></div>`).join("")||'<div class="empty">Sem mensagens.</div>'}</div>`);
-  }catch(e){ toast(e?.message||"Falha ao abrir conversa."); }
+
+    const dados =
+      await requisicaoAPI(
+        "login",
+        {
+          usuario:username,
+          senha:password
+        },
+        false
+      );
+
+
+    if(
+      !dados ||
+      dados.sucesso !== true ||
+      !dados.token
+    ){
+
+      throw new Error(
+        dados &&
+        dados.mensagem
+          ? dados.mensagem
+          : "Usuário ou senha inválidos."
+      );
+
+    }
+
+
+    token =
+      dados.token;
+
+    usuario =
+      dados.usuario ||
+      username;
+
+
+    localStorage.setItem(
+      SESSION_KEY,
+      token
+    );
+
+    localStorage.setItem(
+      USER_KEY,
+      usuario
+    );
+
+
+    atualizarUsuarioVisual();
+
+    mostrarAplicacao();
+
+    mostrarToast(
+      "Login realizado com sucesso.",
+      "success"
+    );
+
+
+    await carregarProjetos(true);
+
+    iniciarAtualizacaoAutomatica();
+
+  }
+  catch(error){
+
+    console.error(
+      "LOGIN:",
+      error
+    );
+
+    mostrarErroLogin(
+      error.message ||
+      "Não foi possível realizar o login."
+    );
+
+  }
+  finally{
+
+    loginButton.disabled =
+      false;
+
+    loginButton.textContent =
+      "ENTRAR NO PAINEL";
+
+  }
+
 }
-function renderTable(page){if(page==="projetos"){loadProjectsTable();return}const d=(pageData[page]&&pageData[page].dados)||[];if(!d.length){$("content").innerHTML='<div class="card empty">Nenhum registro encontrado. Use Atualizar para carregar.</div>';loadPageData(page);return}const keys=Object.keys(d[0]).filter(k=>k!=="_linha").slice(0,9);$("content").innerHTML=`<div class="card"><div class="table-wrap"><table><thead><tr>${keys.map(k=>`<th>${esc(k)}</th>`).join("")}</tr></thead><tbody>${d.slice(0,150).map(r=>`<tr>${keys.map(k=>`<td>${esc(r[k])}</td>`).join("")}</tr>`).join("")}</tbody></table></div></div>`}
-async function loadProjectsTable(){try{const j=await api("admin_v4_listar",{modulo:"projetos"});pageData.projetos=j;const d=j.dados||[];$("content").innerHTML=`<div class="card"><div class="table-wrap"><table><thead><tr><th>ID</th><th>Projeto</th><th>Arquiteto</th><th>Fornecedor</th><th>Status</th><th>Data</th><th>Interação</th></tr></thead><tbody>${d.slice(0,150).map(r=>`<tr><td>${esc(r["ID PROJETO"])}</td><td><b>${esc(r["NOME DO PROJETO"])}</b></td><td>${esc(r.NOME)}</td><td>${esc(r["FORNECEDOR NOME"])}</td><td>${badge(r.STATUS)}</td><td>${esc(r["DATA / HORA"])}</td><td>${esc(r["ULTIMA INTERAÇÃO"])}</td></tr>`).join("")||'<tr><td colspan="7">Nenhum projeto.</td></tr>'}</tbody></table></div></div>`}catch(e){toast(e.message)}}
-async function init(){if(!token)return;try{await api("sessao");await loadDashboard();startPolling()}catch(e){console.error("[ARQSELECT] Inicialização",e);logout(false)}}init();
+
+
+/* =========================================================
+   SESSÃO
+========================================================= */
+
+async function validarSessao(){
+
+  try{
+
+    const dados =
+      await requisicaoAPI(
+        "sessao",
+        {
+          token:token
+        },
+        false
+      );
+
+
+    if(
+      !dados ||
+      dados.sucesso !== true ||
+      dados.autorizado !== true
+    ){
+
+      limparSessao();
+
+      mostrarLogin();
+
+      return;
+
+    }
+
+
+    usuario =
+      dados.usuario ||
+      usuario;
+
+
+    localStorage.setItem(
+      USER_KEY,
+      usuario
+    );
+
+
+    atualizarUsuarioVisual();
+
+    mostrarAplicacao();
+
+    await carregarProjetos(true);
+
+    iniciarAtualizacaoAutomatica();
+
+  }
+  catch(error){
+
+    console.warn(
+      "Sessão inválida:",
+      error
+    );
+
+    limparSessao();
+
+    mostrarLogin();
+
+  }
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function fazerLogout(){
+
+  pararAtualizacaoAutomatica();
+
+
+  try{
+
+    if(token){
+
+      await requisicaoAPI(
+        "logout",
+        {
+          token:token
+        },
+        false
+      );
+
+    }
+
+  }
+  catch(error){
+
+    console.warn(
+      "Logout:",
+      error
+    );
+
+  }
+
+
+  limparSessao();
+
+  mostrarLogin();
+
+  mostrarToast(
+    "Sessão encerrada.",
+    "success"
+  );
+
+}
+
+
+/* =========================================================
+   LIMPAR SESSÃO
+========================================================= */
+
+function limparSessao(){
+
+  token = "";
+
+  usuario = "";
+
+  projetos = [];
+
+  projetosFiltrados = [];
+
+
+  localStorage.removeItem(
+    SESSION_KEY
+  );
+
+  localStorage.removeItem(
+    USER_KEY
+  );
+
+}
+
+
+/* =========================================================
+   REQUISIÇÃO API
+========================================================= */
+
+async function requisicaoAPI(
+  acao,
+  parametros = {},
+  incluirToken = true
+){
+
+  const params =
+    new URLSearchParams();
+
+
+  params.set(
+    "acao",
+    acao
+  );
+
+
+  if(
+    incluirToken &&
+    token &&
+    parametros.token === undefined
+  ){
+
+    params.set(
+      "token",
+      token
+    );
+
+  }
+
+
+  Object.keys(
+    parametros
+  ).forEach(
+    function(chave){
+
+      const valor =
+        parametros[chave];
+
+
+      if(
+        valor !== undefined &&
+        valor !== null
+      ){
+
+        params.set(
+          chave,
+          String(valor)
+        );
+
+      }
+
+    }
+  );
+
+
+  const resposta =
+    await fetch(
+      API_URL +
+      "?" +
+      params.toString(),
+      {
+        method:"GET",
+        cache:"no-store"
+      }
+    );
+
+
+  if(!resposta.ok){
+
+    throw new Error(
+      "Erro HTTP " +
+      resposta.status
+    );
+
+  }
+
+
+  const texto =
+    await resposta.text();
+
+
+  let dados;
+
+
+  try{
+
+    dados =
+      JSON.parse(texto);
+
+  }
+  catch(error){
+
+    throw new Error(
+      "O servidor não retornou um JSON válido."
+    );
+
+  }
+
+
+  return dados;
+
+}
+
+
+/* =========================================================
+   CARREGAR PROJETOS
+========================================================= */
+
+async function carregarProjetos(
+  mostrarLoading = false
+){
+
+  if(atualizando){
+    return;
+  }
+
+  if(!token){
+    return;
+  }
+
+
+  atualizando = true;
+
+
+  if(
+    mostrarLoading &&
+    projetos.length === 0
+  ){
+
+    mostrarTabelaLoading();
+
+  }
+
+
+  try{
+
+    const dados =
+      await requisicaoAPI(
+        "projetos",
+        {
+          token:token
+        }
+      );
+
+
+    if(
+      !dados ||
+      dados.autorizado !== true
+    ){
+
+      const mensagem =
+        dados &&
+        dados.mensagem
+          ? dados.mensagem
+          : "Sessão inválida.";
+
+      throw new Error(
+        mensagem
+      );
+
+    }
+
+
+    const projetosServidor =
+      Array.isArray(
+        dados.projetos
+      )
+        ? dados.projetos
+        : [];
+
+    projetos =
+      projetosServidor.map(
+        function(projeto){
+          const item = normalizarProjeto(projeto);
+          const chave = String(item._linha || "");
+          if(statusEmAtualizacao.has(chave)){
+            item["STATUS"] = statusEmAtualizacao.get(chave);
+          }
+          return item;
+        }
+      );
+
+
+    atualizarEstatisticas();
+
+    atualizarCRM();
+
+    aplicarFiltros();
+
+    atualizarHorario();
+
+    marcarConexao(true);
+
+  }
+  catch(error){
+
+    console.error(
+      "PROJETOS:",
+      error
+    );
+
+
+    marcarConexao(false);
+
+
+    const mensagem =
+      String(
+        error.message || ""
+      ).toLowerCase();
+
+
+    if(
+      mensagem.includes("sessão") ||
+      mensagem.includes("sessao") ||
+      mensagem.includes("autoriz")
+    ){
+
+      limparSessao();
+
+      pararAtualizacaoAutomatica();
+
+      mostrarLogin();
+
+      mostrarErroLogin(
+        "Sua sessão expirou. Faça login novamente."
+      );
+
+    }
+    else if(
+      projetos.length === 0
+    ){
+
+      mostrarTabelaErro(
+        error.message ||
+        "Não foi possível carregar os projetos."
+      );
+
+    }
+    else{
+
+      mostrarToast(
+        error.message ||
+        "Falha na atualização.",
+        "error"
+      );
+
+    }
+
+  }
+  finally{
+
+    atualizando = false;
+
+  }
+
+}
+
+
+/* =========================================================
+   NORMALIZAR PROJETO
+========================================================= */
+
+function normalizarProjeto(projeto){
+
+  const item =
+    projeto &&
+    typeof projeto === "object"
+      ? {...projeto}
+      : {};
+
+
+  if(
+    !item["STATUS"] ||
+    String(
+      item["STATUS"]
+    ).trim() === ""
+  ){
+
+    item["STATUS"] =
+      "Novo";
+
+  }
+
+
+  return item;
+
+}
+
+
+/* =========================================================
+   ATUALIZAÇÃO AUTOMÁTICA
+========================================================= */
+
+function iniciarAtualizacaoAutomatica(){
+
+  pararAtualizacaoAutomatica();
+
+
+  intervaloAtualizacao =
+    setInterval(
+      function(){
+
+        if(token){
+
+          carregarProjetos(false);
+
+        }
+
+      },
+      REFRESH_INTERVAL
+    );
+
+}
+
+
+function pararAtualizacaoAutomatica(){
+
+  if(intervaloAtualizacao){
+
+    clearInterval(
+      intervaloAtualizacao
+    );
+
+    intervaloAtualizacao =
+      null;
+
+  }
+
+}
+
+
+/* =========================================================
+   FILTROS
+========================================================= */
+
+function aplicarFiltros(){
+
+  const busca =
+    searchInput.value
+      .trim()
+      .toLowerCase();
+
+  const status =
+    statusFilter.value;
+
+  const ordenacao =
+    sortFilter.value;
+
+
+  projetosFiltrados =
+    projetos.filter(
+      function(projeto){
+
+        const texto =
+          Object
+            .keys(projeto)
+            .map(
+              key =>
+                projeto[key]
+            )
+            .join(" ")
+            .toLowerCase();
+
+
+        const statusProjeto =
+          String(
+            projeto["STATUS"] ||
+            "Novo"
+          ).trim();
+
+
+        const correspondeBusca =
+          !busca ||
+          texto.includes(busca);
+
+
+        const correspondeStatus =
+          !status ||
+          statusProjeto === status;
+
+
+        return (
+          correspondeBusca &&
+          correspondeStatus
+        );
+
+      }
+    );
+
+
+  ordenarProjetos(
+    projetosFiltrados,
+    ordenacao
+  );
+
+
+  renderizarProjetos();
+
+}
+
+
+/* =========================================================
+   ORDENAÇÃO
+========================================================= */
+
+function ordenarProjetos(
+  lista,
+  tipo
+){
+
+  if(tipo === "name"){
+
+    lista.sort(
+      function(a,b){
+
+        return String(
+          a["NOME DO PROJETO"] ||
+          a["NOME"] ||
+          ""
+        ).localeCompare(
+          String(
+            b["NOME DO PROJETO"] ||
+            b["NOME"] ||
+            ""
+          ),
+          "pt-BR"
+        );
+
+      }
+    );
+
+    return;
+
+  }
+
+
+  if(tipo === "status"){
+
+    lista.sort(
+      function(a,b){
+
+        return String(
+          a["STATUS"] || ""
+        ).localeCompare(
+          String(
+            b["STATUS"] || ""
+          ),
+          "pt-BR"
+        );
+
+      }
+    );
+
+    return;
+
+  }
+
+
+  lista.sort(
+    function(a,b){
+
+      const aLinha =
+        Number(
+          a._linha || 0
+        );
+
+      const bLinha =
+        Number(
+          b._linha || 0
+        );
+
+
+      if(tipo === "old"){
+
+        return aLinha - bLinha;
+
+      }
+
+      return bLinha - aLinha;
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   RENDERIZAR PROJETOS
+========================================================= */
+
+function renderizarProjetos(){
+
+  const total =
+    projetosFiltrados.length;
+
+
+  const totalPaginas =
+    Math.max(
+      1,
+      Math.ceil(
+        total / PAGE_SIZE
+      )
+    );
+
+
+  if(
+    paginaAtual >
+    totalPaginas
+  ){
+
+    paginaAtual =
+      totalPaginas;
+
+  }
+
+
+  const inicio =
+    (paginaAtual - 1) *
+    PAGE_SIZE;
+
+
+  const fim =
+    inicio +
+    PAGE_SIZE;
+
+
+  const pagina =
+    projetosFiltrados.slice(
+      inicio,
+      fim
+    );
+
+
+  resultsInfo.textContent =
+    total === 1
+      ? "1 projeto"
+      : `${total} projetos`;
+
+
+  filterInfo.textContent =
+    total === projetos.length
+      ? "Todos os projetos"
+      : `${total} resultado(s) filtrado(s)`;
+
+
+  if(pagina.length === 0){
+
+    mostrarTabelaVazia();
+
+  }
+  else{
+
+    projectsBody.innerHTML =
+      pagina
+        .map(
+          criarLinhaProjeto
+        )
+        .join("");
+
+  }
+
+
+  renderizarPaginacao(
+    totalPaginas
+  );
+
+}
+
+
+/* =========================================================
+   LINHA PROJETO
+========================================================= */
+
+function criarLinhaProjeto(
+  projeto
+){
+
+  const linha =
+    Number(
+      projeto._linha
+    );
+
+
+  const id =
+    escaparHTML(
+      projeto["ID PROJETO"] ||
+      "—"
+    );
+
+
+  const data =
+    escaparHTML(
+      projeto["DATA / HORA"] ||
+      "—"
+    );
+
+
+  const nome =
+    escaparHTML(
+      projeto["NOME"] ||
+      "—"
+    );
+
+
+  const escritorio =
+    escaparHTML(
+      projeto["ESCRITÓRIO"] ||
+      "—"
+    );
+
+
+  const nomeProjeto =
+    escaparHTML(
+      projeto["NOME DO PROJETO"] ||
+      "—"
+    );
+
+
+  const cidade =
+    escaparHTML(
+      [
+        projeto["CIDADE"] || "",
+        projeto["ESTADO"] || ""
+      ]
+      .filter(Boolean)
+      .join(" / ") ||
+      "—"
+    );
+
+
+  const investimento =
+    escaparHTML(
+      projeto["INVESTIMENTO"] ||
+      "—"
+    );
+
+
+  const status =
+    String(
+      projeto["STATUS"] ||
+      "Novo"
+    ).trim();
+
+
+  return `
+
+    <tr>
+
+      <td>
+        <div class="project-id">
+          ${id}
+        </div>
+      </td>
+
+      <td>
+        <span class="muted">
+          ${data}
+        </span>
+      </td>
+
+      <td>
+        <div class="project-person">
+          ${nome}
+        </div>
+      </td>
+
+      <td>
+        <span class="muted">
+          ${escritorio}
+        </span>
+      </td>
+
+      <td>
+        <div class="project-name">
+          ${nomeProjeto}
+        </div>
+      </td>
+
+      <td>
+        <span class="muted">
+          ${cidade}
+        </span>
+      </td>
+
+      <td>
+        <strong>
+          ${investimento}
+        </strong>
+      </td>
+
+      <td>
+
+        <span
+          class="status-badge ${classeStatus(status)}"
+        >
+          ${escaparHTML(status)}
+        </span>
+
+      </td>
+
+      <td>
+
+        <div class="status-control" data-row="${linha}">
+          ${criarSeletorStatus(linha, status)}
+        </div>
+
+      </td>
+
+      <td>
+
+        <div class="action-group">
+
+          <button
+            class="action-btn primary"
+            data-action="details"
+            data-row="${linha}"
+          >
+            Detalhes
+          </button>
+
+          ${criarBotaoContato(projeto)}
+
+        </div>
+
+      </td>
+
+    </tr>
+
+  `;
+
+}
+
+
+/* =========================================================
+   SELETOR DE STATUS — CRM PROFISSIONAL
+========================================================= */
+function criarSeletorStatus(linha, atual){
+
+  const status = String(atual || "Novo").trim();
+
+  const opcoes = [
+    "Novo",
+    "Em análise",
+    "Orçamento",
+    "Proposta enviada",
+    "Negociação",
+    "Aprovação",
+    "Fechado",
+    "Em execução",
+    "Concluído",
+    "Cancelado"
+  ];
+
+  return `
+    <select
+      class="status-select ${classeStatus(status)}"
+      data-action="status-select"
+      data-row="${Number(linha)}"
+      aria-label="Alterar status do projeto"
+    >
+      ${opcoes.map(function(opcao){
+        return `<option value="${escaparHTML(opcao)}" ${opcao === status ? "selected" : ""}>${escaparHTML(opcao)}</option>`;
+      }).join("")}
+    </select>
+  `;
+}
+
+
+/* =========================================================
+   BOTÃO STATUS
+========================================================= */
+
+function criarBotaoStatus(
+  linha,
+  status,
+  atual
+){
+
+  const classe =
+    classeStatusBotao(
+      status
+    );
+
+
+  const active =
+    status === atual
+      ? "active"
+      : "";
+
+
+  return `
+
+    <button
+      type="button"
+      class="
+        status-btn
+        ${classe}
+        ${active}
+      "
+      data-action="status"
+      data-row="${linha}"
+      data-status="${escaparHTML(status)}"
+    >
+      ${escaparHTML(status)}
+    </button>
+
+  `;
+
+}
+
+
+/* =========================================================
+   BOTÃO CONTATO
+========================================================= */
+
+function criarBotaoContato(
+  projeto
+){
+
+  const whatsapp =
+    limparTelefone(
+      projeto["WHATSAPP"]
+    );
+
+
+  if(!whatsapp){
+    return "";
+  }
+
+
+  return `
+
+    <button
+      class="action-btn"
+      data-action="whatsapp"
+      data-row="${Number(projeto._linha)}"
+    >
+      WhatsApp
+    </button>
+
+  `;
+
+}
+
+
+/* =========================================================
+   CLIQUE TABELA
+========================================================= */
+
+function tratarCliqueTabela(event){
+
+  const button =
+    event.target.closest(
+      "button[data-action], select[data-action]"
+    );
+
+
+  if(!button){
+    return;
+  }
+
+
+  const action =
+    button.dataset.action;
+
+
+  const linha =
+    Number(
+      button.dataset.row
+    );
+
+
+  const projeto =
+    projetos.find(
+      item =>
+        Number(
+          item._linha
+        ) === linha
+    );
+
+
+  if(!projeto){
+    return;
+  }
+
+
+  if(action === "details"){
+
+    abrirDetalhes(
+      projeto
+    );
+
+    return;
+
+  }
+
+
+  if(action === "status-select"){
+
+    alterarStatus(
+      linha,
+      button.value,
+      button
+    );
+
+    return;
+
+  }
+
+
+  if(action === "status"){
+
+    alterarStatus(
+      linha,
+      button.dataset.status,
+      button
+    );
+
+    return;
+
+  }
+
+
+  if(action === "whatsapp"){
+
+    abrirWhatsApp(
+      projeto
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   ALTERAR STATUS
+========================================================= */
+
+async function alterarStatus(
+  linha,
+  status,
+  botao
+){
+
+  if(
+    !linha ||
+    !status ||
+    !token
+  ){
+
+    return;
+
+  }
+
+
+  if(status === "Cancelado"){
+
+    const confirmar =
+      window.confirm(
+        "Tem certeza que deseja cancelar este projeto?"
+      );
+
+
+    if(!confirmar){
+
+      return;
+
+    }
+
+  }
+
+
+  statusEmAtualizacao.set(String(linha), status);
+
+
+  const container =
+    botao.closest(
+      ".status-control, .status-buttons"
+    );
+
+
+  const botoes =
+    container
+      ? container.querySelectorAll(
+          ".status-btn, .status-select"
+        )
+      : [];
+
+
+  botoes.forEach(
+    item =>
+      item.classList.add(
+        "loading"
+      )
+  );
+
+
+  try{
+
+    const dados =
+      await requisicaoAPI(
+        "atualizarStatus",
+        {
+          token:token,
+          linha:linha,
+          status:status
+        }
+      );
+
+
+    if(
+      !dados ||
+      dados.sucesso !== true
+    ){
+
+      throw new Error(
+        dados &&
+        dados.mensagem
+          ? dados.mensagem
+          : "Não foi possível atualizar o status."
+      );
+
+    }
+
+
+    const projeto =
+      projetos.find(
+        item =>
+          Number(
+            item._linha
+          ) === Number(linha)
+      );
+
+
+    if(projeto){
+
+      projeto["STATUS"] =
+        status;
+
+    }
+
+    if(botao && botao.tagName === "SELECT"){
+      botao.value = status;
+      botao.className = `status-select ${classeStatus(status)}`;
+    }
+
+
+    atualizarEstatisticas();
+
+    atualizarCRM();
+
+    aplicarFiltros();
+
+    atualizarHorario();
+
+    mostrarToast(
+      `Status alterado para "${status}".`,
+      "success"
+    );
+
+    marcarConexao(true);
+
+    // Confirma no servidor e depois sincroniza sem permitir que uma resposta antiga
+    // do auto-refresh sobrescreva o status recém-salvo.
+    setTimeout(
+      async function(){
+        try{
+          await carregarProjetos(false);
+          statusEmAtualizacao.delete(String(linha));
+          aplicarFiltros();
+        }catch(e){
+          // mantém o status local até a próxima sincronização
+        }
+      },
+      1200
+    );
+
+  }
+  catch(error){
+
+    statusEmAtualizacao.delete(String(linha));
+
+    console.error(
+      "STATUS:",
+      error
+    );
+
+
+    mostrarToast(
+      error.message ||
+      "Erro ao alterar status.",
+      "error"
+    );
+
+  }
+  finally{
+
+    botoes.forEach(
+      item =>
+        item.classList.remove(
+          "loading"
+        )
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   ESTATÍSTICAS
+========================================================= */
+
+function contarStatus(
+  status
+){
+
+  return projetos.filter(
+    projeto =>
+      String(
+        projeto["STATUS"] ||
+        "Novo"
+      ).trim() ===
+      status
+  ).length;
+
+}
+
+
+function atualizarEstatisticas(){
+
+  const total =
+    projetos.length;
+
+
+  const novo =
+    contarStatus("Novo");
+
+  const analise =
+    contarStatus("Em análise");
+
+  const orcamento =
+    contarStatus("Orçamento");
+
+  const fechado =
+    contarStatus("Fechado");
+
+  const cancelado =
+    contarStatus("Cancelado");
+
+
+  setText(
+    "statTotal",
+    total
+  );
+
+  setText(
+    "statNovo",
+    novo
+  );
+
+  setText(
+    "statAnalise",
+    analise
+  );
+
+  setText(
+    "statOrcamento",
+    orcamento
+  );
+
+  setText(
+    "statFechado",
+    fechado
+  );
+
+
+  atualizarPercentual(
+    "Novo",
+    novo,
+    "percentNovo",
+    "progressNovo"
+  );
+
+
+  atualizarPercentual(
+    "Em análise",
+    analise,
+    "percentAnalise",
+    "progressAnalise"
+  );
+
+
+  atualizarPercentual(
+    "Orçamento",
+    orcamento,
+    "percentOrcamento",
+    "progressOrcamento"
+  );
+
+
+  atualizarPercentual(
+    "Fechado",
+    fechado,
+    "percentFechado",
+    "progressFechado"
+  );
+
+
+  atualizarPercentual(
+    "Cancelado",
+    cancelado,
+    "percentCancelado",
+    "progressCancelado"
+  );
+
+}
+
+
+function atualizarPercentual(
+  status,
+  quantidade,
+  textoId,
+  barraId
+){
+
+  const total =
+    projetos.length;
+
+
+  const percentual =
+    total
+      ? Math.round(
+          quantidade /
+          total *
+          100
+        )
+      : 0;
+
+
+  setText(
+    textoId,
+    percentual + "%"
+  );
+
+
+  const barra =
+    document.getElementById(
+      barraId
+    );
+
+
+  if(barra){
+
+    barra.style.width =
+      percentual + "%";
+
+  }
+
+}
+
+
+/* =========================================================
+   CRM
+========================================================= */
+
+function atualizarCRM(){
+
+  const contatos =
+    new Set();
+
+  const escritorios =
+    new Set();
+
+  let whatsapp = 0;
+
+  let email = 0;
+
+  let arquivos = 0;
+
+
+  projetos.forEach(
+    projeto => {
+
+      const nome =
+        String(
+          projeto["NOME"] ||
+          ""
+        ).trim();
+
+
+      const escritorio =
+        String(
+          projeto["ESCRITÓRIO"] ||
+          ""
+        ).trim();
+
+
+      const telefone =
+        limparTelefone(
+          projeto["WHATSAPP"]
+        );
+
+
+      const emailProjeto =
+        String(
+          projeto["E-MAIL"] ||
+          ""
+        ).trim();
+
+
+      if(nome){
+
+        contatos.add(
+          nome.toLowerCase()
+        );
+
+      }
+
+
+      if(escritorio){
+
+        escritorios.add(
+          escritorio.toLowerCase()
+        );
+
+      }
+
+
+      if(telefone){
+
+        whatsapp++;
+
+      }
+
+
+      if(emailProjeto){
+
+        email++;
+
+      }
+
+
+      if(
+        projeto["ARQUIVOS"] ||
+        projeto["PASTA DO PROJETO"]
+      ){
+
+        arquivos++;
+
+      }
+
+    }
+  );
+
+
+  setText(
+    "crmContatos",
+    contatos.size
+  );
+
+  setText(
+    "crmEscritorios",
+    escritorios.size
+  );
+
+  setText(
+    "crmWhatsApp",
+    whatsapp
+  );
+
+  setText(
+    "crmEmail",
+    email
+  );
+
+  setText(
+    "crmArquivos",
+    arquivos
+  );
+
+
+  renderizarCRMRecentes();
+
+}
+
+
+function renderizarCRMRecentes(){
+
+  const container =
+    document.getElementById(
+      "crmRecentList"
+    );
+
+
+  const recentes =
+    [...projetos]
+      .sort(
+        (a,b) =>
+          Number(
+            b._linha || 0
+          ) -
+          Number(
+            a._linha || 0
+          )
+      )
+      .slice(
+        0,
+        8
+      );
+
+
+  if(!recentes.length){
+
+    container.innerHTML = `
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          ◎
+        </div>
+
+        <strong>
+          Nenhum projeto
+        </strong>
+
+        <span>
+          Os projetos recebidos aparecerão aqui.
+        </span>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    recentes
+      .map(
+        projeto => {
+
+          const nome =
+            escaparHTML(
+              projeto["NOME"] ||
+              "Sem nome"
+            );
+
+          const projetoNome =
+            escaparHTML(
+              projeto["NOME DO PROJETO"] ||
+              "Projeto sem nome"
+            );
+
+          const status =
+            String(
+              projeto["STATUS"] ||
+              "Novo"
+            );
+
+
+          return `
+
+            <div
+              style="
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                gap:10px;
+                padding:12px 10px;
+                border-bottom:1px solid var(--border);
+              "
+            >
+
+              <div
+                style="
+                  min-width:0;
+                  flex:1;
+                "
+              >
+
+                <div
+                  style="
+                    font-size:11px;
+                    font-weight:900;
+                  "
+                >
+                  ${projetoNome}
+                </div>
+
+                <div
+                  style="
+                    margin-top:4px;
+                    color:var(--muted);
+                    font-size:9px;
+                  "
+                >
+                  ${nome}
+                </div>
+
+              </div>
+
+              <span
+                class="
+                  status-badge
+                  ${classeStatus(status)}
+                "
+              >
+                ${escaparHTML(status)}
+              </span>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join("");
+
+}
+
+
+/* =========================================================
+   DETALHES
+========================================================= */
+
+function abrirDetalhes(
+  projeto
+){
+
+  projetoModalAtual =
+    projeto;
+
+
+  const nomeProjeto =
+    projeto["NOME DO PROJETO"] ||
+    "Projeto";
+
+
+  const id =
+    projeto["ID PROJETO"] ||
+    "Sem ID";
+
+
+  document.getElementById(
+    "modalTitle"
+  ).textContent =
+    nomeProjeto;
+
+
+  document.getElementById(
+    "modalSubtitle"
+  ).textContent =
+    "ID: " + id;
+
+
+  modalBody.innerHTML =
+    criarConteudoDetalhes(
+      projeto
+    );
+
+
+  projectModal.classList.remove(
+    "hidden"
+  );
+
+}
+
+
+function criarConteudoDetalhes(
+  projeto
+){
+
+  const whatsapp =
+    limparTelefone(
+      projeto["WHATSAPP"]
+    );
+
+
+  const email =
+    String(
+      projeto["E-MAIL"] ||
+      ""
+    ).trim();
+
+
+  const pasta =
+    extrairURL(
+      projeto["PASTA DO PROJETO"]
+    );
+
+
+  const arquivos =
+    extrairURLs(
+      projeto["ARQUIVOS"]
+    );
+
+
+  let html = "";
+
+
+  html += `
+
+    <div class="modal-actions">
+
+      ${
+        whatsapp
+          ? `
+            <button
+              class="action-btn primary"
+              data-modal-action="whatsapp"
+            >
+              WhatsApp
+            </button>
+          `
+          : ""
+      }
+
+      ${
+        email
+          ? `
+            <a
+              class="action-btn"
+              href="mailto:${escaparHTML(email)}"
+            >
+              E-mail
+            </a>
+          `
+          : ""
+      }
+
+      ${
+        pasta
+          ? `
+            <a
+              class="action-btn"
+              href="${escaparHTML(pasta)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Abrir pasta
+            </a>
+          `
+          : ""
+      }
+
+    </div>
+
+  `;
+
+
+  const camposPrincipais = [
+
+    ["ID PROJETO","ID do projeto"],
+    ["DATA / HORA","Data / Hora"],
+    ["NOME","Arquiteto"],
+    ["ESCRITÓRIO","Escritório"],
+    ["E-MAIL","E-mail"],
+    ["WHATSAPP","WhatsApp"],
+    ["CIDADE","Cidade"],
+    ["ESTADO","Estado"],
+    ["REGISTRO PROFISSIONAL","Registro profissional"],
+    ["NOME DO PROJETO","Nome do projeto"],
+    ["TIPO DE PROJETO","Tipo de projeto"],
+    ["ÁREA","Área"],
+    ["AMBIENTE","Ambiente"],
+    ["PRAZO","Prazo"],
+    ["INVESTIMENTO","Investimento"],
+    ["STATUS","Status"],
+    ["DESCRIÇÃO / ORÇAMENTO","Descrição / Orçamento"],
+    ["OBSERVAÇÕES","Observações"]
+
+  ];
+
+
+  html += `
+    <div class="detail-grid">
+  `;
+
+
+  camposPrincipais.forEach(
+    campo => {
+
+      const chave =
+        campo[0];
+
+      const titulo =
+        campo[1];
+
+      const valor =
+        projeto[chave];
+
+
+      if(
+        valor === undefined ||
+        valor === null ||
+        String(valor).trim() === ""
+      ){
+
+        return;
+
+      }
+
+
+      const full =
+        [
+          "DESCRIÇÃO / ORÇAMENTO",
+          "OBSERVAÇÕES"
+        ].includes(chave);
+
+
+      html += `
+
+        <div
+          class="
+            detail-item
+            ${full ? "full" : ""}
+          "
+        >
+
+          <div class="detail-label">
+            ${escaparHTML(titulo)}
+          </div>
+
+          <div class="detail-value">
+            ${escaparHTML(String(valor))}
+          </div>
+
+        </div>
+
+      `;
+
+    }
+  );
+
+
+  html += `
+    </div>
+  `;
+
+
+  if(arquivos.length){
+
+    html += `
+
+      <div
+        style="
+          margin-top:15px;
+        "
+      >
+
+        <div
+          class="detail-label"
+          style="margin-bottom:8px"
+        >
+          ARQUIVOS
+        </div>
+
+        <div class="file-list">
+
+          ${arquivos
+            .map(
+              (url,index) => `
+
+                <a
+                  class="file-link"
+                  href="${escaparHTML(url)}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+
+                  <span class="file-link-name">
+                    📎 Arquivo ${index + 1}
+                  </span>
+
+                  <span>
+                    Abrir →
+                  </span>
+
+                </a>
+
+              `
+            )
+            .join("")
+          }
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+  else if(
+    projeto["ARQUIVOS"]
+  ){
+
+    html += `
+
+      <div
+        class="detail-item full"
+        style="margin-top:15px"
+      >
+
+        <div class="detail-label">
+          Arquivos
+        </div>
+
+        <div class="detail-value">
+          ${escaparHTML(
+            String(
+              projeto["ARQUIVOS"]
+            )
+          )}
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  html += `
+
+    <div
+      style="
+        margin-top:15px;
+        color:var(--muted);
+        font-size:9px;
+        line-height:1.5;
+      "
+    >
+      Os campos adicionais retornados pelo backend também
+      permanecem disponíveis nos dados do projeto.
+    </div>
+
+  `;
+
+
+  return html;
+
+}
+
+
+/* =========================================================
+   MODAL EVENTO
+========================================================= */
+
+modalBody.addEventListener(
+  "click",
+  function(event){
+
+    const button =
+      event.target.closest(
+        "[data-modal-action]"
+      );
+
+
+    if(!button){
+      return;
+    }
+
+
+    if(
+      button.dataset.modalAction ===
+      "whatsapp"
+    ){
+
+      abrirWhatsApp(
+        projetoModalAtual
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   WHATSAPP
+========================================================= */
+
+function abrirWhatsApp(
+  projeto
+){
+
+  if(!projeto){
+    return;
+  }
+
+
+  const telefone =
+    limparTelefone(
+      projeto["WHATSAPP"]
+    );
+
+
+  if(!telefone){
+
+    mostrarToast(
+      "WhatsApp não encontrado.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const nome =
+    projeto["NOME"] ||
+    "Olá";
+
+
+  const projetoNome =
+    projeto["NOME DO PROJETO"] ||
+    "seu projeto";
+
+
+  const mensagem =
+    `Olá ${nome}! Estou entrando em contato sobre o projeto "${projetoNome}" da ARQSELECT.`;
+
+
+  const url =
+    "https://wa.me/" +
+    telefone +
+    "?text=" +
+    encodeURIComponent(
+      mensagem
+    );
+
+
+  window.open(
+    url,
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+}
+
+
+/* =========================================================
+   PAGINAÇÃO
+========================================================= */
+
+function renderizarPaginacao(
+  totalPaginas
+){
+
+  paginationButtons.innerHTML = "";
+
+
+  paginationInfo.textContent =
+    `Página ${paginaAtual} de ${totalPaginas}`;
+
+
+  if(totalPaginas <= 1){
+
+    return;
+
+  }
+
+
+  criarPaginaBotao(
+    "‹",
+    paginaAtual - 1,
+    paginaAtual === 1
+  );
+
+
+  const paginas =
+    gerarPaginas(
+      paginaAtual,
+      totalPaginas
+    );
+
+
+  paginas.forEach(
+    pagina => {
+
+      if(pagina === "..."){
+
+        const span =
+          document.createElement(
+            "span"
+          );
+
+        span.textContent =
+          "...";
+
+        span.style.cssText =
+          `
+            display:flex;
+            align-items:center;
+            padding:0 5px;
+            color:var(--muted);
+          `;
+
+        paginationButtons.appendChild(
+          span
+        );
+
+      }
+      else{
+
+        criarPaginaBotao(
+          String(pagina),
+          pagina,
+          false,
+          pagina === paginaAtual
+        );
+
+      }
+
+    }
+  );
+
+
+  criarPaginaBotao(
+    "›",
+    paginaAtual + 1,
+    paginaAtual === totalPaginas
+  );
+
+}
+
+
+function criarPaginaBotao(
+  texto,
+  pagina,
+  disabled,
+  active = false
+){
+
+  const button =
+    document.createElement(
+      "button"
+    );
+
+
+  button.className =
+    "page-btn" +
+    (
+      active
+        ? " active"
+        : ""
+    );
+
+
+  button.textContent =
+    texto;
+
+
+  button.disabled =
+    disabled;
+
+
+  button.addEventListener(
+    "click",
+    function(){
+
+      if(disabled){
+        return;
+      }
+
+
+      paginaAtual =
+        pagina;
+
+
+      renderizarProjetos();
+
+
+      document
+        .querySelector(".table-panel")
+        ?.scrollIntoView({
+          behavior:"smooth",
+          block:"start"
+        });
+
+    }
+  );
+
+
+  paginationButtons.appendChild(
+    button
+  );
+
+}
+
+
+function gerarPaginas(
+  atual,
+  total
+){
+
+  if(total <= 7){
+
+    return Array.from(
+      {
+        length:total
+      },
+      (_,index) =>
+        index + 1
+    );
+
+  }
+
+
+  const paginas = [1];
+
+
+  if(atual > 4){
+
+    paginas.push("...");
+
+  }
+
+
+  const inicio =
+    Math.max(
+      2,
+      atual - 1
+    );
+
+
+  const fim =
+    Math.min(
+      total - 1,
+      atual + 1
+    );
+
+
+  for(
+    let i=inicio;
+    i<=fim;
+    i++
+  ){
+
+    paginas.push(i);
+
+  }
+
+
+  if(atual < total - 3){
+
+    paginas.push("...");
+
+  }
+
+
+  paginas.push(total);
+
+
+  return paginas;
+
+}
+
+
+/* =========================================================
+   VIEW
+========================================================= */
+
+function mudarView(
+  view
+){
+
+  const dashboard =
+    document.getElementById(
+      "dashboardView"
+    );
+
+  const projects =
+    document.getElementById(
+      "projectsView"
+    );
+
+  const crm =
+    document.getElementById(
+      "crmView"
+    );
+
+
+  dashboard.classList.add(
+    "hidden"
+  );
+
+  projects.classList.add(
+    "hidden"
+  );
+
+  crm.classList.add(
+    "hidden"
+  );
+
+
+  document
+    .querySelectorAll(
+      ".menu-item[data-view]"
+    )
+    .forEach(
+      button => {
+
+        button.classList.toggle(
+          "active",
+          button.dataset.view === view
+        );
+
+      }
+    );
+
+
+  const titles = {
+
+    dashboard:"Dashboard",
+
+    projects:"Projetos",
+
+    crm:"CRM"
+
+  };
+
+
+  document.getElementById(
+    "pageTitle"
+  ).textContent =
+    titles[view] ||
+    "Dashboard";
+
+
+  if(view === "dashboard"){
+
+    dashboard.classList.remove(
+      "hidden"
+    );
+
+  }
+  else if(view === "projects"){
+
+    projects.classList.remove(
+      "hidden"
+    );
+
+  }
+  else if(view === "crm"){
+
+    crm.classList.remove(
+      "hidden"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LOGIN / APP
+========================================================= */
+
+function mostrarLogin(){
+
+  loginPage.classList.remove(
+    "hidden"
+  );
+
+  appPage.classList.add(
+    "hidden"
+  );
+
+
+  setTimeout(
+    () => {
+
+      document
+        .getElementById(
+          "username"
+        )
+        ?.focus();
+
+    },
+    50
+  );
+
+}
+
+
+function mostrarAplicacao(){
+
+  loginPage.classList.add(
+    "hidden"
+  );
+
+  appPage.classList.remove(
+    "hidden"
+  );
+
+}
+
+
+/* =========================================================
+   USUÁRIO
+========================================================= */
+
+function atualizarUsuarioVisual(){
+
+  const nome =
+    usuario ||
+    "Administrador";
+
+
+  setText(
+    "sidebarUser",
+    nome
+  );
+
+
+  const iniciais =
+    nome
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0,2)
+      .map(
+        palavra =>
+          palavra
+            .charAt(0)
+            .toUpperCase()
+      )
+      .join("") ||
+    "AD";
+
+
+  setText(
+    "userAvatar",
+    iniciais
+  );
+
+}
+
+
+/* =========================================================
+   TEMA
+========================================================= */
+
+function carregarTema(){
+
+  const tema =
+    localStorage.getItem(
+      THEME_KEY
+    );
+
+
+  if(
+    tema === "dark"
+  ){
+
+    document.body.classList.add(
+      "dark"
+    );
+
+    themeButton.textContent =
+      "☀";
+
+  }
+  else{
+
+    document.body.classList.remove(
+      "dark"
+    );
+
+    themeButton.textContent =
+      "☾";
+
+  }
+
+}
+
+
+function alternarTema(){
+
+  const dark =
+    document.body.classList.toggle(
+      "dark"
+    );
+
+
+  localStorage.setItem(
+    THEME_KEY,
+    dark
+      ? "dark"
+      : "light"
+  );
+
+
+  themeButton.textContent =
+    dark
+      ? "☀"
+      : "☾";
+
+}
+
+
+/* =========================================================
+   HORÁRIO
+========================================================= */
+
+function atualizarHorario(){
+
+  const agora =
+    new Date();
+
+
+  const horario =
+    agora.toLocaleTimeString(
+      "pt-BR",
+      {
+        hour:"2-digit",
+        minute:"2-digit",
+        second:"2-digit"
+      }
+    );
+
+
+  const data =
+    agora.toLocaleDateString(
+      "pt-BR"
+    );
+
+
+  setText(
+    "lastUpdate",
+    `Atualizado em ${data} às ${horario}`
+  );
+
+
+  setText(
+    "lastUpdateBig",
+    horario
+  );
+
+}
+
+
+/* =========================================================
+   CONEXÃO
+========================================================= */
+
+function marcarConexao(
+  online
+){
+
+  const dot =
+    document.getElementById(
+      "connectionDot"
+    );
+
+  const text =
+    document.getElementById(
+      "connectionText"
+    );
+
+
+  if(online){
+
+    dot.classList.remove(
+      "offline"
+    );
+
+    text.textContent =
+      "Conectado";
+
+  }
+  else{
+
+    dot.classList.add(
+      "offline"
+    );
+
+    text.textContent =
+      "Sem conexão";
+
+  }
+
+}
+
+
+/* =========================================================
+   EMPTY / LOADING
+========================================================= */
+
+function mostrarTabelaLoading(){
+
+  projectsBody.innerHTML = `
+
+    <tr>
+
+      <td
+        colspan="10"
+        style="padding:0"
+      >
+
+        <div class="empty-state">
+
+          <div class="spinner"></div>
+
+          <strong>
+            Carregando projetos...
+          </strong>
+
+          <span>
+            Sincronizando com o Google Sheets.
+          </span>
+
+        </div>
+
+      </td>
+
+    </tr>
+
+  `;
+
+}
+
+
+function mostrarTabelaVazia(){
+
+  projectsBody.innerHTML = `
+
+    <tr>
+
+      <td
+        colspan="10"
+        style="padding:0"
+      >
+
+        <div class="empty-state">
+
+          <div class="empty-icon">
+            ⌕
+          </div>
+
+          <strong>
+            Nenhum projeto encontrado
+          </strong>
+
+          <span>
+            Tente alterar os filtros ou a pesquisa.
+          </span>
+
+        </div>
+
+      </td>
+
+    </tr>
+
+  `;
+
+}
+
+
+function mostrarTabelaErro(
+  mensagem
+){
+
+  projectsBody.innerHTML = `
+
+    <tr>
+
+      <td
+        colspan="10"
+        style="padding:0"
+      >
+
+        <div class="empty-state">
+
+          <div class="empty-icon">
+            !
+          </div>
+
+          <strong>
+            Não foi possível carregar os dados
+          </strong>
+
+          <span>
+            ${escaparHTML(mensagem)}
+          </span>
+
+        </div>
+
+      </td>
+
+    </tr>
+
+  `;
+
+}
+
+
+/* =========================================================
+   FILTROS
+========================================================= */
+
+function limparFiltros(){
+
+  searchInput.value = "";
+
+  statusFilter.value = "";
+
+  sortFilter.value =
+    "recent";
+
+  paginaAtual = 1;
+
+  aplicarFiltros();
+
+}
+
+
+/* =========================================================
+   EXPORTAÇÃO CSV
+========================================================= */
+
+function exportarCSV(){
+
+  if(!projetosFiltrados.length){
+
+    mostrarToast(
+      "Não existem projetos para exportar.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const chaves =
+    obterChavesExportacao(
+      projetosFiltrados
+    );
+
+
+  const linhas = [];
+
+
+  linhas.push(
+    chaves
+      .map(
+        escaparCSV
+      )
+      .join(";")
+  );
+
+
+  projetosFiltrados.forEach(
+    projeto => {
+
+      linhas.push(
+
+        chaves
+          .map(
+            chave =>
+              escaparCSV(
+                projeto[chave]
+              )
+          )
+          .join(";")
+
+      );
+
+    }
+  );
+
+
+  const blob =
+    new Blob(
+      [
+        "\uFEFF" +
+        linhas.join("\n")
+      ],
+      {
+        type:
+          "text/csv;charset=utf-8;"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const link =
+    document.createElement(
+      "a"
+    );
+
+
+  link.href =
+    url;
+
+  link.download =
+    "ARQSELECT_projetos_" +
+    formatarDataArquivo() +
+    ".csv";
+
+
+  document.body.appendChild(
+    link
+  );
+
+
+  link.click();
+
+
+  link.remove();
+
+
+  URL.revokeObjectURL(
+    url
+  );
+
+
+  mostrarToast(
+    "Exportação concluída.",
+    "success"
+  );
+
+}
+
+
+function obterChavesExportacao(
+  lista
+){
+
+  const conjunto =
+    new Set();
+
+
+  lista.forEach(
+    projeto => {
+
+      Object.keys(
+        projeto
+      ).forEach(
+        chave =>
+          conjunto.add(
+            chave
+          )
+      );
+
+    }
+  );
+
+
+  return Array.from(
+    conjunto
+  );
+
+}
+
+
+function escaparCSV(
+  valor
+){
+
+  const texto =
+    String(
+      valor === undefined ||
+      valor === null
+        ? ""
+        : valor
+    );
+
+
+  return '"' +
+    texto
+      .replace(
+        /"/g,
+        '""'
+      ) +
+    '"';
+
+}
+
+
+/* =========================================================
+   URLS
+========================================================= */
+
+function extrairURL(
+  valor
+){
+
+  const texto =
+    String(
+      valor || ""
+    );
+
+
+  const match =
+    texto.match(
+      /https?:\/\/[^\s<>"']+/i
+    );
+
+
+  return match
+    ? match[0]
+    : "";
+
+}
+
+
+function extrairURLs(
+  valor
+){
+
+  const texto =
+    String(
+      valor || ""
+    );
+
+
+  const encontrados =
+    texto.match(
+      /https?:\/\/[^\s<>"']+/gi
+    );
+
+
+  if(!encontrados){
+
+    return [];
+
+  }
+
+
+  return Array.from(
+    new Set(
+      encontrados
+    )
+  );
+
+}
+
+
+/* =========================================================
+   TELEFONE
+========================================================= */
+
+function limparTelefone(
+  valor
+){
+
+  let telefone =
+    String(
+      valor || ""
+    )
+      .replace(
+        /\D/g,
+        ""
+      );
+
+
+  if(!telefone){
+    return "";
+  }
+
+
+  /*
+   * Brasil:
+   * adiciona 55 quando o número
+   * aparenta ser nacional.
+   */
+
+  if(
+    telefone.length === 10 ||
+    telefone.length === 11
+  ){
+
+    telefone =
+      "55" +
+      telefone;
+
+  }
+
+
+  return telefone;
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function classeStatus(
+  status
+){
+
+  const normalizado =
+    String(
+      status || ""
+    )
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(
+        /[\u0300-\u036f]/g,
+        ""
+      );
+
+
+  switch(normalizado){
+
+    case "novo":
+      return "status-novo";
+
+    case "em analise":
+      return "status-analise";
+
+    case "orcamento":
+      return "status-orcamento";
+
+    case "proposta enviada":
+      return "status-proposta";
+
+    case "negociacao":
+      return "status-negociacao";
+
+    case "aprovacao":
+      return "status-aprovacao";
+
+    case "em execucao":
+      return "status-execucao";
+
+    case "concluido":
+      return "status-concluido";
+
+    case "fechado":
+      return "status-fechado";
+
+    case "cancelado":
+      return "status-cancelado";
+
+    default:
+      return "status-novo";
+
+  }
+
+}
+
+
+function classeStatusBotao(
+  status
+){
+
+  const normalizado =
+    String(
+      status || ""
+    )
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(
+        /[\u0300-\u036f]/g,
+        ""
+      );
+
+
+  switch(normalizado){
+
+    case "novo":
+      return "novo";
+
+    case "em analise":
+      return "analise";
+
+    case "orcamento":
+      return "orcamento";
+
+    case "fechado":
+      return "fechado";
+
+    case "cancelado":
+      return "cancelado";
+
+    default:
+      return "novo";
+
+  }
+
+}
+
+
+/* =========================================================
+   SENHA
+========================================================= */
+
+function alternarSenha(){
+
+  const campo =
+    document.getElementById(
+      "password"
+    );
+
+
+  const button =
+    document.getElementById(
+      "passwordToggle"
+    );
+
+
+  if(
+    campo.type ===
+    "password"
+  ){
+
+    campo.type =
+      "text";
+
+    button.textContent =
+      "🙈";
+
+  }
+  else{
+
+    campo.type =
+      "password";
+
+    button.textContent =
+      "👁";
+
+  }
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function mostrarToast(
+  mensagem,
+  tipo = "success"
+){
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+
+  toast.textContent =
+    mensagem;
+
+
+  toast.className = "";
+
+  toast.id =
+    "toast";
+
+
+  toast.classList.add(
+    tipo
+  );
+
+
+  requestAnimationFrame(
+    function(){
+
+      toast.classList.add(
+        "show"
+      );
+
+    }
+  );
+
+
+  if(toastTimeout){
+
+    clearTimeout(
+      toastTimeout
+    );
+
+  }
+
+
+  toastTimeout =
+    setTimeout(
+      function(){
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      3500
+    );
+
+}
+
+
+/* =========================================================
+   LOGIN ERROR
+========================================================= */
+
+function mostrarErroLogin(
+  mensagem
+){
+
+  loginError.textContent =
+    mensagem;
+
+
+  loginError.classList.remove(
+    "hidden"
+  );
+
+}
+
+
+function esconderErroLogin(){
+
+  loginError.textContent =
+    "";
+
+
+  loginError.classList.add(
+    "hidden"
+  );
+
+}
+
+
+/* =========================================================
+   UTILITÁRIOS
+========================================================= */
+
+function setText(
+  id,
+  valor
+){
+
+  const elemento =
+    document.getElementById(
+      id
+    );
+
+
+  if(elemento){
+
+    elemento.textContent =
+      String(
+        valor
+      );
+
+  }
+
+}
+
+
+function formatarDataArquivo(){
+
+  const agora =
+    new Date();
+
+
+  const ano =
+    agora.getFullYear();
+
+
+  const mes =
+    String(
+      agora.getMonth()+1
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  const dia =
+    String(
+      agora.getDate()
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  return (
+    ano +
+    "-" +
+    mes +
+    "-" +
+    dia
+  );
+
+}
+
+
+function escaparHTML(
+  valor
+){
+
+  return String(
+    valor === undefined ||
+    valor === null
+      ? ""
+      : valor
+  )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   SIDEBAR MOBILE
+========================================================= */
+
+function fecharSidebarMobile(){
+
+  sidebar.classList.remove(
+    "open"
+  );
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function fecharModal(){
+
+  projectModal.classList.add(
+    "hidden"
+  );
+
+  projetoModalAtual =
+    null;
+
+}
+
+
+/* =========================================================
+   GLOBAL ERROR
+========================================================= */
+
+window.addEventListener(
+  "error",
+  function(event){
+
+    console.error(
+      "ARQSELECT ERROR:",
+      event.error ||
+      event.message
+    );
+
+  }
+);
+
+
+window.addEventListener(
+  "unhandledrejection",
+  function(event){
+
+    console.error(
+      "ARQSELECT PROMISE ERROR:",
+      event.reason
+    );
+
+  }
+);
+
+
+/* =========================================================
+   ONLINE / OFFLINE
+========================================================= */
+
+window.addEventListener(
+  "online",
+  function(){
+
+    marcarConexao(true);
+
+    if(token){
+
+      carregarProjetos(false);
+
+    }
+
+  }
+);
+
+
+window.addEventListener(
+  "offline",
+  function(){
+
+    marcarConexao(false);
+
+    mostrarToast(
+      "Conexão com a internet perdida.",
+      "error"
+    );
+
+  }
+);
+
 </script>
-</body></html>
+
+</body>
+</html>
