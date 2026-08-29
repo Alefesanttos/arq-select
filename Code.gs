@@ -6971,66 +6971,38 @@ function encontrarColuna(
    ENCONTRAR LINHA POR ID
 ========================================================== */
 
-function encontrarLinhaPorID(
-  aba,
-  colunaID,
-  id
-) {
+function encontrarLinhaPorID(aba, colunaID, id) {
+  // Compatibilidade: o projeto utiliza tanto (aba, id) quanto (aba, coluna, id).
+  // Nunca permita que um ID textual como CONV-XXXXXXXX seja interpretado como coluna.
+  if (!aba || aba.getLastRow() < 2) return 0;
 
-  if (
-    !colunaID ||
-    aba.getLastRow() < 2
-  ) {
+  if (arguments.length < 3) {
+    id = colunaID;
+    const headers = obterCabecalhosAba(aba);
+    colunaID = encontrarColuna(headers, 'ID');
 
-    return 0;
-
-  }
-
-
-  const quantidade =
-    aba.getLastRow() - 1;
-
-
-  const valores =
-    aba
-      .getRange(
-        2,
-        colunaID,
-        quantidade,
-        1
-      )
-      .getDisplayValues();
-
-
-  const procurado =
-    String(
-      id || ""
-    ).trim();
-
-
-  for (
-    let i = 0;
-    i < valores.length;
-    i++
-  ) {
-
-    if (
-      String(
-        valores[i][0] ||
-        ""
-      ).trim() ===
-      procurado
-    ) {
-
-      return i + 2;
-
+    // Fallback para cabeçalhos iniciados por ID, preservando compatibilidade com abas antigas.
+    if (!colunaID) {
+      const idx = headers.findIndex(function(h) {
+        return /^ID(?:\s|$)|^ID[_ -]/i.test(String(h || '').trim());
+      });
+      if (idx >= 0) colunaID = idx + 1;
     }
-
   }
 
+  colunaID = Number(colunaID);
+  if (!Number.isInteger(colunaID) || colunaID < 1 || colunaID > aba.getLastColumn()) return 0;
 
+  const procurado = String(id || '').trim();
+  if (!procurado) return 0;
+
+  const quantidade = aba.getLastRow() - 1;
+  const valores = aba.getRange(2, colunaID, quantidade, 1).getDisplayValues();
+
+  for (let i = 0; i < valores.length; i++) {
+    if (String(valores[i][0] || '').trim() === procurado) return i + 2;
+  }
   return 0;
-
 }
 
 
