@@ -148,7 +148,46 @@ select option{background:#171717;color:#f5f2e9}
 <script>
 const API_URL="https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec"; const SK="ARQSELECT_ADMIN_TOKEN"; let token=localStorage.getItem(SK)||"",dashboard=null,usuarios=[],notificacoes=[],currentPage="dashboard",autoRefresh=null;
 const $=id=>document.getElementById(id), esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]));
-async function api(acao,data={}){const p=new URLSearchParams();p.set("acao",acao);Object.entries({...data,token}).forEach(([k,v])=>{if(v!==undefined&&v!==null)p.set(k,Array.isArray(v)?v.join(","):String(v))});const url=API_URL+"?"+p.toString();console.debug("[ARQSELECT] API →",acao,{url,data});const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),20000);let r;try{r=await fetch(url,{method:"GET",cache:"no-store",headers:{"Accept":"application/json"},signal:controller.signal})}catch(e){clearTimeout(timer);console.error("[ARQSELECT] Falha de rede",{acao,error:e});if(e?.name==="AbortError")throw new Error("O servidor demorou mais de 20 segundos para responder. Verifique a implantação /exec do Apps Script.");throw new Error("Não foi possível conectar ao servidor ARQSELECT. Verifique o Web App do Apps Script e a conexão.")}clearTimeout(timer);const texto=await r.text();let j;try{j=JSON.parse(texto)}catch(e){console.error("[ARQSELECT] Resposta não-JSON",{acao,httpStatus:r.status,texto:texto.slice(0,1000)});throw new Error("O Apps Script não retornou JSON válido. Confirme a implantação /exec e a versão publicada.")}console.debug("[ARQSELECT] API ←",acao,j);if(j.autorizado===false&&/sessão|login|expirada|credenciais|não autorizado|nao autorizado/i.test(j.mensagem||"")){logout(false);throw new Error(j.mensagem||"Sessão expirada.")}if(j.error===true||j.success===false||j.sucesso===false){const detalhe=j.detalhe||j.errorMessage||j.error||"";console.error("[ARQSELECT] Erro de backend",{acao,status:r.status,resposta:j});throw new Error(j.mensagem||j.message||detalhe||"Erro no servidor ARQSELECT.")}if(j.success===true&&j.sucesso===undefined)j.sucesso=true;return j}
+async function api(acao,data={}){
+  const consultar=async (nomeParametro)=>{
+    const p=new URLSearchParams();
+    p.set(nomeParametro,acao);
+    Object.entries({...data,token}).forEach(([k,v])=>{if(v!==undefined&&v!==null)p.set(k,Array.isArray(v)?v.join(','):String(v))});
+    const url=API_URL+'?'+p.toString();
+    console.debug('[ARQSELECT] API →',nomeParametro,acao,{url,data});
+    const controller=new AbortController();
+    const timer=setTimeout(()=>controller.abort(),20000);
+    let r;
+    try{r=await fetch(url,{method:'GET',cache:'no-store',headers:{'Accept':'application/json'},signal:controller.signal});}
+    catch(e){clearTimeout(timer);if(e?.name==='AbortError')throw new Error('O servidor demorou mais de 20 segundos para responder. Verifique a implantação /exec do Apps Script.');throw new Error('Não foi possível conectar ao servidor ARQSELECT.');}
+    clearTimeout(timer);
+    const texto=await r.text();
+    let j;
+    try{j=JSON.parse(texto)}catch(e){throw new Error('O Apps Script não retornou JSON válido. Confirme a implantação /exec.')}
+    console.debug('[ARQSELECT] API ←',nomeParametro,acao,j);
+    return j;
+  };
+  let j;
+  let primeiroErro=null;
+  for(const nomeParametro of ['acao','action']){
+    try{
+      j=await consultar(nomeParametro);
+      if(!(j?.success===false||j?.sucesso===false||j?.error===true)) break;
+      const msg=String(j?.mensagem||j?.message||j?.errorMessage||j?.error||'');
+      if(!/ação não encontrada|acao nao encontrada|endpoint|função|funcao/i.test(msg)) break;
+      primeiroErro=new Error(msg||'Ação não encontrada.');
+      j=null;
+    }catch(e){
+      primeiroErro=e;
+      j=null;
+    }
+  }
+  if(!j) throw primeiroErro||new Error('O servidor não reconheceu a ação solicitada.');
+  if(j.autorizado===false&&/sessão|login|expirada|credenciais|não autorizado|nao autorizado/i.test(j.mensagem||'')){logout(false);throw new Error(j.mensagem||'Sessão expirada.')}
+  if(j.error===true||j.success===false||j.sucesso===false){const detalhe=j.detalhe||j.errorMessage||j.error||'';console.error('[ARQSELECT] Erro de backend',{acao,resposta:j});throw new Error(j.mensagem||j.message||detalhe||'Erro no servidor ARQSELECT.')}
+  if(j.success===true&&j.sucesso===undefined)j.sucesso=true;
+  return j;
+}
 function toast(msg){ $("toast").textContent=msg;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2600)}
 function badge(v){const s=String(v||"");const c=/aprov|ativo|conclu|enviada|aceita/i.test(s)?"green":/pend|nova|negoc/i.test(s)?"gold":/recus|bloq|inativ/i.test(s)?"red":"blue";return `<span class="badge ${c}">${esc(s||"—")}</span>`}
 function modal(title,html){$("modalTitle").textContent=title;$("modalBody").innerHTML=html;$("modal").classList.add("open")}
@@ -159,7 +198,22 @@ function logout(reload=true){localStorage.removeItem(SK);token="";if(autoRefresh
 $("loginForm").onsubmit=login;$("logout").onclick=()=>logout();$("refresh").onclick=async()=>{try{await loadPageData(currentPage);toast("Dados atualizados.")}catch(e){toast(e?.message||"Falha ao atualizar.")}};
 async function start(){$("login").classList.add("hidden");$("app").classList.remove("hidden");try{await api("sessao");await loadDashboard();startPolling()}catch(e){console.error("[ARQSELECT] Start",e);toast(e?.message||"Falha ao iniciar CRM.");logout(false)}}
 function normalizarDashboard(j){const indicadores=j?.indicadores||j?.dashboard||{};return{sucesso:j?.sucesso!==false,indicadores,ultimosUsuarios:Array.isArray(j?.ultimosUsuarios)?j.ultimosUsuarios:(Array.isArray(j?.usuarios)?j.usuarios:[]),ultimasNotificacoes:Array.isArray(j?.ultimasNotificacoes)?j.ultimasNotificacoes:(Array.isArray(j?.notificacoes)?j.notificacoes:[])}}
-async function carregarDashboardCompat(){try{return normalizarDashboard(await api("dashboard_v4"))}catch(e){const msg=String(e?.message||"");if(!/ação não encontrada|acao nao encontrada|dashboard_v4/i.test(msg))throw e;console.warn("[ARQSELECT] dashboard_v4 não disponível; usando endpoint legado dashboard.");return normalizarDashboard(await api("dashboard"))}}
+async function carregarDashboardCompat(){
+  const tentativas=["dashboard","admin_v4_dashboard","dashboard_v4"];
+  let ultimoErro=null;
+  for(const acao of tentativas){
+    try{
+      const r=await api(acao);
+      return normalizarDashboard(r);
+    }catch(e){
+      ultimoErro=e;
+      const msg=String(e?.message||"");
+      console.warn("[ARQSELECT] Dashboard: ação indisponível",acao,msg);
+      if(!/ação não encontrada|acao nao encontrada|endpoint|função|funcao/i.test(msg)) throw e;
+    }
+  }
+  throw ultimoErro||new Error("Nenhum endpoint de Dashboard foi reconhecido pelo Web App publicado.");
+}
 async function loadDashboard(){const content=$("content");if(content&&!dashboard)content.innerHTML='<div class="card loader">Carregando CRM...</div>';try{const j=await carregarDashboardCompat();if(!j.sucesso)throw Error(j.mensagem||"Falha ao carregar dashboard.");dashboard=j.indicadores||{};usuarios=Array.isArray(j.ultimosUsuarios)?j.ultimosUsuarios:[];notificacoes=Array.isArray(j.ultimasNotificacoes)?j.ultimasNotificacoes:[];$("notifCount").textContent=dashboard.notificacoesNaoLidas??0;render()}catch(e){console.error("[ARQSELECT] Dashboard",e);if(content)content.innerHTML='<div class="card empty"><b>Falha ao carregar o Dashboard.</b><div style="margin-top:8px">'+esc(e?.message||"Erro desconhecido.")+'</div><button class="btn light" style="margin-top:14px" onclick="loadDashboard()">Tentar novamente</button></div>';toast(e?.message||"Falha ao carregar dashboard.")}}
 function startPolling(){if(autoRefresh)clearInterval(autoRefresh);autoRefresh=setInterval(async()=>{try{const j=await carregarDashboardCompat();if(j.sucesso){dashboard=j.indicadores||dashboard||{};usuarios=j.ultimosUsuarios||usuarios;notificacoes=j.ultimasNotificacoes||notificacoes;$("notifCount").textContent=dashboard.notificacoesNaoLidas??0;if(currentPage==="dashboard")render()}}catch(e){console.error("[ARQSELECT] Poll dashboard",e)}},12000)}
 function nav(page){currentPage=page;document.querySelectorAll(".nav button[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));$("pageTitle").textContent={dashboard:"Dashboard",usuarios:"Usuários",fornecedores:"Fornecedores",produtos:"Produtos",projetos:"Projetos",solicitacoes:"Solicitações",propostas:"Propostas",chat:"Chat",notificacoes:"Notificações",historico:"Histórico", "enviar-projeto":"Enviar projeto ao fornecedor",negocios:"Central de Negócios"}[page]||"ARQSELECT";$("content").innerHTML='<div class="card loader">Carregando '+esc($("pageTitle").textContent)+'...</div>';loadPageData(page)}
