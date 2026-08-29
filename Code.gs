@@ -430,8 +430,8 @@ function doGet(e) {
         ? e.parameter
         : {};
 
-    // Alias de compatibilidade: algumas rotinas legadas/V4 usam `dados`.
-    // Mantemos ambos apontando para o mesmo conjunto de parâmetros.
+    // Compatibilidade: os handlers legados/V4 utilizam "dados".
+    // Em doGet a origem oficial dos parâmetros é "params".
     const dados = params;
 
     const acao =
@@ -735,26 +735,27 @@ function doGet(e) {
        ARQSELECT 4.0 — ADMIN / CRM / COMUNICAÇÃO
     ====================================================== */
     if (acao === "v4_setup" || acao === "admin_v4_setup") {
-      exigirSessao(params.token);
+      exigirSessao(dados.token);
       garantirEstruturaV4();
       return respostaJSON({sucesso:true,autorizado:true,mensagem:"Estrutura ARQSELECT 4.0 preparada."});
     }
-    if (acao === "admin_v4_dashboard") return obterDashboardV4(params.token);
-    if (acao === "admin_v4_painel") return obterPainelAdminV4(params.token);
-    if (acao === "admin_v4_usuarios") return obterUsuariosV4(params.token,params.tipo,params.busca);
-    if (acao === "admin_v4_fornecedor") return obterFornecedorCRMDetalheV4(params.token,params.id);
-    if (acao === "admin_v4_notificacoes") return listarNotificacoesV4(params.token,params.limite);
-    if (acao === "admin_v4_notificacao_lida") return marcarNotificacaoV4(params.token,params.id);
-    if (acao === "admin_v4_notificacoes_todas_lidas") return marcarTodasNotificacoesV4(params.token);
-    if (acao === "admin_v4_listar") return listarRegistrosAdminV4(params.token,params.modulo);
-    if (acao === "admin_v4_conversa_criar") return criarConversaV4(params.token,dados);
-    if (acao === "admin_v4_conversas") return listarConversasV4(params.token);
-    if (acao === "admin_v4_mensagens") return listarMensagensV4(params.token,params.conversaId);
-    if (acao === "admin_v4_mensagem_enviar") return enviarMensagemV4(params.token,dados);
-    if (acao === "admin_v4_produto_moderar") return moderarProdutoV4(params.token,params.id,params.status);
-    if (acao === "admin_v4_projeto_distribuir") return distribuirProjetoV4(params.token,params.idProjeto,params.fornecedores);
-    if (acao === "admin_v4_solicitacao") return criarSolicitacaoV4(params.token,dados);
-    if (acao === "admin_v4_proposta") return criarPropostaV4(params.token,dados);
+    if (acao === "admin_v4_dashboard") return obterDashboardV4(dados.token);
+    if (acao === "admin_v4_painel") return obterPainelAdminV4(dados.token);
+    if (acao === "admin_v4_usuarios") return obterUsuariosV4(dados.token,dados.tipo,dados.busca);
+    if (acao === "admin_v4_fornecedor") return obterFornecedorCRMDetalheV4(dados.token,dados.id);
+    if (acao === "admin_v4_notificacoes") return listarNotificacoesV4(dados.token,dados.limite);
+    if (acao === "admin_v4_notificacao_lida") return marcarNotificacaoV4(dados.token,dados.id);
+    if (acao === "admin_v4_notificacoes_todas_lidas") return marcarTodasNotificacoesV4(dados.token);
+    if (acao === "admin_v4_listar") return listarRegistrosAdminV4(dados.token,dados.modulo);
+    if (acao === "admin_v4_conversa_criar") return criarConversaV4(dados.token,dados);
+    if (acao === "admin_v4_conversas") return listarConversasV4(dados.token);
+    if (acao === "admin_v4_mensagens") return listarMensagensV4(dados.token,dados.conversaId);
+    if (acao === "admin_v4_mensagem_enviar") return enviarMensagemV4(dados.token,dados);
+    if (acao === "admin_v4_produto_moderar") return moderarProdutoV4(dados.token,dados.id,dados.status);
+    if (acao === "admin_v4_projeto_distribuir") return distribuirProjetoV4(dados.token,dados.idProjeto,dados.fornecedores);
+    if (acao === "admin_v4_projeto_enviar_fornecedor") return enviarProjetoFornecedorV4(dados.token,dados);
+    if (acao === "admin_v4_solicitacao") return criarSolicitacaoV4(dados.token,dados);
+    if (acao === "admin_v4_proposta") return criarPropostaV4(dados.token,dados);
     /* ======================================================
        PORTAL PREMIUM — PROJETOS / STATUS
     ====================================================== */
@@ -844,10 +845,9 @@ function doPost(e) {
     const dados =
       obterParametrosPost(e);
 
-
-    // Alias de compatibilidade: algumas rotinas usam `params`.
-    // Mantemos ambos apontando para o mesmo objeto recebido pelo POST.
+    // Compatibilidade com handlers que historicamente usam "params".
     const params = dados;
+
 
     const acao =
       String(
@@ -1184,26 +1184,26 @@ function doPost(e) {
        ARQSELECT 4.0 — ADMIN / CRM / COMUNICAÇÃO
     ====================================================== */
     if (acao === "v4_setup" || acao === "admin_v4_setup") {
-      exigirSessao(dados.token);
+      exigirSessao(params.token);
       garantirEstruturaV4();
       return respostaJSON({sucesso:true,autorizado:true,mensagem:"Estrutura ARQSELECT 4.0 preparada."});
     }
-    if (acao === "admin_v4_dashboard") return obterDashboardV4(dados.token);
-    if (acao === "admin_v4_painel") return obterPainelAdminV4(dados.token);
-    if (acao === "admin_v4_usuarios") return obterUsuariosV4(dados.token,dados.tipo,dados.busca);
-    if (acao === "admin_v4_fornecedor") return obterFornecedorCRMDetalheV4(dados.token,dados.id);
-    if (acao === "admin_v4_notificacoes") return listarNotificacoesV4(dados.token,dados.limite);
-    if (acao === "admin_v4_notificacao_lida") return marcarNotificacaoV4(dados.token,dados.id);
-    if (acao === "admin_v4_notificacoes_todas_lidas") return marcarTodasNotificacoesV4(dados.token);
-    if (acao === "admin_v4_listar") return listarRegistrosAdminV4(dados.token,dados.modulo);
-    if (acao === "admin_v4_conversa_criar") return criarConversaV4(dados.token,params);
-    if (acao === "admin_v4_conversas") return listarConversasV4(dados.token);
-    if (acao === "admin_v4_mensagens") return listarMensagensV4(dados.token,dados.conversaId);
-    if (acao === "admin_v4_mensagem_enviar") return enviarMensagemV4(dados.token,params);
-    if (acao === "admin_v4_produto_moderar") return moderarProdutoV4(dados.token,dados.id,dados.status);
-    if (acao === "admin_v4_projeto_distribuir") return distribuirProjetoV4(dados.token,dados.idProjeto,dados.fornecedores);
-    if (acao === "admin_v4_solicitacao") return criarSolicitacaoV4(dados.token,params);
-    if (acao === "admin_v4_proposta") return criarPropostaV4(dados.token,params);
+    if (acao === "admin_v4_dashboard") return obterDashboardV4(params.token);
+    if (acao === "admin_v4_painel") return obterPainelAdminV4(params.token);
+    if (acao === "admin_v4_usuarios") return obterUsuariosV4(params.token,params.tipo,params.busca);
+    if (acao === "admin_v4_fornecedor") return obterFornecedorCRMDetalheV4(params.token,params.id);
+    if (acao === "admin_v4_notificacoes") return listarNotificacoesV4(params.token,params.limite);
+    if (acao === "admin_v4_notificacao_lida") return marcarNotificacaoV4(params.token,params.id);
+    if (acao === "admin_v4_notificacoes_todas_lidas") return marcarTodasNotificacoesV4(params.token);
+    if (acao === "admin_v4_listar") return listarRegistrosAdminV4(params.token,params.modulo);
+    if (acao === "admin_v4_conversa_criar") return criarConversaV4(params.token,params);
+    if (acao === "admin_v4_conversas") return listarConversasV4(params.token);
+    if (acao === "admin_v4_mensagens") return listarMensagensV4(params.token,params.conversaId);
+    if (acao === "admin_v4_mensagem_enviar") return enviarMensagemV4(params.token,params);
+    if (acao === "admin_v4_produto_moderar") return moderarProdutoV4(params.token,params.id,params.status);
+    if (acao === "admin_v4_projeto_distribuir") return distribuirProjetoV4(params.token,params.idProjeto,params.fornecedores);
+    if (acao === "admin_v4_solicitacao") return criarSolicitacaoV4(params.token,params);
+    if (acao === "admin_v4_proposta") return criarPropostaV4(params.token,params);
         /* ======================================================
        PORTAL PREMIUM — PROJETOS / STATUS
     ====================================================== */
@@ -4500,6 +4500,132 @@ function distribuirProjetoV4(token,idProjeto,fornecedores) {
   registrarHistoricoV4(CONFIG.ADMIN_USERNAME,CONFIG.ADMIN_USERNAME,"ADMIN","DISTRIBUIR","Projeto "+idProjeto+" enviado para "+enviados+" fornecedor(es).");
   incrementarVersaoDados();
   return respostaJSON({sucesso:true,autorizado:true,enviados:enviados});
+}
+
+
+function encontrarOuCriarConversaAdminV4(fornecedor, projetoId) {
+  const aba=garantirAbaV4(ARQSELECT_4_SHEETS.CONVERSAS,ARQSELECT_4_HEADERS.CONVERSAS);
+  const conversas=lerAbaComoObjetos(aba);
+  const existente=conversas.find(function(x){
+    const a=String(x["PARTICIPANTE A ID"]||"");
+    const b=String(x["PARTICIPANTE B ID"]||"");
+    const p=String(x["PROJETO ID"]||"");
+    return p===String(projetoId||"") && ((["ADMIN",String(CONFIG.ADMIN_USERNAME||"")].indexOf(a)>=0 && b===String(fornecedor.ID||"")) || (["ADMIN",String(CONFIG.ADMIN_USERNAME||"")].indexOf(b)>=0 && a===String(fornecedor.ID||"")));
+  });
+  if(existente) return String(existente.ID||"");
+  const id="CONV-"+Utilities.getUuid().slice(0,8).toUpperCase();
+  aba.appendRow([
+    id,new Date(),"PROJETO",
+    "ADMIN",CONFIG.ADMIN_USERNAME,
+    fornecedor.EMPRESA||fornecedor.NOME||fornecedor["E-MAIL"]||"Fornecedor",String(fornecedor.ID||""),
+    projetoId||"","","","","",new Date(),"ABERTA"
+  ]);
+  incrementarVersaoDados();
+  return id;
+}
+
+function normalizarListaIdsV4(valor) {
+  if (Array.isArray(valor)) return valor.map(String).map(function(x){return x.trim();}).filter(Boolean);
+  return String(valor||"").split(/[,\n;]/).map(function(x){return x.trim();}).filter(Boolean);
+}
+
+function camposProjetoSelecionadosV4(p, campos) {
+  const aliases={
+    nome:["NOME DO PROJETO","NOME","PROJETO"],
+    cliente:["CLIENTE","NOME CLIENTE"],
+    tipo:["TIPO DE PROJETO","TIPO"],
+    localizacao:["CIDADE","LOCALIZAÇÃO","LOCALIZACAO","ENDEREÇO","ENDERECO"],
+    area:["ÁREA","AREA"],
+    prazo:["PRAZO","PRAZO DO PROJETO"],
+    descricao:["DESCRIÇÃO","DESCRICAO","OBSERVAÇÕES","OBSERVACOES"],
+    status:["STATUS"],
+    arquiteto:["NOME","ARQUITETO NOME","ARQUITETO","ARQUITETO E-MAIL"]
+  };
+  const procurar=function(lista){
+    for (var i=0;i<lista.length;i++) if (Object.prototype.hasOwnProperty.call(p,lista[i]) && String(p[lista[i]]||"").trim()!=="") return String(p[lista[i]]);
+    return "";
+  };
+  const out={};
+  (campos||[]).forEach(function(c){ if(aliases[c]) out[c]=procurar(aliases[c]); });
+  if (!out.nome) out.nome=String(p["NOME DO PROJETO"]||p.NOME||p.PROJETO||p["ID PROJETO"]||"");
+  out.id=String(p["ID PROJETO"]||p.ID||"");
+  return out;
+}
+
+function extrairLinksProjetoV4(p) {
+  const out=[];
+  Object.keys(p||{}).forEach(function(k){
+    const v=String(p[k]||"").trim();
+    if(!v) return;
+    if(/^https?:\/\//i.test(v) || /drive\.google\.com|docs\.google\.com|dropbox\.com|onedrive\.live\.com/i.test(v)) out.push({campo:k,link:v});
+    else if(/(arquivo|anexo|pdf|planta|memorial|documento|foto|imagem|link|url)/i.test(k) && v.indexOf("http")!==-1){
+      const m=v.match(/https?:\/\/[^\s,;]+/i); if(m) out.push({campo:k,link:m[0]});
+    }
+  });
+  const seen={}; return out.filter(function(x){ if(seen[x.link]) return false; seen[x.link]=true; return true; });
+}
+
+function montarMensagemProjetoFornecedorV4(projeto, campos, incluirLinks, mensagemExtra) {
+  const c=camposProjetoSelecionadosV4(projeto, campos);
+  const linhas=[];
+  linhas.push("📁 NOVO PROJETO — ARQSELECT");
+  linhas.push("");
+  if(c.nome) linhas.push("Projeto: "+c.nome);
+  if(c.id) linhas.push("Código: "+c.id);
+  if(c.cliente) linhas.push("Cliente: "+c.cliente);
+  if(c.tipo) linhas.push("Tipo: "+c.tipo);
+  if(c.localizacao) linhas.push("Localização: "+c.localizacao);
+  if(c.area) linhas.push("Área: "+c.area);
+  if(c.prazo) linhas.push("Prazo: "+c.prazo);
+  if(c.arquiteto) linhas.push("Arquiteto/contato: "+c.arquiteto);
+  if(c.status) linhas.push("Status: "+c.status);
+  if(c.descricao) { linhas.push(""); linhas.push("Descrição:"); linhas.push(c.descricao); }
+  if(incluirLinks) {
+    const links=extrairLinksProjetoV4(projeto);
+    if(links.length){ linhas.push(""); linhas.push("Arquivos e links do projeto:"); links.slice(0,20).forEach(function(x){linhas.push("• "+x.campo+": "+x.link);}); }
+  }
+  if(String(mensagemExtra||"").trim()){ linhas.push(""); linhas.push("Mensagem do ADMIN:"); linhas.push(String(mensagemExtra).trim()); }
+  linhas.push("");
+  linhas.push("Este projeto foi encaminhado pela equipe ARQSELECT. Responda por esta conversa para tratarmos da oportunidade.");
+  return linhas.join("\n");
+}
+
+function enviarProjetoFornecedorV4(token,dados) {
+  const sessao=obterSessaoAdmin(token);
+  if(!sessao) return respostaJSON({sucesso:false,autorizado:false,mensagem:"Sessão administrativa inválida ou expirada."});
+  dados=dados||{};
+  const projetoId=String(dados.projetoId||dados.idProjeto||"").trim();
+  if(!projetoId) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Selecione um projeto."});
+  const projeto=obterProjetoInterno(projetoId);
+  if(!projeto) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Projeto não encontrado."});
+  const refs=normalizarListaIdsV4(dados.fornecedores||dados.fornecedorIds||dados.fornecedorId);
+  if(!refs.length) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Selecione pelo menos um fornecedor."});
+  const usuarios=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.USUARIOS,ARQSELECT_4_HEADERS.USUARIOS)).filter(function(x){return String(x.TIPO||"").toUpperCase()==="FORNECEDOR";});
+  const selecionados=[];
+  refs.forEach(function(ref){
+    const u=usuarios.find(function(x){return String(x.ID||"")===String(ref) || String(x["E-MAIL"]||"").toLowerCase()===String(ref).toLowerCase();});
+    if(u && !selecionados.some(function(x){return String(x.ID)===String(u.ID);})) selecionados.push(u);
+  });
+  if(!selecionados.length) return respostaJSON({sucesso:false,autorizado:true,mensagem:"Nenhum fornecedor selecionado foi encontrado na base."});
+  const campos=normalizarListaIdsV4(dados.campos||"nome,cliente,tipo,localizacao,area,prazo,descricao,arquiteto");
+  const incluirLinks=String(dados.incluirLinks||"").toUpperCase()==="SIM" || dados.incluirLinks===true;
+  const mensagem=montarMensagemProjetoFornecedorV4(projeto,campos,incluirLinks,dados.mensagem||"");
+  const distAba=garantirAbaV4(ARQSELECT_4_SHEETS.PROJETO_FORNECEDORES,ARQSELECT_4_HEADERS.PROJETO_FORNECEDORES);
+  let enviados=[];
+  selecionados.forEach(function(u){
+    const convId=encontrarOuCriarConversaAdminV4(u,projetoId);
+    enviarMensagemV4(token,{conversaId:convId,destinatarioTipo:"FORNECEDOR",destinatarioId:u.ID,destinatarioEmail:u["E-MAIL"]||"",projetoId:projetoId,mensagem:mensagem});
+    const ja=lerAbaComoObjetos(distAba).find(function(x){return String(x["PROJETO ID"]||"")===projetoId && String(x["FORNECEDOR ID"]||"")===String(u.ID||"");});
+    if(!ja){
+      const id="PF-"+Utilities.getUuid().slice(0,8).toUpperCase();
+      distAba.appendRow([id,new Date(),projetoId,u.ID,u["E-MAIL"]||"",u.EMPRESA||u.NOME||"","ENVIADO","","",""]);
+    }
+    criarNotificacaoV4({usuario:u.ID,tipo:"PROJETO",titulo:"Novo projeto enviado pelo ADMIN",mensagem:(projeto["NOME DO PROJETO"]||projetoId)+" foi enviado para sua empresa.",registro:projetoId});
+    enviados.push({id:u.ID,nome:u.EMPRESA||u.NOME||"",email:u["E-MAIL"]||"",conversaId:convId});
+  });
+  registrarHistoricoV4(CONFIG.ADMIN_USERNAME,CONFIG.ADMIN_USERNAME,"ADMIN","PROJETO_FORNECEDOR","Projeto "+projetoId+" enviado para "+enviados.length+" fornecedor(es).",projetoId,{fornecedores:enviados.map(function(x){return x.id;}),campos:campos,incluirLinks:incluirLinks});
+  incrementarVersaoDados();
+  return respostaJSON({sucesso:true,autorizado:true,projeto:projetoId,enviados:enviados,mensagem:"Projeto enviado com sucesso para "+enviados.length+" fornecedor(es)."});
 }
 
 function criarSolicitacaoV4(token,dados) {
