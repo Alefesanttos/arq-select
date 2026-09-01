@@ -15,4 +15,4 @@ A senha não fica embutida no código; o hash do administrador fica em Script Pr
 
 
 ## Compatibilidade do Admin
-`admin.html` original foi preservado. O novo painel 2.0 está em `admin-v2.html`, usando a API 2.0.
+`admin.html` original foi preservado. O novo painel 2.0 está em `admin-v2.html`, usando a API 3.0.
