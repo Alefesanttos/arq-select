@@ -17,7 +17,7 @@ button,input,textarea,select{font:inherit}button{cursor:pointer}a{text-decoratio
 .composer-wrap{border-top:1px solid var(--line);padding:10px 14px 12px;background:#fff}.replying{display:none;align-items:center;justify-content:space-between;background:#f7f8fa;border-radius:10px;padding:8px 10px;margin-bottom:8px;font-size:12px}.composer{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:end}.tool-group{display:flex;gap:4px}.compose-btn{width:40px;height:40px;border:0;border-radius:50%;background:#f0f2f5;font-size:18px}.compose-btn:hover{background:#e4e6eb}.compose-input{position:relative}.compose-input textarea{width:100%;min-height:42px;max-height:140px;resize:none;border:0;background:#f0f2f5;border-radius:20px;padding:11px 15px;outline:none;line-height:1.35}.compose-input textarea:focus{background:#e8eaee}.send-btn{width:42px;height:42px;border:0;border-radius:50%;background:#111827;color:#fff;font-weight:900}.send-btn:hover{transform:translateY(-1px)}.sending{opacity:.6;pointer-events:none}.status{font-size:11px;color:var(--muted);padding:0 4px 4px;min-height:15px}.typing{font-size:11px;color:#65676b;height:15px;margin-top:2px}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#111827;color:#fff;padding:10px 14px;border-radius:11px;font-size:12px;opacity:0;pointer-events:none;transition:.2s;z-index:100}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .hidden{display:none!important}@media(max-width:820px){.wrap{padding:0;height:calc(100vh - 60px)}.top{height:60px;padding:0 14px}.chat-shell{border-radius:0;border-left:0;border-right:0;grid-template-columns:1fr}.sidebar{display:none}.sidebar.mobile-open{display:flex;position:absolute;inset:60px 0 0;z-index:40;background:#fff}.chat-head{height:62px;padding:0 14px}.messages{padding:14px}.msg-stack{max-width:84%}.composer-wrap{padding-bottom:max(12px,env(safe-area-inset-bottom))}.top-sub{display:none}}
-</style>
+.msg-reply-btn{border:0;background:transparent;color:#918a7d;font-size:10px;cursor:pointer;padding:0 4px}.msg-reply-btn:hover{color:#d4af37}.replying.show{display:flex}</style>
 <style>
 /* ARQSELECT PREMIUM DESIGN SYSTEM 3.0 */
 :root{
@@ -145,7 +145,7 @@ select option{background:#171717;color:#f5f2e9}
 const API='https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec';
 const token=localStorage.getItem('ARQSELECT_PORTAL_TOKEN');
 const type=localStorage.getItem('ARQSELECT_PORTAL_TIPO');
-let conversations=[],active=null,rec=null,chunks=[],messages=[],messageMap=new Map(),loadingConvs=false,loadingMsgs=false,pollTimer=null,lastConvSignature='';
+let conversations=[],active=null,rec=null,chunks=[],messages=[],messageMap=new Map(),loadingConvs=false,loadingMsgs=false,pollTimer=null,lastConvSignature='',replyTo='';
 const $=id=>document.getElementById(id);
 function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 function showToast(text){const el=$('toast');el.textContent=text;el.classList.add('show');clearTimeout(showToast.t);showToast.t=setTimeout(()=>el.classList.remove('show'),2600)}
@@ -153,8 +153,9 @@ function auth(){if(!token){location.href=type==='FORNECEDOR'?'ARQSELECT_LOGIN_FO
 async function get(p){const u=new URL(API);Object.entries(p).forEach(([k,v])=>u.searchParams.set(k,v));const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}
 async function post(p){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(p)});if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}
 function initials(name){const s=String(name||'ARQ').trim().split(/\s+/).filter(Boolean);return (s[0]?.[0]||'A')+(s[1]?.[0]||'').toUpperCase()}
-function convName(x){const a=x['PARTICIPANTE A']||'',b=x['PARTICIPANTE B']||'';const me=String(type||'').toUpperCase()==='ARQUITETO'?a:b;const other=me===a?b:a;return other||'Conversa'}
-function convOtherId(x){return String(type||'').toUpperCase()==='ARQUITETO'?x['PARTICIPANTE B ID']:x['PARTICIPANTE A ID']}
+function myPortalId(){return String(localStorage.getItem('ARQSELECT_PORTAL_ID')||'')}
+function convName(x){const id=myPortalId(),aId=String(x?.['PARTICIPANTE A ID']||''),bId=String(x?.['PARTICIPANTE B ID']||'');if(id&&aId===id)return x['PARTICIPANTE B']||bId||'Conversa';if(id&&bId===id)return x['PARTICIPANTE A']||aId||'Conversa';return x['PARTICIPANTE B']||x['PARTICIPANTE A']||'Conversa'}
+function convOtherId(x){const id=myPortalId(),a=String(x?.['PARTICIPANTE A ID']||''),b=String(x?.['PARTICIPANTE B ID']||'');return a===id?b:(b===id?a:b||a)}
 function convSignature(list){return JSON.stringify(list.map(x=>[x.ID,x['ULTIMA MENSAGEM'],x['ULTIMA DATA'],x['NAO LIDAS'],x['NÃO LIDAS']]))}
 async function loadContacts(){
   try{
@@ -177,7 +178,7 @@ async function createNewConversation(){
   const meuId=localStorage.getItem('ARQSELECT_PORTAL_ID')||'';const meuNome=localStorage.getItem('ARQSELECT_PORTAL_NOME')||'';const meuEmail=localStorage.getItem('ARQSELECT_PORTAL_EMAIL')||'';
   if(!meuId)return showToast('Sessão sem identificador de usuário. Faça login novamente.');
   const isArq=String(type||'').toUpperCase()==='ARQUITETO';
-  const payload={acao:'portal_conversa_criar',token,tipo:projeto?'PROJETO':'GERAL',participanteAId:isArq?meuId:opt.value,participanteANome:isArq?meuNome:nome,participanteBId:isArq?opt.value:meuId,participanteBNome:isArq?nome:meuNome,projetoId:projeto,participanteAEmail:isArq?meuEmail:(opt.dataset.email||'')};
+  const payload={acao:'portal_conversa_criar',token,tipo:projeto?'PROJETO':'GERAL',participanteAId:isArq?meuId:opt.value,participanteANome:isArq?meuNome:nome,participanteBId:isArq?opt.value:meuId,participanteBNome:isArq?nome:meuNome,projetoId:projeto,participanteAEmail:isArq?meuEmail:(opt.dataset.email||''),participanteATipo:isArq?'ARQUITETO':(opt.dataset.type||''),participanteBTipo:isArq?(opt.dataset.type||''):String(type||'').toUpperCase()};
   try{const j=await post(payload);if(!j.sucesso)throw new Error(j.mensagem||'Não foi possível criar a conversa.');$('newProject').value='';$('newChatBox').classList.add('hidden');await loadConvs({initial:true});if(j.id)openConv(j.id)}catch(e){console.error('[ARQSELECT CHAT] criar conversa',e);showToast(e.message||'Erro ao criar conversa.')}
 }
 async function loadConvs({initial=false}={}){
@@ -203,11 +204,11 @@ function renderConvs(){
   }).join(''):'<div class="empty"><div>Nenhuma conversa encontrada.</div></div>';
 }
 function openConv(id){active=conversations.find(x=>String(x.ID)===String(id))||null;if(!active)return;renderConvs();updateHead();loadMsgs({initial:true})}
-function updateHead(){const name=convName(active);$('head').innerHTML=`<div class="avatar gold">${esc(initials(name))}</div><div><div class="head-name">${esc(name)}</div><div class="head-meta"><span class="online-dot"></span>Disponível${active?.['PROJETO ID']?` · Projeto ${esc(active['PROJETO ID'])}`:''}</div></div>`}
+function updateHead(){const name=convName(active);$('head').innerHTML=`<div class="avatar gold">${esc(initials(name))}</div><div><div class="head-name">${esc(name)}</div><div class="head-meta"><span class="online-dot"></span>Atualização automática${active?.['PROJETO ID']?` · Projeto ${esc(active['PROJETO ID'])}`:''}</div></div>`}
 function dayKey(value){const d=new Date(value);return isNaN(d)?String(value||'') : d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})}
 function fileHtml(files,mine){return files.map(f=>/^image\//.test(f.mimeType||'')?`<div class="attach"><img src="${esc(f.url)}" alt="${esc(f.nome)}"><div style="margin-top:5px"><a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.nome)}</a></div></div>`:/^audio\//.test(f.mimeType||'')?`<div class="attach audio-msg"><audio controls preload="none" src="${esc(f.url)}"></audio></div>`:`<div class="attach"><a href="${esc(f.url)}" target="_blank" rel="noopener">📎 ${esc(f.nome)}</a></div>`).join('')}
-function isMine(m){return String(m['REMETENTE ID'])===String(type==='ARQUITETO'?active?.['PARTICIPANTE A ID']:active?.['PARTICIPANTE B ID'])||String(m['REMETENTE TIPO']||'').toUpperCase()===String(type||'').toUpperCase()}
-function renderOneMessage(m,index){let files=[];try{files=JSON.parse(m.ARQUIVOS||'[]')}catch(e){}const mine=isMine(m);const prev=messages[index-1];const sep=!prev||dayKey(prev.DATA)!==dayKey(m.DATA);const bubbleText=esc(m.MENSAGEM||'');return `${sep?`<div class="day-sep" data-day="${esc(dayKey(m.DATA))}">${esc(dayKey(m.DATA))}</div>`:''}<div class="msg-row ${mine?'mine':''}" data-message-id="${esc(m.ID||('m-'+index))}">${mine?'':`<div class="msg-avatar">${esc(initials(m['REMETENTE NOME']||'U'))}</div>`}<div class="msg-stack"><div class="bubble">${bubbleText?`<div style="white-space:pre-wrap">${bubbleText}</div>`:''}${fileHtml(files,mine)}</div><div class="msg-meta"><span>${esc(m.DATA||'')}</span><span class="check">${esc(m.LIDA==='SIM'?'✓✓':'✓')}</span></div></div></div>`}
+function isMine(m){const id=myPortalId();return !!id&&String(m['REMETENTE ID']||'')===id}
+function renderOneMessage(m,index){let files=[];try{files=JSON.parse(m.ARQUIVOS||'[]')}catch(e){}const mine=isMine(m);const prev=messages[index-1];const sep=!prev||dayKey(prev.DATA)!==dayKey(m.DATA);const bubbleText=esc(m.MENSAGEM||'');return `${sep?`<div class="day-sep" data-day="${esc(dayKey(m.DATA))}">${esc(dayKey(m.DATA))}</div>`:''}<div class="msg-row ${mine?'mine':''}" data-message-id="${esc(m.ID||('m-'+index))}">${mine?'':`<div class="msg-avatar">${esc(initials(m['REMETENTE NOME']||'U'))}</div>`}<div class="msg-stack"><div class="bubble">${bubbleText?`<div style="white-space:pre-wrap">${bubbleText}</div>`:''}${fileHtml(files,mine)}</div><div class="msg-meta"><button class="msg-reply-btn" onclick="setReply('${esc(m.ID||'')}','${esc((m.MENSAGEM||'').slice(0,80))}')">Responder</button><span>${esc(m.DATA||'')}</span><span class="check">${esc(m.LIDA==='SIM'?'✓✓':'✓')}</span></div></div></div>`}
 function nearBottom(el){return el.scrollHeight-el.scrollTop-el.clientHeight<120}
 function scrollBottom(force=false){const el=$('msgs');if(force||nearBottom(el))el.scrollTop=el.scrollHeight}
 function replaceMessages(next,initial=false){
@@ -245,10 +246,11 @@ async function sendMsg(){
   if(!text&&!fs.length&&!window._audio)return;
   const ar=[];for(const f of fs)ar.push({nome:f.name,mimeType:f.type,base64:await toData(f)});if(window._audio){ar.push(window._audio);window._audio=null}
   btn.classList.add('sending');$('status').textContent='Enviando...';
-  try{const j=await post({acao:'portal_mensagem_enviar',token,conversaId:active.ID,destinatarioId:convOtherId(active),mensagem:text,arquivos:ar});if(!j.sucesso)throw new Error(j.mensagem||'Não foi possível enviar.');$('text').value='';$('text').style.height='42px';$('files').value='';$('record').textContent='';$('status').textContent='';await loadMsgs({initial:false});await loadConvs();}
+  try{const j=await post({acao:'portal_mensagem_enviar',token,conversaId:active.ID,destinatarioId:convOtherId(active),mensagem:text,arquivos:ar,respondeA:replyTo});if(!j.sucesso)throw new Error(j.mensagem||'Não foi possível enviar.');$('text').value='';$('text').style.height='42px';$('files').value='';$('record').textContent='';$('status').textContent='';clearReply();await loadMsgs({initial:false});await loadConvs();}
   catch(e){$('status').textContent='';showToast(e.message||'Falha ao enviar mensagem.')}finally{btn.classList.remove('sending')}
 }
-function clearReply(){ }
+function setReply(id,text){replyTo=id||'';$('replyText').textContent='Respondendo: '+(text||'mensagem');$('replying').classList.add('show')}
+function clearReply(){replyTo='';$('replyText').textContent='';$('replying').classList.remove('show')}
 async function toggleRec(){
   if(rec){rec.stop();return}
   if(!navigator.mediaDevices?.getUserMedia)return showToast('Seu navegador não oferece gravação de áudio.');
