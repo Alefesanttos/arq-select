@@ -1,4 +1,4 @@
-const CACHE = "arqselect-4.0.1.20260902.41";
+const CACHE = "arqselect-4.0.2.20260902.42";
 const STATIC = [
   "./",
   "./index.html",
@@ -8,6 +8,9 @@ const STATIC = [
   "./arqselect-4.js",
   "./home-4.js",
   "./arquitetura-premium-v2.webp",
+  "./arquitetura-editorial-interior-v1.webp",
+  "./materiais-curadoria-v1.webp",
+  "./logistica-madeira-v1.webp",
   "./manifest.webmanifest",
   "./icon-192.png",
   "./icon-512.png"

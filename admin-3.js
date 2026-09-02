@@ -137,7 +137,29 @@
   window.updateCommercial3 = async (id, status) => { await api("admin_comercial_status", { id, status }); toast("Status comercial atualizado."); loadExtended("comercial"); };
   window.answerTicket3 = id => { const response = prompt("Resposta ao usuário:", ""); if (response === null) return; const status = prompt("Status: ABERTO, EM ATENDIMENTO, AGUARDANDO USUÁRIO, RESOLVIDO ou ENCERRADO", "EM ATENDIMENTO"); if (!status) return; api("admin_ticket_status", { id, status, resposta: response }).then(() => { toast("Ticket atualizado."); loadExtended("suporte"); }).catch(error => toast(error.message)); };
   window.saveSetting3 = async (index, key) => { const value = document.querySelector(`[data-setting="value"][data-index="${index}"]`)?.value || ""; const description = document.querySelector(`[data-setting="description"][data-index="${index}"]`)?.value || ""; await api("admin_configuracao_salvar", { chave: key, valor: value, descricao: description }); toast("Configuração salva."); };
-  window.updateUser3 = async (id, type) => { const status = $("userStatus3").value, approval = $("userApproval3").value; await api("admin_usuario_status", { id, tipo: type, status, aprovacao: approval }); $("modal").classList.remove("open"); toast("Cadastro atualizado."); loadExtended(currentPage); };
+  window.updateUser3 = async (id, type) => {
+    const status = $("userStatus3").value, approval = $("userApproval3").value, button = $("saveUserControl3"), feedback = $("userControlFeedback3");
+    try {
+      if (button) { button.disabled = true; button.textContent = "Salvando…"; }
+      if (feedback) { feedback.className = "muted"; feedback.textContent = "Gravando na base e sincronizando o acesso…"; }
+      const result = await apiMutation("admin_usuario_status", { id, tipo: type, status, aprovacao: approval });
+      const pages = ["usuarios", "arquitetos", "fornecedores"];
+      pages.forEach(page => {
+        const list = pageData[page]?.usuarios;
+        const item = Array.isArray(list) ? list.find(user => String(user.ID) === String(id) && String(user.TIPO) === String(type)) : null;
+        if (item) { item.STATUS = result.status; item["STATUS APROVACAO"] = result.aprovacao; }
+      });
+      if (feedback) { feedback.className = "msg success"; feedback.textContent = `${result.status} · ${result.aprovacao} — alteração confirmada.`; }
+      toast(result.mensagem || "Controle atualizado.");
+      await loadExtended(currentPage);
+      setTimeout(() => $("modal")?.classList.remove("open"), 450);
+    } catch (error) {
+      if (feedback) { feedback.className = "msg error"; feedback.textContent = error.message || "Não foi possível salvar o controle."; }
+      toast(error.message || "Não foi possível salvar o controle.");
+    } finally {
+      if (button) { button.disabled = false; button.textContent = "Salvar controle"; }
+    }
+  };
 
   showUser = function showUserExtended(user) {
     baseShowUser(user);
@@ -145,7 +167,7 @@
     const controls = document.createElement("div");
     controls.className = "card";
     controls.style.marginTop = "14px";
-    controls.innerHTML = `<h3>Controle administrativo</h3><div class="two"><label>Status<select id="userStatus3"><option ${String(user.STATUS).toUpperCase() === "ATIVO" ? "selected" : ""}>ATIVO</option><option ${String(user.STATUS).toUpperCase() === "INATIVO" ? "selected" : ""}>INATIVO</option><option ${String(user.STATUS).toUpperCase() === "BLOQUEADO" ? "selected" : ""}>BLOQUEADO</option></select></label><label>Aprovação<select id="userApproval3"><option ${String(user["STATUS APROVACAO"]).toUpperCase() === "PENDENTE" ? "selected" : ""}>PENDENTE</option><option ${String(user["STATUS APROVACAO"]).toUpperCase() === "APROVADO" ? "selected" : ""}>APROVADO</option><option ${String(user["STATUS APROVACAO"]).toUpperCase() === "RECUSADO" ? "selected" : ""}>RECUSADO</option></select></label></div><button class="btn gold" style="margin-top:12px" onclick="updateUser3('${esc(user.ID)}','${esc(user.TIPO)}')">Salvar controle</button>`;
+    controls.innerHTML = `<div class="section-head"><div><div class="ey">ACESSO E MODERAÇÃO</div><h3>Controle administrativo</h3></div><div>${badge(user.STATUS)} ${badge(user["STATUS APROVACAO"] || "PENDENTE")}</div></div><div class="two"><label>Status de acesso<select id="userStatus3"><option ${String(user.STATUS).toUpperCase() === "ATIVO" ? "selected" : ""}>ATIVO</option><option ${String(user.STATUS).toUpperCase() === "INATIVO" ? "selected" : ""}>INATIVO</option><option ${String(user.STATUS).toUpperCase() === "BLOQUEADO" ? "selected" : ""}>BLOQUEADO</option></select></label><label>Status de aprovação<select id="userApproval3"><option ${String(user["STATUS APROVACAO"]).toUpperCase() === "PENDENTE" ? "selected" : ""}>PENDENTE</option><option ${String(user["STATUS APROVACAO"]).toUpperCase() === "APROVADO" ? "selected" : ""}>APROVADO</option><option ${String(user["STATUS APROVACAO"]).toUpperCase() === "RECUSADO" ? "selected" : ""}>RECUSADO</option></select></label></div><p class="muted" style="margin:12px 0 0">O status controla o login. A aprovação controla a visibilidade e a validação do cadastro.</p><div id="userControlFeedback3" class="muted" role="status" aria-live="polite" style="margin-top:10px"></div><button id="saveUserControl3" class="btn gold" style="margin-top:12px" onclick="updateUser3('${esc(user.ID)}','${esc(user.TIPO)}')">Salvar controle</button>`;
     body.appendChild(controls);
   };
 

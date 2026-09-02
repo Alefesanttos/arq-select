@@ -56,7 +56,27 @@
     document.querySelectorAll("[data-open-access]").forEach(button => button.addEventListener("click", event => { event.preventDefault(); open(); }));
     document.querySelectorAll("[data-close-access]").forEach(button => button.addEventListener("click", close));
     modal?.addEventListener("click", event => { if (event.target === modal) close(); });
-    document.addEventListener("keydown", event => { if (event.key === "Escape") close(); });
+    const storyContent = {
+      projeto: {
+        title: "Do repertório à decisão",
+        html: "<p>O arquiteto apresenta o contexto do projeto e organiza o que precisa encontrar. A plataforma aproxima referências, produtos e parceiros sem perder a relação com o briefing original.</p><ul><li>Projeto e necessidade no centro da jornada</li><li>Seleções que podem ser revisitadas e comparadas</li><li>Conversas ligadas ao contexto correto</li></ul>"
+      },
+      materiais: {
+        title: "Curadoria para especificar melhor",
+        html: "<p>Materiais e soluções podem ser analisados por aplicação, acabamento, faixa de investimento e aderência ao projeto. O objetivo é tornar a escolha mais organizada e menos dispersa.</p><ul><li>Alternativas econômicas, intermediárias e premium</li><li>Produtos publicados após o fluxo de aprovação</li><li>Comparação com informações técnicas e comerciais</li></ul>"
+      },
+      logistica: {
+        title: "Fornecimento com rastreabilidade",
+        html: "<p>Cada oportunidade direcionada mantém fornecedor, proposta, mensagens e etapas comerciais vinculados ao mesmo projeto. Assim, a equipe acompanha o relacionamento sem perder histórico.</p><ul><li>Acesso somente aos projetos direcionados</li><li>Propostas e atualizações registradas</li><li>Controle administrativo de status e aprovação</li></ul>"
+      }
+    };
+    const storyModal = document.getElementById("story-modal"), storyTitle = document.getElementById("story-modal-title"), storyBody = document.getElementById("story-modal-body");
+    const closeStory = () => { if (!storyModal) return; storyModal.classList.remove("open"); storyModal.setAttribute("aria-hidden","true"); document.body.style.overflow = ""; };
+    const openStory = key => { const item = storyContent[key]; if (!item || !storyModal) return; storyTitle.textContent = item.title; storyBody.innerHTML = item.html; storyModal.classList.add("open"); storyModal.setAttribute("aria-hidden","false"); document.body.style.overflow = "hidden"; storyModal.querySelector("[data-close-story]")?.focus(); };
+    document.querySelectorAll("[data-story-detail]").forEach(button => button.addEventListener("click", () => openStory(button.dataset.storyDetail)));
+    document.querySelectorAll("[data-close-story]").forEach(button => button.addEventListener("click", closeStory));
+    storyModal?.addEventListener("click", event => { if (event.target === storyModal) closeStory(); });
+    document.addEventListener("keydown", event => { if (event.key === "Escape") { close(); closeStory(); } });
     const menu = document.getElementById("home-menu");
     const toggle = document.querySelector("[data-home-menu]");
     toggle?.addEventListener("click", () => { const opened = menu?.classList.toggle("open") || false; toggle.setAttribute("aria-expanded",String(opened)); });
