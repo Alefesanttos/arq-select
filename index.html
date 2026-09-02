@@ -1,92 +1,205 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ARQSELECT | Arquitetura, projetos e fornecedores</title><style>:root{--gold:#d4af37;--gold2:#f2d675;--muted:#a1a5ab}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Segoe UI,Arial;background:#050505;color:#fff}.hero{min-height:92vh;background:linear-gradient(90deg,#000e,#0007),url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=90') center/cover;display:flex;flex-direction:column}.nav{height:82px;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;border-bottom:1px solid #fff2;background:#0004;backdrop-filter:blur(10px)}.logo{font-weight:950;font-size:25px;letter-spacing:.12em}.logo span{color:var(--gold)}.navlinks,.actions{display:flex;gap:10px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:12px;padding:12px 18px;font-weight:900}.outline{border:1px solid #d4af3770;color:#fff;background:#0005}.gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#080808}.content{width:min(1200px,90vw);margin:auto;padding:90px 0 120px}.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold2);font-weight:950}.hero h1{font-size:clamp(48px,7vw,88px);line-height:.93;max-width:850px;margin:14px 0 24px}.hero p{max-width:680px;color:#ddd;line-height:1.8;font-size:17px}.trust{margin-top:55px;color:#bbb;font-size:12px;letter-spacing:.12em;text-transform:uppercase}.section{padding:90px 5vw;background:#080808}.section.alt{background:#0e0e0e}.section-inner{width:min(1200px,90vw);margin:auto}.section h2{font-size:40px;margin:8px 0 14px}.muted{color:var(--muted);line-height:1.7}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:32px}.card{background:linear-gradient(#151515,#0c0c0c);border:1px solid #d4af372b;border-radius:22px;padding:28px;min-height:210px}.icon{color:var(--gold);font-size:28px}.cta{text-align:center;background:#0b0b0b;padding:90px 20px}.footer{padding:28px 5vw;color:#777;border-top:1px solid #181818;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}@media(max-width:800px){.nav{height:auto;padding:18px 5vw;align-items:flex-start;gap:15px}.navlinks{justify-content:flex-end}.grid{grid-template-columns:1fr}.content{padding:65px 0 90px}}</style><style>.wa-float{position:fixed;right:22px;bottom:22px;z-index:40;background:linear-gradient(135deg,#25D366,#16a34a);color:#fff;color:#061b0e;border-radius:999px;padding:14px 18px;font-weight:950;box-shadow:0 18px 45px #0006;display:flex;align-items:center;gap:9px}.wa-float:hover{transform:translateY(-2px)}@media(max-width:700px){.wa-float{right:14px;bottom:14px;padding:13px 15px}}</style><style>
-/* ARQSELECT PREMIUM DESIGN SYSTEM 3.0 */
-:root{
-  --arq-bg:#070707;--arq-bg2:#0d0d0d;--arq-card:rgba(19,19,19,.88);--arq-card2:#121212;
-  --arq-gold:#d4af37;--arq-gold2:#f3df8a;--arq-text:#f8f7f2;--arq-muted:#a9a49a;
-  --arq-line:rgba(212,175,55,.18);--arq-shadow:0 18px 55px rgba(0,0,0,.42);
-}
-html{scroll-behavior:smooth}body{background:
- radial-gradient(circle at 85% -10%,rgba(212,175,55,.10),transparent 30%),
- radial-gradient(circle at 10% 100%,rgba(212,175,55,.055),transparent 28%),var(--arq-bg)!important;color:var(--arq-text)!important;}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.18;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 95%);}
-.top,.nav,.sidebar,.header,.toolbar{backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);}
-.top{background:rgba(7,7,7,.82)!important;border-bottom:1px solid var(--arq-line)!important;box-shadow:0 8px 35px rgba(0,0,0,.22)}
-.brand,.logo{color:var(--arq-text)!important;text-shadow:0 2px 18px rgba(212,175,55,.16)}
-.brand span,.logo span{color:var(--arq-gold2)!important}
-.card,.panel,.box,.item,.list,.product,.profile,.stat,.metric,.tile,.table-wrap,.composer,.conversation,.sidebar,.modal,.sheet,.empty,.notice{background:linear-gradient(145deg,rgba(24,24,24,.95),rgba(12,12,12,.92))!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:var(--arq-shadow)!important;color:var(--arq-text)!important}
-.card:hover,.product:hover,.profile:hover,.tile:hover,.item:hover{transform:translateY(-2px);border-color:rgba(212,175,55,.30)!important;box-shadow:0 22px 65px rgba(0,0,0,.48),0 0 0 1px rgba(212,175,55,.04) inset!important;transition:.22s ease}
-input,textarea,select{background:rgba(255,255,255,.055)!important;color:#fff!important;border:1px solid rgba(255,255,255,.11)!important;border-radius:12px!important;outline:none!important}
-input:focus,textarea:focus,select:focus{border-color:rgba(212,175,55,.75)!important;box-shadow:0 0 0 3px rgba(212,175,55,.10)!important}
-button,.btn{border-radius:12px!important;transition:.2s ease}
-.btn.gold,.gold,.primary,.btn-primary,.cta{background:linear-gradient(135deg,#f0d87a,#b78a2f)!important;color:#16120a!important;box-shadow:0 10px 30px rgba(212,175,55,.18)!important;border:1px solid rgba(255,255,255,.15)!important}
-.btn.gold:hover,.gold:hover,.primary:hover,.btn-primary:hover,.cta:hover{transform:translateY(-1px);filter:brightness(1.06)}
-.btn,.light,.secondary{background:rgba(255,255,255,.065)!important;color:#f3f1ea!important;border:1px solid rgba(255,255,255,.10)!important}
-.muted,.meta,.small,.ey,.role,.hint{color:var(--arq-muted)!important}
-.badge,.tag,.pill{background:rgba(212,175,55,.12)!important;color:var(--arq-gold2)!important;border:1px solid rgba(212,175,55,.2)!important}
-hr{border-color:rgba(255,255,255,.08)!important}
-table{color:#f6f4ed!important}th{color:var(--arq-gold2)!important;background:rgba(212,175,55,.06)!important}td{border-color:rgba(255,255,255,.07)!important}
-::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-track{background:#080808}::-webkit-scrollbar-thumb{background:linear-gradient(#8d6a25,#d4af37);border-radius:10px}
-@media(max-width:700px){.top{padding:13px 16px!important}.nav{gap:6px!important}.btn{padding:10px 12px!important}.card,.panel,.box{border-radius:16px!important}}
-/* WhatsApp CTA */
-.arq-whatsapp{position:fixed;right:22px;bottom:22px;z-index:9999;display:flex;align-items:center;gap:10px;padding:13px 17px;border-radius:999px;background:linear-gradient(135deg,#20d466,#13a653);color:#fff!important;font-weight:900;letter-spacing:.01em;box-shadow:0 16px 38px rgba(0,0,0,.36),0 0 0 1px rgba(255,255,255,.16) inset;text-decoration:none!important}
-.arq-whatsapp:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 20px 45px rgba(0,0,0,.42),0 0 0 1px rgba(255,255,255,.20) inset}
-.arq-whatsapp svg{width:22px;height:22px;flex:none;fill:currentColor}
-.arq-whatsapp span{white-space:nowrap}@media(max-width:520px){.arq-whatsapp{width:56px;height:56px;justify-content:center;padding:0;right:15px;bottom:15px}.arq-whatsapp span{display:none}.arq-whatsapp svg{width:27px;height:27px}}
-</style>
-<style id="arqselect-unified-theme">
-:root{
- --arq-bg:#070707;--arq-bg-2:#0c0c0c;--arq-surface:#121212;--arq-surface-2:#171717;
- --arq-text:#f5f2e9;--arq-muted:#aaa49a;--arq-gold:#d4af37;--arq-gold-2:#f2dc86;
- --arq-line:rgba(255,255,255,.09);--arq-shadow:0 18px 55px rgba(0,0,0,.35);--arq-radius:18px;
-}
-html{background:var(--arq-bg)!important;color:var(--arq-text)!important;color-scheme:dark;scroll-behavior:smooth}
-body{background:
- radial-gradient(circle at 90% -8%,rgba(212,175,55,.10),transparent 28%),
- radial-gradient(circle at 4% 105%,rgba(255,255,255,.035),transparent 30%),var(--arq-bg)!important;
- color:var(--arq-text)!important}
-body,button,input,select,textarea{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);background-size:28px 28px;opacity:.55}
-h1,h2,h3,h4,h5,h6,p,div,span,li,label,td,th{color:inherit}
-a{color:inherit}
-.top,.nav,.header,.navbar{background:rgba(7,7,7,.86)!important;border-color:var(--arq-line)!important;backdrop-filter:blur(16px)!important}
-.btn,.button,.actions button,.nav a{border:1px solid var(--arq-line)!important;background:rgba(255,255,255,.055)!important;color:var(--arq-text)!important;box-shadow:0 8px 24px rgba(0,0,0,.12)}
-.btn.gold,.gold,.primary,.btn-primary,.cta-button{background:linear-gradient(135deg,var(--arq-gold-2),var(--arq-gold))!important;color:#151108!important;border-color:rgba(255,255,255,.18)!important}
-.btn:hover,.button:hover,.nav a:hover{border-color:rgba(212,175,55,.42)!important;transform:translateY(-1px)}
-.card,.panel,.box,.tile,.item,.list,.table,.table-wrap,.product,.profile,.stat,.metric,.notice,.sheet,.conversation,.sidebar,.hero-card,.feature-card,.post,.opportunity,.profile-card,.request-card,.proposal-card{background:linear-gradient(145deg,rgba(22,22,22,.97),rgba(12,12,12,.94))!important;border:1px solid var(--arq-line)!important;color:var(--arq-text)!important;box-shadow:var(--arq-shadow)!important}
-.card h1,.card h2,.card h3,.card h4,.panel h1,.panel h2,.panel h3,.panel h4,.box h1,.box h2,.box h3,.box h4,.product h3{color:var(--arq-text)!important}
-.muted,.meta,.small,.hint,.ey,.subtle,.role{color:var(--arq-muted)!important}
-input,select,textarea{background:rgba(255,255,255,.055)!important;color:var(--arq-text)!important;border:1px solid rgba(255,255,255,.12)!important}
-input::placeholder,textarea::placeholder{color:#7e796f!important}
-input:focus,select:focus,textarea:focus{border-color:rgba(212,175,55,.75)!important;box-shadow:0 0 0 3px rgba(212,175,55,.11)!important}
-.badge,.tag,.pill{background:rgba(212,175,55,.12)!important;color:var(--arq-gold-2)!important;border:1px solid rgba(212,175,55,.22)!important}
-table{color:var(--arq-text)!important}th{background:rgba(212,175,55,.07)!important;color:var(--arq-gold-2)!important}td{border-color:var(--arq-line)!important}
-.modal{background:rgba(0,0,0,.72)!important}
-.modalbox,.modal-content,.dialog,.dropdown,.menu,.sheet-content{background:linear-gradient(145deg,#1b1b1b,#0e0e0e)!important;color:var(--arq-text)!important;border:1px solid var(--arq-line)!important;box-shadow:0 30px 80px rgba(0,0,0,.55)!important}
-.close{background:rgba(255,255,255,.08)!important;color:var(--arq-text)!important;border:1px solid var(--arq-line)!important}
-.messages,.chat-window,.chat-body,.chat-main{background:#0b0b0b!important;color:var(--arq-text)!important}
-.composer,.composer-wrap,.chat-head{background:#111!important;color:var(--arq-text)!important;border-color:var(--arq-line)!important}
-.conv,.conversation-item{background:rgba(255,255,255,.035)!important;color:var(--arq-text)!important;border-color:var(--arq-line)!important}
-.bubble{background:#1a1a1a!important;color:var(--arq-text)!important;border:1px solid var(--arq-line)!important}
-.bubble.mine{background:linear-gradient(135deg,#2b2415,#3b3019)!important;color:#fff9df!important;border-color:rgba(212,175,55,.24)!important}
-.empty,.empty-card{color:var(--arq-muted)!important}
-.thumb{background:#111!important}
-img{border-radius:inherit}
-hr{border-color:var(--arq-line)!important}
-::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-track{background:#080808}::-webkit-scrollbar-thumb{background:linear-gradient(#8e6b28,#d4af37);border-radius:10px}
-/* Unified WhatsApp */
-.arq-whatsapp,.wa-float{background:linear-gradient(135deg,#25d366,#16a34a)!important;color:#fff!important;border:1px solid rgba(255,255,255,.16)!important;text-decoration:none!important;box-shadow:0 18px 42px rgba(0,0,0,.36),0 0 0 1px rgba(255,255,255,.10) inset!important}
-.arq-whatsapp svg,.wa-float svg{width:22px;height:22px;fill:currentColor;flex:none}
-/* prevent inherited light theme from returning after dynamic renders */
-#app,#root,#main,.main,.wrap{color:var(--arq-text)!important}
-@media(max-width:760px){.btn,.button,.nav a{padding:10px 12px!important}.card,.panel,.box{border-radius:16px!important}}
-</style>
-<style id="arqselect-contrast-lock">
-/* ARQSELECT premium contrast lock */
-*[style*="background:#fff"],[style*="background: #fff"],[style*="background-color:#fff"],[style*="background-color: #fff"]{background:var(--arq-surface,#151515)!important}
-*[style*="background:white"],[style*="background: white"]{background:var(--arq-surface,#151515)!important}
-.login-card,.auth-card,.form-card,.form-panel{background:linear-gradient(145deg,#171717,#0d0d0d)!important;color:var(--arq-text,#f5f2e9)!important;border:1px solid var(--arq-line,rgba(255,255,255,.09))!important;box-shadow:var(--arq-shadow,0 18px 55px rgba(0,0,0,.35))!important}
-.field label,.form-group label,label{color:var(--arq-text,#f5f2e9)!important}
-input.input,.input,input[type="text"],input[type="email"],input[type="password"],input[type="number"],input[type="tel"],input[type="url"],textarea,select{color:var(--arq-text,#f5f2e9)!important;background:rgba(255,255,255,.055)!important}
-select option{background:#171717;color:#f5f2e9}
-</style>
-<style id="arqselect-global-premium">:root{--arq-bg:#080808;--arq-surface:#131313;--arq-surface2:#1a1a1a;--arq-text:#f5f2e9;--arq-muted:#aaa49a;--arq-gold:#d4af37;--arq-gold2:#f0d77a;--arq-line:rgba(255,255,255,.09);--arq-shadow:0 22px 60px rgba(0,0,0,.34)}html,body{background:var(--arq-bg)!important;color:var(--arq-text)!important}body{background-image:radial-gradient(circle at 10% 0%,rgba(212,175,55,.07),transparent 32%),radial-gradient(circle at 90% 100%,rgba(255,255,255,.03),transparent 34%),linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px)!important;background-size:auto,auto,28px 28px,28px 28px!important}body *{color:inherit}main,.wrap,.content,.shell,.page,.container{color:var(--arq-text)}a{color:inherit}input,select,textarea{background:rgba(255,255,255,.055)!important;color:var(--arq-text)!important;border-color:var(--arq-line)!important}select option{background:#161616!important;color:#f5f2e9!important}button{color:inherit}.card,.panel,.box,.tile,.item,.list,.table,.table-wrap,.product,.profile,.stat,.metric,.notice,.sheet,.conversation,.hero-card,.feature-card,.post,.opportunity,.profile-card,.request-card,.proposal-card,.login-card,.auth-card{background:linear-gradient(145deg,rgba(24,24,24,.98),rgba(12,12,12,.95))!important;border-color:var(--arq-line)!important;color:var(--arq-text)!important;box-shadow:var(--arq-shadow)!important}.muted,.small,.hint,.subtle,.meta{color:var(--arq-muted)!important}.nav,.top,.header,.navbar{background:rgba(7,7,7,.88)!important;border-color:var(--arq-line)!important;backdrop-filter:blur(16px)}th{background:rgba(212,175,55,.07)!important;color:var(--arq-gold2)!important}td{border-color:var(--arq-line)!important}.modalbox,.modal-card,.modal-content,.dialog,.dropdown,.menu,.sheet-content{background:#151515!important;color:var(--arq-text)!important;border-color:var(--arq-line)!important}.empty{color:var(--arq-muted)!important}.btn.light,.btn:not(.gold),.button{background:rgba(255,255,255,.06)!important;color:var(--arq-text)!important;border-color:var(--arq-line)!important}.btn.gold,.gold,.primary,.btn-primary{background:linear-gradient(135deg,var(--arq-gold2),var(--arq-gold))!important;color:#171208!important}.arq-whatsapp,.wa-float{background:linear-gradient(135deg,#25d366,#16a34a)!important;color:#fff!important}.arq-whatsapp svg,.wa-float svg{fill:currentColor;width:22px;height:22px}@media(max-width:760px){.card,.panel,.box{border-radius:16px!important}}</style></head><body><header class="hero"><nav class="nav"><div class="logo">ARQ<span>SELECT</span></div><div class="navlinks"><a class="btn outline" href="ARQSELECT_LOGIN_ARQUITETO.html">Login Arquiteto</a><a class="btn outline" href="ARQSELECT_LOGIN_FORNECEDOR.html">Login Fornecedor</a><a class="btn gold" href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Cadastrar-se</a></div></nav><div class="content"><div class="eyebrow">Plataforma profissional premium</div><h1>Arquitetura, projetos e fornecedores em um só lugar.</h1><p>O ARQSELECT conecta profissionais de arquitetura e fornecedores para organizar projetos, solicitações, orçamentos, propostas e relacionamento comercial em uma experiência sofisticada.</p><div class="actions"><a class="btn gold" href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Sou Arquiteto</a><a class="btn outline" href="ARQSELECT_LOGIN_FORNECEDOR.html#cadastro">Sou Fornecedor</a></div><div class="trust">BLACK • SILVER • GOLD • ARCHITECTURE PREMIUM</div></div></header><section class="section"><div class="section-inner"><div class="eyebrow">Para arquitetos</div><h2>Mais controle sobre cada projeto.</h2><p class="muted">Acompanhe projetos, status, orçamentos e evolução comercial em um painel exclusivo.</p><div class="grid"><article class="card"><div class="icon">◈</div><h3>Projetos centralizados</h3><p class="muted">Tenha uma visão organizada das solicitações e projetos enviados.</p></article><article class="card"><div class="icon">◆</div><h3>Status persistente</h3><p class="muted">Altere o status e tenha a atualização gravada no backend.</p></article><article class="card"><div class="icon">◇</div><h3>Relacionamento premium</h3><p class="muted">Uma experiência profissional para aproximar arquitetos e fornecedores.</p></article></div></div></section><section class="section alt"><div class="section-inner"><div class="eyebrow">Para fornecedores</div><h2>Transforme oportunidades em negócios.</h2><p class="muted">Organize oportunidades, acompanhe propostas e mantenha sua operação comercial mais fluida.</p><div class="grid"><article class="card"><div class="icon">◉</div><h3>Oportunidades</h3><p class="muted">Centralize informações comerciais relevantes.</p></article><article class="card"><div class="icon">✦</div><h3>Propostas</h3><p class="muted">Tenha clareza sobre orçamento, negociação, aprovação e fechamento.</p></article><article class="card"><div class="icon">✧</div><h3>Gestão profissional</h3><p class="muted">Um ambiente elegante para acompanhar sua atuação no ARQSELECT.</p></article></div></div></section><section class="cta"><div class="eyebrow">Comece agora</div><h2>Seu próximo projeto começa com uma conexão.</h2><p class="muted">Escolha seu perfil e entre no ambiente profissional ARQSELECT.</p><div class="actions" style="justify-content:center"><a class="btn gold" href="ARQSELECT_LOGIN_ARQUITETO.html">Entrar como Arquiteto</a><a class="btn outline" href="ARQSELECT_LOGIN_FORNECEDOR.html">Entrar como Fornecedor</a></div></section><footer class="footer"><div><strong>ARQSELECT</strong><div>Plataforma profissional de arquitetura e fornecedores.</div></div><div>© 2026 ARQSELECT • Premium Experience</div></footer><a class="wa-float" href="https://wa.me/5519981655013?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ARQSELECT%20e%20gostaria%20de%20saber%20mais%20sobre%20a%20plataforma." target="_blank" rel="noopener" aria-label="Fale conosco pelo WhatsApp"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M19.11 17.2c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.14-.42-2.17-1.34-.8-.71-1.34-1.59-1.5-1.86-.16-.27-.02-.42.12-.56.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.02-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.96.94-.96 2.28s.98 2.64 1.12 2.82c.14.18 1.93 2.95 4.68 4.14.65.28 1.16.45 1.56.58.66.21 1.26.18 1.73.11.53-.08 1.6-.65 1.82-1.28.23-.63.23-1.17.16-1.28-.07-.11-.25-.18-.52-.32ZM16.02 3.5c-6.9 0-12.5 5.6-12.5 12.5 0 2.2.57 4.35 1.66 6.24L3.5 28.5l6.43-1.65A12.43 12.43 0 0 0 16.02 28c6.9 0 12.5-5.6 12.5-12s-5.6-12.5-12.5-12.5Zm0 22.4c-1.98 0-3.92-.53-5.62-1.54l-.4-.24-3.82.98 1-3.72-.26-.41a10.34 10.34 0 1 1 9.1 4.93Z"/></svg><span>Fale conosco</span></a></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>ARQSELECT | A plataforma que conecta arquitetos aos fornecedores certos</title>
+  <meta name="description" content="Envie seu projeto e receba soluções selecionadas entre fornecedores qualificados. A ARQSELECT conecta arquitetos aos fornecedores certos para cada projeto.">
+  <meta name="keywords" content="fornecedores para arquitetos, plataforma para arquitetos, cotação para arquitetura, fornecedores de arquitetura, especificação de produtos, arquitetura e interiores, orçamento para obras, soluções para arquitetos">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#070707">
+  <link rel="canonical" href="https://www.arqselect.com.br/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="ARQSELECT | Conectando arquitetos aos fornecedores certos">
+  <meta property="og:description" content="Envie seu projeto e receba soluções, fornecedores e orçamentos selecionados para sua necessidade.">
+  <meta property="og:url" content="https://www.arqselect.com.br/">
+  <meta property="og:image" content="arquitetura-premium.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ARQSELECT | Conexões que geram projetos e negócios">
+  <meta name="twitter:description" content="A plataforma que conecta arquitetos aos fornecedores certos para cada projeto.">
+  <meta name="twitter:image" content="arquitetura-premium.png">
+  <style>
+    :root{
+      --bg:#060606;--bg2:#0c0c0c;--surface:#111111;--surface2:#171717;--surface3:#1d1d1d;
+      --gold:#d4af37;--gold2:#f0d77a;--text:#f7f4eb;--muted:#a9a49a;--line:rgba(255,255,255,.09);
+      --shadow:0 28px 80px rgba(0,0,0,.38);--radius:22px;--max:1220px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--bg);color-scheme:dark}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:
+      radial-gradient(circle at 15% 0%,rgba(212,175,55,.09),transparent 28%),
+      radial-gradient(circle at 90% 18%,rgba(255,255,255,.035),transparent 26%),
+      linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px),var(--bg);
+      background-size:auto,auto,30px 30px,30px 30px;color:var(--text);line-height:1.6;overflow-x:hidden}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 20%,transparent 0 35%,rgba(0,0,0,.28) 100%);z-index:-1}
+    a{text-decoration:none;color:inherit}
+    .container{width:min(var(--max),92vw);margin:auto}
+    .glass{background:rgba(9,9,9,.68);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line)}
+    .topbar{position:sticky;top:0;z-index:100;border-bottom:1px solid var(--line);background:rgba(5,5,5,.76);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+    .nav{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:22px}
+    .brand{font-weight:950;letter-spacing:.15em;font-size:24px;white-space:nowrap}.brand span{color:var(--gold2)}
+    .navlinks{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.navlinks a{padding:10px 13px;border-radius:10px;color:#d8d3c8;font-size:13px;font-weight:800}.navlinks a:hover{background:rgba(255,255,255,.05);color:#fff}
+    .nav-toggle{display:none;background:transparent;color:var(--text);border:1px solid var(--line);border-radius:11px;padding:10px 12px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border-radius:14px;padding:14px 20px;font-weight:950;font-size:14px;border:1px solid var(--line);transition:.22s ease;cursor:pointer}
+    .btn:hover{transform:translateY(-2px)}.btn-gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#171208;box-shadow:0 14px 35px rgba(212,175,55,.18)}
+    .btn-outline{background:rgba(255,255,255,.04);color:var(--text)}
+    .hero{position:relative;min-height:760px;display:flex;align-items:center;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.93) 0%,rgba(0,0,0,.72) 46%,rgba(0,0,0,.42) 100%),url('arquitetura-premium.png') center/cover no-repeat;filter:saturate(.88)}
+    .hero:after{content:"";position:absolute;inset:auto 0 0;height:180px;background:linear-gradient(transparent,var(--bg))}
+    .hero-content{position:relative;z-index:2;padding:120px 0 170px;max-width:900px}
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;text-transform:uppercase;letter-spacing:.2em;color:var(--gold2);font-size:11px;font-weight:950;margin-bottom:18px}.eyebrow:before{content:"";width:32px;height:1px;background:var(--gold)}
+    h1{font-size:clamp(48px,7vw,88px);line-height:.97;letter-spacing:-.035em;margin:0 0 22px;max-width:900px;text-shadow:0 10px 40px rgba(0,0,0,.35)}
+    .hero-copy{font-size:18px;color:#ddd8ce;max-width:720px;line-height:1.8;margin-bottom:32px}.hero-copy strong{color:#fff}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}.hero-note{margin-top:26px;color:#aaa398;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+    .section{padding:105px 0}.section-head{max-width:760px;margin-bottom:36px}.section-head.center{text-align:center;margin-left:auto;margin-right:auto}.section h2{font-size:clamp(34px,4.5vw,52px);line-height:1.02;margin:8px 0 14px;letter-spacing:-.025em}.section p.lead{color:var(--muted);font-size:16px;max-width:700px}
+    .dark{background:linear-gradient(180deg,transparent,rgba(255,255,255,.015),transparent)}
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.step{padding:28px;border-radius:var(--radius);background:linear-gradient(145deg,rgba(24,24,24,.95),rgba(12,12,12,.92));border:1px solid var(--line);box-shadow:var(--shadow);position:relative;overflow:hidden}.step:after{content:"";position:absolute;inset:auto -20% -40% auto;width:150px;height:150px;background:radial-gradient(circle,rgba(212,175,55,.12),transparent 70%)}.step-no{font-size:12px;color:var(--gold2);font-weight:950;letter-spacing:.15em}.step-icon{font-size:30px;margin:24px 0 12px}.step h3{margin:0 0 8px;font-size:19px}.step p{margin:0;color:var(--muted);font-size:14px}
+    .categories{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.category{min-height:160px;padding:24px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(145deg,#151515,#0c0c0c);display:flex;flex-direction:column;justify-content:space-between;transition:.22s ease}.category:hover{transform:translateY(-3px);border-color:rgba(212,175,55,.3);box-shadow:0 24px 60px rgba(0,0,0,.34)}.category-icon{font-size:28px;color:var(--gold2)}.category h3{font-size:17px;margin:16px 0 4px}.category a{font-size:12px;color:var(--gold2);font-weight:900}
+    .benefits{display:grid;grid-template-columns:1fr 1fr;gap:20px}.benefit-panel{padding:36px;border-radius:28px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(20,20,20,.95),rgba(10,10,10,.96));box-shadow:var(--shadow)}.benefit-panel h3{font-size:26px;margin:0 0 10px}.benefit-panel>p{color:var(--muted)}.benefit-list{display:grid;gap:12px;margin:28px 0}.benefit-item{display:flex;gap:12px;align-items:flex-start}.check{width:28px;height:28px;display:grid;place-items:center;border-radius:9px;background:rgba(212,175,55,.12);color:var(--gold2);font-weight:950;flex:none}.benefit-item b{display:block}.benefit-item span{display:block;color:var(--muted);font-size:13px}
+    .curation{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.tier{border-radius:24px;padding:30px;background:linear-gradient(145deg,#161616,#0c0c0c);border:1px solid var(--line);box-shadow:var(--shadow)}.tier.featured{border-color:rgba(212,175,55,.36);transform:translateY(-6px)}.tier-kicker{color:var(--gold2);text-transform:uppercase;letter-spacing:.16em;font-size:10px;font-weight:950}.tier h3{font-size:27px;margin:10px 0 8px}.tier p{color:var(--muted);margin:0}.tier ul{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:9px}.tier li{color:#d5d1c8;font-size:14px}.tier li:before{content:"✓";color:var(--gold2);margin-right:9px}
+    .ecosystem{display:grid;grid-template-columns:1fr .75fr 1fr;gap:16px;align-items:center}.eco-card{padding:34px;border:1px solid var(--line);background:linear-gradient(145deg,#151515,#0d0d0d);border-radius:24px;text-align:center;box-shadow:var(--shadow)}.eco-card h3{font-size:24px;margin:0 0 8px}.eco-card p{margin:0;color:var(--muted);font-size:14px}.eco-plus{text-align:center;font-size:44px;color:var(--gold2);font-weight:300}
+    .numbers{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.num{padding:24px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.025);text-align:center}.num strong{display:block;font-size:30px;color:var(--gold2);min-height:38px}.num span{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.12em}
+    .testimonials{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.quote{padding:28px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,#151515,#0c0c0c)}.quote p{color:#d8d3c8}.quote footer{color:var(--muted);font-size:12px;margin-top:22px}
+    .cta{padding:100px 0;background:radial-gradient(circle at 50% 0%,rgba(212,175,55,.11),transparent 36%),#0b0b0b;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.cta-box{padding:55px;text-align:center;border:1px solid rgba(212,175,55,.2);border-radius:30px;background:linear-gradient(145deg,rgba(24,24,24,.95),rgba(10,10,10,.96));box-shadow:var(--shadow)}.cta h2{font-size:clamp(38px,5vw,60px);margin:10px auto;max-width:850px}.cta p{max-width:700px;margin:0 auto 28px;color:var(--muted)}
+    footer.site-footer{padding:40px 0 55px;border-top:1px solid var(--line)}.footer-grid{display:grid;grid-template-columns:1.4fr .8fr .8fr;gap:25px}.footer-grid h4{margin:0 0 12px;color:#fff}.footer-grid p,.footer-grid a{color:var(--muted);font-size:13px}.footer-grid a:hover{color:#fff}.copyright{padding-top:24px;margin-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;color:#777;font-size:12px}
+    .arq-whatsapp{position:fixed;right:22px;bottom:22px;z-index:999;display:flex;align-items:center;gap:10px;padding:14px 18px;border-radius:999px;background:linear-gradient(135deg,#25d366,#16a34a);color:#fff;box-shadow:0 18px 45px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.12) inset;font-weight:950}.arq-whatsapp svg{width:22px;height:22px;fill:currentColor}.arq-whatsapp:hover{transform:translateY(-2px)}
+    @media(max-width:1000px){.navlinks a{display:none}.nav-toggle{display:block}.steps{grid-template-columns:repeat(2,1fr)}.categories{grid-template-columns:repeat(3,1fr)}.numbers{grid-template-columns:repeat(3,1fr)}.footer-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:760px){.hero{min-height:700px}.hero-content{padding:95px 0 140px}.hero-bg{background-position:center}.steps,.benefits,.curation,.ecosystem,.testimonials{grid-template-columns:1fr}.categories{grid-template-columns:repeat(2,1fr)}.numbers{grid-template-columns:repeat(2,1fr)}.nav{min-height:70px}.brand{font-size:21px}.btn{width:auto}.cta-box{padding:35px 22px}.footer-grid{grid-template-columns:1fr}.eco-plus{transform:rotate(90deg)} }
+    @media(max-width:520px){.container{width:min(94vw,var(--max))}.categories{grid-template-columns:1fr 1fr}.hero-actions{display:grid;grid-template-columns:1fr}.hero-actions .btn{width:100%}.arq-whatsapp{right:14px;bottom:14px;width:58px;height:58px;justify-content:center;padding:0}.arq-whatsapp span{display:none}.arq-whatsapp svg{width:28px;height:28px}.section{padding:82px 0}}
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"ARQSELECT",
+    "url":"https://www.arqselect.com.br/",
+    "description":"Plataforma que conecta arquitetos aos fornecedores certos para cada projeto.",
+    "sameAs":[]
+  }
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="index.html" aria-label="ARQSELECT">ARQ<span>SELECT</span></a>
+      <nav class="navlinks" aria-label="Navegação principal">
+        <a href="#arquitetos">Arquitetos</a>
+        <a href="#fornecedores">Fornecedores</a>
+        <a href="#como-funciona">Como Funciona</a>
+        <a href="#categorias">Categorias</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#contato">Contato</a>
+      </nav>
+      <a class="btn btn-gold" href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">ENVIAR PROJETO</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="container hero-content">
+        <div class="eyebrow">Conexões que geram projetos e negócios</div>
+        <h1>A plataforma que conecta arquitetos aos fornecedores certos.</h1>
+        <p class="hero-copy">Envie seu projeto e receba <strong>soluções selecionadas entre fornecedores qualificados</strong> para cada etapa da obra ou especificação. Economize tempo, compare opções e encontre fornecedores em um único lugar.</p>
+        <div class="hero-actions">
+          <a class="btn btn-gold" href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">ENVIAR PROJETO</a>
+          <a class="btn btn-outline" href="ARQSELECT_LOGIN_FORNECEDOR.html#cadastro">SEJA UM FORNECEDOR PARCEIRO</a>
+        </div>
+        <div class="hero-note">ARQUITETURA • INTERIORES • CONSTRUÇÃO • FORNECEDORES</div>
+      </div>
+    </section>
+
+    <section id="como-funciona" class="section dark">
+      <div class="container">
+        <div class="section-head center"><div class="eyebrow">Como funciona</div><h2>Do projeto à solução, com curadoria.</h2><p class="lead">Uma jornada simples para o arquiteto encontrar opções relevantes e para o fornecedor receber oportunidades alinhadas ao seu negócio.</p></div>
+        <div class="steps">
+          <article class="step"><div class="step-no">01</div><div class="step-icon">⌂</div><h3>Envie seu projeto</h3><p>Compartilhe a necessidade, as especificações e o contexto do projeto.</p></article>
+          <article class="step"><div class="step-no">02</div><div class="step-icon">◈</div><h3>Nossa equipe analisa</h3><p>Entendemos categoria, escopo, prazo e perfil da demanda.</p></article>
+          <article class="step"><div class="step-no">03</div><div class="step-icon">✦</div><h3>Selecionamos fornecedores</h3><p>Buscamos parceiros compatíveis com a solução desejada.</p></article>
+          <article class="step"><div class="step-no">04</div><div class="step-icon">↗</div><h3>Você recebe as opções</h3><p>Conectamos projeto, fornecedor, cotação e relacionamento.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="categorias" class="section">
+      <div class="container">
+        <div class="section-head"><div class="eyebrow">Soluções</div><h2>Encontre soluções para cada etapa do projeto.</h2><p class="lead">Uma rede preparada para arquitetura, interiores, construção e especificação de alto padrão.</p></div>
+        <div class="categories">
+          <article class="category"><div><div class="category-icon">▦</div><h3>Marcenaria</h3></div><a href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Solicitar cotação →</a></article>
+          <article class="category"><div><div class="category-icon">◫</div><h3>Esquadrias</h3></div><a href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Solicitar cotação →</a></article>
+          <article class="category"><div><div class="category-icon">▤</div><h3>Pisos</h3></div><a href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Solicitar cotação →</a></article>
+          <article class="category"><div><div class="category-icon">◒</div><h3>Revestimentos</h3></div><a href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Solicitar cotação →</a></article>
+          <article class="category"><div><div class="category-icon">☼</div><h3>Iluminação</h3></div><a href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Solicitar cotação →</a></article>
+          <article class="category"><div><div class="category-icon">▣</div><h3>Móveis</h3></div><a href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Solicitar cotação →</a></article>
+          <article class="category"><div><div class="category-icon">◇</div><h3>Pedras</h3></div><a href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Solicitar cotação →</a></article>
+          <article class="category"><div><div class="category-icon">◍</div><h3>Louças e Metais</h3></div><a href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Solicitar cotação →</a></article>
+          <article class="category"><div><div class="category-icon">⌘</div><h3>Automação</h3></div><a href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Solicitar cotação →</a></article>
+          <article class="category"><div><div class="category-icon">❧</div><h3>Paisagismo</h3></div><a href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Solicitar cotação →</a></article>
+          <article class="category"><div><div class="category-icon">✧</div><h3>Decoração</h3></div><a href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Solicitar cotação →</a></article>
+          <article class="category"><div><div class="category-icon">▥</div><h3>Construção</h3></div><a href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Solicitar cotação →</a></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="arquitetos" class="section dark">
+      <div class="container">
+        <div class="benefits">
+          <article class="benefit-panel"><div class="eyebrow">Para arquitetos</div><h3>Mais tempo para criar. Menos tempo procurando.</h3><p>Use a ARQSELECT como uma extensão comercial do seu processo de especificação.</p><div class="benefit-list"><div class="benefit-item"><div class="check">✓</div><div><b>Economia de tempo</b><span>Centralize demandas, fornecedores e cotações.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Curadoria especializada</b><span>Encontre opções adequadas ao seu projeto.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Fornecedores qualificados</b><span>Amplie sua rede com parceiros relevantes.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Comparação de opções</b><span>Organize alternativas por necessidade e faixa de solução.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Suporte comercial</b><span>Tenha uma central para acompanhar o relacionamento.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Centralização de cotações</b><span>Conecte projeto, produto, fornecedor e orçamento.</span></div></div></div><a class="btn btn-gold" href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">ENVIAR PROJETO</a></article>
+          <article id="fornecedores" class="benefit-panel"><div class="eyebrow">Para fornecedores</div><h3>Oportunidades reais, dentro do contexto de cada projeto.</h3><p>Apresente sua marca para arquitetos e escritórios com necessidades concretas.</p><div class="benefit-list"><div class="benefit-item"><div class="check">✓</div><div><b>Receba oportunidades reais</b><span>Projetos e demandas comerciais em andamento.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Acesso a arquitetos e escritórios</b><span>Construa relacionamento com profissionais.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Divulgação da marca</b><span>Mostre produtos, portfólio e diferenciais.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Participação sem mensalidade</b><span>Modelo pensado para gerar valor comercial.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Pagamento somente mediante venda</b><span>Modelo comercial condicionado ao negócio fechado, conforme os termos aplicáveis.</span></div></div></div><a class="btn btn-outline" href="ARQSELECT_LOGIN_FORNECEDOR.html#cadastro">QUERO SER PARCEIRO</a></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="sobre">
+      <div class="container">
+        <div class="section-head center"><div class="eyebrow">Curadoria ARQSELECT</div><h2>Escolhas que respeitam o nível de cada projeto.</h2><p class="lead">Apresente alternativas com clareza para facilitar decisão, especificação e negociação.</p></div>
+        <div class="curation">
+          <article class="tier"><div class="tier-kicker">Opção 01</div><h3>Econômica</h3><p>Melhor custo-benefício para o objetivo do projeto.</p><ul><li>Eficiência de investimento</li><li>Soluções funcionais</li><li>Alternativas competitivas</li></ul></article>
+          <article class="tier featured"><div class="tier-kicker">Opção 02</div><h3>Intermediária</h3><p>Equilíbrio entre preço, qualidade e acabamento.</p><ul><li>Performance equilibrada</li><li>Materiais selecionados</li><li>Excelente relação valor-entrega</li></ul></article>
+          <article class="tier"><div class="tier-kicker">Opção 03</div><h3>Premium</h3><p>Máximo desempenho, estética e acabamento.</p><ul><li>Alto padrão de especificação</li><li>Acabamento sofisticado</li><li>Soluções diferenciadas</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head center"><div class="eyebrow">Ecossistema</div><h2>Rede ARQSELECT</h2><p class="lead">Arquitetos + fornecedores + projetos. Uma única experiência para transformar conexão em valor.</p></div>
+        <div class="ecosystem"><article class="eco-card"><h3>Arquitetos</h3><p>Projetos, especificações, necessidades e relacionamento.</p></article><div class="eco-plus">+</div><article class="eco-card"><h3>Fornecedores</h3><p>Produtos, soluções, propostas, portfólio e oportunidades.</p></article><div class="eco-plus">+</div><article class="eco-card"><h3>Projetos</h3><p>O ponto onde necessidade, curadoria e negócio se encontram.</p></article></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head center"><div class="eyebrow">A plataforma cresce com a rede</div><h2>Números preparados para acompanhar a evolução.</h2><p class="lead">A estrutura está pronta para receber indicadores dinâmicos conforme a base da plataforma amadurecer.</p></div>
+        <div class="numbers"><div class="num"><strong>—</strong><span>Arquitetos cadastrados</span></div><div class="num"><strong>—</strong><span>Fornecedores parceiros</span></div><div class="num"><strong>—</strong><span>Projetos recebidos</span></div><div class="num"><strong>—</strong><span>Cotações realizadas</span></div><div class="num"><strong>—</strong><span>Valor movimentado</span></div></div>
+      </div>
+    </section>
+
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head center"><div class="eyebrow">Confiança</div><h2>Experiência preparada para quem especifica e para quem fornece.</h2><p class="lead">Área reservada para depoimentos, avaliações e histórias reais da rede ARQSELECT.</p></div>
+        <div class="testimonials"><article class="quote"><p>“A curadoria transforma um processo comercial disperso em uma experiência muito mais organizada.”</p><footer>Depoimento de arquiteto — área preparada</footer></article><article class="quote"><p>“Ter o projeto contextualizado facilita apresentar a solução certa para o profissional certo.”</p><footer>Depoimento de fornecedor — área preparada</footer></article><article class="quote"><p>“A plataforma aproxima relacionamento, produto e oportunidade em um único ambiente.”</p><footer>Depoimento de parceiro — área preparada</footer></article></div>
+      </div>
+    </section>
+
+    <section class="cta" id="contato">
+      <div class="container"><div class="cta-box"><div class="eyebrow">Tem um projeto?</div><h2>Receba apoio especializado e encontre os fornecedores ideais.</h2><p>Envie seu projeto para a ARQSELECT e avance com mais curadoria, organização e conexão comercial.</p><div class="hero-actions" style="justify-content:center"><a class="btn btn-gold" href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">ENVIAR PROJETO</a><a class="btn btn-outline" href="ARQSELECT_LOGIN_FORNECEDOR.html#cadastro">QUERO SER PARCEIRO</a></div></div></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div><a class="brand" href="index.html">ARQ<span>SELECT</span></a><p>A plataforma que conecta arquitetos aos fornecedores certos para cada projeto.</p></div>
+      <div><h4>Navegue</h4><a href="#como-funciona">Como funciona</a><br><a href="#categorias">Categorias</a><br><a href="#arquitetos">Arquitetos</a><br><a href="#fornecedores">Fornecedores</a></div>
+      <div><h4>Comece</h4><a href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Enviar projeto</a><br><a href="ARQSELECT_LOGIN_FORNECEDOR.html#cadastro">Seja fornecedor</a><br><a href="https://wa.me/5519981655013?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ARQSELECT%20e%20gostaria%20de%20saber%20mais%20sobre%20a%20plataforma." target="_blank" rel="noopener">Fale conosco</a></div>
+    </div>
+    <div class="container copyright"><span>© 2026 ARQSELECT. Todos os direitos reservados.</span><span>Arquitetura • Interiores • Construção • Fornecedores</span></div>
+  </footer>
+
+  <a class="arq-whatsapp" href="https://wa.me/5519981655013?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ARQSELECT%20e%20gostaria%20de%20saber%20mais%20sobre%20a%20plataforma." target="_blank" rel="noopener" aria-label="Fale conosco pelo WhatsApp">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M19.11 17.2c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.14-.42-2.17-1.34-.8-.71-1.34-1.59-1.5-1.86-.16-.27-.02-.42.12-.56.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.02-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.96.94-.96 2.28s.98 2.64 1.12 2.82c.14.18 1.93 2.95 4.68 4.14.65.28 1.16.45 1.56.58.66.21 1.26.18 1.73.11.53-.08 1.6-.65 1.82-1.28.23-.63.23-1.17.16-1.28-.07-.11-.25-.18-.52-.32ZM16.02 3.5c-6.9 0-12.5 5.6-12.5 12.5 0 2.2.57 4.35 1.66 6.24L3.5 28.5l6.43-1.65A12.43 12.43 0 0 0 16.02 28c6.9 0 12.5-5.6 12.5-12s-5.6-12.5-12.5-12.5Zm0 22.4c-1.98 0-3.92-.53-5.62-1.54l-.4-.24-3.82.98 1-3.72-.26-.41a10.34 10.34 0 1 1 9.1 4.93Z"/></svg><span>Fale conosco</span>
+  </a>
+</body>
+</html>
