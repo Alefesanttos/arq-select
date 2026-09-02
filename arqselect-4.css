@@ -18,6 +18,7 @@
   --arq-warning: #f0bd63;
   --arq-danger: #ff817a;
   --arq-info: #75a7ff;
+  --arq-tech: #43d7c8;
   --arq-shadow-sm: 0 10px 30px rgba(0, 0, 0, .2);
   --arq-shadow: 0 24px 70px rgba(0, 0, 0, .34);
   --arq-radius-sm: 12px;
@@ -57,7 +58,7 @@ body {
   min-height: 100vh;
   background:
     radial-gradient(circle at 8% -10%, rgba(212, 175, 55, .12), transparent 34%),
-    radial-gradient(circle at 95% 12%, rgba(111, 126, 100, .08), transparent 28%),
+    radial-gradient(circle at 95% 12%, rgba(67, 215, 200, .075), transparent 28%),
     linear-gradient(180deg, var(--arq-bg), var(--arq-bg-soft)) !important;
   color: var(--arq-text) !important;
   font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif !important;
@@ -248,7 +249,7 @@ label { color: var(--arq-text) !important; font-size: .875rem !important; }
 }
 .badge.green, .pill.green { color: var(--arq-success) !important; border-color: rgba(86, 211, 139, .3) !important; background: rgba(86, 211, 139, .08) !important; }
 .badge.red, .pill.red { color: var(--arq-danger) !important; border-color: rgba(255, 129, 122, .3) !important; background: rgba(255, 129, 122, .08) !important; }
-.badge.blue, .pill.blue { color: var(--arq-info) !important; border-color: rgba(117, 167, 255, .3) !important; background: rgba(117, 167, 255, .08) !important; }
+.badge.blue, .pill.blue { color: var(--arq-tech) !important; border-color: rgba(67, 215, 200, .3) !important; background: rgba(67, 215, 200, .08) !important; }
 
 .arq4-profile-hero { display: grid; gap: 24px; min-height: 310px; align-content: end; background-size: cover !important; background-position: center !important; }
 .arq4-profile-main { display: flex; align-items: center; gap: 22px; min-width: 0; }

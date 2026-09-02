@@ -14,15 +14,15 @@
   <meta property="og:title" content="ARQSELECT | Conectando arquitetos aos fornecedores certos">
   <meta property="og:description" content="Envie seu projeto e receba soluções, fornecedores e orçamentos selecionados para sua necessidade.">
   <meta property="og:url" content="https://www.arqselect.com.br/">
-  <meta property="og:image" content="arquitetura-premium.png">
+  <meta property="og:image" content="arquitetura-premium-v2.webp">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ARQSELECT | Conexões que geram projetos e negócios">
   <meta name="twitter:description" content="A plataforma que conecta arquitetos aos fornecedores certos para cada projeto.">
-  <meta name="twitter:image" content="arquitetura-premium.png">
+  <meta name="twitter:image" content="arquitetura-premium-v2.webp">
   <style>
     :root{
       --bg:#060606;--bg2:#0c0c0c;--surface:#111111;--surface2:#171717;--surface3:#1d1d1d;
-      --gold:#d4af37;--gold2:#f0d77a;--text:#f7f4eb;--muted:#a9a49a;--line:rgba(255,255,255,.09);
+      --gold:#d4af37;--gold2:#f0d77a;--teal:#43d7c8;--teal-dark:#0f706a;--text:#f7f4eb;--muted:#aaa69d;--line:rgba(255,255,255,.10);
       --shadow:0 28px 80px rgba(0,0,0,.38);--radius:22px;--max:1220px;
     }
     *{box-sizing:border-box}
@@ -40,19 +40,19 @@
     .topbar{position:sticky;top:0;z-index:100;border-bottom:1px solid var(--line);background:rgba(5,5,5,.76);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
     .nav{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:22px}
     .brand{font-weight:950;letter-spacing:.15em;font-size:24px;white-space:nowrap}.brand span{color:var(--gold2)}
-    .navlinks{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.navlinks a{padding:10px 13px;border-radius:10px;color:#d8d3c8;font-size:13px;font-weight:800}.navlinks a:hover{background:rgba(255,255,255,.05);color:#fff}
+    .navlinks{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.navlinks a{padding:10px 13px;border-radius:10px;color:#d8d3c8;font-size:13px;font-weight:800}.navlinks a:hover{background:rgba(255,255,255,.05);color:#fff}.nav-actions{display:flex;align-items:center;gap:9px}.nav-access{border:1px solid rgba(67,215,200,.30);background:rgba(67,215,200,.08);color:#bcfff8;padding:12px 16px}
     .nav-toggle{display:none;background:transparent;color:var(--text);border:1px solid var(--line);border-radius:11px;padding:10px 12px}
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border-radius:14px;padding:14px 20px;font-weight:950;font-size:14px;border:1px solid var(--line);transition:.22s ease;cursor:pointer}
     .btn:hover{transform:translateY(-2px)}.btn-gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#171208;box-shadow:0 14px 35px rgba(212,175,55,.18)}
     .btn-outline{background:rgba(255,255,255,.04);color:var(--text)}
-    .hero{position:relative;min-height:760px;display:flex;align-items:center;overflow:hidden}
-    .hero-bg{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.93) 0%,rgba(0,0,0,.72) 46%,rgba(0,0,0,.42) 100%),url('arquitetura-premium.png') center/cover no-repeat;filter:saturate(.88)}
+    .hero{position:relative;min-height:800px;display:flex;align-items:center;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.05)}
+    .hero-bg{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.96) 0%,rgba(0,0,0,.76) 43%,rgba(0,0,0,.16) 100%),linear-gradient(180deg,rgba(4,10,14,.08),rgba(0,0,0,.18)),url('arquitetura-premium-v2.webp') center/cover no-repeat;filter:saturate(.96) contrast(1.03);transform:scale(1.01)}
     .hero:after{content:"";position:absolute;inset:auto 0 0;height:180px;background:linear-gradient(transparent,var(--bg))}
     .hero-content{position:relative;z-index:2;padding:120px 0 170px;max-width:900px}
     .eyebrow{display:inline-flex;align-items:center;gap:10px;text-transform:uppercase;letter-spacing:.2em;color:var(--gold2);font-size:11px;font-weight:950;margin-bottom:18px}.eyebrow:before{content:"";width:32px;height:1px;background:var(--gold)}
     h1{font-size:clamp(48px,7vw,88px);line-height:.97;letter-spacing:-.035em;margin:0 0 22px;max-width:900px;text-shadow:0 10px 40px rgba(0,0,0,.35)}
     .hero-copy{font-size:18px;color:#ddd8ce;max-width:720px;line-height:1.8;margin-bottom:32px}.hero-copy strong{color:#fff}
-    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}.hero-note{margin-top:26px;color:#aaa398;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}.hero-note{margin-top:26px;color:#b9b4aa;font-size:12px;letter-spacing:.08em;text-transform:uppercase}.hero-signal{display:inline-flex;align-items:center;gap:8px;margin-bottom:16px;padding:8px 11px;border:1px solid rgba(67,215,200,.22);border-radius:999px;background:rgba(5,25,27,.42);color:#aef9f1;font-size:11px;font-weight:850}.hero-signal:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 18px rgba(67,215,200,.85)}
     .section{padding:105px 0}.section-head{max-width:760px;margin-bottom:36px}.section-head.center{text-align:center;margin-left:auto;margin-right:auto}.section h2{font-size:clamp(34px,4.5vw,52px);line-height:1.02;margin:8px 0 14px;letter-spacing:-.025em}.section p.lead{color:var(--muted);font-size:16px;max-width:700px}
     .dark{background:linear-gradient(180deg,transparent,rgba(255,255,255,.015),transparent)}
     .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.step{padding:28px;border-radius:var(--radius);background:linear-gradient(145deg,rgba(24,24,24,.95),rgba(12,12,12,.92));border:1px solid var(--line);box-shadow:var(--shadow);position:relative;overflow:hidden}.step:after{content:"";position:absolute;inset:auto -20% -40% auto;width:150px;height:150px;background:radial-gradient(circle,rgba(212,175,55,.12),transparent 70%)}.step-no{font-size:12px;color:var(--gold2);font-weight:950;letter-spacing:.15em}.step-icon{font-size:30px;margin:24px 0 12px}.step h3{margin:0 0 8px;font-size:19px}.step p{margin:0;color:var(--muted);font-size:14px}
@@ -65,8 +65,9 @@
     .cta{padding:100px 0;background:radial-gradient(circle at 50% 0%,rgba(212,175,55,.11),transparent 36%),#0b0b0b;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.cta-box{padding:55px;text-align:center;border:1px solid rgba(212,175,55,.2);border-radius:30px;background:linear-gradient(145deg,rgba(24,24,24,.95),rgba(10,10,10,.96));box-shadow:var(--shadow)}.cta h2{font-size:clamp(38px,5vw,60px);margin:10px auto;max-width:850px}.cta p{max-width:700px;margin:0 auto 28px;color:var(--muted)}
     footer.site-footer{padding:40px 0 55px;border-top:1px solid var(--line)}.footer-grid{display:grid;grid-template-columns:1.4fr .8fr .8fr;gap:25px}.footer-grid h4{margin:0 0 12px;color:#fff}.footer-grid p,.footer-grid a{color:var(--muted);font-size:13px}.footer-grid a:hover{color:#fff}.copyright{padding-top:24px;margin-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;color:#777;font-size:12px}
     .arq-whatsapp{position:fixed;right:22px;bottom:22px;z-index:999;display:flex;align-items:center;gap:10px;padding:14px 18px;border-radius:999px;background:linear-gradient(135deg,#25d366,#16a34a);color:#fff;box-shadow:0 18px 45px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.12) inset;font-weight:950}.arq-whatsapp svg{width:22px;height:22px;fill:currentColor}.arq-whatsapp:hover{transform:translateY(-2px)}
-    @media(max-width:1000px){.navlinks a{display:none}.nav-toggle{display:block}.steps{grid-template-columns:repeat(2,1fr)}.categories{grid-template-columns:repeat(3,1fr)}.numbers{grid-template-columns:repeat(3,1fr)}.footer-grid{grid-template-columns:1fr 1fr}}
-    @media(max-width:760px){.hero{min-height:700px}.hero-content{padding:95px 0 140px}.hero-bg{background-position:center}.steps,.benefits,.curation,.ecosystem,.testimonials{grid-template-columns:1fr}.categories{grid-template-columns:repeat(2,1fr)}.numbers{grid-template-columns:repeat(2,1fr)}.nav{min-height:70px}.brand{font-size:21px}.btn{width:auto}.cta-box{padding:35px 22px}.footer-grid{grid-template-columns:1fr}.eco-plus{transform:rotate(90deg)} }
+    .home-modal{position:fixed;inset:0;z-index:1200;display:none;place-items:center;padding:20px;background:rgba(0,0,0,.78);backdrop-filter:blur(12px)}.home-modal.open{display:grid}.home-modal-card{width:min(780px,100%);max-height:90vh;overflow:auto;padding:28px;border-radius:28px;background:linear-gradient(145deg,#191919,#0b0b0b);border:1px solid rgba(212,175,55,.24);box-shadow:0 38px 100px rgba(0,0,0,.62)}.home-modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:22px}.home-modal-close{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#fff;font-size:22px}.access-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.access-card{display:flex;min-height:190px;flex-direction:column;justify-content:space-between;padding:22px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.035);transition:.22s}.access-card:hover{transform:translateY(-3px);border-color:rgba(67,215,200,.38);background:rgba(67,215,200,.055)}.access-icon{font-size:26px;color:var(--gold2)}.access-card p{color:var(--muted);font-size:13px}.access-card.admin-access{border-style:dashed;opacity:.86}.home-menu{display:none;position:fixed;inset:70px 12px auto;z-index:1100;padding:14px;border-radius:18px;background:rgba(12,12,12,.97);border:1px solid var(--line);box-shadow:var(--shadow)}.home-menu.open{display:grid;gap:6px}.home-menu a,.home-menu button{padding:13px;text-align:left;border-radius:12px;border:0;background:transparent;color:#f7f4eb;font-weight:800}.home-menu a:hover,.home-menu button:hover{background:rgba(255,255,255,.06)}[hidden]{display:none!important}
+    @media(max-width:1000px){.navlinks a{display:none}.nav-toggle{display:block}.nav-actions>.btn-gold{display:none}.steps{grid-template-columns:repeat(2,1fr)}.categories{grid-template-columns:repeat(3,1fr)}.numbers{grid-template-columns:repeat(3,1fr)}.footer-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:760px){.hero{min-height:720px}.hero-content{padding:105px 0 140px}.hero-bg{background-position:62% center}.steps,.benefits,.curation,.ecosystem,.testimonials,.access-grid{grid-template-columns:1fr}.access-card{min-height:145px}.categories{grid-template-columns:repeat(2,1fr)}.numbers{grid-template-columns:repeat(2,1fr)}.nav{min-height:70px}.brand{font-size:21px}.nav-access{padding:10px 12px}.btn{width:auto}.cta-box{padding:35px 22px}.footer-grid{grid-template-columns:1fr}.eco-plus{transform:rotate(90deg)} }
     @media(max-width:520px){.container{width:min(94vw,var(--max))}.categories{grid-template-columns:1fr 1fr}.hero-actions{display:grid;grid-template-columns:1fr}.hero-actions .btn{width:100%}.arq-whatsapp{right:14px;bottom:14px;width:58px;height:58px;justify-content:center;padding:0}.arq-whatsapp span{display:none}.arq-whatsapp svg{width:28px;height:28px}.section{padding:82px 0}}
   </style>
   <script type="application/ld+json">
@@ -93,21 +94,30 @@
         <a href="#sobre">Sobre</a>
         <a href="#contato">Contato</a>
       </nav>
-      <a class="btn btn-gold" href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">ENVIAR PROJETO</a>
+      <div class="nav-actions">
+        <button class="btn nav-access" type="button" data-open-access>ACESSAR</button>
+        <a class="btn btn-gold" href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">ENVIAR PROJETO</a>
+        <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" data-home-menu>☰</button>
+      </div>
     </div>
   </header>
+
+  <nav class="home-menu" id="home-menu" aria-label="Menu móvel">
+    <a href="#como-funciona">Como funciona</a><a href="#categorias">Categorias</a><a href="explorar.html">Marketplace</a><a href="#arquitetos">Para arquitetos</a><a href="#fornecedores">Para fornecedores</a><button type="button" data-open-access>Acessar a plataforma</button>
+  </nav>
 
   <main>
     <section class="hero">
       <div class="hero-bg" aria-hidden="true"></div>
       <div class="container hero-content">
+        <div class="hero-signal">CURADORIA PROFISSIONAL PARA PROJETOS REAIS</div>
         <div class="eyebrow">Conexões que geram projetos e negócios</div>
         <h1>A plataforma que conecta arquitetos aos fornecedores certos.</h1>
         <p class="hero-copy">Envie seu projeto e receba <strong>soluções selecionadas entre fornecedores qualificados</strong> para cada etapa da obra ou especificação. Economize tempo, compare opções e encontre fornecedores em um único lugar.</p>
         <div class="hero-actions">
           <a class="btn btn-gold" href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">ENVIAR PROJETO</a>
           <a class="btn btn-outline" href="ARQSELECT_LOGIN_FORNECEDOR.html#cadastro">SEJA UM FORNECEDOR PARCEIRO</a>
-          <a class="btn btn-outline" href="explorar.html">EXPLORAR MARKETPLACE</a>
+          <button class="btn btn-outline" type="button" data-open-access>JÁ TENHO ACESSO</button>
         </div>
         <div class="hero-note">ARQUITETURA • INTERIORES • CONSTRUÇÃO • FORNECEDORES</div>
       </div>
@@ -194,7 +204,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="public-results" hidden aria-live="polite">
       <div class="container">
         <div class="section-head center"><div class="eyebrow">Dados reais da plataforma</div><h2>A evolução da rede com transparência.</h2><p class="lead">Os indicadores abaixo são lidos diretamente da operação ARQSELECT e não utilizam números demonstrativos.</p></div>
         <div id="home-stats" class="numbers"><div class="num arq4-skeleton"></div><div class="num arq4-skeleton"></div><div class="num arq4-skeleton"></div><div class="num arq4-skeleton"></div><div class="num arq4-skeleton"></div></div>
@@ -221,6 +231,17 @@
     </div>
     <div class="container copyright"><span>© 2026 ARQSELECT. Todos os direitos reservados.</span><span>Arquitetura • Interiores • Construção • Fornecedores</span></div>
   </footer>
+
+  <div class="home-modal" id="access-modal" role="dialog" aria-modal="true" aria-labelledby="access-title" aria-hidden="true">
+    <div class="home-modal-card">
+      <div class="home-modal-head"><div><div class="eyebrow">Acesso ARQSELECT</div><h2 id="access-title">Escolha seu ambiente</h2><p class="lead">Cada perfil acessa somente os recursos e projetos autorizados.</p></div><button class="home-modal-close" type="button" data-close-access aria-label="Fechar">×</button></div>
+      <div class="access-grid">
+        <a class="access-card" href="ARQSELECT_LOGIN_ARQUITETO.html"><span class="access-icon">⌂</span><span><b>Sou arquiteto</b><p>Projetos, solicitações, propostas, referências e conversas.</p><span class="badge green">Entrar no portal →</span></span></a>
+        <a class="access-card" href="ARQSELECT_LOGIN_FORNECEDOR.html"><span class="access-icon">◆</span><span><b>Sou fornecedor</b><p>Produtos, oportunidades, propostas e relacionamento comercial.</p><span class="badge green">Entrar no portal →</span></span></a>
+        <a class="access-card admin-access" href="admin.html"><span class="access-icon">◈</span><span><b>Gestão ARQSELECT</b><p>Acesso restrito ao CRM administrativo.</p><span class="badge">Abrir CRM →</span></span></a>
+      </div>
+    </div>
+  </div>
 
   <a class="arq-whatsapp" href="https://wa.me/5519981655013?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ARQSELECT%20e%20gostaria%20de%20saber%20mais%20sobre%20a%20plataforma." target="_blank" rel="noopener" aria-label="Fale conosco pelo WhatsApp">
     <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M19.11 17.2c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.14-.42-2.17-1.34-.8-.71-1.34-1.59-1.5-1.86-.16-.27-.02-.42.12-.56.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.02-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.96.94-.96 2.28s.98 2.64 1.12 2.82c.14.18 1.93 2.95 4.68 4.14.65.28 1.16.45 1.56.58.66.21 1.26.18 1.73.11.53-.08 1.6-.65 1.82-1.28.23-.63.23-1.17.16-1.28-.07-.11-.25-.18-.52-.32ZM16.02 3.5c-6.9 0-12.5 5.6-12.5 12.5 0 2.2.57 4.35 1.66 6.24L3.5 28.5l6.43-1.65A12.43 12.43 0 0 0 16.02 28c6.9 0 12.5-5.6 12.5-12s-5.6-12.5-12.5-12.5Zm0 22.4c-1.98 0-3.92-.53-5.62-1.54l-.4-.24-3.82.98 1-3.72-.26-.41a10.34 10.34 0 1 1 9.1 4.93Z"/></svg><span>Fale conosco</span>

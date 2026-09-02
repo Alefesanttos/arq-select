@@ -4,11 +4,18 @@
   const brlCompact = value => Number(value || 0).toLocaleString("pt-BR", {style:"currency",currency:"BRL",maximumFractionDigits:0});
 
   async function loadStats() {
-    const result = await ARQSELECT4.api("arq4_public_stats");
+    const section = document.getElementById("public-results");
     const root = document.getElementById("home-stats");
-    if (!root) return;
+    if (!root || !section) return;
+    const config = await ARQSELECT4.api("arq4_public_home_config");
+    if (!config.sucesso || !config.home || config.home.mostrarNumeros !== true) {
+      section.hidden = true;
+      root.innerHTML = "";
+      return;
+    }
+    const result = await ARQSELECT4.api("arq4_public_stats");
     if (!result.sucesso) {
-      root.innerHTML = '<div class="num" style="grid-column:1/-1"><strong>—</strong><span>Indicadores temporariamente indisponíveis</span></div>';
+      section.hidden = true;
       return;
     }
     const stats = result.estatisticas || {};
@@ -20,6 +27,7 @@
       [brlCompact(stats.valorMovimentado), "Volume em negócios fechados"]
     ];
     root.innerHTML = values.map(item => `<div class="num"><strong>${esc(item[0])}</strong><span>${esc(item[1])}</span></div>`).join("");
+    section.hidden = false;
   }
 
   async function loadReviews() {
@@ -41,5 +49,20 @@
     }).join("") : '<div class="arq4-card empty" style="grid-column:1/-1"><b>O marketplace está pronto para receber os primeiros produtos aprovados.</b><a class="btn gold" href="ARQSELECT_LOGIN_FORNECEDOR.html#cadastro">Cadastrar minha empresa</a></div>';
   }
 
+  function setupExperience() {
+    const modal = document.getElementById("access-modal");
+    const close = () => { if (!modal) return; modal.classList.remove("open"); modal.setAttribute("aria-hidden","true"); document.body.style.overflow = ""; };
+    const open = () => { if (!modal) return; modal.classList.add("open"); modal.setAttribute("aria-hidden","false"); document.body.style.overflow = "hidden"; modal.querySelector("[data-close-access]")?.focus(); };
+    document.querySelectorAll("[data-open-access]").forEach(button => button.addEventListener("click", event => { event.preventDefault(); open(); }));
+    document.querySelectorAll("[data-close-access]").forEach(button => button.addEventListener("click", close));
+    modal?.addEventListener("click", event => { if (event.target === modal) close(); });
+    document.addEventListener("keydown", event => { if (event.key === "Escape") close(); });
+    const menu = document.getElementById("home-menu");
+    const toggle = document.querySelector("[data-home-menu]");
+    toggle?.addEventListener("click", () => { const opened = menu?.classList.toggle("open") || false; toggle.setAttribute("aria-expanded",String(opened)); });
+    menu?.querySelectorAll("a,button").forEach(item => item.addEventListener("click", () => { menu.classList.remove("open"); toggle?.setAttribute("aria-expanded","false"); }));
+  }
+
+  setupExperience();
   Promise.allSettled([loadStats(), loadReviews(), loadProducts()]);
 })();
