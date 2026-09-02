@@ -1,4 +1,13 @@
 (function () {
+  if (!document.querySelector('link[href="arqselect-4.css"]')) {
+    const style=document.createElement("link");style.rel="stylesheet";style.href="arqselect-4.css";document.head.appendChild(style);
+  }
+  if (!document.querySelector('script[src="arqselect-4.js"]')) {
+    const shared=document.createElement("script");shared.src="arqselect-4.js";document.body.appendChild(shared);
+  }
+  if (!document.querySelector('script[src="admin-4.js"]')) {
+    const executive=document.createElement("script");executive.src="admin-4.js";document.body.appendChild(executive);
+  }
   const baseLoadPageData = loadPageData;
   const baseRenderPage = renderPage;
   const baseShowUser = showUser;
@@ -147,9 +156,9 @@
     const result = baseRenderPage(page);
     if (page === "negocios") {
       setTimeout(() => {
-        document.querySelectorAll("[data-com]").forEach(input => { input.disabled = true; input.title = "Regra fixa ARQSELECT 3.0"; });
+        document.querySelectorAll("[data-com]").forEach(input => { input.disabled = true; input.title = "Regra fixa ARQSELECT"; });
         const saveButton = document.querySelector('[onclick="salvarComissoes()"]');
-        if (saveButton) { saveButton.disabled = true; saveButton.textContent = "Faixas fixas ARQSELECT 3.0"; }
+        if (saveButton) { saveButton.disabled = true; saveButton.textContent = "Faixas fixas ARQSELECT"; }
       }, 0);
     }
     return result;

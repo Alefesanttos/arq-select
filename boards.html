@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Organize produtos, fornecedores e referências em boards privados da ARQSELECT.">
+  <meta name="theme-color" content="#070807">
+  <title>Minha seleção | ARQSELECT</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="arqselect-4.css">
+<script id="arq4-theme-boot">(()=>{const p=localStorage.getItem("ARQSELECT_THEME")||"dark";document.documentElement.dataset.theme=p==="auto"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):p})();</script></head>
+<body>
+  <header class="top" style="padding:15px max(4vw,18px);display:flex;justify-content:space-between;align-items:center;gap:14px;position:sticky;top:0;z-index:30">
+    <a class="brand" href="index.html">ARQ<span>SELECT</span></a>
+    <nav class="nav"><a class="btn light" data-panel href="ARQSELECT_DASHBOARD_ARQUITETO.html">Dashboard</a><a class="btn light" href="explorar.html">Explorar</a><a class="btn light" href="favoritos.html">Favoritos</a></nav>
+  </header>
+  <main class="arq4-shell">
+    <section class="arq4-page-head">
+      <div><div class="ey">ORGANIZAÇÃO DO PROJETO</div><h1>Minha seleção</h1><p class="muted">Crie boards privados para reunir produtos, fornecedores, propostas e referências.</p></div>
+      <button class="btn gold" id="newBoard">+ Novo board</button>
+    </section>
+
+    <section id="pendingAdd" class="arq4-card" hidden></section>
+    <section id="boardForm" class="arq4-card" hidden style="margin-bottom:18px">
+      <div class="arq4-section-head"><div><div class="ey">NOVO BOARD</div><h2>Organize sua seleção</h2></div><button class="btn light" id="cancelBoard">Cancelar</button></div>
+      <form id="formBoard" class="arq4-form-grid">
+        <label>Nome do board<input name="nome" required maxlength="120" placeholder="Ex.: Sala apartamento Campinas"></label>
+        <label>Projeto relacionado<input name="projetoId" maxlength="120" placeholder="ID do projeto, se houver"></label>
+        <label class="full">Descrição<textarea name="descricao" maxlength="500" placeholder="Objetivo, ambiente ou observações da seleção"></textarea></label>
+        <div class="full"><button class="btn gold" type="submit">Salvar board</button></div>
+      </form>
+    </section>
+
+    <section id="manualItem" class="arq4-card" hidden style="margin-bottom:18px">
+      <div class="arq4-section-head"><div><div class="ey">NOVA REFERÊNCIA</div><h2>Adicionar item</h2></div><button class="btn light" id="cancelItem">Cancelar</button></div>
+      <form id="formItem" class="arq4-form-grid">
+        <input type="hidden" name="boardId">
+        <label>Tipo<select name="tipo"><option>REFERENCIA</option><option>PRODUTO</option><option>FORNECEDOR</option><option>PROPOSTA</option><option>IMAGEM</option></select></label>
+        <label>Título<input name="titulo" required maxlength="180"></label>
+        <label>Link<input name="url" type="url" placeholder="https://"></label>
+        <label>Imagem<input name="imagem" type="url" placeholder="URL pública da imagem"></label>
+        <label class="full">Notas<textarea name="notas" maxlength="800"></textarea></label>
+        <div class="full"><button class="btn gold" type="submit">Adicionar ao board</button></div>
+      </form>
+    </section>
+
+    <div id="boards" class="arq4-grid"><div class="arq4-card arq4-skeleton" aria-busy="true"></div><div class="arq4-card arq4-skeleton" aria-busy="true"></div></div>
+  </main>
+  <script src="arqselect-4.js"></script>
+  <script>
+  (()=>{
+    const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const token=ARQSELECT4.token, role=ARQSELECT4.role;
+    const params=new URLSearchParams(location.search);
+    const pending=params.get('add')?{tipo:params.get('add'),registroId:params.get('id')||'',titulo:params.get('titulo')||'Referência',url:params.get('url')||'',imagem:params.get('imagem')||''}:null;
+    let boards=[];
+    if(!token){document.getElementById('boards').innerHTML='<div class="arq4-card empty" style="grid-column:1/-1"><b>Entre na plataforma para criar sua seleção.</b><div class="arq4-actions"><a class="btn gold" href="ARQSELECT_LOGIN_ARQUITETO.html">Acesso do arquiteto</a><a class="btn light" href="ARQSELECT_LOGIN_FORNECEDOR.html">Acesso do fornecedor</a></div></div>';return;}
+    document.querySelector('[data-panel]').href=role==='FORNECEDOR'?'ARQSELECT_DASHBOARD_FORNECEDOR.html':role==='ADMIN'?'admin.html':'ARQSELECT_DASHBOARD_ARQUITETO.html';
+    const show=(id,value=true)=>document.getElementById(id).hidden=!value;
+    async function load(){const j=await ARQSELECT4.api('arq4_boards');if(!j.sucesso){document.getElementById('boards').innerHTML=`<div class="arq4-card empty" style="grid-column:1/-1">${esc(j.mensagem||'Não foi possível carregar os boards.')}</div>`;return;}boards=j.boards||[];render();renderPending();}
+    function render(){const root=document.getElementById('boards');if(!boards.length){root.innerHTML='<div class="arq4-card empty" style="grid-column:1/-1"><b>Você ainda não criou nenhum board.</b><span>Comece organizando produtos, fornecedores e inspirações de um projeto.</span><button class="btn gold" onclick="document.getElementById(\'newBoard\').click()">Criar primeiro board</button></div>';return;}root.innerHTML=boards.map(board=>`<article class="arq4-card"><div class="arq4-section-head"><div><div class="ey">${board.totalItens||0} ITEM(NS)</div><h2>${esc(board.NOME)}</h2><p class="muted">${esc(board.DESCRICAO||'Seleção privada ARQSELECT')}</p></div><span class="badge">Privado</span></div><div class="arq4-list">${(board.itens||[]).map(item=>`<div class="arq4-list-item"><span class="arq4-list-icon">${esc((item.TIPO||'R').slice(0,1))}</span><span><b>${esc(item.TITULO)}</b><br><span class="muted">${esc(item.SUBTITULO||item.TIPO||'Referência')}</span></span><span class="arq4-actions">${item.URL?`<a class="btn light" href="${esc(item.URL)}" target="_blank" rel="noopener">Abrir</a>`:''}<button class="btn danger" onclick="removeItem('${esc(item.ID)}')">Remover</button></span></div>`).join('')||'<div class="empty">Nenhum item salvo neste board.</div>'}</div><div class="arq4-actions" style="margin-top:14px"><button class="btn gold" onclick="openItem('${esc(board.ID)}')">+ Adicionar item</button><button class="btn light" onclick="archiveBoard('${esc(board.ID)}')">Arquivar</button></div></article>`).join('');}
+    function renderPending(){const root=document.getElementById('pendingAdd');if(!pending)return;root.hidden=false;root.innerHTML=`<div class="arq4-section-head"><div><div class="ey">ITEM AGUARDANDO</div><h2>${esc(pending.titulo)}</h2><p class="muted">Escolha o board onde deseja salvar este item.</p></div><a class="btn light" href="boards.html">Cancelar</a></div><div class="arq4-actions">${boards.map(board=>`<button class="btn gold" onclick="savePending('${esc(board.ID)}')">${esc(board.NOME)}</button>`).join('')||'<button class="btn gold" onclick="document.getElementById(\'newBoard\').click()">Criar um board</button>'}</div>`;}
+    window.savePending=async boardId=>{const j=await ARQSELECT4.api('arq4_board_item_adicionar',{boardId,...pending},'POST');ARQSELECT4.notify(j.mensagem||'Item salvo.');if(j.sucesso)location.href='boards.html';};
+    window.openItem=boardId=>{document.querySelector('#formItem [name="boardId"]').value=boardId;show('manualItem');document.getElementById('manualItem').scrollIntoView({behavior:'smooth'});};
+    window.removeItem=async id=>{const j=await ARQSELECT4.api('arq4_board_item_remover',{id},'POST');ARQSELECT4.notify(j.mensagem||'Item atualizado.');if(j.sucesso)load();};
+    window.archiveBoard=async id=>{if(!confirm('Arquivar este board? Ele deixará de aparecer na sua seleção.'))return;const j=await ARQSELECT4.api('arq4_board_arquivar',{id},'POST');ARQSELECT4.notify(j.mensagem||'Board atualizado.');if(j.sucesso)load();};
+    document.getElementById('newBoard').onclick=()=>{show('boardForm');document.querySelector('#formBoard input').focus();};
+    document.getElementById('cancelBoard').onclick=()=>show('boardForm',false);
+    document.getElementById('cancelItem').onclick=()=>show('manualItem',false);
+    document.getElementById('formBoard').onsubmit=async e=>{e.preventDefault();const data=Object.fromEntries(new FormData(e.target));const j=await ARQSELECT4.api('arq4_board_salvar',data,'POST');ARQSELECT4.notify(j.mensagem||'Board salvo.');if(j.sucesso){e.target.reset();show('boardForm',false);await load();if(pending)savePending(j.id);}};
+    document.getElementById('formItem').onsubmit=async e=>{e.preventDefault();const data=Object.fromEntries(new FormData(e.target));const j=await ARQSELECT4.api('arq4_board_item_adicionar',data,'POST');ARQSELECT4.notify(j.mensagem||'Item salvo.');if(j.sucesso){e.target.reset();show('manualItem',false);load();}};
+    load();
+  })();
+  </script>
+</body>
+</html>

@@ -79,7 +79,7 @@
     "sameAs":[]
   }
   </script>
-</head>
+<script id="arq4-theme-boot">(()=>{const p=localStorage.getItem("ARQSELECT_THEME")||"dark";document.documentElement.dataset.theme=p==="auto"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):p})();</script><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="arqselect-4.css"></head>
 <body>
   <header class="topbar">
     <div class="container nav">
@@ -89,6 +89,7 @@
         <a href="#fornecedores">Fornecedores</a>
         <a href="#como-funciona">Como Funciona</a>
         <a href="#categorias">Categorias</a>
+        <a href="explorar.html">Marketplace</a>
         <a href="#sobre">Sobre</a>
         <a href="#contato">Contato</a>
       </nav>
@@ -106,8 +107,17 @@
         <div class="hero-actions">
           <a class="btn btn-gold" href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">ENVIAR PROJETO</a>
           <a class="btn btn-outline" href="ARQSELECT_LOGIN_FORNECEDOR.html#cadastro">SEJA UM FORNECEDOR PARCEIRO</a>
+          <a class="btn btn-outline" href="explorar.html">EXPLORAR MARKETPLACE</a>
         </div>
         <div class="hero-note">ARQUITETURA • INTERIORES • CONSTRUÇÃO • FORNECEDORES</div>
+      </div>
+    </section>
+
+    <section class="section dark" id="marketplace">
+      <div class="container">
+        <div class="section-head"><div class="eyebrow">Marketplace profissional</div><h2>Produtos e soluções aprovados para projetos reais.</h2><p class="lead">Descubra materiais, marcas e fornecedores. Os produtos aparecem conforme forem cadastrados e aprovados pela ARQSELECT.</p></div>
+        <div id="home-products" class="arq4-grid"><div class="arq4-card arq4-skeleton"></div><div class="arq4-card arq4-skeleton"></div><div class="arq4-card arq4-skeleton"></div></div>
+        <div class="hero-actions" style="margin-top:22px"><a class="btn btn-gold" href="explorar.html">EXPLORAR TODOS OS PRODUTOS</a><a class="btn btn-outline" href="comparar.html">ABRIR COMPARADOR</a></div>
       </div>
     </section>
 
@@ -170,17 +180,31 @@
       </div>
     </section>
 
+    <section class="section" id="confianca">
+      <div class="container">
+        <div class="section-head center"><div class="eyebrow">Por que confiar na ARQSELECT?</div><h2>Conexões com controle, histórico e responsabilidade.</h2><p class="lead">A plataforma protege o contexto dos projetos e registra as etapas importantes do relacionamento.</p></div>
+        <div class="arq4-grid">
+          <article class="arq4-card"><span class="badge green">Controle de acesso</span><h3>Projetos direcionados</h3><p class="muted">O fornecedor visualiza oportunidades quando o projeto é direcionado pela ARQSELECT e as regras comerciais são atendidas.</p></article>
+          <article class="arq4-card"><span class="badge green">Rastreabilidade</span><h3>Histórico registrado</h3><p class="muted">Mensagens, propostas, aprovações e negócios permanecem vinculados ao contexto correto.</p></article>
+          <article class="arq4-card"><span class="badge green">Reputação</span><h3>Avaliações moderadas</h3><p class="muted">Somente avaliações relacionadas a projetos e publicadas após moderação alimentam a reputação.</p></article>
+          <article class="arq4-card"><span class="badge green">Transparência</span><h3>Comissão no fechamento</h3><p class="muted">A comissão é calculada somente quando o negócio é registrado como fechado.</p></article>
+          <article class="arq4-card"><span class="badge green">Privacidade</span><h3>Dados protegidos</h3><p class="muted">Contatos e informações comerciais respeitam as permissões e conexões aprovadas na plataforma.</p></article>
+          <article class="arq4-card"><span class="badge green">Acompanhamento</span><h3>Central de suporte</h3><p class="muted">Arquitetos e fornecedores podem abrir atendimentos e acompanhar o status dentro do ecossistema.</p></article>
+        </div>
+      </div>
+    </section>
+
     <section class="section">
       <div class="container">
-        <div class="section-head center"><div class="eyebrow">A plataforma cresce com a rede</div><h2>Números preparados para acompanhar a evolução.</h2><p class="lead">A estrutura está pronta para receber indicadores dinâmicos conforme a base da plataforma amadurecer.</p></div>
-        <div class="numbers"><div class="num"><strong>—</strong><span>Arquitetos cadastrados</span></div><div class="num"><strong>—</strong><span>Fornecedores parceiros</span></div><div class="num"><strong>—</strong><span>Projetos recebidos</span></div><div class="num"><strong>—</strong><span>Cotações realizadas</span></div><div class="num"><strong>—</strong><span>Valor movimentado</span></div></div>
+        <div class="section-head center"><div class="eyebrow">Dados reais da plataforma</div><h2>A evolução da rede com transparência.</h2><p class="lead">Os indicadores abaixo são lidos diretamente da operação ARQSELECT e não utilizam números demonstrativos.</p></div>
+        <div id="home-stats" class="numbers"><div class="num arq4-skeleton"></div><div class="num arq4-skeleton"></div><div class="num arq4-skeleton"></div><div class="num arq4-skeleton"></div><div class="num arq4-skeleton"></div></div>
       </div>
     </section>
 
     <section class="section dark">
       <div class="container">
-        <div class="section-head center"><div class="eyebrow">Confiança</div><h2>Experiência preparada para quem especifica e para quem fornece.</h2><p class="lead">Área reservada para depoimentos, avaliações e histórias reais da rede ARQSELECT.</p></div>
-        <div class="testimonials"><article class="quote"><p>“A curadoria transforma um processo comercial disperso em uma experiência muito mais organizada.”</p><footer>Depoimento de arquiteto — área preparada</footer></article><article class="quote"><p>“Ter o projeto contextualizado facilita apresentar a solução certa para o profissional certo.”</p><footer>Depoimento de fornecedor — área preparada</footer></article><article class="quote"><p>“A plataforma aproxima relacionamento, produto e oportunidade em um único ambiente.”</p><footer>Depoimento de parceiro — área preparada</footer></article></div>
+        <div class="section-head center"><div class="eyebrow">Experiências verificadas</div><h2>Avaliações publicadas pela comunidade.</h2><p class="lead">Somente avaliações reais, ligadas a projetos e aprovadas na moderação, são exibidas.</p></div>
+        <div id="home-reviews" class="testimonials"><article class="quote arq4-skeleton"></article><article class="quote arq4-skeleton"></article><article class="quote arq4-skeleton"></article></div>
       </div>
     </section>
 
@@ -201,5 +225,5 @@
   <a class="arq-whatsapp" href="https://wa.me/5519981655013?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ARQSELECT%20e%20gostaria%20de%20saber%20mais%20sobre%20a%20plataforma." target="_blank" rel="noopener" aria-label="Fale conosco pelo WhatsApp">
     <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M19.11 17.2c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.14-.42-2.17-1.34-.8-.71-1.34-1.59-1.5-1.86-.16-.27-.02-.42.12-.56.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.02-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.96.94-.96 2.28s.98 2.64 1.12 2.82c.14.18 1.93 2.95 4.68 4.14.65.28 1.16.45 1.56.58.66.21 1.26.18 1.73.11.53-.08 1.6-.65 1.82-1.28.23-.63.23-1.17.16-1.28-.07-.11-.25-.18-.52-.32ZM16.02 3.5c-6.9 0-12.5 5.6-12.5 12.5 0 2.2.57 4.35 1.66 6.24L3.5 28.5l6.43-1.65A12.43 12.43 0 0 0 16.02 28c6.9 0 12.5-5.6 12.5-12s-5.6-12.5-12.5-12.5Zm0 22.4c-1.98 0-3.92-.53-5.62-1.54l-.4-.24-3.82.98 1-3.72-.26-.41a10.34 10.34 0 1 1 9.1 4.93Z"/></svg><span>Fale conosco</span>
   </a>
-</body>
+<script src="arqselect-4.js"></script><script src="home-4.js"></script></body>
 </html>
