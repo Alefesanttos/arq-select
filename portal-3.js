@@ -1,4 +1,4 @@
-const ARQ3_API="https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
+const ARQ3_API=(window.ARQSELECT_API_URL||localStorage.getItem("ARQSELECT_API_URL")||"https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec");
 const ARQ3_TOKEN=localStorage.getItem("ARQSELECT_PORTAL_TOKEN")||"";
 const ARQ3_TYPE=(localStorage.getItem("ARQSELECT_PORTAL_TIPO")||"").toUpperCase();
 const arq3=id=>document.getElementById(id);

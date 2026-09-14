@@ -1,4 +1,4 @@
-const ARQSELECT_CONFIG={API_URL:localStorage.getItem("ARQSELECT_API_URL")||"https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec",POLL_MS:15000,TIMEOUT_MS:25000};
+const ARQSELECT_CONFIG={API_URL:(window.ARQSELECT_API_URL||localStorage.getItem("ARQSELECT_API_URL")),POLL_MS:15000,TIMEOUT_MS:25000};
 const qs=new URLSearchParams(location.search);
 async function arqRequest(action,data={},method="GET"){
   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),ARQSELECT_CONFIG.TIMEOUT_MS);let response;
