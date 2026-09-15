@@ -18,8 +18,8 @@
   const active = valid(stored) ? stored : DEFAULT_API_URL;
   window.ARQSELECT_API_URL = active;
   window.ARQSELECT_CONFIG = Object.freeze({
-    version: "5.2.0",
-    build: "2026.09.10.52-API-CONNECTION-FIX",
+    version: "5.3.0",
+    build: "2026.09.15.53-CATALOGOS-PREMIUM",
     apiUrl: active,
     defaultApiUrl: DEFAULT_API_URL,
     apiStorageKey: KEY,
