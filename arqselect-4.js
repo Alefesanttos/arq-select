@@ -3,7 +3,7 @@
 
   if (window.ARQSELECT4?.initialized) return;
 
-  const API_URL = (window.ARQSELECT_API_URL || localStorage.getItem("ARQSELECT_API_URL") || "https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec").replace(/\/$/, "");
+  const API_URL = (window.ARQSELECT_API_URL || localStorage.getItem("ARQSELECT_API_URL") || window.ARQSELECT_CONFIG.apiUrl).replace(/\/$/, "");
   const page = (location.pathname.split("/").pop() || "index.html").toLowerCase();
   const portalToken = localStorage.getItem("ARQSELECT_PORTAL_TOKEN") || "";
   const adminToken = localStorage.getItem("ARQSELECT_ADMIN_TOKEN") || "";

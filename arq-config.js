@@ -9,17 +9,14 @@
     const url=clean(value);
     return /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/i.test(url);
   }
-  const qs = new URLSearchParams(location.search);
-  const fromQuery = clean(qs.get("api"));
-  if (fromQuery && valid(fromQuery)) {
-    localStorage.setItem(KEY, fromQuery);
-  }
   const stored = clean(localStorage.getItem(KEY));
   const active = valid(stored) ? stored : DEFAULT_API_URL;
   window.ARQSELECT_API_URL = active;
   window.ARQSELECT_CONFIG = Object.freeze({
-    version: "5.3.0",
-    build: "2026.09.15.53-CATALOGOS-PREMIUM",
+    version: "5.5.0",
+    SYSTEM_NAME: "ARQSELECT", VERSION: "5.5.0", API_URL: active, WHATSAPP: "5519981655013", SITE_URL: "https://arqselect.com.br/",
+    systemName: "ARQSELECT", siteUrl: "https://arqselect.com.br/", mediaBaseUrl: "",
+    build: "2026.09.16.550-AUDITADO",
     apiUrl: active,
     defaultApiUrl: DEFAULT_API_URL,
     apiStorageKey: KEY,

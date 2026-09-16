@@ -39,14 +39,10 @@
   }
 
   async function loadProducts() {
-    const root = document.getElementById("home-products");
-    if (!root) return;
-    const result = await ARQSELECT4.api("portal_produtos", {q:""});
-    const rows = result.sucesso ? (result.produtos || []).slice(0,6) : [];
-    root.innerHTML = rows.length ? rows.map(item => {
-      const image = String(item.FOTOS || "").split(/\n/).filter(Boolean)[0];
-      return `<article class="product arq4-card">${image ? `<img class="arq4-product-image" src="${esc(image)}" alt="${esc(item.NOME || "Produto")}">` : '<div class="arq4-product-image empty">Imagem não cadastrada</div>'}<div class="ey">${esc(item.CATEGORIA || "PRODUTO")}</div><h3>${esc(item.NOME || "Produto")}</h3><p class="muted">${esc([item.MARCA,item.REGIAO].filter(Boolean).join(" · ") || "Fornecedor ARQSELECT")}</p><a class="btn gold" href="produto.html?id=${encodeURIComponent(item.ID)}">Ver produto</a></article>`;
-    }).join("") : '<div class="arq4-card empty" style="grid-column:1/-1"><b>O marketplace está pronto para receber os primeiros produtos aprovados.</b><a class="btn gold" href="ARQSELECT_LOGIN_FORNECEDOR.html#cadastro">Cadastrar minha empresa</a></div>';
+    const root=document.getElementById('home-products');if(!root)return;
+    const j=await ARQ.api('portal_produtos');let rows=j.sucesso?(j.produtos||[]):[];
+    rows=rows.length?rows.slice(0,4):ARQ.curated.filter(x=>['LUX-001','LUX-007','LUX-038','LUX-025'].includes(x.id));
+    root.className='arq-product-grid';root.innerHTML=rows.map(ARQ.card).join('');ARQSELECT_MEDIA.hydrate(root);
   }
 
   function setupExperience() {
