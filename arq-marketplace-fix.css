@@ -1,0 +1,20 @@
+/* 5.5.1 — layout essencial do catálogo e aprimoramento progressivo. */
+.marketplace-page .arq-hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);min-height:490px;isolation:isolate}
+.marketplace-page .arq-hero:after{display:none}
+.marketplace-page .arq-hero>img{position:static;inset:auto;display:block;width:100%;height:100%;min-height:490px;max-height:650px;object-fit:cover;object-position:center}
+.marketplace-page .arq-hero__content{display:flex;flex-direction:column;justify-content:center;width:100%;max-width:none;margin:0;padding:clamp(32px,4.2vw,80px);background:#171817}
+.marketplace-page .arq-hero__content h1{font-size:clamp(40px,4.4vw,72px);line-height:1.04;font-weight:400;overflow-wrap:normal}
+.marketplace-page .arq-hero__content p{font-size:17px;max-width:42ch}
+.marketplace-page .arq-hero__actions{align-items:stretch}
+.marketplace-page .arq-cat-link{background:transparent;border:0;border-bottom:2px solid transparent;font:inherit;font-size:13px;flex:0 0 auto}
+.marketplace-page .arq-cat-link.active{border-bottom-color:#d8b77b}
+.marketplace-page .arq-market-header__top{padding-top:15px;padding-bottom:15px}
+.marketplace-page .arq-product-card[data-arq-static] :is(.arq-fav,.arq-quick){display:none}
+.marketplace-page .arq-product-card[id]{scroll-margin-top:140px}
+.marketplace-page #marketplaceBootStatus{background:#fff5df;color:#514020;border:1px solid #d8c8a5;padding:16px;margin:0 0 20px}
+.marketplace-page .arq-noscript{background:#fff;padding:18px;border:1px solid #ded8ce;color:#514b41}
+.marketplace-page .arq-static-contact{margin-top:20px}
+.marketplace-page .arq-whatsapp-float{background:#146b3c}
+@media(max-width:1000px){.marketplace-page .arq-hero{grid-template-columns:1fr 1fr}.marketplace-page .arq-hero__content{padding:32px}.marketplace-page .arq-hero__content h1{font-size:44px}}
+@media(max-width:800px){.marketplace-page .arq-hero{grid-template-columns:minmax(0,1fr);min-height:0}.marketplace-page .arq-hero>img{height:auto;min-height:0;max-height:420px;aspect-ratio:16/9}.marketplace-page .arq-hero__content{padding:32px 24px}.marketplace-page .arq-hero__content h1{font-size:clamp(36px,7vw,48px)}.marketplace-page .arq-market-header{position:relative}.marketplace-page .arq-hero__actions .arq-btn{flex:1 1 200px}}
+@media(max-width:400px){.marketplace-page .arq-market-header__top{width:calc(100% - 32px)}.marketplace-page .arq-logo{font-size:20px}.marketplace-page .arq-header-actions{gap:8px}.marketplace-page .arq-hero__content{padding:28px 20px}}
