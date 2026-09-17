@@ -74,7 +74,7 @@ html body :is(.arq-product-card,.arq-catalog-card):hover{transform:translateY(-4
     const visible = new Set();
     const pending = new Set();
     let scheduled = false, frame = 0;
-    const photoSelector = '.arq-product-card__media img,.arq-catalog-card__cover img,.arq-hero>img,.arq-inspiration,.story-image img,.story-media img,.editorial-story img,.arq-home img,main img,.arq-profile-cover img';
+    const photoSelector = '.arq-discovery img,.arq-product-card__media img,.arq-catalog-card__cover img,.arq-hero>img,.arq-inspiration,.story-image img,.story-media img,.editorial-story img,.arq-home img,main img,.arq-profile-cover img';
     const panSelector = '.arq-hero>img,.arq-inspiration,.editorial-story img,.arq-profile-cover img';
     const rgba = value => {
       const m = String(value).match(/^rgba?\(([^)]+)\)$/);
@@ -172,4 +172,77 @@ html body :is(.arq-product-card,.arq-catalog-card):hover{transform:translateY(-4
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});
   else start();
+})();
+
+/* ARQSELECT 5.5.3 — acabamento visual e descoberta progressiva. */
+(function(){
+ 'use strict';
+ if(window.__arqModern553)return;window.__arqModern553=true;
+ function init(){
+  const style=document.createElement('style');style.id='arq-modern-553';
+  style.textContent=`
+html body .arq-access-left,html body [vw],html body .uwy,html body #userwayAccessibilityIcon,html body #accessibilityWidget,html body #accessibility-button,html body .accessibility-widget,html body .accessibility-button,html body .acessibilidade-botao{left:max(16px,env(safe-area-inset-left))!important;right:auto!important;inset-inline-start:16px!important;inset-inline-end:auto!important}
+html body .uwy .uai,html body [vw-plugin-wrapper],html body [vw-access-button]{left:0!important;right:auto!important}
+html body :is(.arq-product-card,.arq-catalog-card,.arq-supplier-card){border-radius:16px;overflow:hidden;border-color:#dfd7c9;box-shadow:0 5px 22px #241b0c08}
+html body :is(.arq-btn,.arq-home .btn){border-radius:9px;min-height:46px;letter-spacing:.015em}
+html body :is(.arq-btn--gold,.arq-home .btn-gold){background:linear-gradient(120deg,#ead0a1,#bd914f)!important;color:#251c10!important;box-shadow:0 5px 16px #84612c24}
+html body .arq-market-header{box-shadow:0 8px 24px #00000012}
+html body .arq-search{border-radius:9px}
+html body .arq-filter{border-radius:14px}
+html body .arq-product-card__body{gap:3px}
+html body :is(.arq-home .step,.arq-home .category,.arq-home .story-principle){border-radius:14px}
+html body .arq-home .story-frame{overflow:hidden;border-radius:20px}
+html body .arq-discovery{width:min(1440px,94%);margin:64px auto;padding:clamp(22px,4vw,48px);background:#eeeadf;color:#20211f;border:1px solid #d8cfbf;border-radius:24px}
+html body .arq-discovery h2{color:#20211f;font:400 clamp(29px,3.5vw,48px)/1.12 Georgia,serif;margin:10px 0 16px;max-width:24ch}
+html body .arq-discovery p{color:#514b41;max-width:65ch;margin:0 0 20px}
+html body .arq-discovery .arq-discovery-kicker{color:#725326;letter-spacing:.15em;font-size:12px;font-weight:800;text-transform:uppercase}
+html body .arq-discovery-track{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;padding:8px 2px 20px}
+html body .arq-discovery-card{flex:0 0 calc((100% - 36px)/3);min-width:230px;scroll-snap-align:start;background:#fff;color:#20211f;border-radius:14px;overflow:hidden;text-decoration:none;border:1px solid #e0d8cb}
+html body .arq-discovery-card img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;transition:transform .5s ease}
+html body .arq-discovery-card span{display:block;padding:18px;font-weight:700;color:#20211f}
+html body .arq-discovery-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:16px}
+html body .arq-discovery-actions a{padding:13px 20px;border-radius:9px;text-decoration:none;background:#20211f;color:#fff!important;font-weight:700}
+html body .arq-discovery-actions a+a{color:#302717!important;background:#e6cfaa}
+html body .arq-discovery-controls{display:flex;justify-content:flex-end;gap:8px}
+html body .arq-discovery-controls button{background:#fff;color:#302717!important;border:1px solid #a89b84;border-radius:50%;width:44px;height:44px;font-size:22px;cursor:pointer}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){html body .arq-discovery-card:hover img{transform:scale(1.035)}html body :is(.arq-btn,.arq-home .btn,.arq-discovery-actions a){transition:transform .2s ease,box-shadow .2s ease}html body :is(.arq-btn,.arq-home .btn,.arq-discovery-actions a):hover{transform:translateY(-2px);box-shadow:0 9px 24px #241b0c24}}
+@media(max-width:700px){html body .arq-discovery{margin:36px auto;border-radius:18px}html body .arq-discovery-card{flex-basis:84%;min-width:0}html body .arq-discovery-actions a{width:100%;text-align:center}}
+@media(prefers-reduced-motion:reduce){html body .arq-discovery-track{scroll-behavior:auto!important}html body .arq-discovery-card img{transition:none!important}}
+`;
+  document.head.append(style);
+  function moveAccess(root){
+   const selector='button[aria-label],a[aria-label],[role="button"][aria-label],button[title],iframe[title]';
+   const nodes=[...(root.matches&&root.matches(selector)?[root]:[]),...root.querySelectorAll(selector)];
+   nodes.forEach(el=>{
+    const label=(el.getAttribute('aria-label')||'')+' '+(el.getAttribute('title')||'');
+    if(!/acessibilidade|accessibility|vlibras/i.test(label))return;
+    let target=el;
+    for(let n=el;n && n!==document.body;n=n.parentElement){if(getComputedStyle(n).position==='fixed'){target=n;break;}}
+    if(getComputedStyle(target).position==='fixed')target.classList.add('arq-access-left');
+   });
+  }
+  moveAccess(document.body);
+  new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(n=>{if(n.nodeType===1)moveAccess(n);}))).observe(document.body,{subtree:true,childList:true});
+  const path=location.pathname.split('/').pop();
+  if(!document.body.classList.contains('arq-home') && path!=='explorar.html')return;
+  if(document.getElementById('arq-discovery'))return;
+  const block=document.createElement('section');block.id='arq-discovery';block.className='arq-discovery';block.setAttribute('aria-labelledby','arq-discovery-title');
+  block.innerHTML='<div class="arq-discovery-kicker">Do desejo à especificação</div><h2 id="arq-discovery-title">Seu próximo projeto começa por uma boa escolha.</h2><p>Explore referências, salve seus favoritos e converse com a ARQSELECT para encontrar soluções para o seu projeto.</p><div class="arq-discovery-controls"><button type="button" aria-label="Ver referência anterior" data-direction="-1">←</button><button type="button" aria-label="Ver próxima referência" data-direction="1">→</button></div><div class="arq-discovery-track" tabindex="0" role="region" aria-label="Referências para seu projeto"></div><div class="arq-discovery-actions"><a href="explorar.html">Encontrar produtos →</a><a href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Apresentar meu projeto</a></div>';
+  const track=block.querySelector('.arq-discovery-track');
+  [['arquitetura-editorial-interior-v1.webp','Ambientes que inspiram'],['materiais-curadoria-v1.webp','Materiais que valorizam'],['logistica-madeira-v1.webp','Da escolha à obra']].forEach(([src,title])=>{
+   const a=document.createElement('a');a.href='explorar.html';a.className='arq-discovery-card';
+   const img=document.createElement('img');img.src=src;img.alt=title;img.loading='lazy';img.decoding='async';img.width=600;img.height=450;
+   const label=document.createElement('span');label.textContent=title+' →';a.append(img,label);track.append(a);
+  });
+  block.querySelectorAll('[data-direction]').forEach(button=>button.addEventListener('click',()=>{
+   const step=(track.firstElementChild.getBoundingClientRect().width||280)+18;
+   track.scrollBy({left:Number(button.dataset.direction)*step,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+  }));
+  const controls=block.querySelector('.arq-discovery-controls');
+  function updateControls(){controls.hidden=track.scrollWidth<=track.clientWidth+2;const buttons=controls.querySelectorAll('button');buttons[0].disabled=track.scrollLeft<=1;buttons[1].disabled=track.scrollLeft+track.clientWidth>=track.scrollWidth-2;}
+  track.addEventListener('scroll',updateControls,{passive:true});window.addEventListener('resize',updateControls,{passive:true});requestAnimationFrame(updateControls);
+  const footer=document.querySelector('footer,.arq-footer');
+  if(footer)footer.before(block);else (document.querySelector('main')||document.body).append(block);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
