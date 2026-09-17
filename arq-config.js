@@ -96,6 +96,7 @@ html body :is(.arq-product-card,.arq-catalog-card):hover{transform:translateY(-4
       return layers.reverse().reduce((back,front)=>blend(front,back),[255,255,255,1]);
     }
     function contrast(el) {
+      if(document.documentElement.hasAttribute("data-arq-theme")) return;
       if(!el.isConnected || el.closest('svg,canvas,script,style,noscript,[aria-hidden="true"]')) return;
       const text = Array.from(el.childNodes).some(n=>n.nodeType===3 && n.textContent.trim());
       if(!text && !el.matches('input,textarea,select')) return;
@@ -245,4 +246,79 @@ html body .arq-discovery-controls button{background:#fff;color:#302717!important
   if(footer)footer.before(block);else (document.querySelector('main')||document.body).append(block);
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+
+/* 5.5.4 — temas sincronizados com ARQSELECT4; seletor original à esquerda. */
+(function(){
+ 'use strict';if(window.__arqThemes554)return;window.__arqThemes554=true;
+ const root=document.documentElement, key='ARQSELECT_THEME';
+ const media=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):{matches:false};
+ const read=()=>{try{return localStorage.getItem(key)}catch(_){return null}};
+ const valid=v=>['light','dark','auto'].includes(v);
+ let preference=valid(read())?read():'light';
+ function apply(value,persist){
+  preference=valid(value)?value:'light';
+  const resolved=preference==='auto'?(media.matches?'dark':'light'):preference;
+  if(root.dataset.theme!==resolved)root.dataset.theme=resolved;
+  root.dataset.themePreference=preference;
+  if(root.dataset.arqTheme!==resolved)root.dataset.arqTheme=resolved;
+  if(persist)try{localStorage.setItem(key,preference)}catch(_){}
+  const fallback=document.getElementById('arq-theme-fallback');
+  if(fallback){fallback.textContent=resolved==='dark'?'☾':'☀';fallback.setAttribute('aria-label','Tema '+(resolved==='dark'?'escuro':'claro')+'. Alterar tema.');fallback.title=fallback.getAttribute('aria-label');}
+ }
+ apply(preference,false);
+ function start(){
+  const style=document.createElement('style');style.id='arq-themes-554';
+  style.textContent=`
+html[data-arq-theme=light]{color-scheme:light;--t-bg:#f6f3ed;--t-surface:#fff;--t-soft:#eee8de;--t-text:#20211f;--t-muted:#57534d;--t-line:#c9c0b0;--t-accent:#725326}
+html[data-arq-theme=dark]{color-scheme:dark;--t-bg:#111411;--t-surface:#1c211c;--t-soft:#272e27;--t-text:#f4f1e9;--t-muted:#c5c7be;--t-line:#596050;--t-accent:#e0bf86}
+html[data-arq-theme] body{--tone:var(--t-text);--muted-tone:var(--t-muted);--arq-bg:var(--t-bg);--arq-bg-soft:var(--t-soft);--arq-surface:var(--t-surface);--arq-surface-2:var(--t-soft);--arq-text:var(--t-text);--arq-text-strong:var(--t-text);--arq-muted:var(--t-muted);--arq-subtle:var(--t-muted);--arq-border:var(--t-line);--arq-line:var(--t-line);--arq-gold-2:var(--t-accent);--bg:var(--t-bg);--card:var(--t-surface);--text:var(--t-text);--muted:var(--t-muted);--line:var(--t-line);background:var(--t-bg)!important;color:var(--t-text)!important}
+html[data-arq-theme] body :is(h1,h2,h3,h4,h5,h6,p,label,legend,small,li,dt,dd,span,strong,b){color:var(--tone,var(--t-text))!important}
+html[data-arq-theme] body :is(.card,.panel,.box,.tile,.item,.stat,.metric,.notice,.empty,.table-wrap,.home-modal-card,.access-card,.sheet,.form,.arq-product-card,.arq-filter,.arq-dialog,.arq-modal__box,.arq-supplier-card,.arq-catalog-card,.arq-discovery-card,.step,.category,.benefit-panel,.tier,.eco-card,.quote,.num,.story-principle,.cta-box,.concierge-card,.arq-admin-card,.arq-benefit){--tone:var(--t-text);--muted-tone:var(--t-muted);background:var(--t-surface)!important;color:var(--t-text)!important;border-color:var(--t-line)!important}
+html[data-arq-theme] body :is(.arq-discovery,.editorial-story,.cta){--tone:var(--t-text);background:var(--t-soft)!important;color:var(--t-text)!important;border-color:var(--t-line)!important}
+html[data-arq-theme] body :is(.arq-market-header,.arq-footer,.topbar,.sidebar,.sidenav,.navbar,.arq-hero__content,.story-caption,.arq-home .hero,.arq-auth .hero){--tone:#f6f3ed;--muted-tone:#d3cec4;color:#f6f3ed!important}
+html[data-arq-theme] body :is(.arq-market-header,.arq-footer,.topbar,.sidebar,.sidenav,.navbar,.arq-hero__content){background:#121612!important}
+html[data-arq-theme] body :is(.muted,.hint,.arq-caption,.arq-product-card__desc,.arq-product-card__meta,.arq-breadcrumb){color:var(--muted-tone,var(--t-muted))!important}
+html[data-arq-theme] body :is(.arq-kicker,.arq-product-card__cat,.arq-discovery-kicker){color:var(--t-accent)!important}
+html[data-arq-theme] body .arq-hero__content .arq-kicker{color:#e0bf86!important}
+html[data-arq-theme] body :is(input:not([type=checkbox]):not([type=radio]),select,textarea){background:var(--t-surface)!important;color:var(--t-text)!important;border-color:var(--t-line)!important;color-scheme:inherit}
+html[data-arq-theme] body select option{background:var(--t-surface)!important;color:var(--t-text)!important}
+html[data-arq-theme] body :is(input,textarea)::placeholder{color:var(--t-muted)!important;opacity:1}
+html[data-arq-theme] body :is(th,td){color:var(--t-text)!important;border-color:var(--t-line)!important}
+html[data-arq-theme] body th{background:var(--t-soft)!important}
+html[data-arq-theme] body :is(.arq-btn,.btn,.button,.arq-close,.arq-modal__close,.home-modal-close,.arq-quick,.arq-fav,.arq-discovery-controls button){--tone:var(--t-text);background:var(--t-surface)!important;color:var(--t-text)!important;border-color:var(--t-line)!important}
+html[data-arq-theme] body :is(.arq-btn--gold,.btn.gold,.btn-gold,.btn-primary){--tone:#251c10;background:linear-gradient(120deg,#ead0a1,#bd914f)!important;color:#251c10!important;border-color:#bd914f!important}
+html[data-arq-theme] body :is(.arq-btn--dark,.arq-btn--ghost,.arq-fav.active,.arq-discovery-actions a){--tone:#fff;background:#252c25!important;color:#fff!important;border-color:#76816d!important}
+html[data-arq-theme] body :is(.arq-btn--whatsapp,.arq-whatsapp-float,.arq-global-wa,.whatsapp-concierge){--tone:#fff;background:#146b3c!important;color:#fff!important}
+html[data-arq-theme] body :is(.arq-toast,.arq-product-card__badge,.arq-zoom-label){--tone:#20211f;background:#f6f3ed!important;color:#20211f!important}
+html[data-arq-theme] body .arq-discovery-card span{color:var(--t-text)!important}
+html[data-arq-theme] body #arq-theme-left{position:fixed!important;left:max(16px,env(safe-area-inset-left))!important;right:auto!important;bottom:max(96px,calc(env(safe-area-inset-bottom) + 96px))!important;z-index:9998;display:flex!important;align-items:center;gap:8px;padding:6px;background:var(--t-surface)!important;border:1px solid var(--t-line);border-radius:30px;box-shadow:0 6px 22px #0003}
+html[data-arq-theme] body #arq-theme-left button{position:static!important;inset:auto!important;transform:none!important;display:grid!important;place-items:center;width:44px!important;height:44px!important;min-width:44px;padding:8px;border:0!important;border-radius:50%;background:var(--t-soft)!important;color:var(--t-text)!important;cursor:pointer;font-size:23px}
+html[data-arq-theme] body #arq-theme-left svg{width:22px;height:22px;stroke:currentColor}
+html[data-arq-theme] body #arq-theme-left button:focus-visible{outline:3px solid var(--t-accent)!important;outline-offset:3px}
+@media print{html[data-arq-theme] body #arq-theme-left{display:none!important}}
+`;
+  document.head.append(style);
+  const host=document.createElement('div');host.id='arq-theme-left';host.setAttribute('role','group');host.setAttribute('aria-label','Aparência do site');
+  document.body.append(host);
+  const fallback=document.createElement('button');fallback.id='arq-theme-fallback';fallback.type='button';host.append(fallback);
+  fallback.addEventListener('click',()=>apply(root.dataset.arqTheme==='dark'?'light':'dark',true));
+  function relocate(){
+   if(!document || !host.isConnected)return;
+   const existing=document.querySelector('[data-arq4-theme]');
+   if(existing && existing.parentElement!==host){fallback.remove();host.append(existing);}
+  }
+  relocate();apply(preference,false);
+  new MutationObserver(relocate).observe(document.body,{childList:true,subtree:true});
+  new MutationObserver(()=>{
+   const resolved=root.dataset.theme;
+   const stored=read();
+   const selected=valid(root.dataset.themePreference)?root.dataset.themePreference:stored;
+   if(valid(selected))preference=selected;
+   if(root.dataset.arqTheme!==resolved)apply(selected==='auto'?'auto':resolved,false);
+  }).observe(root,{attributes:true,attributeFilter:['data-theme','data-theme-preference']});
+  if(media.addEventListener)media.addEventListener('change',()=>{if(preference==='auto')apply('auto',false)});
+  window.addEventListener('storage',event=>{if(event.key===key)apply(event.newValue,true)});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();
