@@ -1,10 +1,14 @@
 <!doctype html>
 <html class="arq-premium-ui" lang="pt-BR">
 <head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'"><meta name="robots" content="noindex,nofollow">
-<script src="arq-config.js?v=5.5.0"></script>
+<script src="arq-config.js?v=5.6.1"></script>
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ARQSELECT | Chat</title>
+<link rel="icon" type="image/svg+xml" href="icon-master.svg">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <style>
 :root{--bg:#f0f2f5;--surface:#fff;--surface2:#f7f8fa;--text:#1c1e21;--muted:#65676b;--line:#e4e6eb;--accent:#c8a457;--accent-soft:#f5e8c8;--blue:#0084ff;--blue-soft:#e7f3ff;--mine:#e7f3ff;--shadow:0 10px 30px rgba(0,0,0,.08)}
 *{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;background:var(--bg);color:var(--text)}
@@ -76,7 +80,8 @@ hr{border-color:var(--arq-line)!important}
 input.input,.input,input[type="text"],input[type="email"],input[type="password"],input[type="number"],input[type="tel"],input[type="url"],textarea,select{color:var(--arq-text,#f5f2e9)!important;background:rgba(255,255,255,.055)!important}
 select option{background:#171717;color:#f5f2e9}
 </style>
-<script id="arq4-theme-boot">(()=>{const p=localStorage.getItem("ARQSELECT_THEME")||"dark";document.documentElement.dataset.theme=p==="auto"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):p})();</script><meta name="theme-color" content="#070807"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="arqselect-4.css"><link rel="stylesheet" href="arq-premium.css?v=5.5.0"><link rel="stylesheet" href="arq-ui-5.css?v=5.5.0"><link rel="stylesheet" href="arq-polish.css?v=5.5.0"></head>
+<script id="arq4-theme-boot">(()=>{const p=localStorage.getItem("ARQSELECT_THEME")||"dark";document.documentElement.dataset.theme=p==="auto"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):p})();</script><meta name="theme-color" content="#070807"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="arqselect-4.css"><link rel="stylesheet" href="arq-premium.css?v=5.6.1"><link rel="stylesheet" href="arq-ui-5.css?v=5.6.1"><link rel="stylesheet" href="arq-polish.css?v=5.6.1"><link rel="stylesheet" href="arq-premium-tech.css?v=5.6.1">
+</head>
 <body>
 <header class="top">
   <div><div class="brand">ARQ<span>SELECT</span></div><div class="top-sub">Central de mensagens</div></div>
@@ -257,5 +262,6 @@ if(auth()){(async()=>{await loadConvs({initial:true});const params=new URLSearch
   }catch(e){console.warn('[ARQSELECT] navegação de perfil:',e)}
 })();
 </script>
-<script src="arqselect-4.js"></script><script src="arq-premium.js?v=5.5.0"></script></body>
+<script src="arqselect-4.js"></script><script src="arq-premium.js?v=5.6.1"></script><script src="arq-premium-tech.js?v=5.6.1" defer></script>
+</body>
 </html>

@@ -4,4 +4,16 @@ Disallow: /admin.html
 Disallow: /admin-v2.html
 Disallow: /admin-v4.html
 Disallow: /admin00.html
+Disallow: /admin-commerce.html
+Disallow: /projeto.html
+Disallow: /especificacoes.html
+Disallow: /comparar-propostas.html
+Disallow: /amostras.html
+Disallow: /biblioteca-tecnica.html
+Disallow: /clientes-projeto.html
+Disallow: /aprovacao-cliente.html
+Disallow: /pedidos.html
+Disallow: /analytics-fornecedor.html
+Disallow: /matching.html
+Disallow: /moodboard.html
 Sitemap: https://www.arqselect.com.br/sitemap.xml

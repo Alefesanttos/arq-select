@@ -1,3 +1,2 @@
-ARQSELECT 5.5.1
-Build 2026.09.16.551
-Correção de carregamento do marketplace e atualização de cache.
+ARQSELECT 5.6.1 — PREMIUM UX + SOCIAL FEED
+Build 2026-09-17.561-PREMIUM-SOCIAL

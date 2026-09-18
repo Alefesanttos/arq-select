@@ -1,7 +1,7 @@
 {
   "name": "ARQSELECT — Arquitetos e Fornecedores",
   "short_name": "ARQSELECT",
-  "description": "Plataforma profissional de conexões entre arquitetos, fornecedores, produtos e projetos.",
+  "description": "Plataforma de especificação, conexão e negócios entre arquitetos, fornecedores, produtos e projetos.",
   "lang": "pt-BR",
   "start_url": "./index.html",
   "scope": "./",
@@ -9,14 +9,69 @@
   "orientation": "any",
   "background_color": "#070807",
   "theme_color": "#070807",
-  "categories": ["business", "productivity", "design"],
+  "categories": [
+    "business",
+    "productivity",
+    "design"
+  ],
   "icons": [
-    {"src":"./icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
-    {"src":"./icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ],
   "shortcuts": [
-    {"name":"Explorar marketplace","short_name":"Explorar","url":"./explorar.html","icons":[{"src":"./icon-192.png","sizes":"192x192"}]},
-    {"name":"Acesso do arquiteto","short_name":"Arquiteto","url":"./ARQSELECT_LOGIN_ARQUITETO.html","icons":[{"src":"./icon-192.png","sizes":"192x192"}]},
-    {"name":"Acesso do fornecedor","short_name":"Fornecedor","url":"./ARQSELECT_LOGIN_FORNECEDOR.html","icons":[{"src":"./icon-192.png","sizes":"192x192"}]}
+    {
+      "name": "Explorar marketplace",
+      "short_name": "Explorar",
+      "url": "./explorar.html",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Sala do projeto",
+      "short_name": "Projetos",
+      "url": "./ARQSELECT_ARQUITETO_PROJETOS.html",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Assistente ARQSELECT",
+      "short_name": "Assistente",
+      "url": "./assistente.html",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Feed profissional",
+      "short_name": "Feed",
+      "url": "./feed.html",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
   ]
 }

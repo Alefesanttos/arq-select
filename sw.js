@@ -1,6 +1,6 @@
-/* ARQSELECT 5.5.1: não conserva scripts antigos e tolera upload ainda incompleto. */
-const CACHE='arqselect-5.5.1.20260916.551';
-const STATIC=['./offline.html','./assets/ui/fallback-geral.svg','./assets/suppliers/identidade-pendente.svg'];
+/* ARQSELECT 5.6.1: não conserva scripts antigos e tolera upload ainda incompleto. */
+const CACHE='arqselect-5.6.1.20260917.561';
+const STATIC=['./offline.html','./arqselect-6.css','./arqselect-6.js','./arq-premium-tech.css','./arq-premium-tech.js','./arq-workspace-6.js','./arq-workspace-app-6.js','./assets/ui/fallback-geral.svg','./assets/suppliers/identidade-pendente.svg'];
 self.addEventListener('install',event=>{
  event.waitUntil(caches.open(CACHE).then(cache=>Promise.allSettled(STATIC.map(url=>cache.add(url)))).then(()=>self.skipWaiting()));
 });

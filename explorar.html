@@ -1,6 +1,10 @@
 <!doctype html><html lang="pt-BR" class="arq-premium-ui" data-arq-build="5.5.1"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b0c0c">
-<title>Marketplace Premium | ARQSELECT</title><meta name="description" content="Explore pisos, portas, revestimentos, madeira, marcenaria, pedras, iluminação, móveis e outras soluções premium selecionadas pela ARQSELECT.">
+<title>Marketplace Premium | ARQSELECT</title>
+<link rel="icon" type="image/svg+xml" href="icon-master.svg">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png"><meta name="description" content="Explore pisos, portas, revestimentos, madeira, marcenaria, pedras, iluminação, móveis e outras soluções premium selecionadas pela ARQSELECT.">
 <meta property="og:title" content="Marketplace Premium | ARQSELECT"><meta property="og:description" content="Curadoria de produtos e fornecedores para projetos de arquitetura de alto padrão."><meta property="og:type" content="website">
 <link rel="manifest" href="manifest.webmanifest"><style data-arq-source="marketplace-premium.css">
 :root{
@@ -36,7 +40,7 @@ html.arq-premium-ui{scroll-behavior:smooth}html.arq-premium-ui body{font-family:
 html.arq-premium-ui body:not(.marketplace-page){--arq-ui-gold:#c49a5a;--arq-ui-cream:#f6f3ed}html.arq-premium-ui body:not(.marketplace-page) .brand span,html.arq-premium-ui body:not(.marketplace-page) .logo span{color:var(--arq-gold-soft)!important}html.arq-premium-ui body:not(.marketplace-page) .btn.gold,html.arq-premium-ui body:not(.marketplace-page) .primary,html.arq-premium-ui body:not(.marketplace-page) .btn-primary{background:linear-gradient(135deg,var(--arq-gold-soft),var(--arq-gold))!important;color:#171208!important}html.arq-premium-ui body:not(.marketplace-page) .badge,html.arq-premium-ui body:not(.marketplace-page) .tag{border-color:rgba(196,154,90,.24)!important}html.arq-premium-ui table{border-collapse:separate;border-spacing:0}html.arq-premium-ui th{font-size:11px;text-transform:uppercase;letter-spacing:.06em}html.arq-premium-ui .muted,html.arq-premium-ui .hint{line-height:1.55}
 
 </style>
-<script src="arq-config.js?v=5.5.1" data-arq-optional="config"></script><script data-arq-source="arq-config.js">if(!window.ARQSELECT_CONFIG){
+<script src="arq-config.js?v=5.6.1" data-arq-optional="config"></script><script data-arq-source="arq-config.js">if(!window.ARQSELECT_CONFIG){
 (function(){
   "use strict";
   const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
@@ -5131,7 +5135,8 @@ html.arq-premium-ui .arq-global-wa{background:#146b3c;box-shadow:0 6px 22px #000
 @media(max-width:800px){.marketplace-page .arq-hero{grid-template-columns:minmax(0,1fr);min-height:0}.marketplace-page .arq-hero>img{height:auto;min-height:0;max-height:420px;aspect-ratio:16/9}.marketplace-page .arq-hero__content{padding:32px 24px}.marketplace-page .arq-hero__content h1{font-size:clamp(36px,7vw,48px)}.marketplace-page .arq-market-header{position:relative}.marketplace-page .arq-hero__actions .arq-btn{flex:1 1 200px}}
 @media(max-width:400px){.marketplace-page .arq-market-header__top{width:calc(100% - 32px)}.marketplace-page .arq-logo{font-size:20px}.marketplace-page .arq-header-actions{gap:8px}.marketplace-page .arq-hero__content{padding:28px 20px}}
 
-</style></head><body class="marketplace-page">
+</style><link rel="stylesheet" href="arq-premium-tech.css?v=5.6.1">
+</head><body class="marketplace-page">
 <header class="arq-market-header">
   <div class="arq-market-header__top"><a class="arq-logo" href="index.html">ARQ<span>SELECT</span><small>ARQUITETURA QUE CONECTA</small></a>
     <form id="searchForm" class="arq-search" role="search"><input id="search" type="search" placeholder="O que você procura para seu projeto?" aria-label="Buscar produtos"><button>Buscar</button></form>
@@ -5234,4 +5239,5 @@ const toggle=()=>{const open=shell.classList.toggle('open');$('openFilters').set
 function boot(){try{init();document.documentElement.dataset.marketplaceReady='true';document.getElementById('marketplaceBootStatus')?.remove();}catch(error){console.error('ARQSELECT: falha ao iniciar o marketplace',error);const status=document.getElementById('marketplaceBootStatus');if(status){status.hidden=false;status.textContent='Não foi possível ativar a busca. Você pode continuar explorando os produtos abaixo ou recarregar a página.';}}}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',boot):boot();
 })();
 
-</script><script data-arq-source="atualizacao-offline">if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(function(reg){return reg.update();}).catch(function(error){console.warn('ARQSELECT: atualização offline indisponível',error);});}</script></body></html>
+</script><script data-arq-source="atualizacao-offline">if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(function(reg){return reg.update();}).catch(function(error){console.warn('ARQSELECT: atualização offline indisponível',error);});}</script><script src="arq-premium-tech.js?v=5.6.1" defer></script>
+</body></html>

@@ -1,0 +1,13 @@
+/* ARQSELECT 5.6.1 — motion, progressive enhancement and premium feedback */
+(function(){'use strict';if(window.__ARQ_TECH_561__)return;window.__ARQ_TECH_561__=true;
+ const reduce=matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+ function ready(fn){document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn,{once:true}):fn()}
+ ready(function(){
+   if(!document.querySelector('.arq-tech-progress')){const p=document.createElement('div');p.className='arq-tech-progress';p.setAttribute('aria-hidden','true');document.body.append(p)}
+   if(!document.querySelector('.arq-tech-glow')){const g=document.createElement('div');g.className='arq-tech-glow';g.setAttribute('aria-hidden','true');document.body.append(g)}
+   const progress=()=>{const d=document.documentElement,max=Math.max(1,d.scrollHeight-innerHeight);d.style.setProperty('--arq-progress',(Math.min(1,scrollY/max)*100).toFixed(2)+'%')};progress();addEventListener('scroll',progress,{passive:true});addEventListener('resize',progress,{passive:true});
+   if(!reduce&&'IntersectionObserver'in window){const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('arq-visible');o.unobserve(e.target)}}),{rootMargin:'80px 0px -30px',threshold:.04});document.querySelectorAll('main section,.arq6-card,.arq-product-card,.arq-supplier-card,.card,.panel').forEach((el,i)=>{if(el.closest('.modal,.arq6-modal'))return;el.classList.add('arq-reveal');el.style.transitionDelay=Math.min(i%8,5)*35+'ms';o.observe(el)})}
+   document.addEventListener('pointermove',e=>{if(reduce)return;const card=e.target.closest('.arq6-card,.arq-product-card,.arq-supplier-card,.card');if(!card)return;const r=card.getBoundingClientRect();card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%');card.style.setProperty('--my',((e.clientY-r.top)/r.height*100).toFixed(1)+'%')},{passive:true});
+   document.addEventListener('click',e=>{const b=e.target.closest('button,.btn,.arq-btn,.arq6-btn');if(!b||reduce)return;const r=b.getBoundingClientRect(),s=document.createElement('i');s.setAttribute('aria-hidden','true');Object.assign(s.style,{position:'absolute',left:(e.clientX-r.left)+'px',top:(e.clientY-r.top)+'px',width:'8px',height:'8px',borderRadius:'50%',background:'currentColor',opacity:'.15',pointerEvents:'none',transform:'translate(-50%,-50%) scale(0)',transition:'transform .45s ease,opacity .5s ease'});const pos=getComputedStyle(b).position;if(pos==='static')b.style.position='relative';b.style.overflow='hidden';b.append(s);requestAnimationFrame(()=>{s.style.transform='translate(-50%,-50%) scale(18)';s.style.opacity='0'});setTimeout(()=>s.remove(),520)},{passive:true});
+ });
+})();
