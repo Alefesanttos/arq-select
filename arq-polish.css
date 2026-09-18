@@ -1,22 +1,24 @@
+/* ARQSELECT 5.7 legacy layer — layout compatibility only. Final theme lives in arq-design-system.css. */
+@layer legacy {
 /* Complemento comum de contraste, superfícies e proporções; não altera os fluxos dos portais. */
 html.arq-premium-ui{color-scheme:light;--arq-bg:#f6f3ed;--arq-bg-soft:#efebe3;--arq-surface:#fff;--arq-surface-2:#f5f1e9;--arq-surface-3:#eae4da;--arq-text:#181818;--arq-text-strong:#181818;--arq-muted:#625f59;--arq-subtle:#625f59;--arq-line:#ded8ce;--arq-line-strong:#c3b396;--arq-gold-2:#79592d;--arq-shadow:0 18px 45px #21190c12;--arq-shadow-sm:0 7px 22px #21190c0c;--arq-success:#27673d;--arq-danger:#a32e28}
-html.arq-premium-ui body{background:#f6f3ed!important;color:#181818!important}
+html.arq-premium-ui body{background:#f6f3ed;color:#181818}
 html.arq-premium-ui :is(h1,h2,h3,h4){font-family:Georgia,'Times New Roman',serif}
-html.arq-premium-ui :is(.topbar,.top,.header,.sidebar,.sidenav,.navbar,.arq-market-header,.arq-footer,footer.site-footer){background:#121412!important;color:#f6f3ed!important;--arq-text:#f6f3ed;--arq-text-strong:#f6f3ed;--arq-muted:#c5c0b5;--arq-gold-2:#d8b77b;--arq-surface:#121412}
-html.arq-premium-ui :is(.topbar,.top,.sidebar,.sidenav,.navbar) :is(.brand,.logo,.nav-toggle){color:#f6f3ed!important}
-html.arq-premium-ui :is(.card,.panel,.box,.tile,.item,.stat,.metric,.notice,.empty,.table-wrap,.home-modal-card,.access-card,.sheet,.form){background:#fff!important;color:#20211f!important;border-color:#ded8ce!important}
+html.arq-premium-ui :is(.topbar,.top,.header,.sidebar,.sidenav,.navbar,.arq-market-header,.arq-footer,footer.site-footer){background:#121412;color:#f6f3ed;--arq-text:#f6f3ed;--arq-text-strong:#f6f3ed;--arq-muted:#c5c0b5;--arq-gold-2:#d8b77b;--arq-surface:#121412}
+html.arq-premium-ui :is(.topbar,.top,.sidebar,.sidenav,.navbar) :is(.brand,.logo,.nav-toggle){color:#f6f3ed}
+html.arq-premium-ui :is(.card,.panel,.box,.tile,.item,.stat,.metric,.notice,.empty,.table-wrap,.home-modal-card,.access-card,.sheet,.form){background:#fff;color:#20211f;border-color:#ded8ce}
 html.arq-premium-ui :is(label,.field-label){font-size:15px;color:#514b41}
 html.arq-premium-ui :is(.table-wrap,.table-responsive){max-width:100%;overflow:auto}
 html.arq-premium-ui :is(.page,.wrap,.container,.shell){max-width:100%}
 html.arq-premium-ui .arq-product-card__media picture,html.arq-premium-ui .arq-product-card__media picture img{display:block;width:100%;height:100%;object-fit:cover}
 html.arq-premium-ui .arq-gallery-main picture{display:block;width:100%;height:100%}
-html.arq-premium-ui .arq-gallery-main picture img{object-fit:contain;height:100%!important}
+html.arq-premium-ui .arq-gallery-main picture img{object-fit:contain;height:100%}
 html.arq-premium-ui .arq-hero__content{color:#f6f3ed;--arq-text-strong:#f6f3ed;--arq-gold-2:#d8b77b}
-html.arq-premium-ui .arq-home :is(.hero,.hero-note){background:transparent!important;color:#f6f3ed!important;--arq-text-strong:#f6f3ed;--arq-gold-2:#d8b77b}
-html.arq-premium-ui .arq-home .hero-note{box-shadow:none!important;font-size:14px}
-html.arq-premium-ui .arq-home :is(.step,.category,.benefit-panel,.tier,.eco-card,.quote,.num,.story-principle,.cta-box){background:#fff!important;color:#20211f!important;border-color:#ded8ce;box-shadow:0 8px 28px #21190c0c}
+html.arq-premium-ui .arq-home :is(.hero,.hero-note){background:transparent;color:#f6f3ed;--arq-text-strong:#f6f3ed;--arq-gold-2:#d8b77b}
+html.arq-premium-ui .arq-home .hero-note{box-shadow:none;font-size:14px}
+html.arq-premium-ui .arq-home :is(.step,.category,.benefit-panel,.tier,.eco-card,.quote,.num,.story-principle,.cta-box){background:#fff;color:#20211f;border-color:#ded8ce;box-shadow:0 8px 28px #21190c0c}
 html.arq-premium-ui .arq-home :is(.tier li,.quote p,.story-intro p,.footer-grid h4){color:inherit}
-html.arq-premium-ui .arq-home :is(.editorial-story,.cta){background:#efeae1!important;color:#20211f}
+html.arq-premium-ui .arq-home :is(.editorial-story,.cta){background:#efeae1;color:#20211f}
 html.arq-premium-ui .arq-home .story-caption{color:#f6f3ed;--arq-text-strong:#f6f3ed;--arq-gold-2:#d8b77b}
 html.arq-premium-ui .arq-home .story-caption p{font-size:15px}
 html.arq-premium-ui .arq-home .concierge-card{background:#f4f0e7;color:#181818;border-color:#c9bc9f}
@@ -24,19 +26,21 @@ html.arq-premium-ui .arq-home .concierge-card .signal{color:#28633c}
 html.arq-premium-ui .arq-home .home-modal-close{color:#181818;background:#eee8dc}
 html.arq-premium-ui .arq-home .story-modal-copy :is(p,ul){color:#514b41}
 html.arq-premium-ui .arq-auth .shell{background:#fff;border-color:#d4caba;max-width:1100px;width:100%}
-html.arq-premium-ui .arq-auth .hero{background:linear-gradient(135deg,#0005,#000b),url('arquitetura-editorial-interior-v1.webp') center/cover!important;color:#fff!important;--arq-text-strong:#fff;--arq-gold-2:#d8b77b}
-html.arq-premium-ui .arq-auth .hero :is(.logo,.seal){color:#f6f3ed!important}
-html.arq-premium-ui .arq-auth .form{color:#20211f;background:#fff!important}
+html.arq-premium-ui .arq-auth .hero{background:linear-gradient(135deg,#0005,#000b),url('arquitetura-editorial-interior-v1.webp') center/cover;color:#fff;--arq-text-strong:#fff;--arq-gold-2:#d8b77b}
+html.arq-premium-ui .arq-auth .hero :is(.logo,.seal){color:#f6f3ed}
+html.arq-premium-ui .arq-auth .form{color:#20211f;background:#fff}
 html.arq-premium-ui .arq-auth .msg{background:#eee8dd;color:#302a20}
 html.arq-premium-ui .arq-requests-link{font-family:Arial,sans-serif;font-size:14px;white-space:nowrap}
 html.arq-premium-ui .arq-market-header__top{min-width:0}
-html.arq-premium-ui .arq-product-card__body h3{color:#20211f!important}
-html.arq-premium-ui .arq-btn:focus-visible{outline-color:#674619!important}
+html.arq-premium-ui .arq-product-card__body h3{color:#20211f}
+html.arq-premium-ui .arq-btn:focus-visible{outline-color:#674619}
 html.arq-premium-ui .bubble{font-size:16px}
 html.arq-premium-ui .msg-meta{font-size:12px}
 html.arq-premium-ui .attach button{border:1px solid #c8bdab;background:#f6f3ed;color:#302a20;padding:8px 12px;border-radius:6px;font-size:14px}
 html.arq-premium-ui .attach audio{max-width:100%}
 html.arq-premium-ui .attach{max-width:100%}
 html.arq-premium-ui .arq-global-wa{background:#146b3c;box-shadow:0 6px 22px #0002}
-@media(max-width:800px){html.arq-premium-ui .arq-auth{padding:16px}.arq-auth .hero{min-height:300px!important}.arq-auth .form{padding:28px 22px!important}.arq-requests-link{display:none}.arq-home .nav{gap:12px}.arq-home .nav-access{font-size:13px}}
-@media(max-width:600px){html.arq-premium-ui :is(input,select,textarea){font-size:16px!important}.arq-product-card__body h3{font-size:24px}.arq-auth .hero{padding:28px!important}.arq-supplier-card{padding:20px}.arq-market-header .arq-header-actions{flex-wrap:wrap;gap:10px}}
+@media(max-width:800px){html.arq-premium-ui .arq-auth{padding:16px}.arq-auth .hero{min-height:300px}.arq-auth .form{padding:28px 22px}.arq-requests-link{display:none}.arq-home .nav{gap:12px}.arq-home .nav-access{font-size:13px}}
+@media(max-width:600px){html.arq-premium-ui :is(input,select,textarea){font-size:16px}.arq-product-card__body h3{font-size:24px}.arq-auth .hero{padding:28px}.arq-supplier-card{padding:20px}.arq-market-header .arq-header-actions{flex-wrap:wrap;gap:10px}}
+
+}

@@ -1,7 +1,12 @@
 <!doctype html>
 <html class="arq-premium-ui" lang="pt-BR">
-<head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'"><meta name="robots" content="noindex,nofollow">
-<script src="arq-config.js?v=5.6.1"></script>
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light dark">
+<script id="arq-theme-boot">(()=>{try{const k="ARQSELECT_THEME",v=localStorage.getItem(k)||"auto",m=matchMedia("(prefers-color-scheme: dark)").matches,t=v==="auto"?(m?"dark":"light"):(v==="dark"?"dark":"light"),h=document.documentElement;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=["light","dark","auto"].includes(v)?v:"auto";h.style.colorScheme=t}catch(_){document.documentElement.dataset.theme="light"}})();</script>
+
+<meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'"><meta name="robots" content="noindex,nofollow">
+<script src="arq-config.js?v=5.7.0"></script>
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ARQSELECT | Chat</title>
@@ -9,7 +14,8 @@
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<style>
+<style>@layer page {
+
 :root{--bg:#f0f2f5;--surface:#fff;--surface2:#f7f8fa;--text:#1c1e21;--muted:#65676b;--line:#e4e6eb;--accent:#c8a457;--accent-soft:#f5e8c8;--blue:#0084ff;--blue-soft:#e7f3ff;--mine:#e7f3ff;--shadow:0 10px 30px rgba(0,0,0,.08)}
 *{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;background:var(--bg);color:var(--text)}
 button,input,textarea,select{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}
@@ -21,68 +27,74 @@ button,input,textarea,select{font:inherit}button{cursor:pointer}a{text-decoratio
 .msg-row{display:flex;gap:7px;align-items:flex-end;margin:2px 0}.msg-row.mine{justify-content:flex-end}.msg-avatar{width:28px;height:28px;border-radius:50%;background:#111827;color:#fff;display:grid;place-items:center;font-size:9px;font-weight:900;flex:0 0 28px}.msg-stack{max-width:min(72%,600px)}.bubble{display:inline-block;max-width:100%;padding:10px 13px;background:#e4e6eb;border-radius:18px 18px 18px 6px;word-break:break-word;line-height:1.45;font-size:14px}.mine .bubble{background:#111827;color:#fff;border-radius:18px 18px 6px 18px}.msg-meta{font-size:10px;color:#8a8d91;margin-top:3px;padding:0 5px;display:flex;gap:5px;align-items:center}.mine .msg-meta{justify-content:flex-end}.check{font-weight:900}.attach{margin-top:7px;border:1px solid rgba(0,0,0,.08);background:rgba(255,255,255,.75);border-radius:12px;padding:8px}.mine .attach{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.12)}.attach img{display:block;max-width:280px;max-height:240px;border-radius:9px;object-fit:cover}.attach a{text-decoration:underline;font-size:12px}.audio-msg{display:flex;align-items:center;gap:8px}.audio-msg audio{max-width:250px;height:34px}.system-line{text-align:center;font-size:11px;color:#8a8d91;margin:10px 0}
 .composer-wrap{border-top:1px solid var(--line);padding:10px 14px 12px;background:#fff}.replying{display:none;align-items:center;justify-content:space-between;background:#f7f8fa;border-radius:10px;padding:8px 10px;margin-bottom:8px;font-size:12px}.composer{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:end}.tool-group{display:flex;gap:4px}.compose-btn{width:40px;height:40px;border:0;border-radius:50%;background:#f0f2f5;font-size:18px}.compose-btn:hover{background:#e4e6eb}.compose-input{position:relative}.compose-input textarea{width:100%;min-height:42px;max-height:140px;resize:none;border:0;background:#f0f2f5;border-radius:20px;padding:11px 15px;outline:none;line-height:1.35}.compose-input textarea:focus{background:#e8eaee}.send-btn{width:42px;height:42px;border:0;border-radius:50%;background:#111827;color:#fff;font-weight:900}.send-btn:hover{transform:translateY(-1px)}.sending{opacity:.6;pointer-events:none}.status{font-size:11px;color:var(--muted);padding:0 4px 4px;min-height:15px}.typing{font-size:11px;color:#65676b;height:15px;margin-top:2px}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#111827;color:#fff;padding:10px 14px;border-radius:11px;font-size:12px;opacity:0;pointer-events:none;transition:.2s;z-index:100}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.hidden{display:none!important}@media(max-width:820px){.wrap{padding:0;height:calc(100vh - 60px)}.top{height:60px;padding:0 14px}.chat-shell{border-radius:0;border-left:0;border-right:0;grid-template-columns:1fr}.sidebar{display:none}.sidebar.mobile-open{display:flex;position:absolute;inset:60px 0 0;z-index:40;background:#fff}.chat-head{height:62px;padding:0 14px}.messages{padding:14px}.msg-stack{max-width:84%}.composer-wrap{padding-bottom:max(12px,env(safe-area-inset-bottom))}.top-sub{display:none}}
-</style>
+.hidden{display:none}@media(max-width:820px){.wrap{padding:0;height:calc(100vh - 60px)}.top{height:60px;padding:0 14px}.chat-shell{border-radius:0;border-left:0;border-right:0;grid-template-columns:1fr}.sidebar{display:none}.sidebar.mobile-open{display:flex;position:absolute;inset:60px 0 0;z-index:40;background:#fff}.chat-head{height:62px;padding:0 14px}.messages{padding:14px}.msg-stack{max-width:84%}.composer-wrap{padding-bottom:max(12px,env(safe-area-inset-bottom))}.top-sub{display:none}}
 
-<style id="arqselect-unified-theme">
+}</style>
+
+<style id="arqselect-unified-theme">@layer page {
+
 :root{
  --arq-bg:#070707;--arq-bg-2:#0c0c0c;--arq-surface:#121212;--arq-surface-2:#171717;
  --arq-text:#f5f2e9;--arq-muted:#aaa49a;--arq-gold:#d4af37;--arq-gold-2:#f2dc86;
  --arq-line:rgba(255,255,255,.09);--arq-shadow:0 18px 55px rgba(0,0,0,.35);--arq-radius:18px;
 }
-html{background:var(--arq-bg)!important;color:var(--arq-text)!important;color-scheme:dark;scroll-behavior:smooth}
+html{background:var(--arq-bg);color:var(--arq-text);color-scheme:dark;scroll-behavior:smooth}
 body{background:
  radial-gradient(circle at 90% -8%,rgba(212,175,55,.10),transparent 28%),
- radial-gradient(circle at 4% 105%,rgba(255,255,255,.035),transparent 30%),var(--arq-bg)!important;
- color:var(--arq-text)!important}
+ radial-gradient(circle at 4% 105%,rgba(255,255,255,.035),transparent 30%),var(--arq-bg);
+ color:var(--arq-text)}
 body,button,input,select,textarea{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
 body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);background-size:28px 28px;opacity:.55}
 h1,h2,h3,h4,h5,h6,p,div,span,li,label,td,th{color:inherit}
 a{color:inherit}
-.top,.nav,.header,.navbar{background:rgba(7,7,7,.86)!important;border-color:var(--arq-line)!important;backdrop-filter:blur(16px)!important}
-.btn,.button,.actions button,.nav a{border:1px solid var(--arq-line)!important;background:rgba(255,255,255,.055)!important;color:var(--arq-text)!important;box-shadow:0 8px 24px rgba(0,0,0,.12)}
-.btn.gold,.gold,.primary,.btn-primary,.cta-button{background:linear-gradient(135deg,var(--arq-gold-2),var(--arq-gold))!important;color:#151108!important;border-color:rgba(255,255,255,.18)!important}
-.btn:hover,.button:hover,.nav a:hover{border-color:rgba(212,175,55,.42)!important;transform:translateY(-1px)}
-.card,.panel,.box,.tile,.item,.list,.table,.table-wrap,.product,.profile,.stat,.metric,.notice,.sheet,.conversation,.sidebar,.hero-card,.feature-card,.post,.opportunity,.profile-card,.request-card,.proposal-card{background:linear-gradient(145deg,rgba(22,22,22,.97),rgba(12,12,12,.94))!important;border:1px solid var(--arq-line)!important;color:var(--arq-text)!important;box-shadow:var(--arq-shadow)!important}
-.card h1,.card h2,.card h3,.card h4,.panel h1,.panel h2,.panel h3,.panel h4,.box h1,.box h2,.box h3,.box h4,.product h3{color:var(--arq-text)!important}
-.muted,.meta,.small,.hint,.ey,.subtle,.role{color:var(--arq-muted)!important}
-input,select,textarea{background:rgba(255,255,255,.055)!important;color:var(--arq-text)!important;border:1px solid rgba(255,255,255,.12)!important}
-input::placeholder,textarea::placeholder{color:#7e796f!important}
-input:focus,select:focus,textarea:focus{border-color:rgba(212,175,55,.75)!important;box-shadow:0 0 0 3px rgba(212,175,55,.11)!important}
-.badge,.tag,.pill{background:rgba(212,175,55,.12)!important;color:var(--arq-gold-2)!important;border:1px solid rgba(212,175,55,.22)!important}
-table{color:var(--arq-text)!important}th{background:rgba(212,175,55,.07)!important;color:var(--arq-gold-2)!important}td{border-color:var(--arq-line)!important}
-.modal{background:rgba(0,0,0,.72)!important}
-.modalbox,.modal-content,.dialog,.dropdown,.menu,.sheet-content{background:linear-gradient(145deg,#1b1b1b,#0e0e0e)!important;color:var(--arq-text)!important;border:1px solid var(--arq-line)!important;box-shadow:0 30px 80px rgba(0,0,0,.55)!important}
-.close{background:rgba(255,255,255,.08)!important;color:var(--arq-text)!important;border:1px solid var(--arq-line)!important}
-.messages,.chat-window,.chat-body,.chat-main{background:#0b0b0b!important;color:var(--arq-text)!important}
-.composer,.composer-wrap,.chat-head{background:#111!important;color:var(--arq-text)!important;border-color:var(--arq-line)!important}
-.conv,.conversation-item{background:rgba(255,255,255,.035)!important;color:var(--arq-text)!important;border-color:var(--arq-line)!important}
-.bubble{background:#1a1a1a!important;color:var(--arq-text)!important;border:1px solid var(--arq-line)!important}
-.bubble.mine{background:linear-gradient(135deg,#2b2415,#3b3019)!important;color:#fff9df!important;border-color:rgba(212,175,55,.24)!important}
-.empty,.empty-card{color:var(--arq-muted)!important}
-.thumb{background:#111!important}
+.top,.nav,.header,.navbar{background:rgba(7,7,7,.86);border-color:var(--arq-line);backdrop-filter:blur(16px)}
+.btn,.button,.actions button,.nav a{border:1px solid var(--arq-line);background:rgba(255,255,255,.055);color:var(--arq-text);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.btn.gold,.gold,.primary,.btn-primary,.cta-button{background:linear-gradient(135deg,var(--arq-gold-2),var(--arq-gold));color:#151108;border-color:rgba(255,255,255,.18)}
+.btn:hover,.button:hover,.nav a:hover{border-color:rgba(212,175,55,.42);transform:translateY(-1px)}
+.card,.panel,.box,.tile,.item,.list,.table,.table-wrap,.product,.profile,.stat,.metric,.notice,.sheet,.conversation,.sidebar,.hero-card,.feature-card,.post,.opportunity,.profile-card,.request-card,.proposal-card{background:linear-gradient(145deg,rgba(22,22,22,.97),rgba(12,12,12,.94));border:1px solid var(--arq-line);color:var(--arq-text);box-shadow:var(--arq-shadow)}
+.card h1,.card h2,.card h3,.card h4,.panel h1,.panel h2,.panel h3,.panel h4,.box h1,.box h2,.box h3,.box h4,.product h3{color:var(--arq-text)}
+.muted,.meta,.small,.hint,.ey,.subtle,.role{color:var(--arq-muted)}
+input,select,textarea{background:rgba(255,255,255,.055);color:var(--arq-text);border:1px solid rgba(255,255,255,.12)}
+input::placeholder,textarea::placeholder{color:#7e796f}
+input:focus,select:focus,textarea:focus{border-color:rgba(212,175,55,.75);box-shadow:0 0 0 3px rgba(212,175,55,.11)}
+.badge,.tag,.pill{background:rgba(212,175,55,.12);color:var(--arq-gold-2);border:1px solid rgba(212,175,55,.22)}
+table{color:var(--arq-text)}th{background:rgba(212,175,55,.07);color:var(--arq-gold-2)}td{border-color:var(--arq-line)}
+.modal{background:rgba(0,0,0,.72)}
+.modalbox,.modal-content,.dialog,.dropdown,.menu,.sheet-content{background:linear-gradient(145deg,#1b1b1b,#0e0e0e);color:var(--arq-text);border:1px solid var(--arq-line);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.close{background:rgba(255,255,255,.08);color:var(--arq-text);border:1px solid var(--arq-line)}
+.messages,.chat-window,.chat-body,.chat-main{background:#0b0b0b;color:var(--arq-text)}
+.composer,.composer-wrap,.chat-head{background:#111;color:var(--arq-text);border-color:var(--arq-line)}
+.conv,.conversation-item{background:rgba(255,255,255,.035);color:var(--arq-text);border-color:var(--arq-line)}
+.bubble{background:#1a1a1a;color:var(--arq-text);border:1px solid var(--arq-line)}
+.bubble.mine{background:linear-gradient(135deg,#2b2415,#3b3019);color:#fff9df;border-color:rgba(212,175,55,.24)}
+.empty,.empty-card{color:var(--arq-muted)}
+.thumb{background:#111}
 img{border-radius:inherit}
-hr{border-color:var(--arq-line)!important}
+hr{border-color:var(--arq-line)}
 ::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-track{background:#080808}::-webkit-scrollbar-thumb{background:linear-gradient(#8e6b28,#d4af37);border-radius:10px}
 /* Unified WhatsApp */
-.arq-whatsapp,.wa-float{background:linear-gradient(135deg,#25d366,#16a34a)!important;color:#fff!important;border:1px solid rgba(255,255,255,.16)!important;text-decoration:none!important;box-shadow:0 18px 42px rgba(0,0,0,.36),0 0 0 1px rgba(255,255,255,.10) inset!important}
+.arq-whatsapp,.wa-float{background:linear-gradient(135deg,#25d366,#16a34a);color:#fff;border:1px solid rgba(255,255,255,.16);text-decoration:none;box-shadow:0 18px 42px rgba(0,0,0,.36),0 0 0 1px rgba(255,255,255,.10) inset}
 .arq-whatsapp svg,.wa-float svg{width:22px;height:22px;fill:currentColor;flex:none}
 /* prevent inherited light theme from returning after dynamic renders */
-#app,#root,#main,.main,.wrap{color:var(--arq-text)!important}
-@media(max-width:760px){.btn,.button,.nav a{padding:10px 12px!important}.card,.panel,.box{border-radius:16px!important}}
-</style>
-<style id="arqselect-contrast-lock">
+#app,#root,#main,.main,.wrap{color:var(--arq-text)}
+@media(max-width:760px){.btn,.button,.nav a{padding:10px 12px}.card,.panel,.box{border-radius:16px}}
+
+}</style>
+<style id="arqselect-contrast-lock">@layer page {
+
 /* ARQSELECT premium contrast lock */
-*[style*="background:#fff"],[style*="background: #fff"],[style*="background-color:#fff"],[style*="background-color: #fff"]{background:var(--arq-surface,#151515)!important}
-*[style*="background:white"],[style*="background: white"]{background:var(--arq-surface,#151515)!important}
-.login-card,.auth-card,.form-card,.form-panel{background:linear-gradient(145deg,#171717,#0d0d0d)!important;color:var(--arq-text,#f5f2e9)!important;border:1px solid var(--arq-line,rgba(255,255,255,.09))!important;box-shadow:var(--arq-shadow,0 18px 55px rgba(0,0,0,.35))!important}
-.field label,.form-group label,label{color:var(--arq-text,#f5f2e9)!important}
-input.input,.input,input[type="text"],input[type="email"],input[type="password"],input[type="number"],input[type="tel"],input[type="url"],textarea,select{color:var(--arq-text,#f5f2e9)!important;background:rgba(255,255,255,.055)!important}
+*[style*="background:#fff"],[style*="background: #fff"],[style*="background-color:#fff"],[style*="background-color: #fff"]{background:var(--arq-surface,#151515)}
+*[style*="background:white"],[style*="background: white"]{background:var(--arq-surface,#151515)}
+.login-card,.auth-card,.form-card,.form-panel{background:linear-gradient(145deg,#171717,#0d0d0d);color:var(--arq-text,#f5f2e9);border:1px solid var(--arq-line,rgba(255,255,255,.09));box-shadow:var(--arq-shadow,0 18px 55px rgba(0,0,0,.35))}
+.field label,.form-group label,label{color:var(--arq-text,#f5f2e9)}
+input.input,.input,input[type="text"],input[type="email"],input[type="password"],input[type="number"],input[type="tel"],input[type="url"],textarea,select{color:var(--arq-text,#f5f2e9);background:rgba(255,255,255,.055)}
 select option{background:#171717;color:#f5f2e9}
-</style>
-<script id="arq4-theme-boot">(()=>{const p=localStorage.getItem("ARQSELECT_THEME")||"dark";document.documentElement.dataset.theme=p==="auto"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):p})();</script><meta name="theme-color" content="#070807"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="arqselect-4.css"><link rel="stylesheet" href="arq-premium.css?v=5.6.1"><link rel="stylesheet" href="arq-ui-5.css?v=5.6.1"><link rel="stylesheet" href="arq-polish.css?v=5.6.1"><link rel="stylesheet" href="arq-premium-tech.css?v=5.6.1">
+
+}</style>
+<meta name="theme-color" content="#070807"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="arqselect-4.css"><link rel="stylesheet" href="arq-premium.css?v=5.7.0"><link rel="stylesheet" href="arq-ui-5.css?v=5.7.0"><link rel="stylesheet" href="arq-polish.css?v=5.7.0">
+<link rel="stylesheet" href="arq-design-system.css?v=5.7.0">
 </head>
-<body>
+<body data-arq-page="chat" data-arq-surface="workspace">
 <header class="top">
   <div><div class="brand">ARQ<span>SELECT</span></div><div class="top-sub">Central de mensagens</div></div>
   <nav class="nav"><a href="index.html">Início</a><a href="explorar.html">Explorar</a><a href="conexoes.html">Conexões</a><a href="notificacoes.html">Notificações</a></nav>
@@ -90,7 +102,7 @@ select option{background:#171717;color:#f5f2e9}
 <main class="wrap">
   <section class="chat-shell">
     <aside class="sidebar" id="sidebar">
-      <div class="side-head"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div class="side-title">Conversas</div><button class="icon-btn" title="Nova conversa" onclick="toggleNewChat()">＋</button></div><div class="search"><span class="search-icon">⌕</span><input id="search" placeholder="Pesquisar conversa..."></div></div>
+      <div class="side-head"><div class="arq-inline-c6926f1dd"><div class="side-title">Conversas</div><button class="icon-btn" title="Nova conversa" onclick="toggleNewChat()">＋</button></div><div class="search"><span class="search-icon">⌕</span><input id="search" placeholder="Pesquisar conversa..."></div></div>
       <div id="newChatBox" class="new-chat hidden"><select id="newUser"><option value="">Selecione um contato...</option></select><input id="newProject" placeholder="ID do projeto (opcional)"><button class="btn gold" onclick="createNewConversation()">Iniciar conversa</button></div><div id="convs" class="conv-list"><div class="empty"><div>Carregando conversas...</div></div></div>
     </aside>
     <section class="main">
@@ -98,7 +110,7 @@ select option{background:#171717;color:#f5f2e9}
         <div id="head" class="head-main"><div class="avatar">A</div><div><div class="head-name">Selecione uma conversa</div><div class="head-meta">Suas conversas aparecerão aqui</div></div></div>
         <div class="chat-tools"><button class="icon-btn" title="Atualizar" onclick="refreshNow()">↻</button></div>
       </header>
-      <div id="msgs" class="messages"><div class="empty"><div class="empty-card"><div class="empty-icon">💬</div><b>Seu espaço de conversas</b><div style="margin-top:6px">Selecione um arquiteto ou fornecedor para começar a conversar.</div></div></div></div>
+      <div id="msgs" class="messages"><div class="empty"><div class="empty-card"><div class="empty-icon">💬</div><b>Seu espaço de conversas</b><div class="arq-inline-fe7b4979f">Selecione um arquiteto ou fornecedor para começar a conversar.</div></div></div></div>
       <div id="composerWrap" class="composer-wrap">
         <div id="replying" class="replying"><span id="replyText"></span><button class="icon-btn" onclick="clearReply()" aria-label="Cancelar resposta">×</button></div>
         <div class="smart-replies" aria-label="Respostas rápidas"><button onclick="useQuick('Tenho interesse.')">Tenho interesse</button><button onclick="useQuick('Pode enviar mais informações?')">Mais informações</button><button onclick="useQuick('Vou preparar uma proposta.')">Preparar proposta</button><button onclick="useQuick('Proposta enviada.')">Proposta enviada</button><button onclick="useQuick('Precisamos revisar o prazo.')">Revisar prazo</button><button onclick="useQuick('Podemos agendar uma conversa?')">Agendar conversa</button></div>
@@ -262,6 +274,7 @@ if(auth()){(async()=>{await loadConvs({initial:true});const params=new URLSearch
   }catch(e){console.warn('[ARQSELECT] navegação de perfil:',e)}
 })();
 </script>
-<script src="arqselect-4.js"></script><script src="arq-premium.js?v=5.6.1"></script><script src="arq-premium-tech.js?v=5.6.1" defer></script>
+<script src="arqselect-4.js"></script><script src="arq-premium.js?v=5.7.0"></script>
+<script src="arq-experience.js?v=5.7.0" defer></script>
 </body>
 </html>

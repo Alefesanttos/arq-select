@@ -81,13 +81,12 @@
     return value === "light" ? "light" : "dark";
   }
 
-  function currentThemePreference() { return localStorage.getItem("ARQSELECT_THEME") || "dark"; }
+  function currentThemePreference() { try { return localStorage.getItem("ARQSELECT_THEME") || "auto"; } catch (_) { return "auto"; } }
 
   function applyTheme(value, persist = true) {
-    const preference = ["dark","light","auto"].includes(value) ? value : "dark";
-    document.documentElement.dataset.theme = resolveTheme(preference);
-    document.documentElement.dataset.themePreference = preference;
-    if (persist) localStorage.setItem("ARQSELECT_THEME", preference);
+    const preference = ["dark","light","auto"].includes(value) ? value : "auto";
+    if (window.ARQSELECT_THEME && typeof window.ARQSELECT_THEME.set === "function") window.ARQSELECT_THEME.set(preference,persist);
+    else { document.documentElement.dataset.theme = resolveTheme(preference); document.documentElement.dataset.themePreference = preference; if (persist) localStorage.setItem("ARQSELECT_THEME", preference); }
     const button = document.querySelector("[data-arq4-theme]");
     if (button) {
       const labels = {dark:"Tema escuro",light:"Tema claro",auto:"Tema automático"};

@@ -1,14 +1,14 @@
 {
-  "name": "ARQSELECT — Arquitetos e Fornecedores",
+  "name": "ARQSELECT — Arquitetura, especificação e negócios",
   "short_name": "ARQSELECT",
-  "description": "Plataforma de especificação, conexão e negócios entre arquitetos, fornecedores, produtos e projetos.",
+  "description": "Ecossistema profissional premium para arquitetos, fornecedores, produtos, projetos, especificações, conexões e negócios.",
   "lang": "pt-BR",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#070807",
-  "theme_color": "#070807",
+  "background_color": "#0b0c0c",
+  "theme_color": "#0b0c0c",
   "categories": [
     "business",
     "productivity",

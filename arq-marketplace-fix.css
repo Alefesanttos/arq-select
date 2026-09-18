@@ -1,3 +1,5 @@
+/* ARQSELECT 5.7 legacy layer — layout compatibility only. Final theme lives in arq-design-system.css. */
+@layer legacy {
 /* 5.5.1 — layout essencial do catálogo e aprimoramento progressivo. */
 .marketplace-page .arq-hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);min-height:490px;isolation:isolate}
 .marketplace-page .arq-hero:after{display:none}
@@ -18,3 +20,5 @@
 @media(max-width:1000px){.marketplace-page .arq-hero{grid-template-columns:1fr 1fr}.marketplace-page .arq-hero__content{padding:32px}.marketplace-page .arq-hero__content h1{font-size:44px}}
 @media(max-width:800px){.marketplace-page .arq-hero{grid-template-columns:minmax(0,1fr);min-height:0}.marketplace-page .arq-hero>img{height:auto;min-height:0;max-height:420px;aspect-ratio:16/9}.marketplace-page .arq-hero__content{padding:32px 24px}.marketplace-page .arq-hero__content h1{font-size:clamp(36px,7vw,48px)}.marketplace-page .arq-market-header{position:relative}.marketplace-page .arq-hero__actions .arq-btn{flex:1 1 200px}}
 @media(max-width:400px){.marketplace-page .arq-market-header__top{width:calc(100% - 32px)}.marketplace-page .arq-logo{font-size:20px}.marketplace-page .arq-header-actions{gap:8px}.marketplace-page .arq-hero__content{padding:28px 20px}}
+
+}

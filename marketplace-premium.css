@@ -1,3 +1,5 @@
+/* ARQSELECT 5.7 legacy layer — layout compatibility only. Final theme lives in arq-design-system.css. */
+@layer legacy {
 :root{
   --arq-black:#0b0c0c;--arq-charcoal:#171817;--arq-gold:#c49a5a;--arq-gold-soft:#d8b77b;
   --arq-cream:#f6f3ed;--arq-white:#fff;--arq-text:#181818;--arq-muted:#77736c;--arq-border:#e3ddd3;
@@ -23,3 +25,5 @@
 @media(max-width:1200px){.arq-product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.arq-trust__grid{grid-template-columns:repeat(3,1fr)}.arq-trust__item:nth-child(3){border-right:0}.arq-header-actions a span{display:none}}
 @media(max-width:900px){.arq-market-header__top{grid-template-columns:auto 1fr}.arq-search{grid-column:1/-1;grid-row:2}.arq-header-actions{justify-content:flex-end}.arq-layout{grid-template-columns:1fr}.arq-filter{position:static}.arq-filter__body{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.arq-filter__buttons{grid-column:1/-1}.arq-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.arq-product-layout{grid-template-columns:1fr;gap:24px}.arq-catalog-grid{grid-template-columns:repeat(2,1fr)}.arq-footer__inner{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){body{font-size:16px}.arq-market-header__top{gap:12px;min-height:64px}.arq-logo{font-size:22px}.arq-header-actions{gap:10px}.arq-search button{padding:0 14px}.arq-hero{min-height:430px}.arq-hero__content{padding:62px 0 44px;margin-left:3vw}.arq-hero h1{font-size:50px}.arq-trust__grid{grid-template-columns:1fr 1fr}.arq-trust__item{border-bottom:1px solid var(--arq-border)}.arq-layout{gap:18px}.arq-filter__body{grid-template-columns:1fr}.arq-product-grid{grid-template-columns:1fr}.arq-results-head,.arq-section__head{align-items:flex-start;flex-direction:column}.arq-sort{width:100%}.arq-sort select{width:100%}.arq-catalog-grid{grid-template-columns:1fr}.arq-footer__inner{grid-template-columns:1fr}.arq-product-info h1{font-size:42px}.arq-benefits{grid-template-columns:1fr}.arq-spec-row{grid-template-columns:1fr;gap:3px}.arq-form-grid{grid-template-columns:1fr}.arq-form-grid .full{grid-column:auto}.arq-whatsapp-float{width:56px;height:56px;padding:0;justify-content:center}.arq-whatsapp-float span{display:none}}
+
+}

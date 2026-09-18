@@ -1,23 +1,29 @@
 <!doctype html>
 <html class="arq-premium-ui" lang="pt-BR">
-<head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'"><meta name="robots" content="noindex,nofollow">
-<script src="arq-config.js?v=5.6.1"></script>
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light dark">
+<script id="arq-theme-boot">(()=>{try{const k="ARQSELECT_THEME",v=localStorage.getItem(k)||"auto",m=matchMedia("(prefers-color-scheme: dark)").matches,t=v==="auto"?(m?"dark":"light"):(v==="dark"?"dark":"light"),h=document.documentElement;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=["light","dark","auto"].includes(v)?v:"auto";h.style.colorScheme=t}catch(_){document.documentElement.dataset.theme="light"}})();</script>
+
+<meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'"><meta name="robots" content="noindex,nofollow">
+<script src="arq-config.js?v=5.7.0"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ARQSELECT | CRM 4.0</title>
 <link rel="icon" type="image/svg+xml" href="icon-master.svg">
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<style>
+<style>@layer page {
+
 :root{--bg:#f5f7fb;--surface:#fff;--surface2:#f8fafc;--text:#101828;--muted:#667085;--line:#e4e7ec;--dark:#0b1220;--accent:#c8a457;--success:#12b76a;--warn:#f79009;--danger:#f04438;--shadow:0 14px 40px rgba(16,24,40,.08);--r:18px}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
-button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none}
 .login{min-height:100vh;display:grid;place-items:center end;padding:clamp(24px,6vw,84px);background:linear-gradient(90deg,rgba(3,5,7,.20),rgba(3,5,7,.70) 54%,rgba(3,5,7,.96)),url('arquitetura-premium-v2.webp') center/cover no-repeat}
-.login-card{width:min(460px,100%);background:rgba(11,11,11,.88)!important;border-radius:28px;padding:36px;box-shadow:0 40px 120px #000b!important;backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12)!important}.logo{font-weight:950;letter-spacing:.14em;font-size:24px}.logo span{color:var(--accent)}.ey{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#8b6b24;font-weight:900;margin-top:18px}
+.login-card{width:min(460px,100%);background:rgba(11,11,11,.88);border-radius:28px;padding:36px;box-shadow:0 40px 120px #000b;backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12)}.logo{font-weight:950;letter-spacing:.14em;font-size:24px}.logo span{color:var(--accent)}.ey{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#8b6b24;font-weight:900;margin-top:18px}
 h1,h2,h3,p{margin:0}.login h1{font-size:32px;margin-top:8px}.muted{color:var(--muted);line-height:1.6}label{display:block;font-size:12px;font-weight:800;margin:18px 0 7px}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px;background:#fff;color:var(--text);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px #c8a45719}
 .btn{border:0;border-radius:12px;padding:12px 15px;font-weight:850;background:#101828;color:#fff}.btn.gold{background:linear-gradient(135deg,#e2c783,#b88e35);color:#16120a}.btn.light{background:#eef2f6;color:#101828}.btn.danger{background:#fee4e2;color:#b42318}
 .msg{min-height:44px;margin-top:14px;padding:11px 12px;border-radius:11px;font-size:13px;line-height:1.45;color:#d7d2c8;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08)}.msg:empty{display:none}.msg.loading{color:#bcfff8;border-color:rgba(67,215,200,.25);background:rgba(67,215,200,.07)}.msg.success{color:#bff8d9;border-color:rgba(18,183,106,.28);background:rgba(18,183,106,.08)}.msg.error{color:#ffd0cc;border-color:rgba(240,68,56,.30);background:rgba(240,68,56,.08)}
-.login-status{display:flex;align-items:center;gap:8px;margin-top:16px;color:#aaa49a;font-size:12px}.login-status-dot{width:8px;height:8px;border-radius:50%;background:#667085;box-shadow:0 0 0 4px rgba(255,255,255,.04)}.login-status.online .login-status-dot{background:#43d7c8;box-shadow:0 0 16px rgba(67,215,200,.65)}.login-status.error .login-status-dot{background:#f79009}.login-submit[aria-busy="true"]{pointer-events:none;opacity:.72}.settings-switch{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px;border:1px solid var(--arq-line);border-radius:18px;background:rgba(255,255,255,.035)}.settings-switch input{width:52px!important;height:28px;accent-color:#d4af37}.settings-preview{padding:24px;border:1px dashed rgba(212,175,55,.30);border-radius:18px;background:linear-gradient(135deg,rgba(212,175,55,.08),rgba(67,215,200,.04))}
+.login-status{display:flex;align-items:center;gap:8px;margin-top:16px;color:#aaa49a;font-size:12px}.login-status-dot{width:8px;height:8px;border-radius:50%;background:#667085;box-shadow:0 0 0 4px rgba(255,255,255,.04)}.login-status.online .login-status-dot{background:#43d7c8;box-shadow:0 0 16px rgba(67,215,200,.65)}.login-status.error .login-status-dot{background:#f79009}.login-submit[aria-busy="true"]{pointer-events:none;opacity:.72}.settings-switch{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px;border:1px solid var(--arq-line);border-radius:18px;background:rgba(255,255,255,.035)}.settings-switch input{width:52px;height:28px;accent-color:#d4af37}.settings-preview{padding:24px;border:1px dashed rgba(212,175,55,.30);border-radius:18px;background:linear-gradient(135deg,rgba(212,175,55,.08),rgba(67,215,200,.04))}
 .shell{display:grid;grid-template-columns:260px 1fr;min-height:100vh}.side{position:sticky;top:0;height:100vh;background:var(--dark);color:#fff;padding:22px 16px;display:flex;flex-direction:column}
 .side-brand{padding:8px 10px 24px;border-bottom:1px solid #ffffff14}.side-brand .logo span{color:#e7c977}.admin-user{margin-top:16px;padding:12px;border:1px solid #ffffff12;border-radius:14px;background:#ffffff08}
 .nav{display:grid;gap:7px;margin-top:20px}.nav button{text-align:left;border:0;background:transparent;color:#cbd5e1;padding:12px 13px;border-radius:12px;font-weight:750}.nav button:hover,.nav button.active{background:#ffffff10;color:#fff}
@@ -34,98 +40,110 @@ h1,h2,h3,p{margin:0}.login h1{font-size:32px;margin-top:8px}.muted{color:var(--m
 .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.detail{display:grid;gap:9px}.kv{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface2)}.kv b{display:block;font-size:10px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
 @media(max-width:1050px){.grid{grid-template-columns:repeat(2,1fr)}.user-grid{grid-template-columns:1fr}.shell{grid-template-columns:1fr}.side{position:static;height:auto}.nav{grid-template-columns:repeat(4,minmax(0,1fr))}.main{padding:16px}}
 @media(max-width:650px){.login{place-items:center;padding:18px;background-position:64% center}.login-card{padding:28px 22px}.grid{grid-template-columns:1fr 1fr}.nav{grid-template-columns:repeat(2,1fr)}.topbar{align-items:flex-start;flex-direction:column}.two{grid-template-columns:1fr}}
-</style>
 
-<style id="arqselect-unified-theme">
+}</style>
+
+<style id="arqselect-unified-theme">@layer page {
+
 :root{
  --arq-bg:#070707;--arq-bg-2:#0c0c0c;--arq-surface:#121212;--arq-surface-2:#171717;
  --arq-text:#f5f2e9;--arq-muted:#aaa49a;--arq-gold:#d4af37;--arq-gold-2:#f2dc86;
  --arq-line:rgba(255,255,255,.09);--arq-shadow:0 18px 55px rgba(0,0,0,.35);--arq-radius:18px;
 }
-html{background:var(--arq-bg)!important;color:var(--arq-text)!important;color-scheme:dark;scroll-behavior:smooth}
+html{background:var(--arq-bg);color:var(--arq-text);color-scheme:dark;scroll-behavior:smooth}
 body{background:
  radial-gradient(circle at 90% -8%,rgba(212,175,55,.10),transparent 28%),
- radial-gradient(circle at 4% 105%,rgba(255,255,255,.035),transparent 30%),var(--arq-bg)!important;
- color:var(--arq-text)!important}
+ radial-gradient(circle at 4% 105%,rgba(255,255,255,.035),transparent 30%),var(--arq-bg);
+ color:var(--arq-text)}
 body,button,input,select,textarea{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
 body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);background-size:28px 28px;opacity:.55}
 h1,h2,h3,h4,h5,h6,p,div,span,li,label,td,th{color:inherit}
 a{color:inherit}
-.top,.nav,.header,.navbar{background:rgba(7,7,7,.86)!important;border-color:var(--arq-line)!important;backdrop-filter:blur(16px)!important}
-.btn,.button,.actions button,.nav a{border:1px solid var(--arq-line)!important;background:rgba(255,255,255,.055)!important;color:var(--arq-text)!important;box-shadow:0 8px 24px rgba(0,0,0,.12)}
-.btn.gold,.gold,.primary,.btn-primary,.cta-button{background:linear-gradient(135deg,var(--arq-gold-2),var(--arq-gold))!important;color:#151108!important;border-color:rgba(255,255,255,.18)!important}
-.btn:hover,.button:hover,.nav a:hover{border-color:rgba(212,175,55,.42)!important;transform:translateY(-1px)}
-.card,.panel,.box,.tile,.item,.list,.table,.table-wrap,.product,.profile,.stat,.metric,.notice,.sheet,.conversation,.sidebar,.hero-card,.feature-card,.post,.opportunity,.profile-card,.request-card,.proposal-card{background:linear-gradient(145deg,rgba(22,22,22,.97),rgba(12,12,12,.94))!important;border:1px solid var(--arq-line)!important;color:var(--arq-text)!important;box-shadow:var(--arq-shadow)!important}
-.card h1,.card h2,.card h3,.card h4,.panel h1,.panel h2,.panel h3,.panel h4,.box h1,.box h2,.box h3,.box h4,.product h3{color:var(--arq-text)!important}
-.muted,.meta,.small,.hint,.ey,.subtle,.role{color:var(--arq-muted)!important}
-input,select,textarea{background:rgba(255,255,255,.055)!important;color:var(--arq-text)!important;border:1px solid rgba(255,255,255,.12)!important}
-input::placeholder,textarea::placeholder{color:#7e796f!important}
-input:focus,select:focus,textarea:focus{border-color:rgba(212,175,55,.75)!important;box-shadow:0 0 0 3px rgba(212,175,55,.11)!important}
-.badge,.tag,.pill{background:rgba(212,175,55,.12)!important;color:var(--arq-gold-2)!important;border:1px solid rgba(212,175,55,.22)!important}
-table{color:var(--arq-text)!important}th{background:rgba(212,175,55,.07)!important;color:var(--arq-gold-2)!important}td{border-color:var(--arq-line)!important}
-.modal{background:rgba(0,0,0,.72)!important}
-.modalbox,.modal-content,.dialog,.dropdown,.menu,.sheet-content{background:linear-gradient(145deg,#1b1b1b,#0e0e0e)!important;color:var(--arq-text)!important;border:1px solid var(--arq-line)!important;box-shadow:0 30px 80px rgba(0,0,0,.55)!important}
-.close{background:rgba(255,255,255,.08)!important;color:var(--arq-text)!important;border:1px solid var(--arq-line)!important}
-.messages,.chat-window,.chat-body,.chat-main{background:#0b0b0b!important;color:var(--arq-text)!important}
-.composer,.composer-wrap,.chat-head{background:#111!important;color:var(--arq-text)!important;border-color:var(--arq-line)!important}
-.conv,.conversation-item{background:rgba(255,255,255,.035)!important;color:var(--arq-text)!important;border-color:var(--arq-line)!important}
-.bubble{background:#1a1a1a!important;color:var(--arq-text)!important;border:1px solid var(--arq-line)!important}
-.bubble.mine{background:linear-gradient(135deg,#2b2415,#3b3019)!important;color:#fff9df!important;border-color:rgba(212,175,55,.24)!important}
-.empty,.empty-card{color:var(--arq-muted)!important}
-.thumb{background:#111!important}
+.top,.nav,.header,.navbar{background:rgba(7,7,7,.86);border-color:var(--arq-line);backdrop-filter:blur(16px)}
+.btn,.button,.actions button,.nav a{border:1px solid var(--arq-line);background:rgba(255,255,255,.055);color:var(--arq-text);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.btn.gold,.gold,.primary,.btn-primary,.cta-button{background:linear-gradient(135deg,var(--arq-gold-2),var(--arq-gold));color:#151108;border-color:rgba(255,255,255,.18)}
+.btn:hover,.button:hover,.nav a:hover{border-color:rgba(212,175,55,.42);transform:translateY(-1px)}
+.card,.panel,.box,.tile,.item,.list,.table,.table-wrap,.product,.profile,.stat,.metric,.notice,.sheet,.conversation,.sidebar,.hero-card,.feature-card,.post,.opportunity,.profile-card,.request-card,.proposal-card{background:linear-gradient(145deg,rgba(22,22,22,.97),rgba(12,12,12,.94));border:1px solid var(--arq-line);color:var(--arq-text);box-shadow:var(--arq-shadow)}
+.card h1,.card h2,.card h3,.card h4,.panel h1,.panel h2,.panel h3,.panel h4,.box h1,.box h2,.box h3,.box h4,.product h3{color:var(--arq-text)}
+.muted,.meta,.small,.hint,.ey,.subtle,.role{color:var(--arq-muted)}
+input,select,textarea{background:rgba(255,255,255,.055);color:var(--arq-text);border:1px solid rgba(255,255,255,.12)}
+input::placeholder,textarea::placeholder{color:#7e796f}
+input:focus,select:focus,textarea:focus{border-color:rgba(212,175,55,.75);box-shadow:0 0 0 3px rgba(212,175,55,.11)}
+.badge,.tag,.pill{background:rgba(212,175,55,.12);color:var(--arq-gold-2);border:1px solid rgba(212,175,55,.22)}
+table{color:var(--arq-text)}th{background:rgba(212,175,55,.07);color:var(--arq-gold-2)}td{border-color:var(--arq-line)}
+.modal{background:rgba(0,0,0,.72)}
+.modalbox,.modal-content,.dialog,.dropdown,.menu,.sheet-content{background:linear-gradient(145deg,#1b1b1b,#0e0e0e);color:var(--arq-text);border:1px solid var(--arq-line);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.close{background:rgba(255,255,255,.08);color:var(--arq-text);border:1px solid var(--arq-line)}
+.messages,.chat-window,.chat-body,.chat-main{background:#0b0b0b;color:var(--arq-text)}
+.composer,.composer-wrap,.chat-head{background:#111;color:var(--arq-text);border-color:var(--arq-line)}
+.conv,.conversation-item{background:rgba(255,255,255,.035);color:var(--arq-text);border-color:var(--arq-line)}
+.bubble{background:#1a1a1a;color:var(--arq-text);border:1px solid var(--arq-line)}
+.bubble.mine{background:linear-gradient(135deg,#2b2415,#3b3019);color:#fff9df;border-color:rgba(212,175,55,.24)}
+.empty,.empty-card{color:var(--arq-muted)}
+.thumb{background:#111}
 img{border-radius:inherit}
-hr{border-color:var(--arq-line)!important}
+hr{border-color:var(--arq-line)}
 ::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-track{background:#080808}::-webkit-scrollbar-thumb{background:linear-gradient(#8e6b28,#d4af37);border-radius:10px}
 /* Unified WhatsApp */
-.arq-whatsapp,.wa-float{background:linear-gradient(135deg,#25d366,#16a34a)!important;color:#fff!important;border:1px solid rgba(255,255,255,.16)!important;text-decoration:none!important;box-shadow:0 18px 42px rgba(0,0,0,.36),0 0 0 1px rgba(255,255,255,.10) inset!important}
+.arq-whatsapp,.wa-float{background:linear-gradient(135deg,#25d366,#16a34a);color:#fff;border:1px solid rgba(255,255,255,.16);text-decoration:none;box-shadow:0 18px 42px rgba(0,0,0,.36),0 0 0 1px rgba(255,255,255,.10) inset}
 .arq-whatsapp svg,.wa-float svg{width:22px;height:22px;fill:currentColor;flex:none}
 /* prevent inherited light theme from returning after dynamic renders */
-#app,#root,#main,.main,.wrap{color:var(--arq-text)!important}
-@media(max-width:760px){.btn,.button,.nav a{padding:10px 12px!important}.card,.panel,.box{border-radius:16px!important}}
-</style>
-<style id="arqselect-contrast-lock">
-/* ARQSELECT premium contrast lock */
-*[style*="background:#fff"],[style*="background: #fff"],[style*="background-color:#fff"],[style*="background-color: #fff"]{background:var(--arq-surface,#151515)!important}
-*[style*="background:white"],[style*="background: white"]{background:var(--arq-surface,#151515)!important}
-.login-card,.auth-card,.form-card,.form-panel{background:linear-gradient(145deg,#171717,#0d0d0d)!important;color:var(--arq-text,#f5f2e9)!important;border:1px solid var(--arq-line,rgba(255,255,255,.09))!important;box-shadow:var(--arq-shadow,0 18px 55px rgba(0,0,0,.35))!important}
-.field label,.form-group label,label{color:var(--arq-text,#f5f2e9)!important}
-input.input,.input,input[type="text"],input[type="email"],input[type="password"],input[type="number"],input[type="tel"],input[type="url"],textarea,select{color:var(--arq-text,#f5f2e9)!important;background:rgba(255,255,255,.055)!important}
-select option{background:#171717;color:#f5f2e9}
-</style>
+#app,#root,#main,.main,.wrap{color:var(--arq-text)}
+@media(max-width:760px){.btn,.button,.nav a{padding:10px 12px}.card,.panel,.box{border-radius:16px}}
 
-<style id="arqselect-admin-modal-contrast">
+}</style>
+<style id="arqselect-contrast-lock">@layer page {
+
+/* ARQSELECT premium contrast lock */
+*[style*="background:#fff"],[style*="background: #fff"],[style*="background-color:#fff"],[style*="background-color: #fff"]{background:var(--arq-surface,#151515)}
+*[style*="background:white"],[style*="background: white"]{background:var(--arq-surface,#151515)}
+.login-card,.auth-card,.form-card,.form-panel{background:linear-gradient(145deg,#171717,#0d0d0d);color:var(--arq-text,#f5f2e9);border:1px solid var(--arq-line,rgba(255,255,255,.09));box-shadow:var(--arq-shadow,0 18px 55px rgba(0,0,0,.35))}
+.field label,.form-group label,label{color:var(--arq-text,#f5f2e9)}
+input.input,.input,input[type="text"],input[type="email"],input[type="password"],input[type="number"],input[type="tel"],input[type="url"],textarea,select{color:var(--arq-text,#f5f2e9);background:rgba(255,255,255,.055)}
+select option{background:#171717;color:#f5f2e9}
+
+}</style>
+
+<style id="arqselect-admin-modal-contrast">@layer page {
+
 /* Garantia de contraste para detalhes/modais do ADMIN */
-.modal-card,.modal-card *,.modal-card .detail,.modal-card .kv{color:var(--arq-text)!important}
-.modal-card{background:linear-gradient(145deg,#1b1b1b,#0d0d0d)!important;border:1px solid var(--arq-line)!important}
-.modal-card .kv{background:rgba(255,255,255,.045)!important;border:1px solid rgba(255,255,255,.09)!important}
-.modal-card .kv b{color:var(--arq-gold2)!important}
-.modal-card input,.modal-card select,.modal-card textarea{background:rgba(255,255,255,.055)!important;color:var(--arq-text)!important;border:1px solid rgba(255,255,255,.12)!important}
-.modal-card button,.modal-card .btn.light{color:var(--arq-text)!important;background:rgba(255,255,255,.07)!important}
-</style>
-<style id="arq-admin-hard-premium">.modal-card,.modalbox,.modal-content,.dialog{background:linear-gradient(145deg,#1b1b1b,#0c0c0c)!important;color:#f5f2e9!important;border:1px solid rgba(212,175,55,.18)!important}.modal-card h1,.modal-card h2,.modal-card h3,.modal-card h4,.modal-card b,.modal-card label,.modal-card td,.modal-card th{color:#f5f2e9!important}.modal-card .kv{background:rgba(255,255,255,.045)!important;color:#f5f2e9!important;border:1px solid rgba(255,255,255,.08)!important}.modal-card input,.modal-card select,.modal-card textarea{background:#121212!important;color:#f5f2e9!important;border-color:rgba(255,255,255,.12)!important}.modal-card .muted{color:#aaa49a!important}.modal-card .btn.light{background:rgba(255,255,255,.07)!important;color:#f5f2e9!important}.proposal-item{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:16px 4px;border-bottom:1px solid rgba(255,255,255,.07)}.proposal-item:last-child{border-bottom:0}.proposal-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}</style><style id="arqselect-final-contrast">.modal-card,.modal-card *{color:var(--arq-text)!important}.modal-card{background:linear-gradient(145deg,#1b1b1b,#0c0c0c)!important}.modal-card .kv{background:rgba(255,255,255,.045)!important;color:var(--arq-text)!important;border:1px solid rgba(255,255,255,.09)!important}.latest-user:hover{background:rgba(255,255,255,.035)!important}.chat-conversation-item{cursor:pointer}</style><link rel="stylesheet" href="arq-premium.css?v=5.6.1"><link rel="stylesheet" href="arq-ui-5.css?v=5.6.1"><link rel="stylesheet" href="arq-polish.css?v=5.6.1"><link rel="stylesheet" href="arq-premium-tech.css?v=5.6.1">
+.modal-card,.modal-card *,.modal-card .detail,.modal-card .kv{color:var(--arq-text)}
+.modal-card{background:linear-gradient(145deg,#1b1b1b,#0d0d0d);border:1px solid var(--arq-line)}
+.modal-card .kv{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09)}
+.modal-card .kv b{color:var(--arq-gold2)}
+.modal-card input,.modal-card select,.modal-card textarea{background:rgba(255,255,255,.055);color:var(--arq-text);border:1px solid rgba(255,255,255,.12)}
+.modal-card button,.modal-card .btn.light{color:var(--arq-text);background:rgba(255,255,255,.07)}
+
+}</style>
+<style id="arq-admin-hard-premium">@layer page {
+.modal-card,.modalbox,.modal-content,.dialog{background:linear-gradient(145deg,#1b1b1b,#0c0c0c);color:#f5f2e9;border:1px solid rgba(212,175,55,.18)}.modal-card h1,.modal-card h2,.modal-card h3,.modal-card h4,.modal-card b,.modal-card label,.modal-card td,.modal-card th{color:#f5f2e9}.modal-card .kv{background:rgba(255,255,255,.045);color:#f5f2e9;border:1px solid rgba(255,255,255,.08)}.modal-card input,.modal-card select,.modal-card textarea{background:#121212;color:#f5f2e9;border-color:rgba(255,255,255,.12)}.modal-card .muted{color:#aaa49a}.modal-card .btn.light{background:rgba(255,255,255,.07);color:#f5f2e9}.proposal-item{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:16px 4px;border-bottom:1px solid rgba(255,255,255,.07)}.proposal-item:last-child{border-bottom:0}.proposal-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+}</style><style id="arqselect-final-contrast">@layer page {
+.modal-card,.modal-card *{color:var(--arq-text)}.modal-card{background:linear-gradient(145deg,#1b1b1b,#0c0c0c)}.modal-card .kv{background:rgba(255,255,255,.045);color:var(--arq-text);border:1px solid rgba(255,255,255,.09)}.latest-user:hover{background:rgba(255,255,255,.035)}.chat-conversation-item{cursor:pointer}
+}</style><link rel="stylesheet" href="arq-premium.css?v=5.7.0"><link rel="stylesheet" href="arq-ui-5.css?v=5.7.0"><link rel="stylesheet" href="arq-polish.css?v=5.7.0">
+<link rel="stylesheet" href="arq-design-system.css?v=5.7.0">
 </head>
-<body>
+<body data-arq-page="admin" data-arq-surface="admin">
 <div id="login" class="login">
   <form id="loginForm" class="login-card" novalidate>
     <div class="logo">ARQ<span>SELECT</span></div><div class="ey">CRM administrativo 4.0</div>
-    <h1>Central de gestão</h1><p class="muted" style="margin-top:8px">Controle arquitetos, fornecedores, produtos, projetos, oportunidades, notificações e relacionamento.</p>
+    <h1>Central de gestão</h1><p class="muted arq-inline-8a77e5a31">Controle arquitetos, fornecedores, produtos, projetos, oportunidades, notificações e relacionamento.</p>
     <label for="user">Usuário</label><input id="user" autocomplete="username" autocapitalize="none" spellcheck="false" required>
     <label for="pass">Senha</label><input id="pass" type="password" autocomplete="current-password" required>
-    <button id="loginButton" class="btn gold login-submit" type="submit" style="width:100%;margin-top:20px">Entrar no CRM</button>
+    <button id="loginButton" class="btn gold login-submit arq-inline-a266ae4a1" type="submit">Entrar no CRM</button>
     <div id="loginMsg" class="msg" role="alert" aria-live="polite"></div>
     <div id="loginStatus" class="login-status"><span class="login-status-dot"></span><span>Verificando conexão segura…</span></div>
-    <button id="checkConnection" class="btn light" type="button" style="width:100%;margin-top:12px">Verificar conexão</button>
+    <button id="checkConnection" class="btn light arq-inline-61ac6cbcb" type="button">Verificar conexão</button>
   </form>
 </div>
 <div id="app" class="shell hidden">
   <aside class="side">
-    <div class="side-brand"><div class="logo">ARQ<span>SELECT</span></div><div class="ey" style="color:#d6b96b">ADMIN</div><div class="admin-user"><div style="font-size:11px;color:#98a2b3">Sessão</div><div id="adminName" style="margin-top:4px;font-weight:850">Administrador</div></div></div>
+    <div class="side-brand"><div class="logo">ARQ<span>SELECT</span></div><div class="ey arq-inline-75e773720">ADMIN</div><div class="admin-user"><div class="arq-inline-ce62031a4">Sessão</div><div class="arq-inline-1e4f6c757" id="adminName">Administrador</div></div></div>
     <div class="nav">
-      <button class="active" data-page="dashboard">Dashboard</button><button data-page="usuarios">Usuários</button><button data-page="arquitetos">Arquitetos</button><button data-page="fornecedores">Fornecedores</button><button data-page="produtos">Marketplace</button><button onclick="location.href='admin-catalogos.html'">Catálogos</button><button data-page="projetos">Projetos</button><button data-page="solicitacoes">Solicitações</button><button data-page="propostas">Propostas</button><button data-page="chat">Chat</button><button data-page="enviar-projeto">Distribuir projeto</button><button data-page="conexoes">Conexões</button><button data-page="comercial">Aprovação comercial</button><button data-page="negocios">Negócios</button><button data-page="avaliacoes">Avaliações</button><button data-page="ranking">Ranking</button><button data-page="suporte">Suporte</button><button data-page="relatorios">Relatórios</button><button data-page="configuracoes">Configurações</button><button data-page="seguranca">Segurança</button><button data-page="notificacoes">Notificações <span id="notifCount" class="badge gold" style="float:right">0</span></button><button data-page="historico">Histórico</button><button id="logout">Sair</button>
+      <button class="active" data-page="dashboard">Dashboard</button><button data-page="usuarios">Usuários</button><button data-page="arquitetos">Arquitetos</button><button data-page="fornecedores">Fornecedores</button><button data-page="produtos">Marketplace</button><button onclick="location.href='admin-catalogos.html'">Catálogos</button><button data-page="projetos">Projetos</button><button data-page="solicitacoes">Solicitações</button><button data-page="propostas">Propostas</button><button data-page="chat">Chat</button><button data-page="enviar-projeto">Distribuir projeto</button><button data-page="conexoes">Conexões</button><button data-page="comercial">Aprovação comercial</button><button data-page="negocios">Negócios</button><button data-page="avaliacoes">Avaliações</button><button data-page="ranking">Ranking</button><button data-page="suporte">Suporte</button><button data-page="relatorios">Relatórios</button><button data-page="configuracoes">Configurações</button><button data-page="seguranca">Segurança</button><button data-page="notificacoes">Notificações <span id="notifCount" class="badge gold arq-inline-4932d171a">0</span></button><button data-page="historico">Histórico</button><button id="logout">Sair</button>
     </div>
   </aside>
   <main class="main">
-    <div class="topbar"><div><div class="ey">ARQSELECT CRM</div><h1 id="pageTitle" style="font-size:28px;margin-top:5px">Dashboard</h1></div><div class="top-actions"><button class="btn light" id="refresh">Atualizar</button><button class="btn light" id="diagnostic">Diagnóstico</button><button class="btn gold" id="setup">Sincronizar base</button></div></div>
+    <div class="topbar"><div><div class="ey">ARQSELECT CRM</div><h1 class="arq-inline-f0b93b217" id="pageTitle">Dashboard</h1></div><div class="top-actions"><button class="btn light" id="refresh">Atualizar</button><button class="btn light" id="diagnostic">Diagnóstico</button><button class="btn gold" id="setup">Sincronizar base</button></div></div>
     <div id="content"><div class="loader">Carregando CRM...</div></div>
   </main>
 </div>
@@ -228,5 +246,6 @@ async function init(){if(!token)return;try{await api("sessao");await loadDashboa
 </script>
 <script src="admin-settings-4.js"></script>
 <script src="admin-3.js"></script>
-<script src="arq-premium.js?v=5.6.1"></script><script src="arq-premium-tech.js?v=5.6.1" defer></script>
+<script src="arq-premium.js?v=5.7.0"></script>
+<script src="arq-experience.js?v=5.7.0" defer></script>
 </body></html>

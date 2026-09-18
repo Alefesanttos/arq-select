@@ -1,7 +1,12 @@
 <!doctype html>
 <html class="arq-premium-ui" lang="pt-BR" data-theme="dark">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="color-scheme" content="light dark">
+<script id="arq-theme-boot">(()=>{try{const k="ARQSELECT_THEME",v=localStorage.getItem(k)||"auto",m=matchMedia("(prefers-color-scheme: dark)").matches,t=v==="auto"?(m?"dark":"light"):(v==="dark"?"dark":"light"),h=document.documentElement;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=["light","dark","auto"].includes(v)?v:"auto";h.style.colorScheme=t}catch(_){document.documentElement.dataset.theme="light"}})();</script>
+
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101310"><meta name="description" content="Rede profissional ARQSELECT para arquitetos, fornecedores, projetos, materiais, especificação e oportunidades.">
 <meta name="robots" content="index,follow"><title>Feed profissional | ARQSELECT</title>
 <link rel="icon" type="image/svg+xml" href="icon-master.svg">
@@ -9,16 +14,18 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
-<script src="arq-config.js?v=5.6.1"></script>
-<link rel="stylesheet" href="arqselect-4.css?v=5.6.1"><link rel="stylesheet" href="arq-premium.css?v=5.6.1"><link rel="stylesheet" href="arq-ui-5.css?v=5.6.1"><link rel="stylesheet" href="arq-polish.css?v=5.6.1"><link rel="stylesheet" href="arqselect-6.css?v=5.6.1" data-arq6>
-<link rel="stylesheet" href="arq-premium-tech.css?v=5.6.1">
+<script src="arq-config.js?v=5.7.0"></script>
+<link rel="stylesheet" href="arqselect-4.css?v=5.7.0"><link rel="stylesheet" href="arq-premium.css?v=5.7.0"><link rel="stylesheet" href="arq-ui-5.css?v=5.7.0"><link rel="stylesheet" href="arq-polish.css?v=5.7.0"><link rel="stylesheet" href="arqselect-6.css?v=5.7.0" data-arq6>
+
+<link rel="stylesheet" href="arq-design-system.css?v=5.7.0">
 </head>
-<body data-module="feed">
-<header class="top" style="padding:14px max(3vw,18px);display:flex;justify-content:space-between;align-items:center;gap:14px;position:sticky;top:0;z-index:40"><a class="brand" href="index.html">ARQ<span>SELECT</span></a><nav class="nav"><a class="btn light" href="explorar.html">Marketplace</a><a class="btn light" href="feed.html">Feed</a><a class="btn light" href="portal.html">Meu painel</a></nav></header>
+<body data-module="feed" data-arq-page="feed" data-arq-surface="workspace">
+<header class="top arq-inline-8bb46041b"><a class="brand" href="index.html">ARQ<span>SELECT</span></a><nav class="nav"><a class="btn light" href="explorar.html">Marketplace</a><a class="btn light" href="feed.html">Feed</a><a class="btn light" href="portal.html">Meu painel</a></nav></header>
 <main class="arq6-shell">
-<section class="arq6-head"><div><div class="arq6-kicker">ARQSELECT 5.6.1</div><h1 data-page-title>Feed profissional</h1><p class="arq6-muted" data-page-subtitle>Rede profissional ARQSELECT para arquitetos, fornecedores, projetos, materiais, especificação e oportunidades.</p></div></section>
+<section class="arq6-head"><div><div class="arq6-kicker">ARQSELECT 5.7</div><h1 data-page-title>Feed profissional</h1><p class="arq6-muted" data-page-subtitle>Rede profissional ARQSELECT para arquitetos, fornecedores, projetos, materiais, especificação e oportunidades.</p></div></section>
 <section id="moduleContent"><div class="arq6-card arq6-empty"><b>Carregando...</b></div></section>
 </main>
-<script src="arqselect-4.js?v=5.6.1"></script><script src="arqselect-6.js?v=5.6.1" data-arq6></script><script src="arq-workspace-6.js?v=5.6.1"></script><script src="arq-workspace-app-6.js?v=5.6.1"></script>
-<script src="arq-premium-tech.js?v=5.6.1" defer></script>
+<script src="arqselect-4.js?v=5.7.0"></script><script src="arqselect-6.js?v=5.7.0" data-arq6></script><script src="arq-workspace-6.js?v=5.7.0"></script><script src="arq-workspace-app-6.js?v=5.7.0"></script>
+
+<script src="arq-experience.js?v=5.7.0" defer></script>
 </body></html>

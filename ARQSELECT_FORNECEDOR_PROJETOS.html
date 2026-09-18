@@ -1,68 +1,81 @@
-<!doctype html><html class="arq-premium-ui" lang="pt-BR"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'">
-<script src="arq-config.js?v=5.6.1"></script><meta name="viewport" content="width=device-width,initial-scale=1"><title>ARQSELECT | Oportunidades</title>
+<!doctype html><html class="arq-premium-ui" lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light dark">
+<script id="arq-theme-boot">(()=>{try{const k="ARQSELECT_THEME",v=localStorage.getItem(k)||"auto",m=matchMedia("(prefers-color-scheme: dark)").matches,t=v==="auto"?(m?"dark":"light"):(v==="dark"?"dark":"light"),h=document.documentElement;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=["light","dark","auto"].includes(v)?v:"auto";h.style.colorScheme=t}catch(_){document.documentElement.dataset.theme="light"}})();</script>
+
+<meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'">
+<script src="arq-config.js?v=5.7.0"></script><meta name="viewport" content="width=device-width,initial-scale=1"><title>ARQSELECT | Oportunidades</title>
 <link rel="icon" type="image/svg+xml" href="icon-master.svg">
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png"><style>
+<link rel="apple-touch-icon" href="icon-192.png"><style>@layer page {
+
 :root{--gold:#d4af37;--gold2:#f2d675;--silver:#c8c8c8;--bg:#050505;--panel:#101010;--line:#292929;--muted:#999}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Segoe UI,Arial;background:radial-gradient(circle at 80% 0%,#d4af3715,transparent 30%),var(--bg);color:#fff}.top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:18px 5vw;border-bottom:1px solid #d4af3725;background:#070707eF;backdrop-filter:blur(16px)}.brand{font-size:23px;font-weight:950;letter-spacing:.12em}.brand span{color:var(--gold)}.role{font-size:10px;color:var(--gold2);letter-spacing:.18em;text-transform:uppercase;margin-top:4px}.nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.nav a,.nav button{color:#ddd;text-decoration:none;border:1px solid #ffffff18;background:#111;padding:10px 13px;border-radius:10px;font-weight:800;font-size:12px;cursor:pointer}.nav a.active{border-color:#d4af3770;color:#f2d675}.wrap{width:min(1200px,90vw);margin:auto;padding:40px 0 90px}.hero{min-height:280px;border:1px solid #d4af3725;border-radius:28px;padding:42px;background:linear-gradient(100deg,#000d,#0008),url(arquitetura-editorial-interior-v1.webp) center/cover;display:flex;align-items:flex-end}.eyebrow{color:var(--gold2);font-size:11px;font-weight:950;letter-spacing:.2em;text-transform:uppercase}h1{font-size:clamp(38px,6vw,66px);line-height:.96;margin:10px 0 14px}h2{font-size:28px;margin:0 0 10px}p{color:#c7c7c7;line-height:1.75}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}.card{background:linear-gradient(#151515,#0c0c0c);border:1px solid #d4af3725;border-radius:20px;padding:24px}.card h3{margin:10px 0 8px}.icon{font-size:25px;color:var(--gold)}.section{margin-top:24px;background:#0d0d0d;border:1px solid #ffffff10;border-radius:24px;padding:28px}.faq{border-top:1px solid #ffffff12;padding:18px 0}.faq:first-child{border-top:0}.faq b{color:#f2d675}.steps{counter-reset:s;display:grid;gap:12px}.step{padding:16px;border-radius:14px;background:#121212;border:1px solid #ffffff0d}.step:before{counter-increment:s;content:counter(s);display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#080808;font-weight:950;margin-right:10px}.notice{padding:16px;border-left:3px solid var(--gold);background:#15130b;border-radius:10px;color:#ddd}.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:0;border-radius:11px;padding:12px 16px;font-weight:900;cursor:pointer}.gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#080808}.muted{color:var(--muted)}table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:13px;border-bottom:1px solid #ffffff0e;text-align:left;font-size:12px}th{color:#f2d675;text-transform:uppercase;letter-spacing:.08em;font-size:10px}.table-wrap{overflow:auto}select,input,textarea{width:100%;background:#080808;color:#fff;border:1px solid #292929;border-radius:10px;padding:12px;outline:none}select:focus,input:focus,textarea:focus{border-color:var(--gold)}label{display:block;color:#ccc;font-size:11px;font-weight:900;margin:13px 0 6px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.full{grid-column:1/-1}.toast{position:fixed;right:20px;bottom:20px;background:#171717;border:1px solid #d4af3750;color:#fff;padding:14px 16px;border-radius:12px;display:none;z-index:50}@media(max-width:800px){.top{align-items:flex-start;gap:15px}.grid,.formgrid{grid-template-columns:1fr}.hero{padding:28px;min-height:300px}.nav{display:none}}
-</style>
-<style id="arqselect-unified-theme">
+
+}</style>
+<style id="arqselect-unified-theme">@layer page {
+
 :root{
  --arq-bg:#070707;--arq-bg-2:#0c0c0c;--arq-surface:#121212;--arq-surface-2:#171717;
  --arq-text:#f5f2e9;--arq-muted:#aaa49a;--arq-gold:#d4af37;--arq-gold-2:#f2dc86;
  --arq-line:rgba(255,255,255,.09);--arq-shadow:0 18px 55px rgba(0,0,0,.35);--arq-radius:18px;
 }
-html{background:var(--arq-bg)!important;color:var(--arq-text)!important;color-scheme:dark;scroll-behavior:smooth}
+html{background:var(--arq-bg);color:var(--arq-text);color-scheme:dark;scroll-behavior:smooth}
 body{background:
  radial-gradient(circle at 90% -8%,rgba(212,175,55,.10),transparent 28%),
- radial-gradient(circle at 4% 105%,rgba(255,255,255,.035),transparent 30%),var(--arq-bg)!important;
- color:var(--arq-text)!important}
+ radial-gradient(circle at 4% 105%,rgba(255,255,255,.035),transparent 30%),var(--arq-bg);
+ color:var(--arq-text)}
 body,button,input,select,textarea{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
 body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);background-size:28px 28px;opacity:.55}
 h1,h2,h3,h4,h5,h6,p,div,span,li,label,td,th{color:inherit}
 a{color:inherit}
-.top,.nav,.header,.navbar{background:rgba(7,7,7,.86)!important;border-color:var(--arq-line)!important;backdrop-filter:blur(16px)!important}
-.btn,.button,.actions button,.nav a{border:1px solid var(--arq-line)!important;background:rgba(255,255,255,.055)!important;color:var(--arq-text)!important;box-shadow:0 8px 24px rgba(0,0,0,.12)}
-.btn.gold,.gold,.primary,.btn-primary,.cta-button{background:linear-gradient(135deg,var(--arq-gold-2),var(--arq-gold))!important;color:#151108!important;border-color:rgba(255,255,255,.18)!important}
-.btn:hover,.button:hover,.nav a:hover{border-color:rgba(212,175,55,.42)!important;transform:translateY(-1px)}
-.card,.panel,.box,.tile,.item,.list,.table,.table-wrap,.product,.profile,.stat,.metric,.notice,.sheet,.conversation,.sidebar,.hero-card,.feature-card,.post,.opportunity,.profile-card,.request-card,.proposal-card{background:linear-gradient(145deg,rgba(22,22,22,.97),rgba(12,12,12,.94))!important;border:1px solid var(--arq-line)!important;color:var(--arq-text)!important;box-shadow:var(--arq-shadow)!important}
-.card h1,.card h2,.card h3,.card h4,.panel h1,.panel h2,.panel h3,.panel h4,.box h1,.box h2,.box h3,.box h4,.product h3{color:var(--arq-text)!important}
-.muted,.meta,.small,.hint,.ey,.subtle,.role{color:var(--arq-muted)!important}
-input,select,textarea{background:rgba(255,255,255,.055)!important;color:var(--arq-text)!important;border:1px solid rgba(255,255,255,.12)!important}
-input::placeholder,textarea::placeholder{color:#7e796f!important}
-input:focus,select:focus,textarea:focus{border-color:rgba(212,175,55,.75)!important;box-shadow:0 0 0 3px rgba(212,175,55,.11)!important}
-.badge,.tag,.pill{background:rgba(212,175,55,.12)!important;color:var(--arq-gold-2)!important;border:1px solid rgba(212,175,55,.22)!important}
-table{color:var(--arq-text)!important}th{background:rgba(212,175,55,.07)!important;color:var(--arq-gold-2)!important}td{border-color:var(--arq-line)!important}
-.modal{background:rgba(0,0,0,.72)!important}
-.modalbox,.modal-content,.dialog,.dropdown,.menu,.sheet-content{background:linear-gradient(145deg,#1b1b1b,#0e0e0e)!important;color:var(--arq-text)!important;border:1px solid var(--arq-line)!important;box-shadow:0 30px 80px rgba(0,0,0,.55)!important}
-.close{background:rgba(255,255,255,.08)!important;color:var(--arq-text)!important;border:1px solid var(--arq-line)!important}
-.messages,.chat-window,.chat-body,.chat-main{background:#0b0b0b!important;color:var(--arq-text)!important}
-.composer,.composer-wrap,.chat-head{background:#111!important;color:var(--arq-text)!important;border-color:var(--arq-line)!important}
-.conv,.conversation-item{background:rgba(255,255,255,.035)!important;color:var(--arq-text)!important;border-color:var(--arq-line)!important}
-.bubble{background:#1a1a1a!important;color:var(--arq-text)!important;border:1px solid var(--arq-line)!important}
-.bubble.mine{background:linear-gradient(135deg,#2b2415,#3b3019)!important;color:#fff9df!important;border-color:rgba(212,175,55,.24)!important}
-.empty,.empty-card{color:var(--arq-muted)!important}
-.thumb{background:#111!important}
+.top,.nav,.header,.navbar{background:rgba(7,7,7,.86);border-color:var(--arq-line);backdrop-filter:blur(16px)}
+.btn,.button,.actions button,.nav a{border:1px solid var(--arq-line);background:rgba(255,255,255,.055);color:var(--arq-text);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.btn.gold,.gold,.primary,.btn-primary,.cta-button{background:linear-gradient(135deg,var(--arq-gold-2),var(--arq-gold));color:#151108;border-color:rgba(255,255,255,.18)}
+.btn:hover,.button:hover,.nav a:hover{border-color:rgba(212,175,55,.42);transform:translateY(-1px)}
+.card,.panel,.box,.tile,.item,.list,.table,.table-wrap,.product,.profile,.stat,.metric,.notice,.sheet,.conversation,.sidebar,.hero-card,.feature-card,.post,.opportunity,.profile-card,.request-card,.proposal-card{background:linear-gradient(145deg,rgba(22,22,22,.97),rgba(12,12,12,.94));border:1px solid var(--arq-line);color:var(--arq-text);box-shadow:var(--arq-shadow)}
+.card h1,.card h2,.card h3,.card h4,.panel h1,.panel h2,.panel h3,.panel h4,.box h1,.box h2,.box h3,.box h4,.product h3{color:var(--arq-text)}
+.muted,.meta,.small,.hint,.ey,.subtle,.role{color:var(--arq-muted)}
+input,select,textarea{background:rgba(255,255,255,.055);color:var(--arq-text);border:1px solid rgba(255,255,255,.12)}
+input::placeholder,textarea::placeholder{color:#7e796f}
+input:focus,select:focus,textarea:focus{border-color:rgba(212,175,55,.75);box-shadow:0 0 0 3px rgba(212,175,55,.11)}
+.badge,.tag,.pill{background:rgba(212,175,55,.12);color:var(--arq-gold-2);border:1px solid rgba(212,175,55,.22)}
+table{color:var(--arq-text)}th{background:rgba(212,175,55,.07);color:var(--arq-gold-2)}td{border-color:var(--arq-line)}
+.modal{background:rgba(0,0,0,.72)}
+.modalbox,.modal-content,.dialog,.dropdown,.menu,.sheet-content{background:linear-gradient(145deg,#1b1b1b,#0e0e0e);color:var(--arq-text);border:1px solid var(--arq-line);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.close{background:rgba(255,255,255,.08);color:var(--arq-text);border:1px solid var(--arq-line)}
+.messages,.chat-window,.chat-body,.chat-main{background:#0b0b0b;color:var(--arq-text)}
+.composer,.composer-wrap,.chat-head{background:#111;color:var(--arq-text);border-color:var(--arq-line)}
+.conv,.conversation-item{background:rgba(255,255,255,.035);color:var(--arq-text);border-color:var(--arq-line)}
+.bubble{background:#1a1a1a;color:var(--arq-text);border:1px solid var(--arq-line)}
+.bubble.mine{background:linear-gradient(135deg,#2b2415,#3b3019);color:#fff9df;border-color:rgba(212,175,55,.24)}
+.empty,.empty-card{color:var(--arq-muted)}
+.thumb{background:#111}
 img{border-radius:inherit}
-hr{border-color:var(--arq-line)!important}
+hr{border-color:var(--arq-line)}
 ::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-track{background:#080808}::-webkit-scrollbar-thumb{background:linear-gradient(#8e6b28,#d4af37);border-radius:10px}
 /* Unified WhatsApp */
-.arq-whatsapp,.wa-float{background:linear-gradient(135deg,#25d366,#16a34a)!important;color:#fff!important;border:1px solid rgba(255,255,255,.16)!important;text-decoration:none!important;box-shadow:0 18px 42px rgba(0,0,0,.36),0 0 0 1px rgba(255,255,255,.10) inset!important}
+.arq-whatsapp,.wa-float{background:linear-gradient(135deg,#25d366,#16a34a);color:#fff;border:1px solid rgba(255,255,255,.16);text-decoration:none;box-shadow:0 18px 42px rgba(0,0,0,.36),0 0 0 1px rgba(255,255,255,.10) inset}
 .arq-whatsapp svg,.wa-float svg{width:22px;height:22px;fill:currentColor;flex:none}
 /* prevent inherited light theme from returning after dynamic renders */
-#app,#root,#main,.main,.wrap{color:var(--arq-text)!important}
-@media(max-width:760px){.btn,.button,.nav a{padding:10px 12px!important}.card,.panel,.box{border-radius:16px!important}}
-</style>
-<style id="arqselect-contrast-lock">
+#app,#root,#main,.main,.wrap{color:var(--arq-text)}
+@media(max-width:760px){.btn,.button,.nav a{padding:10px 12px}.card,.panel,.box{border-radius:16px}}
+
+}</style>
+<style id="arqselect-contrast-lock">@layer page {
+
 /* ARQSELECT premium contrast lock */
-*[style*="background:#fff"],[style*="background: #fff"],[style*="background-color:#fff"],[style*="background-color: #fff"]{background:var(--arq-surface,#151515)!important}
-*[style*="background:white"],[style*="background: white"]{background:var(--arq-surface,#151515)!important}
-.login-card,.auth-card,.form-card,.form-panel{background:linear-gradient(145deg,#171717,#0d0d0d)!important;color:var(--arq-text,#f5f2e9)!important;border:1px solid var(--arq-line,rgba(255,255,255,.09))!important;box-shadow:var(--arq-shadow,0 18px 55px rgba(0,0,0,.35))!important}
-.field label,.form-group label,label{color:var(--arq-text,#f5f2e9)!important}
-input.input,.input,input[type="text"],input[type="email"],input[type="password"],input[type="number"],input[type="tel"],input[type="url"],textarea,select{color:var(--arq-text,#f5f2e9)!important;background:rgba(255,255,255,.055)!important}
+*[style*="background:#fff"],[style*="background: #fff"],[style*="background-color:#fff"],[style*="background-color: #fff"]{background:var(--arq-surface,#151515)}
+*[style*="background:white"],[style*="background: white"]{background:var(--arq-surface,#151515)}
+.login-card,.auth-card,.form-card,.form-panel{background:linear-gradient(145deg,#171717,#0d0d0d);color:var(--arq-text,#f5f2e9);border:1px solid var(--arq-line,rgba(255,255,255,.09));box-shadow:var(--arq-shadow,0 18px 55px rgba(0,0,0,.35))}
+.field label,.form-group label,label{color:var(--arq-text,#f5f2e9)}
+input.input,.input,input[type="text"],input[type="email"],input[type="password"],input[type="number"],input[type="tel"],input[type="url"],textarea,select{color:var(--arq-text,#f5f2e9);background:rgba(255,255,255,.055)}
 select option{background:#171717;color:#f5f2e9}
-</style>
-<link rel="stylesheet" href="arq-premium.css?v=5.6.1"><link rel="stylesheet" href="arq-ui-5.css?v=5.6.1"><link rel="stylesheet" href="arq-polish.css?v=5.6.1"><link rel="stylesheet" href="arq-premium-tech.css?v=5.6.1">
-</head><body><header class="top"><div><div class="brand">ARQ<span>SELECT</span></div><div class="role">Portal Fornecedor</div></div><nav class="nav"><a href="ARQSELECT_DASHBOARD_FORNECEDOR.html">Dashboard</a><a href="ARQSELECT_FORNECEDOR_PROJETOS.html">Oportunidades</a><a href="ARQSELECT_FORNECEDOR_PRODUTOS.html">Catálogos e produtos</a><a href="ARQSELECT_FORNECEDOR_GUIA.html">Central de ajuda</a><a href="ARQSELECT_FORNECEDOR_PERFIL.html">Minha empresa</a><button onclick="sair()">Sair</button></nav></header><main class="wrap"><section class="hero"><div><div class="eyebrow">ARQSELECT Premium</div><h1>Sua vitrine de oportunidades comerciais</h1><p>Ambiente profissional com navegação clara, informações úteis e recursos pensados para o seu dia a dia.</p></div></section><section class="section"><div class="eyebrow">Oportunidades</div><h2>Projetos relacionados ao seu acesso</h2><p>Consulte demandas vinculadas ao e-mail cadastrado e acompanhe o estágio comercial.</p><div id="box" class="table-wrap"><p>Carregando...</p></div></section></main><div id="toast" class="toast"></div><script>const API=(window.ARQSELECT_API_URL||window.ARQSELECT_CONFIG.apiUrl);const TOKEN=localStorage.getItem('ARQSELECT_PORTAL_TOKEN');const TYPE=localStorage.getItem('ARQSELECT_PORTAL_TIPO');function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}async function api(p){const u=new URL(API);Object.entries(p).forEach(([k,v])=>u.searchParams.set(k,v));const r=await fetch(u,{cache:'no-store'});return r.json()}function toast(t){const e=document.getElementById('toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2500)}async function sair(){try{await api({acao:'portal_logout',token:TOKEN})}catch(e){}localStorage.removeItem('ARQSELECT_PORTAL_TOKEN');localStorage.removeItem('ARQSELECT_PORTAL_TIPO');location.href=TYPE==='FORNECEDOR'?'ARQSELECT_LOGIN_FORNECEDOR.html':'ARQSELECT_LOGIN_ARQUITETO.html'}
-if(!TOKEN)location.href='ARQSELECT_LOGIN_FORNECEDOR.html';async function carregar(){const d=await api({acao:'portal_projetos',token:TOKEN});if(!d.sucesso){location.href='ARQSELECT_LOGIN_FORNECEDOR.html';return}document.getElementById('box').innerHTML=d.projetos.length?'<table><thead><tr><th>ID</th><th>Projeto</th><th>Tipo</th><th>Investimento</th><th>Cidade</th><th>Status</th></tr></thead><tbody>'+d.projetos.map(p=>`<tr><td>${esc(p.id)}</td><td><b>${esc(p.projeto)}</b></td><td>${esc(p.tipo)}</td><td>${esc(p.investimento||'—')}</td><td>${esc(p.cidade||'—')}</td><td><span class="pill">${esc(p.status||p.distribuicaoStatus||'ENVIADO')}</span></td></tr>`).join('')+'</tbody></table>':'<p>Nenhuma oportunidade autorizada para este acesso.</p>'}carregar();</script><script src="portal-nav.js"></script><script src="arq-premium.js?v=5.6.1"></script><script src="arq-premium-tech.js?v=5.6.1" defer></script>
+
+}</style>
+<link rel="stylesheet" href="arq-premium.css?v=5.7.0"><link rel="stylesheet" href="arq-ui-5.css?v=5.7.0"><link rel="stylesheet" href="arq-polish.css?v=5.7.0">
+<link rel="stylesheet" href="arq-design-system.css?v=5.7.0">
+</head><body data-arq-page="arqselect_fornecedor_projetos" data-arq-surface="workspace"><header class="top"><div><div class="brand">ARQ<span>SELECT</span></div><div class="role">Portal Fornecedor</div></div><nav class="nav"><a href="ARQSELECT_DASHBOARD_FORNECEDOR.html">Dashboard</a><a href="ARQSELECT_FORNECEDOR_PROJETOS.html">Oportunidades</a><a href="ARQSELECT_FORNECEDOR_PRODUTOS.html">Catálogos e produtos</a><a href="ARQSELECT_FORNECEDOR_GUIA.html">Central de ajuda</a><a href="ARQSELECT_FORNECEDOR_PERFIL.html">Minha empresa</a><button onclick="sair()">Sair</button></nav></header><main class="wrap"><section class="hero"><div><div class="eyebrow">ARQSELECT Premium</div><h1>Sua vitrine de oportunidades comerciais</h1><p>Ambiente profissional com navegação clara, informações úteis e recursos pensados para o seu dia a dia.</p></div></section><section class="section"><div class="eyebrow">Oportunidades</div><h2>Projetos relacionados ao seu acesso</h2><p>Consulte demandas vinculadas ao e-mail cadastrado e acompanhe o estágio comercial.</p><div id="box" class="table-wrap"><p>Carregando...</p></div></section></main><div id="toast" class="toast"></div><script>const API=(window.ARQSELECT_API_URL||window.ARQSELECT_CONFIG.apiUrl);const TOKEN=localStorage.getItem('ARQSELECT_PORTAL_TOKEN');const TYPE=localStorage.getItem('ARQSELECT_PORTAL_TIPO');function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}async function api(p){const u=new URL(API);Object.entries(p).forEach(([k,v])=>u.searchParams.set(k,v));const r=await fetch(u,{cache:'no-store'});return r.json()}function toast(t){const e=document.getElementById('toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2500)}async function sair(){try{await api({acao:'portal_logout',token:TOKEN})}catch(e){}localStorage.removeItem('ARQSELECT_PORTAL_TOKEN');localStorage.removeItem('ARQSELECT_PORTAL_TIPO');location.href=TYPE==='FORNECEDOR'?'ARQSELECT_LOGIN_FORNECEDOR.html':'ARQSELECT_LOGIN_ARQUITETO.html'}
+if(!TOKEN)location.href='ARQSELECT_LOGIN_FORNECEDOR.html';async function carregar(){const d=await api({acao:'portal_projetos',token:TOKEN});if(!d.sucesso){location.href='ARQSELECT_LOGIN_FORNECEDOR.html';return}document.getElementById('box').innerHTML=d.projetos.length?'<table><thead><tr><th>ID</th><th>Projeto</th><th>Tipo</th><th>Investimento</th><th>Cidade</th><th>Status</th></tr></thead><tbody>'+d.projetos.map(p=>`<tr><td>${esc(p.id)}</td><td><b>${esc(p.projeto)}</b></td><td>${esc(p.tipo)}</td><td>${esc(p.investimento||'—')}</td><td>${esc(p.cidade||'—')}</td><td><span class="pill">${esc(p.status||p.distribuicaoStatus||'ENVIADO')}</span></td></tr>`).join('')+'</tbody></table>':'<p>Nenhuma oportunidade autorizada para este acesso.</p>'}carregar();</script><script src="portal-nav.js"></script><script src="arq-premium.js?v=5.7.0"></script>
+<script src="arq-experience.js?v=5.7.0" defer></script>
 </body></html>

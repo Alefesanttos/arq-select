@@ -1,6 +1,6 @@
-/* ARQSELECT 5.6.1: não conserva scripts antigos e tolera upload ainda incompleto. */
-const CACHE='arqselect-5.6.1.20260917.561';
-const STATIC=['./offline.html','./arqselect-6.css','./arqselect-6.js','./arq-premium-tech.css','./arq-premium-tech.js','./arq-workspace-6.js','./arq-workspace-app-6.js','./assets/ui/fallback-geral.svg','./assets/suppliers/identidade-pendente.svg'];
+/* ARQSELECT 5.7.0 — Design System semântico, tema sem flash e cache resiliente. */
+const CACHE='arqselect-5.7.0.20260917.570';
+const STATIC=['./offline.html','./arq-design-system.css','./arq-experience.js','./arq-config.js','./arqselect-6.css','./arqselect-6.js','./arq-workspace-6.js','./arq-workspace-app-6.js','./icon-192.png','./icon-512.png','./assets/ui/fallback-geral.svg','./assets/suppliers/identidade-pendente.svg'];
 self.addEventListener('install',event=>{
  event.waitUntil(caches.open(CACHE).then(cache=>Promise.allSettled(STATIC.map(url=>cache.add(url)))).then(()=>self.skipWaiting()));
 });
