@@ -55,7 +55,7 @@
 })();
 
 
-/* ARQSELECT 5.7.0 — global design/experience loader. */
+/* ARQSELECT 5.7.1 — global design/experience loader. */
 (function(){
   "use strict";
   if(window.__ARQ570_GLOBAL_DESIGN_LOADER__)return;
@@ -70,8 +70,9 @@
       design.rel='stylesheet';
       design.href='arq-design-system.css?v=5.7.1';
       head.append(design);
-    }else if(!design.id){
-      design.id='arq-design-system';
+    }else{
+      if(!design.id)design.id='arq-design-system';
+      if(!/v=5\.7\.1(?:&|$)/.test(design.getAttribute('href')||''))design.href='arq-design-system.css?v=5.7.1';
     }
 
     if(!document.querySelector('script[src*="arq-experience.js"]')){
