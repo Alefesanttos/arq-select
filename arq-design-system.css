@@ -3,7 +3,7 @@
   Premium architecture + technology UI foundation.
   Loaded last to normalize legacy pages without changing their business logic.
 */
-@layer legacy, page, arq.tokens, arq.base, arq.components, arq.pages, arq.utilities;
+@layer legacy, page, arq.tokens, arq.base, arq.components, arq.pages, arq.utilities, arq.harmony;
 
 @layer arq.tokens {
   :root{
@@ -467,4 +467,141 @@
   body[data-arq-surface="marketplace"] .arq-trust__item{width:100%;border-right:0!important}
   body[data-arq-surface="marketplace"] .arq-categories-nav{max-width:100vw;overflow:hidden}
   body[data-arq-surface="marketplace"] .arq-categories-nav__inner{max-width:100%;overflow-x:auto}
+}
+
+
+/* ARQSELECT 5.7.1 — HARMONY / CONTRAST FINAL LAYER */
+@layer arq.harmony {
+  html[data-theme="light"],html[data-arq-theme="light"]{
+    --text-secondary:#424740;--text-muted:#5f655d;--text-subtle:#6a7068;
+    --border-primary:#c9c0b2;--border-subtle:#ddd6cb;
+    --harmony-panel:linear-gradient(180deg,rgba(255,255,255,.98),rgba(249,246,240,.97));
+    --harmony-panel-2:linear-gradient(180deg,rgba(250,247,241,.98),rgba(241,236,227,.97));
+    --harmony-text:#171a17;--harmony-muted:#4d534c;
+  }
+  html[data-theme="dark"],html[data-arq-theme="dark"]{
+    --text-secondary:#d5d1c7;--text-muted:#b3b7ae;--text-subtle:#9ca299;
+    --border-primary:#465149;--border-subtle:#303a32;
+    --harmony-panel:linear-gradient(180deg,rgba(24,31,26,.98),rgba(17,23,19,.98));
+    --harmony-panel-2:linear-gradient(180deg,rgba(29,37,31,.98),rgba(20,27,22,.98));
+    --harmony-text:#f5f2ea;--harmony-muted:#c6c3b9;
+  }
+
+  body{transition:background-color var(--duration-base) ease,color var(--duration-base) ease}
+  :where([data-arq-page]){color:var(--text-primary)}
+  :where([data-arq-page]) :where(.muted,.meta,.small,.hint,.subtle,.role,.lead,.caption,.description,.desc,.helper,.help-text,.arq6-muted,.stat-sub){
+    color:var(--text-muted)!important;opacity:1!important
+  }
+  :where([data-arq-page]) :where(.card,.panel,.box,.tile,.stat,.metric,.notice,.sheet,.table-wrap,.arq4-card,.arq6-card,.arq6-row,.arq-product-card,.arq-catalog-card,.arq-supplier-card,.profile-card,.request-card,.proposal-card,.feed-card,.workspace-card,.admin-card,.result-card){
+    background:var(--harmony-panel)!important;color:var(--text-primary)!important;
+    border-color:var(--border-subtle)!important;box-shadow:var(--shadow-premium)!important
+  }
+  :where([data-arq-page]) :where(.card,.panel,.box,.tile,.arq4-card,.arq6-card,.arq-product-card,.arq-catalog-card,.arq-supplier-card) :where(h1,h2,h3,h4,h5,h6,p,span,strong,b,label,small,li,dt,dd){
+    color:inherit
+  }
+  :where([data-arq-page]) :where(input:not([type="checkbox"]):not([type="radio"]),textarea,select,.input,.search-input){
+    background:var(--surface-primary)!important;color:var(--text-primary)!important;
+    border-color:var(--border-primary)!important
+  }
+  :where([data-arq-page]) :where(input,textarea)::placeholder{color:var(--text-muted)!important;opacity:1}
+  :where([data-arq-page]) :where(.btn,.button,.arq-btn,.arq6-btn,button){
+    text-shadow:none
+  }
+  :where([data-arq-page]) :where(.btn.light,.button.light,.ghost,.btn-ghost,.btn-outline,.outline){
+    background:var(--surface-secondary)!important;color:var(--text-primary)!important;border-color:var(--border-primary)!important
+  }
+  :where([data-arq-page]) :where(.gold,.btn-gold,.btn-primary,.primary,.premium,.btn-premium){
+    color:var(--accent-contrast)!important
+  }
+  :where([data-arq-page]) :where(table,thead,tbody,tr,td,th){color:var(--text-primary);border-color:var(--border-subtle)!important}
+  :where([data-arq-page]) thead th{background:var(--surface-secondary)!important;color:var(--text-secondary)!important}
+
+  /* Chat: legacy inline CSS used fixed white/light colors. */
+  body[data-arq-page="chat"] .top{background:var(--glass-strong)!important;color:var(--text-primary)!important;border-color:var(--border-subtle)!important}
+  body[data-arq-page="chat"] :where(.brand,.top-sub,.nav a){color:var(--text-primary)!important}
+  body[data-arq-page="chat"] .wrap{background:transparent!important}
+  body[data-arq-page="chat"] .chat-shell{background:var(--harmony-panel)!important;border-color:var(--border-primary)!important;box-shadow:var(--shadow-xl)!important}
+  body[data-arq-page="chat"] :where(.sidebar,.main,.chat-head,.messages,.composer-wrap,.side-head){background:var(--surface-primary)!important;color:var(--text-primary)!important;border-color:var(--border-subtle)!important}
+  body[data-arq-page="chat"] :where(.conv,.conversation-item,.replying,.smart-replies button,.compose-btn,.icon-btn,.empty-icon){background:var(--surface-secondary)!important;color:var(--text-primary)!important;border-color:var(--border-subtle)!important}
+  body[data-arq-page="chat"] :where(.conv:hover,.conversation-item:hover,.compose-btn:hover,.icon-btn:hover,.smart-replies button:hover){background:var(--surface-hover)!important}
+  body[data-arq-page="chat"] :where(.conv.active,.conversation-item.active){background:var(--surface-selected)!important}
+  body[data-arq-page="chat"] :where(.side-title,.conv-name,.head-name,.empty-card b){color:var(--text-primary)!important}
+  body[data-arq-page="chat"] :where(.conv-time,.conv-preview,.head-meta,.msg-meta,.day-sep,.typing,.status,.system-line,.top-sub){color:var(--text-muted)!important}
+  body[data-arq-page="chat"] :where(.search input,.compose-input textarea){background:var(--surface-secondary)!important;color:var(--text-primary)!important;border:1px solid var(--border-primary)!important}
+  body[data-arq-page="chat"] .bubble{background:var(--surface-secondary)!important;color:var(--text-primary)!important;border:1px solid var(--border-primary)!important;box-shadow:var(--shadow-xs)}
+  body[data-arq-page="chat"] .mine .bubble{background:linear-gradient(135deg,var(--accent-soft),color-mix(in srgb,var(--accent-soft) 68%,var(--surface-secondary)))!important;color:var(--text-primary)!important;border-color:color-mix(in srgb,var(--accent-primary) 30%,var(--border-primary))!important}
+  body[data-arq-page="chat"] .attach{background:var(--surface-elevated)!important;color:var(--text-primary)!important;border-color:var(--border-subtle)!important}
+  body[data-arq-page="chat"] :where(.avatar,.msg-avatar,.send-btn,.unread){background:var(--surface-inverse)!important;color:var(--text-inverse)!important}
+  body[data-arq-page="chat"] .avatar.gold{background:linear-gradient(135deg,var(--brand-gold-soft),var(--brand-gold))!important;color:var(--accent-contrast)!important}
+
+  /* Marketplace / products */
+  :where(body[data-arq-page="marketplace"],body[data-arq-page="product"],body[data-arq-surface="marketplace"]) :where(.arq-market-header,.arq-market-toolbar,.arq-market-filters,.arq-filter,.arq-market-search,.arq-product-info,.arq-product-shell,.arq-trust,.arq-trust__grid){
+    color:var(--text-primary)!important;border-color:var(--border-subtle)!important
+  }
+  :where(body[data-arq-page="marketplace"],body[data-arq-page="product"],body[data-arq-surface="marketplace"]) :where(.arq-market-filters,.arq-filter,.arq-product-info,.arq-product-shell,.arq-trust){
+    background:var(--harmony-panel)!important;box-shadow:var(--shadow-sm)
+  }
+  :where(body[data-arq-page="marketplace"],body[data-arq-page="product"],body[data-arq-surface="marketplace"]) :where(.arq-product-card,.arq-catalog-card,.arq-supplier-card){overflow:hidden}
+  :where(body[data-arq-page="marketplace"],body[data-arq-page="product"],body[data-arq-surface="marketplace"]) :where(.arq-product-card h3,.arq-product-card p,.arq-product-card span,.arq-product-info h1,.arq-product-info h2,.arq-product-info p){color:var(--text-primary)}
+  :where(body[data-arq-page="marketplace"],body[data-arq-page="product"],body[data-arq-surface="marketplace"]) :where(.arq-product-card__cat,.arq-product-card__meta,.arq-product-info__lead){color:var(--text-muted)!important}
+  :where(body[data-arq-page="marketplace"],body[data-arq-page="product"],body[data-arq-surface="marketplace"]) .arq-market-search-submit{background:linear-gradient(135deg,var(--brand-gold-soft),var(--brand-gold))!important;color:var(--accent-contrast)!important}
+
+  /* Feed / workspace / settings / opportunities */
+  body[data-arq-page="feed"] :where(.arq6-shell,.arq6-head,#moduleContent),
+  body[data-arq-page="settings"] :where(.arq6-shell,.arq6-head,#moduleContent),
+  body[data-arq-page="opportunities"] :where(.arq6-shell,.arq6-head,#moduleContent){
+    color:var(--text-primary)!important
+  }
+  body[data-arq-page="feed"] :where(.composer,.post,.feed-post,.feed-composer,.arq6-card),
+  body[data-arq-page="settings"] :where(.settings-card,.arq6-card,.panel,.card),
+  body[data-arq-page="opportunities"] :where(.opportunity,.arq6-card,.panel,.card){
+    background:var(--harmony-panel)!important;color:var(--text-primary)!important
+  }
+
+  /* Workspace aliases 5.7.1 */
+  :where(body[data-arq-page="configuracoes"],body[data-arq-page="settings"],body[data-arq-page="oportunidades"],body[data-arq-page="opportunities"],body[data-arq-surface="workspace"]) :where(.arq6-shell,.arq6-head,#moduleContent,.content,.main,.workspace){
+    color:var(--text-primary)!important
+  }
+  :where(body[data-arq-page="configuracoes"],body[data-arq-page="settings"],body[data-arq-page="oportunidades"],body[data-arq-page="opportunities"],body[data-arq-surface="workspace"]) :where(.card,.panel,.box,.arq6-card,.opportunity,.settings-card,.workspace-card,.table-wrap){
+    background:var(--harmony-panel)!important;color:var(--text-primary)!important;border-color:var(--border-subtle)!important
+  }
+
+  /* Dashboards and admin */
+  body[data-arq-page="dashboard"] :where(.main,.content,.workspace,.dashboard-main,.dashboard-content,.arq6-shell),
+  body[data-arq-page="admin"] :where(.main,.content,.workspace,.admin-main,.admin-content,.arq6-shell){
+    color:var(--text-primary)!important
+  }
+  body[data-arq-page="dashboard"] :where(.sidebar,.side,.sidenav,.admin-sidebar),
+  body[data-arq-page="admin"] :where(.sidebar,.side,.sidenav,.admin-sidebar){
+    background:linear-gradient(180deg,#121812,#0b100c)!important;color:#f5f2ea!important
+  }
+  body[data-arq-page="dashboard"] :where(.sidebar,.side,.sidenav,.admin-sidebar) *,
+  body[data-arq-page="admin"] :where(.sidebar,.side,.sidenav,.admin-sidebar) *{color:inherit}
+  body[data-arq-page="dashboard"] :where(.card,.panel,.stat,.metric,.table-wrap,.arq6-card),
+  body[data-arq-page="admin"] :where(.card,.panel,.stat,.metric,.table-wrap,.arq6-card){
+    background:var(--harmony-panel)!important;color:var(--text-primary)!important
+  }
+
+  /* Home: keep cinematic hero, harmonize content below it. */
+  body[data-arq-page="home"] :where(.section:not(.hero),.benefit-panel,.step,.category,.tier,.eco-card,.quote,.num,.cta-box){
+    color:var(--text-primary)!important
+  }
+  body[data-arq-page="home"] :where(.benefit-panel,.step,.category,.tier,.eco-card,.quote,.num,.cta-box){
+    background:var(--harmony-panel)!important;border-color:var(--border-subtle)!important;box-shadow:var(--shadow-premium)!important
+  }
+  body[data-arq-page="home"] .hero :where(h1,h2,h3,p,.eyebrow,.hero-note){color:#f8f5ed!important}
+  body[data-arq-page="home"] .hero .btn-outline{color:#f8f5ed!important;border-color:rgba(255,255,255,.26)!important;background:rgba(10,14,11,.34)!important}
+
+  /* Auto contrast repair inserted by arq-experience.js. */
+  [data-arq-auto-contrast="light"]{color:#171816!important}
+  [data-arq-auto-contrast="light-muted"]{color:#4d4f49!important}
+  [data-arq-auto-contrast="dark"]{color:#f5f2ea!important}
+  [data-arq-auto-contrast="dark-muted"]{color:#d3d0c6!important}
+  a[data-arq-auto-contrast="light"]{color:#6d4d21!important}
+  a[data-arq-auto-contrast="dark"]{color:#efd49c!important}
+
+  @media(max-width:760px){
+    body[data-arq-page="chat"] .chat-shell{border-radius:0!important;box-shadow:none!important}
+    :where([data-arq-page]) :where(.card,.panel,.box,.arq6-card,.arq-product-card){box-shadow:var(--shadow-sm)!important}
+  }
 }
