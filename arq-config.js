@@ -53,3 +53,35 @@
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',load,{once:true});else load();
 })();
+
+
+/* ARQSELECT 5.7.0 — global design/experience loader. */
+(function(){
+  "use strict";
+  if(window.__ARQ570_GLOBAL_DESIGN_LOADER__)return;
+  window.__ARQ570_GLOBAL_DESIGN_LOADER__=true;
+
+  function ensureAssets(){
+    const head=document.head||document.documentElement;
+    let design=document.querySelector('link#arq-design-system,link[href*="arq-design-system.css"]');
+    if(!design){
+      design=document.createElement('link');
+      design.id='arq-design-system';
+      design.rel='stylesheet';
+      design.href='arq-design-system.css?v=5.7.0';
+      head.append(design);
+    }else if(!design.id){
+      design.id='arq-design-system';
+    }
+
+    if(!document.querySelector('script[src*="arq-experience.js"]')){
+      const experience=document.createElement('script');
+      experience.src='arq-experience.js?v=5.7.0';
+      experience.defer=true;
+      experience.dataset.arqExperience='1';
+      head.append(experience);
+    }
+  }
+
+  ensureAssets();
+})();
