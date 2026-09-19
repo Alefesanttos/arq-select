@@ -1,4 +1,4 @@
-/* ARQSELECT Experience Layer 5.7.1 — motion, theme UI, accessibility, contrast and progressive states */
+/* ARQSELECT Experience Layer 5.8.2 — motion, theme UI, accessibility, contrast, responsive runtime and progressive states */
 (function(){
   'use strict';
   if(window.__ARQ_EXPERIENCE_570__)return;window.__ARQ_EXPERIENCE_570__=true;
@@ -35,10 +35,12 @@
     else if(file.includes('login')){page='login';surface='auth'}
     else if(file.startsWith('admin')){page='admin';surface='admin'}
     else if(file.includes('dashboard')){page='dashboard';surface='dashboard'}
-    else if(file==='explorar.html'||file==='favoritos.html'||file==='comparar.html'||file==='fornecedores.html'||file==='arquitetos.html'){page='marketplace';surface='marketplace'}
+    else if(file==='explorar.html'||file==='favoritos.html'||file==='comparar.html'||file==='fornecedores.html'||file==='arquitetos.html'||file==='prestadores.html'){page=file==='prestadores.html'?'providers':'marketplace';surface='marketplace'}
     else if(file.startsWith('produto')){page='product';surface='marketplace'}
     else if(file==='fornecedor.html'){page='supplier';surface='marketplace'}
     else if(file==='arquiteto.html'){page='architect';surface='marketplace'}
+    else if(file==='prestador.html'){page='provider';surface='marketplace'}
+    else if(b.dataset.servicePage){page='service-'+b.dataset.servicePage;surface=b.dataset.servicePage==='login'?'auth':'workspace'}
     else if(b.dataset.module){page=b.dataset.module;surface='workspace'}
     else if(/projeto|proposta|solicit|oportunidade|avaliac|conex|notific|configur|atividade|calendario|financeiro|suporte|historico|ranking|seguranca/.test(file)){page=file.replace('.html','');surface='workspace'}
     b.dataset.arqPage=page;b.dataset.arqSurface=surface;
@@ -178,13 +180,31 @@
     return fixed;
   }
 
+  function responsiveRuntime(){
+    const classify=()=>{
+      const w=innerWidth||doc.documentElement.clientWidth||1366;
+      root.dataset.arqViewport=w<=360?'xxs':w<=430?'xs':w<=680?'sm':w<=900?'md':w<=1180?'lg':'xl';
+      doc.querySelectorAll('table').forEach(table=>{
+        if(table.closest('.table-wrap,.arq6-table-wrap,.arq-responsive-table'))return;
+        table.classList.add('arq-bare-table');
+      });
+      doc.querySelectorAll('.nav,.navlinks,.arq6-project-nav,.arq-categories-nav__inner').forEach(nav=>{
+        nav.classList.toggle('arq-overflow-nav',nav.scrollWidth>nav.clientWidth+4);
+      });
+      doc.querySelectorAll('.toolbar,.actions,.top-actions,.arq-header-actions,.arq6-actions,.arq4-actions,.arq-form-actions,.srv-actions,.hero-actions').forEach(el=>el.classList.add('arq-action-wrap'));
+    };
+    classify();
+    let timer;addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(classify,90)},{passive:true});
+    addEventListener('orientationchange',()=>setTimeout(classify,120),{passive:true});
+  }
+
   function observeDynamic(){
     if(!('MutationObserver'in window))return;
     let timer;new MutationObserver(()=>{clearTimeout(timer);timer=setTimeout(()=>{skeletons();cardLight();activeNavigation();scheduleContrastRepair(doc.body)},80)}).observe(doc.body,{childList:true,subtree:true});
   }
 
   ready(()=>{
-    markPage();buildThemeControl();activeNavigation();progress();discovery();skeletons();reveal();cardLight();moveAccessibility();imageMotion();scheduleContrastRepair(doc.body);observeDynamic();
+    markPage();responsiveRuntime();buildThemeControl();activeNavigation();progress();discovery();skeletons();reveal();cardLight();moveAccessibility();imageMotion();scheduleContrastRepair(doc.body);observeDynamic();
     window.addEventListener('arq-theme-change',()=>scheduleContrastRepair(doc.body));requestAnimationFrame(()=>root.dataset.themeMotion='ready');
   });
 })();
