@@ -674,6 +674,7 @@
     :where(.section-head,.arq-section__head){flex-direction:column}
     :where(.toolbar,.actions,.arq-header-actions,.arq6-actions,.arq4-actions,.arq-form-actions,.srv-actions,.hero-actions){width:100%}
     :where(.toolbar,.actions,.arq-header-actions,.arq6-actions,.arq4-actions,.arq-form-actions,.srv-actions,.hero-actions) :where(.btn,.button,.arq-btn,.arq6-btn,.arq4-button,.srv-btn){white-space:normal;text-align:center}
+    :where(input:not([type="checkbox"]):not([type="radio"]),select,textarea){font-size:16px!important}
     :where(.modal,.arq6-modal,.home-modal,.arq-modal){padding:8px!important}
     :where(.modalbox,.modal-card,.modal-content,.dialog,.arq6-modal-card,.home-modal-card,.arq-dialog,.arq-modal__box){width:calc(100dvw - 16px)!important;max-width:calc(100dvw - 16px)!important;max-height:calc(100dvh - 16px)!important;border-radius:18px!important;padding:clamp(14px,4vw,20px)!important}
     body[data-service-page] .srv-hero{padding:22px 18px!important}
