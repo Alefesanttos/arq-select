@@ -535,16 +535,16 @@
   body[data-arq-page="chat"] .avatar.gold{background:linear-gradient(135deg,var(--brand-gold-soft),var(--brand-gold))!important;color:var(--accent-contrast)!important}
 
   /* Marketplace / products */
-  body[data-arq-page="marketplace"] :where(.arq-market-header,.arq-market-toolbar,.arq-market-filters,.arq-filter,.arq-market-search,.arq-product-info,.arq-product-shell,.arq-trust,.arq-trust__grid){
+  :where(body[data-arq-page="marketplace"],body[data-arq-page="product"],body[data-arq-surface="marketplace"]) :where(.arq-market-header,.arq-market-toolbar,.arq-market-filters,.arq-filter,.arq-market-search,.arq-product-info,.arq-product-shell,.arq-trust,.arq-trust__grid){
     color:var(--text-primary)!important;border-color:var(--border-subtle)!important
   }
-  body[data-arq-page="marketplace"] :where(.arq-market-filters,.arq-filter,.arq-product-info,.arq-product-shell,.arq-trust){
+  :where(body[data-arq-page="marketplace"],body[data-arq-page="product"],body[data-arq-surface="marketplace"]) :where(.arq-market-filters,.arq-filter,.arq-product-info,.arq-product-shell,.arq-trust){
     background:var(--harmony-panel)!important;box-shadow:var(--shadow-sm)
   }
-  body[data-arq-page="marketplace"] :where(.arq-product-card,.arq-catalog-card,.arq-supplier-card){overflow:hidden}
-  body[data-arq-page="marketplace"] :where(.arq-product-card h3,.arq-product-card p,.arq-product-card span,.arq-product-info h1,.arq-product-info h2,.arq-product-info p){color:var(--text-primary)}
-  body[data-arq-page="marketplace"] :where(.arq-product-card__cat,.arq-product-card__meta,.arq-product-info__lead){color:var(--text-muted)!important}
-  body[data-arq-page="marketplace"] .arq-market-search-submit{background:linear-gradient(135deg,var(--brand-gold-soft),var(--brand-gold))!important;color:var(--accent-contrast)!important}
+  :where(body[data-arq-page="marketplace"],body[data-arq-page="product"],body[data-arq-surface="marketplace"]) :where(.arq-product-card,.arq-catalog-card,.arq-supplier-card){overflow:hidden}
+  :where(body[data-arq-page="marketplace"],body[data-arq-page="product"],body[data-arq-surface="marketplace"]) :where(.arq-product-card h3,.arq-product-card p,.arq-product-card span,.arq-product-info h1,.arq-product-info h2,.arq-product-info p){color:var(--text-primary)}
+  :where(body[data-arq-page="marketplace"],body[data-arq-page="product"],body[data-arq-surface="marketplace"]) :where(.arq-product-card__cat,.arq-product-card__meta,.arq-product-info__lead){color:var(--text-muted)!important}
+  :where(body[data-arq-page="marketplace"],body[data-arq-page="product"],body[data-arq-surface="marketplace"]) .arq-market-search-submit{background:linear-gradient(135deg,var(--brand-gold-soft),var(--brand-gold))!important;color:var(--accent-contrast)!important}
 
   /* Feed / workspace / settings / opportunities */
   body[data-arq-page="feed"] :where(.arq6-shell,.arq6-head,#moduleContent),
@@ -556,6 +556,14 @@
   body[data-arq-page="settings"] :where(.settings-card,.arq6-card,.panel,.card),
   body[data-arq-page="opportunities"] :where(.opportunity,.arq6-card,.panel,.card){
     background:var(--harmony-panel)!important;color:var(--text-primary)!important
+  }
+
+  /* Workspace aliases 5.7.1 */
+  :where(body[data-arq-page="configuracoes"],body[data-arq-page="settings"],body[data-arq-page="oportunidades"],body[data-arq-page="opportunities"],body[data-arq-surface="workspace"]) :where(.arq6-shell,.arq6-head,#moduleContent,.content,.main,.workspace){
+    color:var(--text-primary)!important
+  }
+  :where(body[data-arq-page="configuracoes"],body[data-arq-page="settings"],body[data-arq-page="oportunidades"],body[data-arq-page="opportunities"],body[data-arq-surface="workspace"]) :where(.card,.panel,.box,.arq6-card,.opportunity,.settings-card,.workspace-card,.table-wrap){
+    background:var(--harmony-panel)!important;color:var(--text-primary)!important;border-color:var(--border-subtle)!important
   }
 
   /* Dashboards and admin */
