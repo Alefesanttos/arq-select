@@ -3,7 +3,7 @@
   Premium architecture + technology UI foundation.
   Loaded last to normalize legacy pages without changing their business logic.
 */
-@layer legacy, page, arq.tokens, arq.base, arq.components, arq.pages, arq.utilities, arq.harmony;
+@layer legacy, page, arq.tokens, arq.base, arq.components, arq.pages, arq.utilities, arq.harmony, arq.responsive;
 
 @layer arq.tokens {
   :root{
@@ -603,5 +603,115 @@
   @media(max-width:760px){
     body[data-arq-page="chat"] .chat-shell{border-radius:0!important;box-shadow:none!important}
     :where([data-arq-page]) :where(.card,.panel,.box,.arq6-card,.arq-product-card){box-shadow:var(--shadow-sm)!important}
+  }
+}
+
+
+/* ARQSELECT 5.8.2 — RESPONSIVE SYSTEM */
+@layer arq.responsive {
+  html,body{max-width:100%;min-width:0}
+  html{overflow-x:clip}
+  body{overflow-x:clip}
+  :where(main,section,article,aside,header,footer,nav,form,fieldset,.wrap,.container,.shell,.main,.content,.grid,.panel,.card,.box,.arq4-shell,.arq6-shell,.srv-shell,.srv-main,.arq-product-layout,.arq-detail-grid,.arq-quick-layout,.arq-feed-shell){min-width:0;max-width:100%}
+  :where(img,video,canvas,svg,iframe,embed,object){max-width:100%;height:auto}
+  :where(input,select,textarea,button){max-width:100%}
+  :where(h1,h2,h3,h4,h5,h6,p,li,dd,dt,.description,.desc,.meta,.caption,.arq-caption,.arq6-muted,.srv-muted){overflow-wrap:anywhere}
+  :where(pre,code,.code-block,.json-output){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(.table-wrap,.arq6-table-wrap,.table,.arq-responsive-table){max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch;scrollbar-gutter:stable}
+  :where(.arq-bare-table){max-width:100%}
+  :where(table){max-width:100%}
+  :where(.modalbox,.modal-card,.modal-content,.dialog,.arq6-modal-card,.home-modal-card,.arq-dialog,.arq-modal__box){width:min(920px,calc(100dvw - 32px));max-width:calc(100dvw - 32px);max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:contain}
+  :where(.actions,.top-actions,.toolbar,.arq-header-actions,.arq6-actions,.arq4-actions,.arq-form-actions,.srv-actions,.hero-actions,.nav-actions){min-width:0;flex-wrap:wrap}
+  :where(.actions,.top-actions,.toolbar,.arq-header-actions,.arq6-actions,.arq4-actions,.arq-form-actions,.srv-actions,.hero-actions,.nav-actions)>*{min-width:0}
+  :where(.nav,.navlinks,.arq6-project-nav,.arq-categories-nav__inner,.arq-overflow-nav){max-width:100%;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch}
+  :where(.arq-market-header__top,.topbar,.top,.header,.navbar){min-width:0}
+  :where(.row,.srv-row,.arq6-row,.arq4-row,.topbar,.top,.header,.navbar,.arq-market-header__top)>*{min-width:0}
+
+  /* Marketplace and product detail */
+  @media(max-width:1100px){
+    body[data-arq-surface="marketplace"] :where(.arq-product-layout,.arq-detail-grid,.arq-quick-layout){grid-template-columns:1fr!important}
+    body[data-arq-surface="marketplace"] :where(.arq-gallery,.arq-product-gallery,.arq-gallery-main){position:static!important;top:auto!important}
+    body[data-arq-surface="marketplace"] .arq-market-header__top{flex-wrap:wrap;gap:12px}
+    body[data-arq-surface="marketplace"] .arq-search{flex:1 1 100%;order:3;width:100%;max-width:none!important}
+    body[data-arq-surface="marketplace"] .arq-product-grid,body[data-arq-surface="marketplace"] .arq-supplier-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  }
+
+  /* Dashboards / admin / workspace */
+  @media(max-width:1050px){
+    body[data-arq-surface="admin"] :where(.shell,.layout,.admin-shell){grid-template-columns:1fr!important}
+    body[data-arq-surface="admin"] :where(.side,.sidebar,.sidenav,.admin-sidebar){position:static!important;inset:auto!important;width:100%!important;height:auto!important;max-height:none!important}
+    body[data-arq-surface="admin"] :where(.nav,.side nav,.sidebar nav){display:flex!important;overflow-x:auto;flex-wrap:nowrap!important;gap:8px;padding-bottom:4px}
+    body[data-arq-surface="admin"] :where(.nav a,.side nav a,.sidebar nav a,.side nav button,.sidebar nav button){flex:0 0 auto;white-space:nowrap}
+    body[data-arq-surface="dashboard"] :where(.grid,.stats,.dashboard-grid,.arq4-grid){grid-template-columns:repeat(2,minmax(0,1fr))!important}
+    body[data-arq-surface="workspace"] :where(.arq6-shell,.arq4-shell,.wrap,.container){width:min(100% - 28px,var(--content-xl));margin-inline:auto}
+  }
+
+  /* Chat uses dynamic viewport height on mobile browsers. */
+  @media(max-width:900px){
+    :where(.arq-bare-table){display:block;width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-inline:contain}
+  }
+
+  @media(max-width:820px){
+    body[data-arq-page="chat"] :where(.wrap,.chat-shell,.main,.messages){min-height:0}
+    body[data-arq-page="chat"] .wrap{height:calc(100dvh - 60px)!important;max-height:calc(100dvh - 60px)}
+    body[data-arq-page="chat"] .chat-shell{height:100%;border-radius:0!important}
+    body[data-arq-page="chat"] .messages{overflow-y:auto;overscroll-behavior:contain}
+    body[data-arq-page="chat"] .sidebar.mobile-open{inset:60px 0 0!important;max-height:calc(100dvh - 60px)}
+    :where(.nav,.navlinks,.arq6-project-nav,.arq-overflow-nav){overflow-x:auto;flex-wrap:nowrap!important;scroll-snap-type:x proximity}
+    :where(.nav,.navlinks,.arq6-project-nav,.arq-overflow-nav)>*{flex:0 0 auto;scroll-snap-align:start}
+    :where(.topbar,.top,.header,.navbar){flex-wrap:wrap;height:auto!important;min-height:60px}
+  }
+
+  @media(max-width:680px){
+    :root{--mobile-gutter:12px}
+    h1{font-size:clamp(1.9rem,9.5vw,2.75rem);line-height:1.02}
+    h2{font-size:clamp(1.55rem,7.5vw,2.15rem)}
+    h3{font-size:clamp(1.08rem,5.2vw,1.38rem)}
+    body[data-arq-surface="marketplace"] :where(.arq-product-grid,.arq-supplier-grid,.arq-form-grid){grid-template-columns:1fr!important}
+    body[data-arq-surface="marketplace"] :where(.arq-product-layout,.arq-detail-grid,.arq-quick-layout){gap:16px!important}
+    body[data-arq-surface="dashboard"] :where(.grid,.stats,.dashboard-grid,.arq4-grid){grid-template-columns:1fr!important}
+    body[data-arq-surface="admin"] :where(.grid,.user-grid,.two){grid-template-columns:1fr!important}
+    :where(.section-head,.arq-section__head,.arq6-head,.topbar){align-items:flex-start;gap:12px}
+    :where(.section-head,.arq-section__head){flex-direction:column}
+    :where(.toolbar,.actions,.arq-header-actions,.arq6-actions,.arq4-actions,.arq-form-actions,.srv-actions,.hero-actions){width:100%}
+    :where(.toolbar,.actions,.arq-header-actions,.arq6-actions,.arq4-actions,.arq-form-actions,.srv-actions,.hero-actions) :where(.btn,.button,.arq-btn,.arq6-btn,.arq4-button,.srv-btn){white-space:normal;text-align:center}
+    :where(input:not([type="checkbox"]):not([type="radio"]),select,textarea){font-size:16px!important}
+    :where(.modal,.arq6-modal,.home-modal,.arq-modal){padding:8px!important}
+    :where(.modalbox,.modal-card,.modal-content,.dialog,.arq6-modal-card,.home-modal-card,.arq-dialog,.arq-modal__box){width:calc(100dvw - 16px)!important;max-width:calc(100dvw - 16px)!important;max-height:calc(100dvh - 16px)!important;border-radius:18px!important;padding:clamp(14px,4vw,20px)!important}
+    body[data-service-page] .srv-hero{padding:22px 18px!important}
+    body[data-service-page] .srv-card{border-radius:18px!important}
+    body[data-service-page] .srv-row{grid-template-columns:1fr!important}
+    body[data-service-page] .srv-form{grid-template-columns:1fr!important}
+    body[data-service-page] .srv-form .full{grid-column:auto!important}
+    body[data-service-page] .srv-profile-head{align-items:center;gap:12px}
+  }
+
+  @media(max-width:430px){
+    :where(.arq6-shell,.arq4-shell,.wrap,.container,.srv-shell){width:calc(100% - 20px)!important;margin-inline:auto}
+    :where(.btn,.button,.arq-btn,.arq6-btn,.arq4-button,.srv-btn){min-height:44px;padding-inline:.82rem}
+    body[data-service-page] .srv-kpis{grid-template-columns:1fr 1fr!important;gap:10px}
+    body[data-service-page] .srv-kpi{padding:14px!important}
+    body[data-service-page] .srv-board{grid-template-columns:repeat(4,86vw)!important}
+    body[data-arq-page="chat"] .msg-stack{max-width:86%!important}
+    body[data-arq-page="chat"] .composer{grid-template-columns:auto minmax(0,1fr) auto!important;gap:6px!important}
+  }
+
+  @media(max-width:360px){
+    :where(.arq6-shell,.arq4-shell,.wrap,.container,.srv-shell){width:calc(100% - 14px)!important}
+    body[data-service-page] .srv-kpis{grid-template-columns:1fr!important}
+    body[data-service-page] .srv-board{grid-template-columns:repeat(4,90vw)!important}
+    :where(.numbers,.stats){grid-template-columns:1fr!important}
+    #arq-theme-trigger{width:44px;height:44px}
+  }
+
+  @media(orientation:landscape) and (max-height:520px){
+    body[data-arq-page="home"] .hero{min-height:100dvh!important}
+    body[data-arq-page="home"] .hero-content{padding-block:72px 48px!important}
+    :where(.modalbox,.modal-card,.modal-content,.dialog,.arq6-modal-card,.home-modal-card,.arq-dialog,.arq-modal__box){max-height:calc(100dvh - 12px)!important}
+    #arq-theme-control{bottom:max(8px,env(safe-area-inset-bottom));transform:scale(.92);transform-origin:left bottom}
+  }
+
+  @media(pointer:coarse){
+    :where(.btn,.button,.arq-btn,.arq6-btn,.arq4-button,.srv-btn,.nav a,.sidebar a,.side a,button,[role="button"]){min-height:44px}
   }
 }
