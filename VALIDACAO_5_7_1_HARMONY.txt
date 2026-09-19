@@ -1,0 +1,35 @@
+ARQSELECT 5.7.1 — VALIDACAO HARMONY
+
+Data: 2026-09-19
+
+Escopo corrigido
+- Design System global com camada final de harmonia.
+- Reparo automático de contraste em conteúdo dinâmico.
+- Chat: fundos, mensagens, conversas, composer, busca, botões e textos.
+- Marketplace/Produto: filtros, cards, busca, trust blocks e conteúdo do produto.
+- Feed/Workspace: cards, cabeçalhos e conteúdo dinâmico.
+- Dashboards/Admin: sidebars, cards, métricas e tabelas.
+- Configurações/Oportunidades: aliases atuais e legados.
+- Home: conteúdo premium preservando hero cinematográfico.
+- Cache do Service Worker renovado para 5.7.1.
+
+Validações realizadas
+- arq-experience.js: sintaxe JavaScript OK.
+- arq-config.js: sintaxe JavaScript OK.
+- arq-design-system.css: camada HARMONY presente.
+- Service Worker: cache arqselect-5.7.1.20260919.571.
+- VERSION.txt: 5.7.1.
+- Páginas representativas verificadas:
+  index.html
+  explorar.html
+  feed.html
+  chat.html
+  dashboard-arquiteto.html
+  dashboard-fornecedor.html
+  admin.html
+  produto.html
+  configuracoes.html
+  oportunidades.html
+
+Observação
+A correção automática só atua quando o contraste calculado fica abaixo de WCAG AA e evita áreas de hero/imagem onde a análise automática poderia ser enganosa.
