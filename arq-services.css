@@ -16,3 +16,10 @@
 .srv-toast{position:fixed;right:20px;bottom:20px;z-index:9999;max-width:360px;background:var(--surface-elevated,var(--surface-primary));color:var(--text-primary);border:1px solid var(--border-primary);box-shadow:var(--shadow-floating);border-radius:16px;padding:14px 16px;opacity:0;transform:translateY(12px);pointer-events:none;transition:.2s ease}.srv-toast.show{opacity:1;transform:none}
 @media(max-width:1050px){.srv-shell{grid-template-columns:1fr}.srv-sidebar{position:static}.srv-nav{grid-template-columns:repeat(3,1fr)}.srv-kpis{grid-template-columns:repeat(2,1fr)}.srv-card,.srv-card.wide{grid-column:span 6}}
 @media(max-width:680px){.srv-shell{width:min(100% - 20px,100%);padding-top:14px}.srv-sidebar{padding:10px;border-radius:18px}.srv-brand{padding-bottom:10px}.srv-nav{display:flex;overflow:auto;gap:6px}.srv-nav a{white-space:nowrap;padding:9px 11px}.srv-hero{padding:24px 18px;border-radius:22px}.srv-kpis{grid-template-columns:1fr 1fr;gap:10px}.srv-kpi{padding:15px}.srv-grid{display:block}.srv-card{margin-bottom:12px}.srv-form{grid-template-columns:1fr}.srv-form .full{grid-column:auto}.srv-row{grid-template-columns:1fr}.srv-profile-head{align-items:center;margin:-42px 14px 18px}.srv-avatar{width:86px;height:86px}.srv-board{grid-template-columns:repeat(4,82vw)}}
+
+/* ARQSELECT 5.8.1 — estados, acessibilidade e carregamento */
+.srv-spinner{display:inline-block;width:24px;height:24px;border:3px solid var(--border-primary);border-top-color:var(--accent-primary);border-radius:50%;animation:srv-spin .8s linear infinite}
+@keyframes srv-spin{to{transform:rotate(360deg)}}
+.srv-btn[disabled],.srv-btn[aria-busy="true"]{opacity:.55;cursor:not-allowed;transform:none!important}
+.srv-card :focus-visible,.srv-btn:focus-visible,.srv-nav a:focus-visible,.srv-form input:focus-visible,.srv-form select:focus-visible,.srv-form textarea:focus-visible{outline:3px solid color-mix(in srgb,var(--accent-primary) 40%,transparent);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.srv-card,.srv-btn,.srv-toast,.srv-spinner{transition:none!important;animation:none!important}.srv-card:hover,.srv-btn:hover{transform:none!important}}
