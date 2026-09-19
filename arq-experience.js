@@ -132,8 +132,20 @@
   function contrastRatio(a,b){
     const x=luminance(a),y=luminance(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);
   }
+  function clearAutoContrast(scope=doc.body){
+    if(!scope)return;
+    const nodes=[];
+    if(scope.matches?.('[data-arq-auto-contrast]'))nodes.push(scope);
+    scope.querySelectorAll?.('[data-arq-auto-contrast]').forEach(el=>nodes.push(el));
+    nodes.forEach(el=>{
+      const prev=el.dataset.arqPrevColor||'',priority=el.dataset.arqPrevColorPriority||'';
+      if(prev)el.style.setProperty('color',prev,priority);else el.style.removeProperty('color');
+      delete el.dataset.arqAutoContrast;delete el.dataset.arqPrevColor;delete el.dataset.arqPrevColorPriority;
+    });
+  }
   function scheduleContrastRepair(scope=doc.body){
     clearTimeout(scheduleContrastRepair._timer);
+    clearAutoContrast(scope);
     scheduleContrastRepair._timer=setTimeout(()=>repairContrast(scope),80);
   }
   function repairContrast(scope=doc.body){
@@ -141,7 +153,7 @@
     const selector='h1,h2,h3,h4,h5,h6,p,span,a,button,label,small,li,td,th,input,textarea,select,strong,b';
     let fixed=0;
     scope.querySelectorAll(selector).forEach(el=>{
-      if(el.closest('[data-arq-no-auto-contrast],.hero-bg,.arq-hero-media'))return;
+      if(el.closest('[data-arq-no-auto-contrast],.hero,.hero-content,.hero-bg,.arq-hero,.arq-hero-media,.arq-market-hero,.product-hero'))return;
       if(el.children.length>0&&!el.matches('a,button,label'))return;
       const s=getComputedStyle(el);
       if(s.display==='none'||s.visibility==='hidden'||Number(s.opacity)===0)return;
@@ -150,13 +162,17 @@
       const ratio=contrastRatio(blend(fg,bg),bg);
       const size=parseFloat(s.fontSize)||16,weight=parseInt(s.fontWeight,10)||400;
       const threshold=(size>=24||(size>=18.66&&weight>=700))?3:4.5;
-      if(ratio+.03>=threshold){
-        if(el.dataset.arqAutoContrast)delete el.dataset.arqAutoContrast;
-        return;
-      }
+      if(ratio+.03>=threshold)return;
       const dark=luminance(bg)<.42;
       const muted=el.matches('.muted,.meta,.small,.hint,.subtle,.role,.lead,.caption,.description,.desc,.helper,.help-text,.arq6-muted,.stat-sub,small');
-      el.dataset.arqAutoContrast=dark?(muted?'dark-muted':'dark'):(muted?'light-muted':'light');
+      if(!('arqPrevColor' in el.dataset)){
+        el.dataset.arqPrevColor=el.style.getPropertyValue('color')||'';
+        el.dataset.arqPrevColorPriority=el.style.getPropertyPriority('color')||'';
+      }
+      const mode=dark?(muted?'dark-muted':'dark'):(muted?'light-muted':'light');
+      const corrected=mode==='dark'?'#f5f2ea':mode==='dark-muted'?'#d3d0c6':mode==='light-muted'?'#4d4f49':'#171816';
+      el.dataset.arqAutoContrast=mode;
+      el.style.setProperty('color',corrected,'important');
       fixed++;
     });
     return fixed;
