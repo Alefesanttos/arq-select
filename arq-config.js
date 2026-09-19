@@ -1,4 +1,4 @@
-/* ARQSELECT 5.7.0 — central configuration + theme runtime. */
+/* ARQSELECT 5.7.1 — central configuration + theme runtime + harmony loader. */
 (function(){
   "use strict";
   const DEFAULT_API_URL="https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
@@ -9,8 +9,8 @@
   const active=valid(stored)?stored:DEFAULT_API_URL;
   window.ARQSELECT_API_URL=active;
   window.ARQSELECT_CONFIG=Object.freeze({
-    version:"5.7.0",SYSTEM_NAME:"ARQSELECT",VERSION:"5.7.0",API_URL:active,WHATSAPP:"5519981655013",SITE_URL:"https://arqselect.com.br/",
-    systemName:"ARQSELECT",siteUrl:"https://arqselect.com.br/",mediaBaseUrl:"",build:"2026.09.17.570-DESIGN-SYSTEM",
+    version:"5.7.1",SYSTEM_NAME:"ARQSELECT",VERSION:"5.7.1",API_URL:active,WHATSAPP:"5519981655013",SITE_URL:"https://arqselect.com.br/",
+    systemName:"ARQSELECT",siteUrl:"https://arqselect.com.br/",mediaBaseUrl:"",build:"2026.09.19.571-HARMONY",
     apiUrl:active,defaultApiUrl:DEFAULT_API_URL,apiStorageKey:KEY,whatsapp:"5519981655013",
     setApiUrl(value){const url=clean(value);if(!valid(url))throw new Error("Informe uma URL válida do Web App terminando em /exec.");localStorage.setItem(KEY,url);return url;},
     clearApiUrl(){localStorage.removeItem(KEY);},isValidApiUrl:valid
@@ -68,7 +68,7 @@
       design=document.createElement('link');
       design.id='arq-design-system';
       design.rel='stylesheet';
-      design.href='arq-design-system.css?v=5.7.0';
+      design.href='arq-design-system.css?v=5.7.1';
       head.append(design);
     }else if(!design.id){
       design.id='arq-design-system';
@@ -76,7 +76,7 @@
 
     if(!document.querySelector('script[src*="arq-experience.js"]')){
       const experience=document.createElement('script');
-      experience.src='arq-experience.js?v=5.7.0';
+      experience.src='arq-experience.js?v=5.7.1';
       experience.defer=true;
       experience.dataset.arqExperience='1';
       head.append(experience);
