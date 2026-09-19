@@ -1,2 +1,2 @@
-ARQSELECT 5.8.1 — Service Providers Stability + Premium Harmony
-Build: 2026.09.19.581-SERVICE-PROVIDERS-STABILITY
+ARQSELECT 5.8.2 — Responsive All Devices + Service Providers Stability + Premium Harmony
+Build: 2026-09-19.582-RESPONSIVE-ALL-DEVICES
