@@ -1220,3 +1220,17 @@
   @media(max-width:1000px){.arq-network-layout{grid-template-columns:1fr}.arq-network-layout>aside{position:static}.arq-landing-grid{grid-template-columns:1fr 1fr}.arq-profile-intel-grid{grid-template-columns:1fr}}
   @media(max-width:620px){.arq-landing{width:calc(100% - 20px);padding-top:18px}.arq-landing-grid{grid-template-columns:1fr}.arq-landing-final{align-items:flex-start;flex-direction:column}}
 }
+
+
+/* ARQSELECT 6.3 — SCALE / REVENUE / INTEGRATIONS */
+@layer arq.premium {
+  .arq-plan-card{position:relative;padding:24px!important;display:flex;flex-direction:column;gap:12px;min-height:330px}.arq-plan-card strong{font-size:1.7rem;letter-spacing:-.035em}.arq-plan-card ul{padding-left:18px;color:var(--text-secondary);flex:1}.arq-plan-card .arq6-btn{margin-top:auto}
+  .arq-sponsored-label{display:inline-flex;width:max-content;padding:5px 8px;border-radius:999px;border:1px solid var(--border-primary);background:var(--surface-secondary);color:var(--text-muted);font-size:.67rem;font-weight:850;text-transform:uppercase;letter-spacing:.06em}
+  .arq-export-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.arq-export-card{text-align:left;padding:18px;border:1px solid var(--border-subtle);border-radius:16px;background:var(--surface-secondary);color:var(--text-primary);cursor:pointer}.arq-export-card b,.arq-export-card span{display:block}.arq-export-card span{margin-top:6px;color:var(--text-muted);font-size:.82rem}
+  .arq-map-layout{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,.6fr);gap:16px;margin-top:16px}.arq-map-filter{grid-template-columns:1fr 120px 220px auto;align-items:end}
+  .arq-product-intelligence{display:grid;gap:16px;margin:24px auto;width:min(1500px,calc(100% - 32px))}.arq-product-intelligence>.arq6-card{padding:22px!important}
+  .arq-recent-card{text-decoration:none;min-height:150px;display:flex;flex-direction:column;justify-content:space-between}
+  body[data-arq-page="integracoes"] select[multiple]{min-height:160px}
+  @media(max-width:1000px){.arq-export-grid{grid-template-columns:1fr 1fr}.arq-map-layout{grid-template-columns:1fr}.arq-map-filter{grid-template-columns:1fr 1fr}}
+  @media(max-width:620px){.arq-export-grid,.arq-map-filter{grid-template-columns:1fr}.arq-product-intelligence{width:calc(100% - 20px)}}
+}

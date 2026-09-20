@@ -7,7 +7,7 @@ const required=[
   'sala-projeto.html','arq-project-hub.js','arq-resilience.js','arq-account.js',
   'admin-qualidade.html','arq-admin-quality.js','solicitar-orcamento.html','arq-rfq.js',
   'central-oportunidades.html','arq-opportunities.js',
-  'docs/ARQSELECT_AUDITORIA_ROADMAP_6_1.md','docs/ARQSELECT_ARQUITETURA_CORE_6_1.md'
+  'docs/ARQSELECT_AUDITORIA_ROADMAP_6_3.md','docs/ARQSELECT_ARQUITETURA_CORE_6_3.md','docs/ARQSELECT_BACKEND_6_3.md'
 ];
 required.push('networking.html');
 required.push('arq-network.js');
@@ -21,17 +21,26 @@ required.push('arq-profile-intelligence.js');
 required.push('blog.html');
 required.push('cases.html');
 required.push('eventos.html');
+required.push('planos.html');
+required.push('indicacoes.html');
+required.push('organizacao.html');
+required.push('importar-catalogo.html');
+required.push('exportar.html');
+required.push('admin-webhooks.html');
+required.push('recentes.html');
+required.push('mapa.html');
+required.push('arq-product-intelligence.js');
 const fail=[];
 for(const f of required) if(!fs.existsSync(path.join(root,f))) fail.push('Arquivo ausente: '+f);
 
-const jsFiles=['arq-config.js','arq-experience.js','arqselect-6.js','arq-project-hub.js','arq-resilience.js','arq-account.js','arq-admin-quality.js','arq-intelligence.js','arq-services.js','arq-rfq.js','arq-opportunities.js','arq-workspace-app-6.js','sw.js'];
+const jsFiles=['arq-config.js','arq-experience.js','arqselect-6.js','arq-project-hub.js','arq-resilience.js','arq-account.js','arq-admin-quality.js','arq-intelligence.js','arq-services.js','arq-rfq.js','arq-opportunities.js','arq-workspace-app-6.js','arq-network.js','arq-trends.js','arq-agenda.js','arq-onboarding.js','arq-profile-intelligence.js','arq-content.js','arq-plans.js','arq-referrals.js','arq-organization.js','arq-catalog-import.js','arq-export.js','arq-webhooks.js','arq-recent.js','arq-map.js','arq-product-intelligence.js','sw.js'];
 for(const f of jsFiles){
   try{new vm.Script(fs.readFileSync(path.join(root,f),'utf8'),{filename:f});}
   catch(e){fail.push('JS inválido '+f+': '+e.message);}
 }
 
 const version=fs.readFileSync('VERSION.txt','utf8');
-if(!version.includes('6.2.0'))fail.push('VERSION.txt não está em 6.2.0');
+if(!version.includes('6.3.0'))fail.push('VERSION.txt não está em 6.3.0');
 
 const hubJs=fs.readFileSync('arq-project-hub.js','utf8');
 for(const label of ['Visão geral','Produtos','Fornecedores','Prestadores','Orçamentos','Arquivos','Chat','Timeline','Favoritos','Equipe']){
@@ -54,16 +63,16 @@ const ops=fs.readFileSync('arq-opportunities.js','utf8');
 for(const action of ['portal_oportunidades_unificadas','portal_oportunidade_status'])if(!ops.includes(action))fail.push('Central de oportunidades sem ação: '+action);
 
 const cfg=fs.readFileSync('arq-config.js','utf8');
-if(!cfg.includes('6.2.0'))fail.push('Configuração não está em 6.2.0');
+if(!cfg.includes('6.3.0'))fail.push('Configuração não está em 6.3.0');
 
 const design=fs.readFileSync('arq-design-system.css','utf8');
 const opens=(design.match(/{/g)||[]).length,closes=(design.match(/}/g)||[]).length;
 if(opens!==closes)fail.push('CSS com chaves desbalanceadas');
-if(!design.includes('ARQSELECT 6.2 — OPERATIONAL CORE'))fail.push('Design System sem camada 6.2');
+if(!design.includes('ARQSELECT 6.3 — SCALE / REVENUE / INTEGRATIONS'))fail.push('Design System sem camada 6.3');
 
-const audit=fs.readFileSync('docs/ARQSELECT_AUDITORIA_ROADMAP_6_1.md','utf8');
+const audit=fs.readFileSync('docs/ARQSELECT_AUDITORIA_ROADMAP_6_3.md','utf8');
 const rows=(audit.match(/^\|\s*\d+\s*\|/gm)||[]).length;
 if(rows!==127)fail.push('Roadmap não contém os 127 itens: '+rows);
 
 if(fail.length){console.error(fail.join('\n'));process.exit(1)}
-console.log('ARQSELECT 6.2 operational core smoke: OK');
+console.log('ARQSELECT 6.3 full platform smoke: OK');
