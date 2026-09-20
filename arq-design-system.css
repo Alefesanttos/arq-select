@@ -1042,3 +1042,30 @@
     body[data-arq-page="home"] .hero h1{font-size:clamp(36px,10.2vw,54px)!important}
   }
 }
+
+
+/* ARQSELECT 5.10.2 — HERO NOTE SELECTION FIX */
+@layer arq.premium {
+  body[data-arq-page="home"] .hero .hero-note{
+    display:inline-block!important;
+    width:auto!important;
+    max-width:100%!important;
+    background:transparent!important;
+    background-color:transparent!important;
+    box-shadow:none!important;
+    border:0!important;
+    color:#d8d3c8!important;
+    -webkit-box-decoration-break:clone;
+    box-decoration-break:clone;
+  }
+  body[data-arq-page="home"] .hero .hero-note::selection{
+    background:#d6b36a!important;
+    color:#171208!important;
+    text-shadow:none!important;
+  }
+  body[data-arq-page="home"] .hero .hero-note::-moz-selection{
+    background:#d6b36a!important;
+    color:#171208!important;
+    text-shadow:none!important;
+  }
+}
