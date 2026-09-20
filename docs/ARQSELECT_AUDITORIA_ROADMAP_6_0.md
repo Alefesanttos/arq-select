@@ -22,7 +22,7 @@ EXISTE = funcionalidade operacional; PARCIAL/INCOMPLETO = base presente mas aind
 | 3 | Motor de matching | PARCIAL | P0 | Já existe para fornecedores/prestadores; ampliar contexto/ticket/estilo/prazo. |
 | 4 | Score de compatibilidade | PARCIAL | P0 | Score existe; padronizar critérios e explicabilidade. |
 | 5 | Projetos como centro | PARCIAL | P0 | Hub canônico 6.0 em implementação. |
-| 6 | Hub do projeto | EM IMPLEMENTAÇÃO | P0 | sala-projeto.html + abas canônicas. |
+| 6 | Hub do projeto | IMPLEMENTADO 6.0 | P0 | Hub canônico com 10 áreas e fallback para módulos existentes. |
 | 7 | Solicitação de orçamento inteligente | PARCIAL | P0 | Especificações cotam; ampliar anexos, medidas, fornecedores e matching. |
 | 8 | Central de cotações | PARCIAL | P0 | Comparador existe; faltam revisão/favoritar/arquivar em fluxo único. |
 | 9 | Marketplace inteligente | PARCIAL | P1 | Catálogo existe; contextualizar pelo projeto e intenção. |
@@ -41,7 +41,7 @@ EXISTE = funcionalidade operacional; PARCIAL/INCOMPLETO = base presente mas aind
 | 22 | Relacionamento | PARCIAL | P0 | Históricos separados; centralizar timeline por projeto/contato. |
 | 23 | Agenda | PARCIAL | P1 | Agenda existe; integrar projeto/lead e lembretes. |
 | 24 | Notificações inteligentes | PARCIAL | P1 | Central existe; padronizar eventos e links. |
-| 25 | Preferências de notificações | INCOMPLETO | P1 | Preferências gerais existem; criar granularidade por evento/canal. |
+| 25 | Preferências de notificações | IMPLEMENTADO 6.0 | P1 | Controle por evento, canal e frequência na Central de Conta. |
 | 26 | Verificação | PARCIAL | P1 | Prestador possui verificação; estender empresas/perfis. |
 | 27 | Avaliações | PARCIAL | P1 | Avaliações existem; amarrar estritamente a transações elegíveis. |
 | 28 | Reputação | PARCIAL | P1 | Nota usada em matching; criar score multidimensional. |
@@ -74,7 +74,7 @@ EXISTE = funcionalidade operacional; PARCIAL/INCOMPLETO = base presente mas aind
 | 55 | Destaques | AUSENTE | P2 | Preparar patrocinados identificados claramente. |
 | 56 | Comissão | EXISTE | P0 | Registro de negócios/comissão implementado; integrar todos os fechamentos. |
 | 57 | Segurança | PARCIAL | P0 | Sessões/permissões existem; rate limit/upload/CSP precisam revisão contínua. |
-| 58 | LGPD | INCOMPLETO | P0 | Política existe; faltam exportação/exclusão/consentimentos granulares. |
+| 58 | LGPD | PARCIAL 6.0 | P0 | Exportação, consentimento e solicitação de exclusão implementados; ciclo operacional de atendimento permanece administrativo. |
 | 59 | Performance | EXISTE | P0 | RUM + Lighthouse + lazy/cache já implementados. |
 | 60 | Escalabilidade | PARCIAL | P0 | Apps Script/Sheets exige paginação/índices/caches e estratégia de migração futura. |
 | 61 | SEO | PARCIAL | P1 | Públicas indexáveis existem; ampliar entidades/conteúdo. |
@@ -90,7 +90,7 @@ EXISTE = funcionalidade operacional; PARCIAL/INCOMPLETO = base presente mas aind
 | 71 | Badges | PARCIAL | P2 | Verificado existe; criar resposta rápida/catálogo completo/parceiro. |
 | 72 | Gamificação discreta | PARCIAL | P2 | Completude já é base; não criar mecânicas de jogo. |
 | 73 | Central de ajuda | EXISTE | P1 | Guias/suporte existentes; consolidar FAQ/tutoriais. |
-| 74 | Feedback do usuário | AUSENTE | P1 | Criar feedback contextual persistente. |
+| 74 | Feedback do usuário | IMPLEMENTADO 6.0 | P1 | Feedback persistente integrado à Central de Conta. |
 | 75 | Primeiro acesso | PARCIAL | P1 | Home explica proposta; onboarding precisa completar ativação. |
 | 76 | Call to Action | PARCIAL | P1 | Padronizar seis CTAs principais no Design System. |
 | 77 | Evitar páginas sem propósito | INCOMPLETO | P0 | Ainda há páginas legadas/duplicadas; consolidar progressivamente. |
@@ -109,18 +109,18 @@ EXISTE = funcionalidade operacional; PARCIAL/INCOMPLETO = base presente mas aind
 | 90 | Efeito rede | BASE | P1 | Depende de crescimento e qualidade de dados; matching/feed sustentam o efeito. |
 | 91 | Perfil público/privado | PARCIAL | P0 | Prestador já sanitizado; ampliar controles nos demais papéis. |
 | 92 | Projetos privados | PARCIAL | P0 | Acesso autenticado já restringe; criar compartilhamentos explícitos. |
-| 93 | Times | AUSENTE | P1 | Hub 6.0 prepara equipe por projeto. |
-| 94 | Permissões | PARCIAL | P0 | Papéis existem; falta RBAC granular por empresa/projeto. |
+| 93 | Times | PARCIAL 6.0 | P1 | Equipe por projeto implementada; times organizacionais amplos permanecem P1. |
+| 94 | Permissões | PARCIAL 6.0 | P0 | Permissões VIEW/EDIT/ADMIN por projeto implementadas; RBAC organizacional continua pendente. |
 | 95 | Multiempresa | AUSENTE | P3 | Planejar vínculo usuário↔organização N:N. |
-| 96 | Monitoramento | PARCIAL | P0 | Web Vitals existem; falta log estruturado de erros do frontend/API. |
-| 97 | Qualidade de dados | INCOMPLETO | P0 | Padronizações existem isoladas; criar painel de inconsistências. |
+| 96 | Monitoramento | IMPLEMENTADO 6.0 | P0 | Web Vitals + erros JS/promises persistidos para diagnóstico autenticado. |
+| 97 | Qualidade de dados | IMPLEMENTADO 6.0 | P0 | Painel Admin de duplicidades e auditoria criado; ampliar regras continuamente. |
 | 98 | Evitar duplicidade | PARCIAL | P0 | Fornecedor possui dedupe; estender empresas/produtos/usuários. |
 | 99 | Importação em massa | INCOMPLETO | P1 | Catálogo admin existe; falta lote robusto. |
 | 100 | Exportação | PARCIAL | P1 | Exportações pontuais; padronizar propostas/especificações/leads. |
 | 101 | Página Explorar | PARCIAL | P1 | Marketplace + Descobrir separados; unificar descoberta sem quebrar URLs. |
 | 102 | Mapa | AUSENTE | P3 | Futuro com geocodificação/consentimento. |
 | 103 | Comparador | EXISTE | P1 | Produtos e propostas já têm comparação. |
-| 104 | Histórico de visualização | AUSENTE | P2 | Criar recentemente vistos local/servidor. |
+| 104 | Histórico de visualização | IMPLEMENTADO 6.0 | P2 | Registro privado por usuário e recuperação em Descobrir. |
 | 105 | Produtos relacionados | PARCIAL | P2 | Catálogo premium possui relações limitadas; automatizar por atributos. |
 | 106 | Cross-sell | PARCIAL | P2 | Aplicar apenas em contexto de projeto/produto. |
 | 107 | Fornecedores alternativos | PARCIAL | P1 | Matching cobre alternativas; exibir no produto/cotação. |
@@ -129,14 +129,14 @@ EXISTE = funcionalidade operacional; PARCIAL/INCOMPLETO = base presente mas aind
 | 110 | Logística | PARCIAL | P1 | Propostas possuem frete/prazo; catálogo precisa retirada/entrega. |
 | 111 | API | EXISTE | P0 | Web App baseado em ações; documentar contratos. |
 | 112 | Webhooks | AUSENTE | P2 | Preparar eventos proposal/project/lead/deal. |
-| 113 | Documentação | AUSENTE | P0 | Auditoria 6.0 inicia documentação formal. |
-| 114 | Testes | INCOMPLETO | P0 | Lighthouse existe; faltam testes de fluxos autenticados. |
+| 113 | Documentação | IMPLEMENTADO 6.0 | P0 | Arquitetura, APIs, permissões e roadmap formalizados em docs/. |
+| 114 | Testes | PARCIAL 6.0 | P0 | Lighthouse + Core Smoke automatizado; E2E autenticado real continua obrigatório. |
 | 115 | Experiência de erro | PARCIAL | P0 | 403/404/500 e shellError existem; padronizar API/retry. |
-| 116 | Recuperação | INCOMPLETO | P0 | Adicionar retry, draft e recuperação automática. |
-| 117 | Autosave | AUSENTE | P0 | Implementar para formulários grandes. |
-| 118 | Rascunhos | AUSENTE | P0 | Implementar projeto/publicação/produto/proposta. |
+| 116 | Recuperação | IMPLEMENTADO 6.0 | P0 | Rascunho local/servidor e recuperação automática dos formulários marcados. |
+| 117 | Autosave | IMPLEMENTADO 6.0 | P0 | Autosave seguro aplicado a projeto, catálogo/produto, prestador e oportunidade. |
+| 118 | Rascunhos | PARCIAL 6.0 | P0 | Infraestrutura persistente e principais formulários implementados; publicação/proposta ainda entram na próxima integração. |
 | 119 | Status | EXISTE | P0 | Status já definidos; normalizar nomes canônicos. |
-| 120 | Timeline | PARCIAL | P0 | Hub 6.0 tem fallback; backend persistente será camada 6.0. |
+| 120 | Timeline | IMPLEMENTADO 6.0 | P0 | Timeline persistente por projeto com fallback aos históricos existentes. |
 | 121 | Roadmap interno | EM IMPLEMENTAÇÃO | P0 | Este documento é o roadmap rastreável. |
 | 122 | Não implementar aleatoriamente | ATIVO | P0 | Execução baseada nesta matriz. |
 | 123 | Entregas incrementais | ATIVO | P0 | Base → fluxos → inteligência → crescimento. |
