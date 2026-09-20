@@ -1145,3 +1145,23 @@
   @media(max-width:720px){.arq-project-hub{width:calc(100% - 20px);padding-top:18px}.arq-project-hero{align-items:flex-start;flex-direction:column;border-radius:22px}.arq-project-hero-actions{width:100%;justify-content:flex-start}.arq-project-summary{grid-template-columns:1fr 1fr}.arq-project-stage{grid-template-columns:repeat(3,minmax(0,1fr))}.arq-project-facts{grid-template-columns:1fr}.arq-project-tabs{top:68px;border-radius:15px}.arq-project-kpi{min-height:102px}}
   @media(max-width:390px){.arq-project-summary{grid-template-columns:1fr}.arq-project-stage{grid-template-columns:1fr 1fr}}
 }
+
+
+/* ARQSELECT 6.0 — ACCOUNT / GOVERNANCE */
+@layer arq.premium {
+  .arq-account-panel{margin-top:16px;padding:22px!important}
+  .arq-account-panel h2{margin:.35rem 0 .45rem}
+  .arq-account-events{display:grid;gap:8px;margin-top:14px}
+  .arq-account-event{display:grid;grid-template-columns:minmax(220px,1fr) auto auto auto minmax(130px,180px) auto;gap:10px;align-items:center;padding:12px;border:1px solid var(--border-subtle);border-radius:14px;background:var(--surface-secondary)}
+  .arq-account-event>div{min-width:0}.arq-account-event b{display:block}.arq-account-event small{display:block;color:var(--text-muted);margin-top:2px}
+  .arq-account-event label{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-size:.78rem}
+  .arq-account-event select{min-width:0}
+  .arq-account-complete{display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,320px);gap:18px;align-items:center}
+  .arq-account-complete b{display:block;font-size:1.05rem}.arq-account-complete span{display:block;margin-top:4px;color:var(--text-muted);font-size:.82rem}
+  .arq-progress{height:10px;border-radius:999px;background:var(--surface-secondary);overflow:hidden;border:1px solid var(--border-subtle)}
+  .arq-progress i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--accent-primary),var(--accent-hover))}
+  .arq-project-member-form{margin-top:14px}
+  body[data-arq-page="admin-quality"] .arq6-shell{width:min(1500px,calc(100% - 32px));margin-inline:auto}
+  @media(max-width:980px){.arq-account-event{grid-template-columns:1fr 1fr 1fr}.arq-account-event>div{grid-column:1/-1}.arq-account-event select{grid-column:1/3}}
+  @media(max-width:620px){.arq-account-event{grid-template-columns:1fr 1fr}.arq-account-event>div,.arq-account-event select,.arq-account-event button{grid-column:1/-1}.arq-account-complete{grid-template-columns:1fr}}
+}
