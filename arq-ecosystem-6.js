@@ -60,8 +60,33 @@ function network(){
 function privateDefaults(){
  doc.querySelectorAll('form').forEach(form=>{const el=form.elements?.visibilidade||form.elements?.privacidade||form.querySelector('[name="publico"]');if(!el||el.dataset.arqPrivacyReady)return;el.dataset.arqPrivacyReady='1';if(el.type==='checkbox'&&el.name==='publico')el.checked=false;else if(!el.value&&[...el.options||[]].some(o=>normalize(o.value)==='PRIVADO'))el.value=[...el.options].find(o=>normalize(o.value)==='PRIVADO').value});
 }
-function enhanceDynamic(){autosave();privateDefaults()}
-function init(){autosave();recent();share();retries();network();privateDefaults();const mo=new MutationObserver(()=>{clearTimeout(init._t);init._t=setTimeout(enhanceDynamic,100)});mo.observe(doc.body,{childList:true,subtree:true});}
+
+function pageVisits(){const file=(location.pathname.split('/').pop()||'index.html').toLowerCase(),list=read('VISITS',[]).filter(x=>x.file!==file);list.unshift({file,at:Date.now()});store('VISITS',list.slice(0,60))}
+function shareAffordance(){
+ const file=(location.pathname.split('/').pop()||'').toLowerCase();if(!['produto.html','fornecedor.html','arquiteto.html','prestador.html'].includes(file)||doc.querySelector('[data-arq-auto-share]'))return;
+ const b=doc.createElement('button');b.type='button';b.className='arq6-btn arq-auto-share';b.dataset.arqShare='1';b.dataset.arqAutoShare='1';b.innerHTML='Compartilhar';
+ const target=doc.querySelector('.arq-product-actions,.srv-actions,.arq-profile-actions,.arq6-actions,main h1');
+ if(!target)return;if(target.matches('h1'))target.insertAdjacentElement('afterend',b);else target.append(b);
+}
+function feedback(){
+ if(!token()||doc.getElementById('arq-feedback-trigger'))return;
+ const b=doc.createElement('button');b.id='arq-feedback-trigger';b.className='arq-feedback-trigger';b.type='button';b.textContent='Enviar sugestão';b.addEventListener('click',()=>{
+  const api=window.ARQSELECT6;if(!api?.modal||!api?.api){location.href='suporte.html#ticketCard';return}
+  const body=api.modal('Enviar sugestão','<form id="arqFeedbackForm" class="arq6-form" data-arq-autosave data-arq-draft="feedback"><label>Assunto<input name="assunto" maxlength="180" required placeholder="Como podemos melhorar?"></label><label class="full">Sugestão<textarea name="descricao" maxlength="4000" required rows="5"></textarea></label><div class="full"><button class="arq6-btn gold" type="submit">Enviar sugestão</button><a class="arq6-btn" href="suporte.html">Central de ajuda</a></div></form>');
+  const form=body?.querySelector?.('#arqFeedbackForm');if(!form)return;autosave();
+  form.addEventListener('submit',async e=>{e.preventDefault();const btn=form.querySelector('[type="submit"]');btn.disabled=true;try{const d=Object.fromEntries(new FormData(form));const r=await api.api('portal_ticket_criar',{categoria:'Sugestão',prioridade:'NORMAL',assunto:d.assunto,descricao:d.descricao},'POST');toast(r.mensagem||'Sugestão enviada.',r.sucesso?{tone:'success'}:{tone:'error'});if(r.sucesso){form.reset();doc.getElementById('arq6Modal').hidden=true}else btn.disabled=false}catch(err){toast('Não foi possível enviar a sugestão agora.',{tone:'error'});btn.disabled=false}});
+ });
+ doc.body.append(b);
+}
+function recentWidget(){
+ const file=(location.pathname.split('/').pop()||'').toLowerCase();if(!['descobrir.html','explorar.html'].includes(file)||doc.getElementById('arq-recent-widget'))return;
+ const items=recentList().filter(x=>x.url!==location.pathname+location.search).slice(0,8);if(!items.length)return;
+ const section=doc.createElement('section');section.id='arq-recent-widget';section.className='arq-recent-widget';section.innerHTML='<div class="arq6-kicker">CONTINUAR DE ONDE PAROU</div><h2>Vistos recentemente</h2><div class="arq-recent-track">'+items.map(x=>'<a href="'+esc(x.url)+'"><span>'+esc(x.tipo)+'</span><b>'+esc((x.title||x.id).replace(/\s*\|\s*ARQSELECT.*$/i,''))+'</b><small>Reabrir →</small></a>').join('')+'</div>';
+ const main=doc.querySelector('main');if(main)main.append(section);
+}
+
+function enhanceDynamic(){autosave();privateDefaults();shareAffordance();recentWidget()}
+function init(){autosave();recent();pageVisits();share();retries();network();privateDefaults();shareAffordance();recentWidget();feedback();const mo=new MutationObserver(()=>{clearTimeout(init._t);init._t=setTimeout(enhanceDynamic,100)});mo.observe(doc.body,{childList:true,subtree:true});}
 window.ARQSELECT_ECOSYSTEM={version:'6.0.0',role,token,canonicalStatus,projectStatus,leadStatus,toast,store,read,recentList,autosave,esc};
 doc.readyState==='loading'?doc.addEventListener('DOMContentLoaded',init,{once:true}):init();
 })();
