@@ -263,7 +263,7 @@
   .arq4-dock [data-arq4-theme]{display:none!important}
 
   /* Accessibility widget stays left but above theme control */
-  :where(.arq-access-left,[vw],.uwy,#userwayAccessibilityIcon,#accessibilityWidget,#accessibility-button,.accessibility-widget,.accessibility-button,.acessibilidade-botao){left:max(16px,env(safe-area-inset-left))!important;right:auto!important;inset-inline-start:max(16px,env(safe-area-inset-left))!important;inset-inline-end:auto!important}
+  :where(.arq-access-left,#userwayAccessibilityIcon,#accessibilityWidget,#accessibility-button,.accessibility-widget,.accessibility-button,.acessibilidade-botao){left:max(16px,env(safe-area-inset-left))!important;right:auto!important;inset-inline-start:max(16px,env(safe-area-inset-left))!important;inset-inline-end:auto!important}
 
   /* Premium micro motion */
   .arq-tech-progress{position:fixed;top:0;left:0;width:var(--arq-progress,0%);height:2px;background:linear-gradient(90deg,var(--accent-primary),var(--accent-hover));z-index:calc(var(--z-header) + 20);pointer-events:none;box-shadow:0 0 14px color-mix(in srgb,var(--accent-primary) 60%,transparent)}
@@ -980,5 +980,65 @@
     body[data-arq-page="home"] .arq-ecosystem-grid{grid-template-columns:1fr}
     body[data-arq-page="home"] .site-footer .footer-grid{grid-template-columns:1fr!important}
     .arq-error-actions .btn,.arq-error-actions .arq-btn{width:100%}
+  }
+}
+
+
+/* ARQSELECT 5.10.1 — HOME HOTFIX */
+@layer arq.premium {
+  body[data-arq-page="home"] .topbar{min-height:78px}
+  body[data-arq-page="home"] .topbar .container.nav{
+    width:min(1540px,96vw)!important;max-width:none!important;min-height:78px!important;
+    flex-wrap:nowrap!important;align-items:center!important;gap:14px!important
+  }
+  body[data-arq-page="home"] .brand{flex:0 0 auto}
+  body[data-arq-page="home"] .navlinks{
+    min-width:0;flex:1 1 auto;display:flex;align-items:center;justify-content:center;
+    flex-wrap:nowrap!important;gap:3px!important;overflow:hidden
+  }
+  body[data-arq-page="home"] .navlinks a{
+    flex:0 0 auto;display:inline-flex!important;padding:9px 9px!important;
+    font-size:12px!important;white-space:nowrap
+  }
+  body[data-arq-page="home"] .nav-actions{
+    flex:0 0 auto;display:flex;align-items:center;flex-wrap:nowrap!important;gap:8px!important
+  }
+  body[data-arq-page="home"] .nav-toggle{flex:0 0 auto}
+  body[data-arq-page="home"] .hero{
+    min-height:max(680px,calc(100svh - 78px));align-items:center!important
+  }
+  body[data-arq-page="home"] .hero-content{
+    padding:clamp(78px,8vh,112px) 0 clamp(92px,12vh,150px)!important
+  }
+  body[data-arq-page="home"] .hero h1{
+    font-size:clamp(42px,5.6vw,78px)!important;line-height:.98!important
+  }
+  body[data-arq-page="home"] .hero-actions{align-items:center}
+  body[data-arq-page="home"] .hero-note{display:block;max-width:100%;overflow:visible}
+
+  /* Medium desktops: keep the header on a single row and move secondary links to the menu. */
+  @media(max-width:1450px){
+    body[data-arq-page="home"] .navlinks a:nth-child(4),
+    body[data-arq-page="home"] .navlinks a:nth-child(8),
+    body[data-arq-page="home"] .navlinks a:nth-child(9),
+    body[data-arq-page="home"] .navlinks a:nth-child(10),
+    body[data-arq-page="home"] .navlinks a:nth-child(11){display:none!important}
+    body[data-arq-page="home"] .nav-toggle{display:inline-grid!important;place-items:center}
+  }
+
+  @media(max-width:1180px){
+    body[data-arq-page="home"] .navlinks{display:none!important}
+    body[data-arq-page="home"] .nav-toggle{display:inline-grid!important}
+    body[data-arq-page="home"] .topbar .container.nav{width:min(100% - 28px,1180px)!important}
+    body[data-arq-page="home"] .hero-content{padding-top:72px!important}
+  }
+
+  @media(max-width:760px){
+    body[data-arq-page="home"] .topbar{min-height:68px}
+    body[data-arq-page="home"] .topbar .container.nav{min-height:68px!important;width:calc(100% - 20px)!important}
+    body[data-arq-page="home"] .nav-actions>.nav-access{display:none!important}
+    body[data-arq-page="home"] .hero{min-height:calc(100svh - 68px)!important}
+    body[data-arq-page="home"] .hero-content{padding:72px 0 96px!important}
+    body[data-arq-page="home"] .hero h1{font-size:clamp(36px,10.2vw,54px)!important}
   }
 }
