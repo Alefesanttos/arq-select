@@ -1,0 +1,193 @@
+# ARQSELECT 6.2 — Auditoria completa e roadmap executável
+
+Data: 2026-09-20
+
+## Princípio de execução
+- MELHORAR quando existe.
+- FINALIZAR quando incompleto.
+- UNIFICAR quando duplicado.
+- CORRIGIR quando quebrado.
+- CRIAR somente quando necessário.
+- Preservar dados, rotas e compatibilidade.
+
+## Legenda
+EXISTE = funcionalidade operacional; PARCIAL/INCOMPLETO = base presente mas ainda não cumpre todo o requisito; AUSENTE = não localizada; EM IMPLEMENTAÇÃO = incluída nesta release; ATIVO/BASE = regra/infraestrutura.
+
+## Matriz 1–127
+
+| # | Requisito | Estado | Prioridade | Ação 6.x |
+|---:|---|---|---|---|
+| 1 | Missão principal | BASE | P0 | Auditoria 6.1 atualizada; execução por impacto e testes de integração. |
+| 2 | ARQSELECT como ecossistema | PARCIAL | P0 | Unificar Conexões + Marketplace + Projetos + Oportunidades pelo projectId. |
+| 3 | Motor de matching | PARCIAL 6.1 | P0 | Matching unificado de fornecedores por projeto implementado com critérios explicáveis; ampliar ticket/estilo/histórico para todos os papéis. |
+| 4 | Score de compatibilidade | IMPLEMENTADO 6.1 | P0 | Score explicável por escopo, região, aprovação e disponibilidade; continua apoio à descoberta, nunca decisão automática. |
+| 5 | Projetos como centro | IMPLEMENTADO 6.1 | P0 | Hub canônico consolidado; rota legado projeto.html redireciona preservando compatibilidade. |
+| 6 | Hub do projeto | IMPLEMENTADO 6.0 | P0 | Hub canônico com 10 áreas e fallback para módulos existentes. |
+| 7 | Solicitação de orçamento inteligente | IMPLEMENTADO 6.1 | P0 | RFQ canônico com projeto, itens, quantidade, medidas, anexos, prazo, localização e fornecedores selecionados/recomendados. |
+| 8 | Central de cotações | IMPLEMENTADO 6.1 | P0 | Comparador unificado com favoritar, revisão, chat, aceitar, recusar e arquivar. |
+| 9 | Marketplace inteligente | PARCIAL 6.2 | P1 | Descoberta agora filtra contexto, categoria, material, estilo, preço, região e projeto; marketplace visual segue evoluindo. |
+| 10 | Catálogo profissional | PARCIAL | P1 | Campos premium existem em parte; consolidar schema. |
+| 11 | Importação de catálogos | INCOMPLETO | P1 | Admin catálogo existe; falta pipeline PDF/XLS/CSV em massa. |
+| 12 | Showroom digital | IMPLEMENTADO 6.2 | P1 | Perfil fornecedor recebe história, segmentos, marcas, área atendida, equipe, certificações e CTAs de orçamento/projeto/chat. |
+| 13 | Perfil do arquiteto | PARCIAL 6.2 | P1 | Perfil público ampliado com atuação, estilo, localização, projetos e conexões; publicações estruturadas seguem evoluindo. |
+| 14 | Conexões | IMPLEMENTADO 6.2 | P1 | Central de conexões, solicitações, remoção e recomendações contextuais criada na rota existente conexoes.html. |
+| 15 | Feed profissional | PARCIAL 6.2 | P1 | Feed tenta ranking personalizado 6.2 com fallback seguro ao feed atual. |
+| 16 | Publicações de projetos | PARCIAL | P1 | Feed aceita PROJETO; vinculação produto/fornecedor precisa ser estruturada. |
+| 17 | Produto aplicado | AUSENTE | P2 | Criar relação produto ↔ projeto publicado. |
+| 18 | Oportunidades | IMPLEMENTADO 6.1 | P0 | Central única agrega oportunidades de produto/fornecedor e serviços, preservando telas específicas legadas. |
+| 19 | Oportunidades automáticas | PARCIAL 6.1 | P0 | RFQ recomendado cria distribuição por matching; automação integral por necessidades declaradas continua evoluindo. |
+| 20 | Leads para fornecedores | IMPLEMENTADO 6.1 | P0 | Central unificada adota NOVO → VISUALIZADO → CONTATO INICIADO → PROPOSTA ENVIADA → NEGOCIAÇÃO → FECHADO/PERDIDO. |
+| 21 | Mini CRM | PARCIAL 6.1 | P0 | Funil de oportunidades unificado; tarefas/contatos organizacionais amplos seguem P1. |
+| 22 | Relacionamento | IMPLEMENTADO 6.1 | P0 | Eventos de RFQ/proposta/equipe/status persistem na timeline do projeto; timeline por contato segue P1. |
+| 23 | Agenda | IMPLEMENTADO 6.2 | P1 | Agenda canônica unifica visitas, reuniões, ligações, follow-ups e prazos ligados a projetos/contatos. |
+| 24 | Notificações inteligentes | IMPLEMENTADO 6.2 | P1 | Central unificada por contexto, não lidas, links e ações; preferências permanecem em Configurações. |
+| 25 | Preferências de notificações | IMPLEMENTADO 6.0 | P1 | Controle por evento, canal e frequência na Central de Conta. |
+| 26 | Verificação | PARCIAL 6.2 | P1 | Badge verificado passa a integrar reputação pública; validação documental permanece administrativa. |
+| 27 | Avaliações | PARCIAL | P1 | Avaliações existem; amarrar estritamente a transações elegíveis. |
+| 28 | Reputação | IMPLEMENTADO 6.2 | P1 | Score 0–100 combina avaliação, resposta, completude, verificação e histórico; estrelas não são o único critério. |
+| 29 | Tempo de resposta | IMPLEMENTADO 6.2 | P2 | Mediana/indicador de resposta passa a integrar reputação pública quando há histórico suficiente. |
+| 30 | Favoritos | PARCIAL | P1 | Produtos e salvos existem; unificar entidades. |
+| 31 | Coleções | PARCIAL | P1 | Boards cobrem parte; evoluir coleções privadas. |
+| 32 | Moodboard | EXISTE | P1 | Boards/moodboard já operam; integrar ao projeto. |
+| 33 | Lista de especificação | EXISTE | P0 | Especificações já existem; melhorar exportação e ambientes. |
+| 34 | Biblioteca técnica | IMPLEMENTADO 6.2 | P1 | Downloads técnicos passam a gerar evento de analytics agregado. |
+| 35 | Downloads | IMPLEMENTADO 6.2 | P2 | Registro de download técnico por documento/usuário com visão agregada para fornecedor. |
+| 36 | Busca profissional | IMPLEMENTADO 6.2 | P0 | Busca central cobre produto, fornecedor, arquiteto, prestador, projeto/contexto e localização. |
+| 37 | Busca semântica | PARCIAL | P1 | Busca por tokens/contexto; preparar camada semântica futura. |
+| 38 | Filtros avançados | IMPLEMENTADO 6.2 | P1 | Descobrir filtra localização, categoria, material, aplicação/estilo, faixa de preço e verificação. |
+| 39 | Recomendações | PARCIAL 6.2 | P1 | Rede e Descobrir usam contexto de perfil/projeto; histórico comportamental seguirá refinamento contínuo. |
+| 40 | IA ARQSELECT | PARCIAL | P2 | Assistente existe por atributos; falta raciocínio operacional completo. |
+| 41 | Assistente do projeto | PARCIAL | P1 | portal_assistente_projeto existe; ampliar pendências/prazos/tarefas. |
+| 42 | Completude do perfil | IMPLEMENTADO 6.2 | P1 | Arquiteto, fornecedor e prestador possuem indicador/entrada de completude. |
+| 43 | Onboarding | IMPLEMENTADO 6.2 | P1 | Onboarding específico por papel; login direciona perfis incompletos para ativação. |
+| 44 | Onboarding arquiteto | IMPLEMENTADO 6.2 | P1 | Segmentos, região, tipo/fase, ticket, estilos e categorias. |
+| 45 | Onboarding fornecedor | IMPLEMENTADO 6.2 | P1 | Produtos, marcas, área atendida, ticket, prazo, catálogo e contato comercial. |
+| 46 | Onboarding prestador | EXISTE | P1 | Serviços/região/experiência/portfólio/disponibilidade já possuem base. |
+| 47 | Dashboard personalizado | EXISTE | P0 | Há dashboards por papel; alinhar dados e atalhos. |
+| 48 | Analytics | PARCIAL 6.2 | P1 | Downloads e eventos de descoberta/rede entram na base; visualizações e funil existentes permanecem. |
+| 49 | Funil | PARCIAL | P1 | Painel de negócios possui funil; unificar leads/serviços. |
+| 50 | Painel administrativo | PARCIAL | P1 | Admin robusto, mas fragmentado em páginas legadas. |
+| 51 | Moderação | IMPLEMENTADO 6.2 | P1 | Fila administrativa unifica perfil, produto, publicação, mensagem e avaliação. |
+| 52 | Auditoria | EXISTE | P0 | CRM possui auditoria; ampliar eventos das camadas novas. |
+| 53 | Monetização | PARCIAL | P2 | Comissão existe; planos ainda não completos. |
+| 54 | Planos | AUSENTE | P2 | Criar entitlements sem bloquear base gratuita inicialmente. |
+| 55 | Destaques | AUSENTE | P2 | Preparar patrocinados identificados claramente. |
+| 56 | Comissão | EXISTE | P0 | Registro de negócios/comissão implementado; integrar todos os fechamentos. |
+| 57 | Segurança | PARCIAL | P0 | Sessões/permissões existem; rate limit/upload/CSP precisam revisão contínua. |
+| 58 | LGPD | PARCIAL 6.0 | P0 | Exportação, consentimento e solicitação de exclusão implementados; ciclo operacional de atendimento permanece administrativo. |
+| 59 | Performance | EXISTE | P0 | RUM + Lighthouse + lazy/cache já implementados. |
+| 60 | Escalabilidade | PARCIAL | P0 | Apps Script/Sheets exige paginação/índices/caches e estratégia de migração futura. |
+| 61 | SEO | PARCIAL | P1 | Públicas indexáveis existem; ampliar entidades/conteúdo. |
+| 62 | URLs amigáveis | INCOMPLETO | P2 | GitHub Pages usa .html/query; preparar aliases/roteamento compatível. |
+| 63 | Compartilhamento | PARCIAL | P1 | Feed e Hub compartilham; padronizar demais entidades. |
+| 64 | Landing pages | IMPLEMENTADO 6.2 | P1 | Landings para arquitetos, fornecedores, prestadores e marcas publicadas sem números inventados. |
+| 65 | Blog/conteúdo | AUSENTE | P2 | Criar editorial integrado ao Feed/SEO. |
+| 66 | Tendências | PARCIAL | P2 | Feed fornece tendências; falta página Em alta. |
+| 67 | Eventos | AUSENTE | P3 | Preparar feiras/workshops/lançamentos. |
+| 68 | Networking | IMPLEMENTADO 6.2 | P1 | Central de rede e recomendações contextuais implementada. |
+| 69 | Convites | PARCIAL | P1 | Convite de prestador existe; ampliar usuários/empresas. |
+| 70 | Programa de indicação | AUSENTE | P3 | Estrutura futura. |
+| 71 | Badges | PARCIAL | P2 | Verificado existe; criar resposta rápida/catálogo completo/parceiro. |
+| 72 | Gamificação discreta | PARCIAL | P2 | Completude já é base; não criar mecânicas de jogo. |
+| 73 | Central de ajuda | EXISTE | P1 | Guias/suporte existentes; consolidar FAQ/tutoriais. |
+| 74 | Feedback do usuário | IMPLEMENTADO 6.0 | P1 | Feedback persistente integrado à Central de Conta. |
+| 75 | Primeiro acesso | PARCIAL | P1 | Home explica proposta; onboarding precisa completar ativação. |
+| 76 | Call to Action | PARCIAL | P1 | Padronizar seis CTAs principais no Design System. |
+| 77 | Evitar páginas sem propósito | PARCIAL 6.1 | P0 | projeto.html consolidado no Hub; demais aliases legados continuam sendo reduzidos gradualmente. |
+| 78 | Empty states | EXISTE | P1 | Design System já orienta próxima ação; revisar módulos legados. |
+| 79 | Social proof | INCOMPLETO | P2 | Não usar números inventados; mostrar apenas casos/dados reais. |
+| 80 | Cases | AUSENTE | P2 | Criar quando houver casos reais autorizados. |
+| 81 | Métrica principal | PARCIAL | P0 | BI mede projetos/propostas/fechados; criar North Star explícita. |
+| 82 | Retenção | PARCIAL | P1 | Feed/chat/oportunidades/projetos geram retorno; recomendações precisam maturar. |
+| 83 | E-mails transacionais | PARCIAL | P1 | Existem envios pontuais; padronizar templates/eventos. |
+| 84 | WhatsApp | PARCIAL | P2 | CTA existe; manter rastreamento interno antes de saída. |
+| 85 | Mobile | EXISTE | P0 | 5.8.2/5.10 reforçaram responsividade e navegação mobile. |
+| 86 | PWA | EXISTE | P1 | Manifest + Service Worker ativos; push ainda futuro. |
+| 87 | Futuro app | PARCIAL | P2 | APIs de ação existem; padronização REST/eventos ainda incompleta. |
+| 88 | Diferencial estratégico | PARCIAL | P0 | Projeto passa a ser eixo unificador na 6.0. |
+| 89 | Ciclo completo | PARCIAL 6.1 | P0 | Projeto → matching → RFQ → proposta → negociação → aceite já está costurado; pós-venda/reputação ainda amadurece. |
+| 90 | Efeito rede | BASE | P1 | Depende de crescimento e qualidade de dados; matching/feed sustentam o efeito. |
+| 91 | Perfil público/privado | PARCIAL | P0 | Prestador já sanitizado; ampliar controles nos demais papéis. |
+| 92 | Projetos privados | PARCIAL | P0 | Acesso autenticado já restringe; criar compartilhamentos explícitos. |
+| 93 | Times | PARCIAL 6.0 | P1 | Equipe por projeto implementada; times organizacionais amplos permanecem P1. |
+| 94 | Permissões | PARCIAL 6.0 | P0 | Permissões VIEW/EDIT/ADMIN por projeto implementadas; RBAC organizacional continua pendente. |
+| 95 | Multiempresa | AUSENTE | P3 | Planejar vínculo usuário↔organização N:N. |
+| 96 | Monitoramento | IMPLEMENTADO 6.0 | P0 | Web Vitals + erros JS/promises persistidos para diagnóstico autenticado. |
+| 97 | Qualidade de dados | IMPLEMENTADO 6.0 | P0 | Painel Admin de duplicidades e auditoria criado; ampliar regras continuamente. |
+| 98 | Evitar duplicidade | PARCIAL | P0 | Fornecedor possui dedupe; estender empresas/produtos/usuários. |
+| 99 | Importação em massa | IMPLEMENTADO 6.2 | P1 | CSV com prévia + Excel/PDF como lote de processamento/curadoria, preservando arquivo original. |
+| 100 | Exportação | IMPLEMENTADO 6.2 | P1 | Central CSV para propostas, especificações, leads, negócios e relatório. |
+| 101 | Página Explorar | PARCIAL 6.2 | P1 | Descobrir vira busca profissional avançada; Marketplace mantém catálogo e URLs existentes. |
+| 102 | Mapa | AUSENTE | P3 | Futuro com geocodificação/consentimento. |
+| 103 | Comparador | EXISTE | P1 | Produtos e propostas já têm comparação. |
+| 104 | Histórico de visualização | IMPLEMENTADO 6.0 | P2 | Registro privado por usuário e recuperação em Descobrir. |
+| 105 | Produtos relacionados | PARCIAL | P2 | Catálogo premium possui relações limitadas; automatizar por atributos. |
+| 106 | Cross-sell | PARCIAL | P2 | Aplicar apenas em contexto de projeto/produto. |
+| 107 | Fornecedores alternativos | IMPLEMENTADO 6.2 | P1 | Produto tenta endpoint contextual por projeto/região e mantém fallback por categoria. |
+| 108 | Disponibilidade | PARCIAL | P1 | Prestador possui; fornecedor/produto precisam prazo/estoque. |
+| 109 | Região de atendimento | PARCIAL | P1 | Prestador possui região/raio; fornecedor precisa granularidade. |
+| 110 | Logística | PARCIAL | P1 | Propostas possuem frete/prazo; catálogo precisa retirada/entrega. |
+| 111 | API | EXISTE | P0 | Web App baseado em ações; documentar contratos. |
+| 112 | Webhooks | AUSENTE | P2 | Preparar eventos proposal/project/lead/deal. |
+| 113 | Documentação | IMPLEMENTADO 6.0 | P0 | Arquitetura, APIs, permissões e roadmap formalizados em docs/. |
+| 114 | Testes | PARCIAL 6.1 | P0 | Core Smoke agora exige Hub, RFQ, matching, proposta e oportunidades; E2E autenticado real continua obrigatório. |
+| 115 | Experiência de erro | PARCIAL | P0 | 403/404/500 e shellError existem; padronizar API/retry. |
+| 116 | Recuperação | IMPLEMENTADO 6.0 | P0 | Rascunho local/servidor e recuperação automática dos formulários marcados. |
+| 117 | Autosave | IMPLEMENTADO 6.0 | P0 | Autosave seguro aplicado a projeto, catálogo/produto, prestador e oportunidade. |
+| 118 | Rascunhos | PARCIAL 6.0 | P0 | Infraestrutura persistente e principais formulários implementados; publicação/proposta ainda entram na próxima integração. |
+| 119 | Status | EXISTE | P0 | Status já definidos; normalizar nomes canônicos. |
+| 120 | Timeline | IMPLEMENTADO 6.0 | P0 | Timeline persistente por projeto com fallback aos históricos existentes. |
+| 121 | Roadmap interno | ATIVO 6.1 | P0 | Matriz 1–127 permanece rastreável e atualizada a cada release. |
+| 122 | Não implementar aleatoriamente | ATIVO | P0 | Execução baseada nesta matriz. |
+| 123 | Entregas incrementais | ATIVO | P0 | Base → fluxos → inteligência → crescimento. |
+| 124 | Objetivo de negócio | ATIVO | P0 | Cada entrega marcada por aquisição/ativação/engajamento/conversão/retenção/receita/confiança. |
+| 125 | Regra de simplicidade | ATIVO | P0 | Não criar duplicações; preferir integração. |
+| 126 | Regra de qualidade | ATIVO | P0 | Finalizar módulos existentes antes de ampliar. |
+| 127 | Missão final | EM EXECUÇÃO | P0 | Transformar catálogo/conexão em sistema operacional do relacionamento. |
+
+## Entrega 6.2 concluída
+- Rede profissional e recomendações.
+- Onboarding específico de arquiteto e fornecedor.
+- Descoberta avançada e contextual.
+- Showroom/perfis com reputação multidimensional.
+- Notificações e agenda unificadas.
+- Download técnico rastreado e analytics ampliável.
+- Importação de catálogos em lote e exportações.
+- Moderação multientidade.
+- Landing pages por público.
+- Fornecedores alternativos contextuais.
+
+## Histórico 6.1
+### Entrega 6.1 concluída
+- Projeto canônico e compatibilidade de rota.
+- RFQ inteligente completo no frontend + contrato backend.
+- Matching explicável para seleção de fornecedores.
+- Central de cotações com ações comerciais.
+- Central unificada de oportunidades/leads.
+- Timeline integrada aos principais eventos comerciais.
+- Smoke test ampliado.
+
+## Ordem de execução
+### P0 — núcleo operacional
+Projeto/HUB, matching, RFQ/comparação, oportunidades/leads/CRM, comissão, segurança/LGPD, dados, testes, recuperação/autosave, status/timeline.
+
+### P1 — uso semanal
+Marketplace contextual, showroom/perfis, feed/conexões, agenda/notificações, reputação, busca/filtros/recomendações, onboarding, analytics, landing pages, importação/exportação.
+
+### P2 — crescimento e receita
+IA avançada, monetização/planos/destaques, SEO/URLs, conteúdo, badges, histórico, cross-sell, webhooks.
+
+### P3 — expansão futura
+Eventos, programa de indicação, multiempresa completa, mapa e app nativo.
+
+## North Star proposta
+**Projetos ativos que geraram pelo menos uma interação comercial qualificada nos últimos 30 dias** (solicitação, proposta, conversa contextual, conexão, pedido ou fechamento).
+
+## Regra de release
+Nenhum item muda para EXISTE sem:
+1. rota/UI acessível;
+2. permissão;
+3. estado vazio/erro;
+4. persistência quando aplicável;
+5. teste de integração;
+6. documentação do contrato.
