@@ -1,4 +1,4 @@
-/* ARQSELECT Experience Layer 5.10.0 — motion, theme UI, accessibility, contrast, responsive runtime and progressive states */
+/* ARQSELECT Experience Layer 5.10.1 — motion, theme UI, accessibility, contrast, responsive runtime and progressive states */
 (function(){
   'use strict';
   if(window.__ARQ_EXPERIENCE_570__)return;window.__ARQ_EXPERIENCE_570__=true;
@@ -77,8 +77,8 @@
   }
 
   function moveAccessibility(){
-    const selectors='button[aria-label],a[aria-label],[role="button"][aria-label],button[title],iframe[title]';
-    doc.querySelectorAll(selectors).forEach(el=>{const text=((el.getAttribute('aria-label')||'')+' '+(el.getAttribute('title')||''));if(!/acessibilidade|accessibility|vlibras/i.test(text))return;let target=el;for(let n=el;n&&n!==doc.body;n=n.parentElement){if(getComputedStyle(n).position==='fixed'){target=n;break}}target.classList.add('arq-access-left');if(target.style)target.style.bottom='82px'});
+    const selectors='[data-arq-accessibility],#accessibility-button,.accessibility-button,.acessibilidade-botao,#userwayAccessibilityIcon,#accessibilityWidget';
+    doc.querySelectorAll(selectors).forEach(el=>{el.classList.add('arq-access-left');if(el.style)el.style.bottom='82px'});
   }
 
   function imageMotion(){
