@@ -1,0 +1,39 @@
+<!doctype html><html class="arq-premium-ui" lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="color-scheme" content="light dark">
+<script id="arq-theme-boot">(()=>{try{const k="ARQSELECT_THEME",v=localStorage.getItem(k)||"auto",m=matchMedia("(prefers-color-scheme: dark)").matches,t=v==="auto"?(m?"dark":"light"):(v==="dark"?"dark":"light"),h=document.documentElement;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=["light","dark","auto"].includes(v)?v:"auto";h.style.colorScheme=t}catch(_){document.documentElement.dataset.theme="light"}})();</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0d100e"><meta name="robots" content="noindex,nofollow">
+<title>Solicitar orçamento | ARQSELECT</title><link rel="icon" href="favicon.ico"><link rel="manifest" href="manifest.webmanifest">
+<script src="arq-config.js?v=6.1.0"></script><link rel="stylesheet" href="arqselect-6.css?v=6.1.0"><link rel="stylesheet" href="arq-design-system.css?v=6.1.0">
+</head><body data-arq-page="rfq" data-arq-surface="workspace">
+<header class="top"><a class="brand" href="index.html">ARQ<span>SELECT</span></a><nav class="nav"><a class="arq6-btn" href="ARQSELECT_ARQUITETO_PROJETOS.html">Projetos</a><a class="arq6-btn" href="descobrir.html">Descobrir</a><a class="arq6-btn" href="comparar-propostas.html">Propostas</a></nav></header>
+<main class="arq6-shell arq-rfq-shell">
+<section class="arq6-head"><div><div class="arq6-kicker">RFQ INTELIGENTE</div><h1>Solicitar orçamento</h1><p class="arq6-muted">Transforme especificações do projeto em uma solicitação completa e envie para parceiros selecionados ou recomendados pela ARQSELECT.</p></div><a class="arq6-btn" id="backToProject" href="ARQSELECT_ARQUITETO_PROJETOS.html">Voltar ao projeto</a></section>
+<form id="rfqForm" class="arq-rfq-layout" data-arq-draft="rfq-inteligente">
+<section class="arq6-card arq-rfq-main">
+  <div class="arq-rfq-step"><span>1</span><div><b>Projeto e contexto</b><small>Escolha onde essa cotação será registrada.</small></div></div>
+  <div class="arq6-form arq-rfq-form-grid">
+    <label>Projeto<select id="rfqProject" name="projetoId" required><option value="">Carregando projetos…</option></select></label>
+    <label>Prazo desejado<input type="date" name="prazoDesejado"></label>
+    <label>Cidade<input name="cidade" autocomplete="address-level2"></label>
+    <label>Estado<input name="estado" maxlength="2" autocomplete="address-level1"></label>
+    <label class="full">Localização / referência<input name="localizacao" placeholder="Bairro, condomínio ou referência. Evite dados privados desnecessários."></label>
+  </div>
+  <div class="arq-rfq-step"><span>2</span><div><b>Itens da cotação</b><small>Produto, categoria, quantidade, medidas e observações.</small></div></div>
+  <div id="rfqItems" class="arq-rfq-items"></div>
+  <button class="arq6-btn" id="addRfqItem" type="button">+ Adicionar item</button>
+  <div class="arq-rfq-step"><span>3</span><div><b>Arquivos e referências</b><small>Plantas, imagens, PDFs e documentos relevantes.</small></div></div>
+  <div class="arq6-form"><label class="full">Anexos<input id="rfqFiles" type="file" multiple accept=".pdf,.png,.jpg,.jpeg,.webp,.dwg,.dxf,.xlsx,.xls,.csv,.doc,.docx"></label><p class="arq6-muted full">Até 6 arquivos. Para preservar estabilidade do Apps Script, arquivos maiores poderão exigir link externo.</p><label class="full">Links adicionais<textarea name="links" rows="3" placeholder="Um link por linha: Drive, catálogo, pasta, referência…"></textarea></label></div>
+  <div class="arq-rfq-step"><span>4</span><div><b>Observações gerais</b><small>Condições, restrições e informações para todos os convidados.</small></div></div>
+  <div class="arq6-form"><label class="full">Observações<textarea name="observacoes" rows="5"></textarea></label></div>
+</section>
+<aside class="arq-rfq-side">
+  <section class="arq6-card"><div class="arq6-kicker">FORNECEDORES</div><h2>Quem deve receber?</h2>
+    <label class="arq-rfq-choice"><input type="radio" name="modoEnvio" value="RECOMENDADOS" checked><span><b>Recomendados automaticamente</b><small>Usa compatibilidade do projeto.</small></span></label>
+    <label class="arq-rfq-choice"><input type="radio" name="modoEnvio" value="SELECIONADOS"><span><b>Selecionar parceiros</b><small>Escolha um ou vários fornecedores.</small></span></label>
+    <div id="rfqSuppliers" class="arq-rfq-suppliers"><div class="arq6-empty">Selecione um projeto para buscar parceiros.</div></div>
+  </section>
+  <section class="arq6-card"><div class="arq6-kicker">RESUMO</div><div id="rfqSummary" class="arq-rfq-summary"></div><button class="arq6-btn gold arq-rfq-submit" type="submit">ENVIAR SOLICITAÇÃO</button><p class="arq6-muted">A solicitação ficará vinculada ao projeto e aparecerá na central de propostas.</p></section>
+</aside>
+</form></main>
+<script src="arqselect-6.js?v=6.1.0"></script><script src="arq-rfq.js?v=6.1.0" defer></script><script src="arq-resilience.js?v=6.1.0" defer></script><script src="arq-experience.js?v=6.1.0" defer></script>
+</body></html>
