@@ -1,2 +1,2 @@
-ARQSELECT 5.10.2 — Hero Note Selection Fix
-Build: 2026-09-19.5102-HERO-NOTE-FIX
+ARQSELECT 5.10.3 — Light Hero Buttons Fix
+Build: 2026-09-20.5103-LIGHT-HERO-BUTTONS
