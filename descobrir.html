@@ -2,8 +2,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0d100e">
 <title>Descobrir conexões | ARQSELECT</title><meta name="description" content="Busca inteligente ARQSELECT para encontrar produtos, fornecedores, prestadores e arquitetos por compatibilidade, região e reputação.">
 <link rel="icon" href="favicon.ico"><link rel="manifest" href="manifest.webmanifest">
-<script src="arq-config.js?v=6.0.0"></script>
-<link rel="stylesheet" href="arq-design-system.css?v=6.0.0">
+<script src="arq-config.js?v=6.2.0"></script>
+<link rel="stylesheet" href="arq-design-system.css?v=6.2.0">
 </head><body data-arq-page="discover" data-arq-surface="workspace">
 <main class="arq6-shell arq-discover-shell">
 <section class="arq-discover-hero">
@@ -23,6 +23,11 @@
     <h2>Refinar</h2>
     <label>Cidade<input id="smartCity" placeholder="Campinas"></label>
     <label>Estado<input id="smartState" maxlength="2" placeholder="SP"></label>
+    <label>Categoria<select id="smartCategory"><option value="">Todas</option><option>Pisos</option><option>Revestimentos</option><option>Pedras</option><option>Marcenaria</option><option>Portas</option><option>Esquadrias</option><option>Iluminação</option><option>Mobiliário</option><option>Louças e metais</option><option>Automação</option><option>Climatização</option><option>Paisagismo</option><option>Construção</option></select></label>
+    <label>Material<input id="smartMaterial" placeholder="Carvalho, mármore, alumínio…"></label>
+    <label>Aplicação / estilo<input id="smartStyle" placeholder="Fachada, área externa, contemporâneo…"></label>
+    <label>Faixa de preço<select id="smartPrice"><option value="">Qualquer</option><option value="ECONOMICO">Econômico</option><option value="INTERMEDIARIO">Intermediário</option><option value="PREMIUM">Premium</option><option value="SOB_CONSULTA">Sob consulta</option></select></label>
+    <label class="arq-filter-check"><input id="smartVerified" type="checkbox"> Somente verificados</label>
     <label>Projeto<select id="smartProject"><option value="">Sem projeto específico</option></select></label>
     <button class="arq6-btn" id="smartClear" type="button">Limpar filtros</button>
   </aside>
@@ -34,7 +39,7 @@
 </main>
 <script src="catalogo-premium-data.js" defer></script>
 <script src="arq-premium.js" defer></script>
-<script src="arqselect-6.js?v=6.0.0" defer></script>
-<script src="arq-intelligence.js?v=6.0.0" defer></script>
-<script src="arq-experience.js?v=6.0.0" defer></script>
+<script src="arqselect-6.js?v=6.2.0" defer></script>
+<script src="arq-intelligence.js?v=6.2.0" defer></script>
+<script src="arq-experience.js?v=6.2.0" defer></script>
 </body></html>
