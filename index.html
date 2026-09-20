@@ -6,7 +6,7 @@
 <script id="arq-theme-boot">(()=>{try{const k="ARQSELECT_THEME",v=localStorage.getItem(k)||"auto",m=matchMedia("(prefers-color-scheme: dark)").matches,t=v==="auto"?(m?"dark":"light"):(v==="dark"?"dark":"light"),h=document.documentElement;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=["light","dark","auto"].includes(v)?v:"auto";h.style.colorScheme=t}catch(_){document.documentElement.dataset.theme="light"}})();</script>
 
 <meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'">
-<script src="arq-config.js?v=5.9.0"></script>
+<script src="arq-config.js?v=5.10.0"></script>
   
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>ARQSELECT | Arquitetos, fornecedores e prestadores conectados</title>
@@ -93,7 +93,7 @@
   }
   </script>
 <link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="arqselect-4.css"><link rel="stylesheet" href="arq-premium.css?v=5.7.0"><link rel="stylesheet" href="marketplace-premium.css?v=5.7.0"><link rel="stylesheet" href="arq-ui-5.css?v=5.7.0"><link rel="stylesheet" href="arq-polish.css?v=5.7.0">
-<link rel="stylesheet" href="arq-design-system.css?v=5.9.0">
+<link rel="stylesheet" href="arq-design-system.css?v=5.10.0">
 </head>
 <body class="arq-home" data-arq-page="home" data-arq-surface="marketing">
   <header class="topbar">
@@ -128,14 +128,14 @@
       <div class="container hero-content">
         <div class="hero-signal">CURADORIA PROFISSIONAL PARA PROJETOS REAIS</div>
         <div class="eyebrow">Conexões que geram projetos e negócios</div>
-        <h1>A plataforma que conecta arquitetos aos fornecedores certos.</h1>
-        <p class="hero-copy">Envie seu projeto e receba <strong>soluções selecionadas entre fornecedores qualificados</strong> para cada etapa da obra ou especificação. Economize tempo, compare opções e encontre fornecedores em um único lugar.</p>
+        <h1>Grandes projetos começam com uma visão.<br>E ganham forma com as conexões certas.</h1>
+        <p class="hero-copy">Conecte <strong>projetos, produtos, fornecedores e prestadores qualificados</strong> em uma jornada profissional de descoberta, cotação, negociação e execução. Menos dispersão. Mais contexto, velocidade e decisão.</p>
         <div class="hero-actions">
           <a class="btn btn-gold" href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">ENVIAR PROJETO</a>
-          <a class="btn btn-outline" href="ARQSELECT_LOGIN_FORNECEDOR.html#cadastro">SEJA UM FORNECEDOR PARCEIRO</a>
+          <a class="btn btn-outline" href="ARQSELECT_LOGIN_FORNECEDOR.html#cadastro">SEJA UM FORNECEDOR PARCEIRO</a><a class="btn btn-outline" href="ARQSELECT_LOGIN_PRESTADOR.html">SOU PRESTADOR DE SERVIÇOS</a>
           <button class="btn btn-outline" type="button" data-open-access>JÁ TENHO ACESSO</button>
         </div>
-        <div class="hero-note">ARQUITETURA • INTERIORES • CONSTRUÇÃO • FORNECEDORES</div>
+        <div class="hero-note">ARQUITETURA • INTERIORES • CONSTRUÇÃO • FORNECEDORES • PRESTADORES</div>
       </div>
     </section>
 
@@ -212,7 +212,7 @@
       <div class="container">
         <div class="benefits">
           <article class="benefit-panel"><div class="eyebrow">Para arquitetos</div><h3>Mais tempo para criar. Menos tempo procurando.</h3><p>Use a ARQSELECT como uma extensão comercial do seu processo de especificação.</p><div class="benefit-list"><div class="benefit-item"><div class="check">✓</div><div><b>Economia de tempo</b><span>Centralize demandas, fornecedores e cotações.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Curadoria especializada</b><span>Encontre opções adequadas ao seu projeto.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Fornecedores qualificados</b><span>Amplie sua rede com parceiros relevantes.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Comparação de opções</b><span>Organize alternativas por necessidade e faixa de solução.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Suporte comercial</b><span>Tenha uma central para acompanhar o relacionamento.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Centralização de cotações</b><span>Conecte projeto, produto, fornecedor e orçamento.</span></div></div></div><a class="btn btn-gold" href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">ENVIAR PROJETO</a></article>
-          <article id="fornecedores" class="benefit-panel"><div class="eyebrow">Para fornecedores</div><h3>Oportunidades reais, dentro do contexto de cada projeto.</h3><p>Apresente sua marca para arquitetos e escritórios com necessidades concretas.</p><div class="benefit-list"><div class="benefit-item"><div class="check">✓</div><div><b>Receba oportunidades reais</b><span>Projetos e demandas comerciais em andamento.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Acesso a arquitetos e escritórios</b><span>Construa relacionamento com profissionais.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Divulgação da marca</b><span>Mostre produtos, portfólio e diferenciais.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Participação sem mensalidade</b><span>Modelo pensado para gerar valor comercial.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Pagamento somente mediante venda</b><span>Modelo comercial condicionado ao negócio fechado, conforme os termos aplicáveis.</span></div></div></div><a class="btn btn-outline" href="ARQSELECT_LOGIN_FORNECEDOR.html#cadastro">QUERO SER PARCEIRO</a></article>
+          <article id="fornecedores" class="benefit-panel"><div class="eyebrow">Para fornecedores</div><h3>Oportunidades reais, dentro do contexto de cada projeto.</h3><p>Apresente sua marca para arquitetos e escritórios com necessidades concretas.</p><div class="benefit-list"><div class="benefit-item"><div class="check">✓</div><div><b>Receba oportunidades reais</b><span>Projetos e demandas comerciais em andamento.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Acesso a arquitetos e escritórios</b><span>Construa relacionamento com profissionais.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Divulgação da marca</b><span>Mostre produtos, portfólio e diferenciais.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Participação sem mensalidade</b><span>Modelo pensado para gerar valor comercial.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Pagamento somente mediante venda</b><span>Modelo comercial condicionado ao negócio fechado, conforme os termos aplicáveis.</span></div></div></div><a class="btn btn-outline" href="ARQSELECT_LOGIN_FORNECEDOR.html#cadastro">QUERO SER PARCEIRO</a></article><article id="prestadores" class="benefit-panel"><div class="eyebrow">Para prestadores</div><h3>Serviços certos para oportunidades compatíveis.</h3><p>Apresente sua experiência, área atendida e disponibilidade para receber demandas relacionadas ao que você realmente executa.</p><div class="benefit-list"><div class="benefit-item"><div class="check">✓</div><div><b>Matching por especialidade</b><span>Oportunidades relacionadas à sua categoria, região e disponibilidade.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Perfil profissional</b><span>Portfólio, experiência, avaliações e verificação reunidos em um só lugar.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Propostas organizadas</b><span>Envie valores, prazos, condições e acompanhe negociações.</span></div></div><div class="benefit-item"><div class="check">✓</div><div><b>Gestão da execução</b><span>Checklist, agenda e diário vinculados ao serviço contratado.</span></div></div></div><a class="btn btn-outline" href="ARQSELECT_LOGIN_PRESTADOR.html">QUERO RECEBER OPORTUNIDADES</a></article>
         </div>
       </div>
     </section>
@@ -230,8 +230,8 @@
 
     <section class="section dark">
       <div class="container">
-        <div class="section-head center"><div class="eyebrow">Ecossistema</div><h2>Rede ARQSELECT</h2><p class="lead">Arquitetos + fornecedores + projetos. Uma única experiência para transformar conexão em valor.</p></div>
-        <div class="ecosystem"><article class="eco-card"><h3>Arquitetos</h3><p>Projetos, especificações, necessidades e relacionamento.</p></article><div class="eco-plus">+</div><article class="eco-card"><h3>Fornecedores</h3><p>Produtos, soluções, propostas, portfólio e oportunidades.</p></article><div class="eco-plus">+</div><article class="eco-card"><h3>Projetos</h3><p>O ponto onde necessidade, curadoria e negócio se encontram.</p></article></div>
+        <div class="section-head center"><div class="eyebrow">Ecossistema</div><h2>Rede ARQSELECT</h2><p class="lead">Arquitetos, fornecedores, prestadores, produtos e projetos conectados por contexto — do primeiro briefing à entrega.</p></div>
+        <div class="arq-ecosystem-grid"><article class="eco-card"><div class="eyebrow">01</div><h3>Arquitetos</h3><p>Visão, projetos, especificações e decisões.</p></article><article class="eco-card"><div class="eyebrow">02</div><h3>Fornecedores</h3><p>Produtos, catálogos, soluções e propostas comerciais.</p></article><article class="eco-card"><div class="eyebrow">03</div><h3>Prestadores</h3><p>Execução especializada, disponibilidade, reputação e portfólio.</p></article><article class="eco-card"><div class="eyebrow">04</div><h3>Projetos</h3><p>O contexto que conecta necessidade, produto, serviço e negócio.</p></article></div>
       </div>
     </section>
 
@@ -270,11 +270,11 @@
 
   <footer class="site-footer">
     <div class="container footer-grid">
-      <div><a class="brand" href="index.html">ARQ<span>SELECT</span></a><p>A plataforma que conecta arquitetos aos fornecedores certos para cada projeto.</p></div>
-      <div><h4>Navegue</h4><a href="#como-funciona">Como funciona</a><br><a href="#categorias">Categorias</a><br><a href="feed.html">Inspiração</a><br><a href="assistente.html">Assistente</a><br><a href="#arquitetos">Arquitetos</a><br><a href="#fornecedores">Fornecedores</a></div>
-      <div><h4>Comece</h4><a href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Enviar projeto</a><br><a href="ARQSELECT_LOGIN_FORNECEDOR.html#cadastro">Seja fornecedor</a><br><a href="https://wa.me/5519981655013?text=Vim%20pelo%20site%20da%20ARQSELECT%20e%20gostaria%20de%20saber%20mais%20sobre%20a%20plataforma." target="_blank" rel="noopener">Fale conosco</a></div>
+      <div><a class="brand" href="index.html">ARQ<span>SELECT</span></a><p>Arquitetos, fornecedores e prestadores conectados ao contexto certo de cada projeto.</p></div>
+      <div><h4>Navegue</h4><a href="#como-funciona">Como funciona</a><br><a href="#categorias">Categorias</a><br><a href="feed.html">Inspiração</a><br><a href="assistente.html">Assistente</a><br><a href="#arquitetos">Arquitetos</a><br><a href="#fornecedores">Fornecedores</a><br><a href="#prestadores">Prestadores</a><br><a href="explorar.html">Marketplace</a><br><a href="suporte.html">Suporte</a></div>
+      <div><h4>Comece</h4><a href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">Enviar projeto</a><br><a href="ARQSELECT_LOGIN_FORNECEDOR.html#cadastro">Seja fornecedor</a><br><a href="ARQSELECT_LOGIN_PRESTADOR.html">Seja prestador</a><br><a href="politica-privacidade.html">Privacidade</a><br><a href="termos-arqselect.html">Termos</a><br><a href="https://wa.me/5519981655013?text=Vim%20pelo%20site%20da%20ARQSELECT%20e%20gostaria%20de%20saber%20mais%20sobre%20a%20plataforma." target="_blank" rel="noopener">Fale conosco</a></div>
     </div>
-    <div class="container copyright"><span>© 2026 ARQSELECT. Todos os direitos reservados.</span><span>Arquitetura • Interiores • Construção • Fornecedores</span></div>
+    <div class="container copyright"><span>© 2026 ARQSELECT. Todos os direitos reservados.</span><span>Arquitetura • Construção • Fornecedores • Prestadores • Tecnologia</span></div>
   </footer>
 
   <div class="home-modal" id="access-modal" role="dialog" aria-modal="true" aria-labelledby="access-title" aria-hidden="true">
@@ -282,7 +282,7 @@
       <div class="home-modal-head"><div><div class="eyebrow">Acesso ARQSELECT</div><h2 id="access-title">Escolha seu ambiente</h2><p class="lead">Cada perfil acessa somente os recursos e projetos autorizados.</p></div><button class="home-modal-close" type="button" data-close-access aria-label="Fechar">×</button></div>
       <div class="access-grid">
         <a class="access-card" href="ARQSELECT_LOGIN_ARQUITETO.html"><span class="access-icon">⌂</span><span><b>Sou arquiteto</b><p>Projetos, solicitações, propostas, referências e conversas.</p><span class="badge green">Entrar no portal →</span></span></a>
-        <a class="access-card" href="ARQSELECT_LOGIN_FORNECEDOR.html"><span class="access-icon">◆</span><span><b>Sou fornecedor</b><p>Produtos, oportunidades, propostas e relacionamento comercial.</p><span class="badge green">Entrar no portal →</span></span></a>
+        <a class="access-card" href="ARQSELECT_LOGIN_FORNECEDOR.html"><span class="access-icon">◆</span><span><b>Sou fornecedor</b><p>Produtos, oportunidades, propostas e relacionamento comercial.</p><span class="badge green">Entrar no portal →</span></span></a><a class="access-card" href="ARQSELECT_LOGIN_PRESTADOR.html"><span class="access-icon">◇</span><span><b>Sou prestador</b><p>Serviços, oportunidades compatíveis, propostas, agenda e execução.</p><span class="badge green">Entrar no portal →</span></span></a>
       </div>
     </div>
   </div>
@@ -294,6 +294,6 @@
     </div>
   </div>
 <script src="arqselect-4.js"></script><script src="arq-premium.js?v=5.7.0"></script><script src="catalogo-premium-data.js?v=5.7.0"></script><script src="arq-commerce.js?v=5.7.0"></script><script src="home-4.js?v=5.7.0"></script>
-<script src="arq-experience.js?v=5.9.0" defer></script>
+<script src="arq-experience.js?v=5.10.0" defer></script>
 </body>
 </html>
