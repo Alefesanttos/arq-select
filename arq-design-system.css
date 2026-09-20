@@ -930,3 +930,56 @@
     .arq-global-toast,:where(.modalbox,.modal-card,.modal-content,.dialog,.arq6-modal-card,.home-modal-card,.arq-dialog,.arq-modal__box){animation:none!important}
   }
 }
+
+
+/* ARQSELECT 5.10 — HOME / DIRECTORY / ERRORS */
+@layer arq.premium {
+  body[data-arq-page="home"] .benefits{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:18px!important}
+  body[data-arq-page="home"] .benefit-panel{padding:clamp(24px,3vw,36px)!important}
+  body[data-arq-page="home"] .benefit-list{gap:14px!important}
+  body[data-arq-page="home"] .access-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  body[data-arq-page="home"] .arq-ecosystem-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+  body[data-arq-page="home"] .arq-ecosystem-grid .eco-card{text-align:left!important;min-height:190px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+  body[data-arq-page="home"] .arq-ecosystem-grid .eco-card::before{content:"";position:absolute;width:160px;height:160px;border-radius:50%;right:-70px;top:-80px;background:radial-gradient(circle,color-mix(in srgb,var(--accent-primary) 13%,transparent),transparent 68%);pointer-events:none}
+  body[data-arq-page="home"] .hero-content{max-width:980px!important}
+  body[data-arq-page="home"] .hero h1{max-width:920px!important}
+  body[data-arq-page="home"] .hero-copy{max-width:780px!important}
+  body[data-arq-page="home"] .site-footer .footer-grid{grid-template-columns:minmax(260px,1.35fr) repeat(2,minmax(180px,.65fr))!important}
+  body[data-arq-page="home"] .site-footer a{display:inline-block;margin-block:3px}
+
+  /* Legacy public directories inherit the premium marketplace language. */
+  body[data-arq-page="marketplace"]>.hero,
+  body[data-arq-page="marketplace"] main>.hero{
+    margin:0 auto clamp(26px,4vw,52px);padding:clamp(72px,8vw,130px) var(--container-gutter)!important;
+    background:radial-gradient(circle at 50% 0,color-mix(in srgb,var(--accent-primary) 12%,transparent),transparent 36%),linear-gradient(180deg,#0d100e,#101510)!important;
+    border-bottom:1px solid rgba(255,255,255,.08);color:#f8f7f2!important
+  }
+  body[data-arq-page="marketplace"]>.hero :where(h1,h2,h3,p,span),
+  body[data-arq-page="marketplace"] main>.hero :where(h1,h2,h3,p,span){color:#f8f7f2!important}
+  body[data-arq-page="marketplace"]>.hero :where(.hero-label,.ey,.eyebrow),
+  body[data-arq-page="marketplace"] main>.hero :where(.hero-label,.ey,.eyebrow){color:var(--brand-gold-soft)!important}
+  body[data-arq-page="marketplace"] :where(.architect-card,.supplier-card,.provider-card,.profile-card){border-radius:22px!important}
+
+  /* Error system */
+  body[data-arq-page="error"]{min-height:100dvh;display:grid;place-items:center;padding:24px;background:
+    radial-gradient(circle at 20% 0,color-mix(in srgb,var(--accent-primary) 11%,transparent),transparent 30rem),
+    linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px),var(--bg-primary);background-size:auto,32px 32px,32px 32px}
+  .arq-error-shell{width:min(820px,100%);padding:clamp(28px,5vw,58px);border:1px solid var(--border-subtle);border-radius:30px;background:var(--glass-strong);box-shadow:var(--shadow-xl);backdrop-filter:blur(18px);text-align:center}
+  .arq-error-code{font-family:var(--font-mono);font-size:clamp(4.5rem,16vw,9rem);font-weight:800;line-height:.82;letter-spacing:-.08em;color:color-mix(in srgb,var(--accent-primary) 80%,var(--text-primary));margin-bottom:26px}
+  .arq-error-shell h1{font-size:clamp(2rem,5vw,3.7rem);margin:0 0 14px}.arq-error-shell p{max-width:58ch;margin:0 auto 24px;color:var(--text-secondary)}
+  .arq-error-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+
+  @media(max-width:1050px){
+    body[data-arq-page="home"] .benefits{grid-template-columns:1fr 1fr!important}
+    body[data-arq-page="home"] .benefit-panel:last-child{grid-column:1/-1}
+    body[data-arq-page="home"] .arq-ecosystem-grid{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:720px){
+    body[data-arq-page="home"] .benefits{grid-template-columns:1fr!important}
+    body[data-arq-page="home"] .benefit-panel:last-child{grid-column:auto}
+    body[data-arq-page="home"] .access-grid{grid-template-columns:1fr!important}
+    body[data-arq-page="home"] .arq-ecosystem-grid{grid-template-columns:1fr}
+    body[data-arq-page="home"] .site-footer .footer-grid{grid-template-columns:1fr!important}
+    .arq-error-actions .btn,.arq-error-actions .arq-btn{width:100%}
+  }
+}
