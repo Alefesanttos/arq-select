@@ -10,11 +10,90 @@ function action(title,fn){return async e=>{e?.preventDefault();try{await fn(e);}
 async function initPicker(all=false){if(!picker)return;await W.projectSelector(picker,{value:projectId,all});projectId=picker.value||projectId;picker.onchange=()=>{projectId=picker.value;const u=new URL(location.href);if(projectId)u.searchParams.set('projectId',projectId);else u.searchParams.delete('projectId');history.replaceState({},'',u);render();};}
 function sectionHead(k,h,a=''){return `<div class="arq6-head arq-section-head"><div><div class="arq6-kicker">${esc(k)}</div><h2 class="arq-section-title">${esc(h)}</h2></div>${a?`<div class="arq6-actions">${a}</div>`:''}</div>`;}
 function productImg(x){const src=x.IMAGEM||x.imagem||'';return src?`<img src="${esc(src)}" alt="">`:`<span class="arq6-badge">${esc(x.CATEGORIA||x.categoria||'ITEM')}</span>`;}
-async function room(){if(!W.requireAuth(['ANY']))return;await initPicker(false);if(!projectId)return;busy('Abrindo a Sala do Projeto…');const r=await W.api('portal_sala_projeto',{projetoId});if(!r.sucesso)return W.shellError(main,r.mensagem);const p=r.projeto||{},m=r.metricas||{};W.setTitle(p.projeto||p.nome||'Sala do Projeto',[p.cidade,p.estado].filter(Boolean).join(' · '));main.innerHTML=`
-<div class="arq6-grid"><div class="arq6-card arq6-stat"><span>Especificações</span><b>${m.especificacoes||0}</b><a class="arq6-btn" href="especificacoes.html?projectId=${encodeURIComponent(projectId)}">Abrir</a></div><div class="arq6-card arq6-stat"><span>Propostas</span><b>${m.propostas||0}</b><a class="arq6-btn" href="comparar-propostas.html?projectId=${encodeURIComponent(projectId)}">Comparar</a></div><div class="arq6-card arq6-stat"><span>Amostras</span><b>${m.amostras||0}</b><a class="arq6-btn" href="amostras.html?projectId=${encodeURIComponent(projectId)}">Acompanhar</a></div><div class="arq6-card arq6-stat"><span>Pedidos</span><b>${m.pedidos||0}</b><a class="arq6-btn" href="pedidos.html?projectId=${encodeURIComponent(projectId)}">Ver pedidos</a></div></div>
-<div class="arq6-grid two arq-stack-14"><section class="arq6-card">${sectionHead('PROJETO','Próximas ações')}<div class="arq6-list"><a class="arq6-row" href="explorar.html"><span class="arq6-badge">01</span><span><b>Especificar produtos</b><br><small>Explore o marketplace e adicione materiais ao projeto.</small></span><span>→</span></a><a class="arq6-row" href="especificacoes.html?projectId=${encodeURIComponent(projectId)}"><span class="arq6-badge">02</span><span><b>Solicitar cotações</b><br><small>Envie as especificações para o fluxo interno.</small></span><span>→</span></a><a class="arq6-row" href="matching.html?projectId=${encodeURIComponent(projectId)}"><span class="arq6-badge">03</span><span><b>Encontrar fornecedores</b><br><small>Compatibilidade por escopo, região e reputação.</small></span><span>→</span></a><a class="arq6-row" href="clientes-projeto.html?projectId=${encodeURIComponent(projectId)}"><span class="arq6-badge">04</span><span><b>Enviar para o cliente</b><br><small>Aprovação protegida por link exclusivo.</small></span><span>→</span></a></div></section>
-<section class="arq6-card">${sectionHead('STATUS','Visão do projeto')}<p><b>${esc(p.projeto||p.nome||projectId)}</b></p><p class="arq6-muted">${esc(p.descricao||p['DESCRIÇÃO / ORÇAMENTO']||'Briefing disponível no projeto.')}</p><div class="arq6-stage"><span class="current">Briefing</span><span>Especificação</span><span>Cotação</span><span>Negociação</span><span>Pedido</span><span>Entrega</span></div><div class="arq6-actions arq-stack-14"><a class="arq6-btn gold" href="assistente.html?projectId=${encodeURIComponent(projectId)}">Sugestões inteligentes</a><a class="arq6-btn" href="chat.html?projetoId=${encodeURIComponent(projectId)}">Chat</a></div></section></div>
-<div class="arq6-grid three arq-stack-14"><section class="arq6-card">${sectionHead('AMOSTRAS','Últimas solicitações')}${(r.amostras||[]).slice(0,4).map(x=>`<div class="arq6-row"><span>${productImg(x)}</span><span><b>${esc(x.PRODUTO||'Amostra')}</b><br><small>${esc(x.STATUS||'')}</small></span><span>${esc(x.PREVISAO||'')}</span></div>`).join('')||W.empty('Nenhuma amostra','Solicite pelo produto no marketplace.')}</section><section class="arq6-card">${sectionHead('CLIENTE','Aprovações')}${(r.aprovacoes||[]).slice(-4).reverse().map(x=>`<div class="arq6-row"><span class="arq6-badge">${esc(x.STATUS||'AGUARDANDO')}</span><span><b>${esc(x.TITULO||'Item')}</b><br><small>${esc(x.COMENTARIO||'')}</small></span><span>${date(x['DATA ATUALIZACAO'])}</span></div>`).join('')||W.empty('Nenhuma aprovação','Vincule um cliente quando quiser validar seleções.')}</section><section class="arq6-card">${sectionHead('FORNECEDORES','Participantes')}${(r.fornecedores||[]).slice(0,5).map(x=>`<div class="arq6-row"><span class="arq6-badge">${esc(x.STATUS||'VINCULADO')}</span><span><b>${esc(x['FORNECEDOR NOME']||x['FORNECEDOR ID']||'Fornecedor')}</b></span><span>→</span></div>`).join('')||W.empty('Nenhum fornecedor','Use o matching para iniciar conexões.')}</section></div>`;}
+async function room(){
+ if(!W.requireAuth(['ANY']))return;
+ await initPicker(false);if(!projectId)return;
+ busy('Abrindo o Hub do Projeto…');
+ const r=await W.api('portal_sala_projeto',{projetoId});
+ if(!r.sucesso)return W.shellError(main,r.mensagem);
+ const p=r.projeto||{},m=r.metricas||{},timeline=r.timeline||r.historico||r.eventos||[];
+ const title=p.projeto||p.nome||'Projeto';
+ const enc=encodeURIComponent(projectId);
+ const statusRaw=p.status||p.STATUS||p['STATUS DO PROJETO']||'NOVO';
+ const status=window.ARQSELECT_ECOSYSTEM?.canonicalStatus?.(statusRaw,'project')||statusRaw;
+ const detail=(label,...values)=>{const value=values.find(v=>v!==undefined&&v!==null&&String(v).trim()!=='');return value?'<div class="arq-project-fact"><span>'+esc(label)+'</span><b>'+esc(value)+'</b></div>':''};
+ const tabs=[
+  ['Visão geral','projeto.html?projectId='+enc,'overview'],
+  ['Produtos','especificacoes.html?projectId='+enc,'products'],
+  ['Fornecedores','matching.html?projectId='+enc,'suppliers'],
+  ['Prestadores','prestadores.html?projectId='+enc,'providers'],
+  ['Orçamentos','comparar-propostas.html?projectId='+enc,'quotes'],
+  ['Arquivos','arquivos-projeto.html?projectId='+enc,'files'],
+  ['Chat','chat.html?projetoId='+enc,'chat'],
+  ['Timeline','#timeline','timeline'],
+  ['Favoritos','favoritos.html?projectId='+enc,'favorites'],
+  ['Equipe','clientes-projeto.html?projectId='+enc,'team']
+ ];
+ W.setTitle(title,[p.cidade,p.estado,status].filter(Boolean).join(' · '));
+ const tl=timeline.length?timeline.slice().reverse().slice(0,14):[
+   {TIPO:'PROJETO',TITULO:'Projeto ativo na ARQSELECT',STATUS:status,DATA:p['DATA ATUALIZACAO']||p['DATA CRIACAO']||p.data||''}
+ ];
+ main.innerHTML=`
+ <nav class="arq-project-tabs" aria-label="Áreas do projeto">${tabs.map(([label,href,key])=>'<a href="'+href+'" data-project-tab="'+key+'" '+(key==='overview'?'aria-current="page"':'')+'>'+esc(label)+'</a>').join('')}</nav>
+ <section class="arq-project-overview">
+   <div class="arq-project-summary arq6-card">
+     <div>
+       <div class="arq6-kicker">PROJETO · ${esc(status)}</div>
+       <h2>${esc(title)}</h2>
+       <p class="arq6-muted">${esc(p.descricao||p['DESCRIÇÃO / ORÇAMENTO']||p.briefing||'Centralize produtos, parceiros, cotações, conversas e decisões neste projeto.')}</p>
+     </div>
+     <div class="arq6-actions">
+       <a class="arq6-btn gold" href="assistente.html?projectId=${enc}">Assistente do projeto</a>
+       <button class="arq6-btn" type="button" data-arq-share data-arq-share-title="${esc(title)}">Compartilhar</button>
+     </div>
+   </div>
+   <div class="arq-project-facts">
+     ${detail('Tipo',p.tipo,p['TIPO PROJETO'])}
+     ${detail('Localização',[p.cidade,p.estado].filter(Boolean).join(' · '),p.localizacao)}
+     ${detail('Metragem',p.metragem,p.area,p['AREA M2'])}
+     ${detail('Fase',p.fase,status)}
+     ${detail('Prazo',p.prazo,p['DATA ENTREGA'])}
+     ${detail('Orçamento estimado',p.orcamento,p['ORCAMENTO ESTIMADO'],p['DESCRIÇÃO / ORÇAMENTO'])}
+     ${detail('Cliente',p.cliente,p['CLIENTE NOME'])}
+     ${detail('Categorias',Array.isArray(p.categorias)?p.categorias.join(', '):p.categorias)}
+   </div>
+ </section>
+ <div class="arq6-grid arq-project-metrics">
+   <a class="arq6-card arq6-stat" href="especificacoes.html?projectId=${enc}"><span>Especificações</span><b>${m.especificacoes||0}</b><small>Produtos e materiais</small></a>
+   <a class="arq6-card arq6-stat" href="comparar-propostas.html?projectId=${enc}"><span>Propostas</span><b>${m.propostas||0}</b><small>Comparar condições</small></a>
+   <a class="arq6-card arq6-stat" href="amostras.html?projectId=${enc}"><span>Amostras</span><b>${m.amostras||0}</b><small>Acompanhar solicitações</small></a>
+   <a class="arq6-card arq6-stat" href="pedidos.html?projectId=${enc}"><span>Pedidos</span><b>${m.pedidos||0}</b><small>Fechamentos e entrega</small></a>
+ </div>
+ <div class="arq6-grid two arq-stack-14">
+  <section class="arq6-card">${sectionHead('PRÓXIMA AÇÃO','Faça o projeto avançar')}
+   <div class="arq6-list">
+    <a class="arq6-row" href="explorar.html?projectId=${enc}"><span class="arq6-badge">01</span><span><b>Descobrir e especificar produtos</b><br><small>Salve materiais diretamente no contexto do projeto.</small></span><span>→</span></a>
+    <a class="arq6-row" href="matching.html?projectId=${enc}"><span class="arq6-badge">02</span><span><b>Encontrar fornecedores compatíveis</b><br><small>Score por escopo, região e reputação.</small></span><span>→</span></a>
+    <a class="arq6-row" href="criar-oportunidade-servico.html?projetoId=${enc}"><span class="arq6-badge">03</span><span><b>Contratar um prestador</b><br><small>Abra uma oportunidade ligada a este projeto.</small></span><span>→</span></a>
+    <a class="arq6-row" href="comparar-propostas.html?projectId=${enc}"><span class="arq6-badge">04</span><span><b>Comparar propostas</b><br><small>Preço, prazo, frete, pagamento e reputação.</small></span><span>→</span></a>
+   </div>
+  </section>
+  <section class="arq6-card">${sectionHead('STATUS','Jornada do projeto')}
+   <div class="arq6-stage arq-project-stage"><span class="${/NOVO|PLANEJAMENTO/i.test(status)?'current':''}">Planejamento</span><span class="${/COTA/i.test(status)?'current':''}">Cotação</span><span class="${/NEGOC/i.test(status)?'current':''}">Negociação</span><span class="${/EXEC/i.test(status)?'current':''}">Execução</span><span class="${/CONCLU/i.test(status)?'current':''}">Concluído</span></div>
+   <p class="arq6-muted">O status é informativo; as decisões continuam sob controle dos usuários do projeto.</p>
+   <div class="arq6-actions"><a class="arq6-btn" href="chat.html?projetoId=${enc}">Abrir chat</a><a class="arq6-btn" href="moodboard.html?projectId=${enc}">Moodboard</a></div>
+  </section>
+ </div>
+ <div class="arq6-grid three arq-stack-14">
+  <section class="arq6-card">${sectionHead('AMOSTRAS','Últimas solicitações')}${(r.amostras||[]).slice(0,4).map(x=>`<div class="arq6-row"><span>${productImg(x)}</span><span><b>${esc(x.PRODUTO||'Amostra')}</b><br><small>${esc(x.STATUS||'')}</small></span><span>${esc(x.PREVISAO||'')}</span></div>`).join('')||W.empty('Nenhuma amostra','Solicite pelo produto no marketplace.')}</section>
+  <section class="arq6-card">${sectionHead('FORNECEDORES','Participantes')}${(r.fornecedores||[]).slice(0,5).map(x=>`<div class="arq6-row"><span class="arq6-badge">${esc(x.STATUS||'VINCULADO')}</span><span><b>${esc(x['FORNECEDOR NOME']||x['FORNECEDOR ID']||'Fornecedor')}</b></span><span>→</span></div>`).join('')||W.empty('Nenhum fornecedor','Use o matching para iniciar conexões.')}</section>
+  <section class="arq6-card">${sectionHead('CLIENTE / EQUIPE','Aprovações e participantes')}${(r.aprovacoes||[]).slice(-4).reverse().map(x=>`<div class="arq6-row"><span class="arq6-badge">${esc(x.STATUS||'AGUARDANDO')}</span><span><b>${esc(x.TITULO||'Item')}</b><br><small>${esc(x.COMENTARIO||'')}</small></span><span>${date(x['DATA ATUALIZACAO'])}</span></div>`).join('')||W.empty('Nenhuma aprovação','Vincule cliente/equipe quando necessário.','<a class="arq6-btn" href="clientes-projeto.html?projectId='+enc+'">Gerenciar</a>')}</section>
+ </div>
+ <section class="arq6-card arq-stack-14" id="timeline">
+   ${sectionHead('TIMELINE','Histórico do projeto')}
+   <div class="arq-project-timeline">${tl.map(ev=>`<article><i></i><div><small>${esc(ev.DATA||ev.data||'')}</small><b>${esc(ev.TITULO||ev.acao||ev.TIPO||'Atualização')}</b><p>${esc(ev.DESCRICAO||ev.detalhe||ev.STATUS||'')}</p></div></article>`).join('')}</div>
+ </section>`;
+}
 async function specs(){if(!W.requireAuth(['ARQUITETO','ADMIN']))return;await initPicker(false);if(!projectId)return;busy();const r=await W.api('portal_especificacoes',{projetoId});if(!r.sucesso)return W.shellError(main,r.mensagem);const rows=r.especificacoes||[];W.setTitle('Especificações','Seleção de produtos e materiais do projeto');main.innerHTML=`${sectionHead('ESPECIFICAÇÃO','Materiais do projeto',`<a class="arq6-btn" href="explorar.html">+ Adicionar produtos</a><button class="arq6-btn gold" id="quoteSpecs">Solicitar orçamento</button>`)}${rows.length?`<div class="arq6-list">${rows.map(x=>`<div class="arq6-row">${productImg(x)}<span><b>${esc(x.NOME||'Produto')}</b><br><small>${esc([x.CATEGORIA,x.AMBIENTE,x.QUANTIDADE&&x.QUANTIDADE+' '+(x.UNIDADE||'')].filter(Boolean).join(' · '))}</small><br><small>${esc([x.ACABAMENTO,x.COR,x.MEDIDAS].filter(Boolean).join(' · '))}</small></span><span class="arq6-actions"><label><input type="checkbox" class="specSel" value="${esc(x.ID)}" checked> cotar</label><button class="arq6-btn danger" data-remove="${esc(x.ID)}">Remover</button></span></div>`).join('')}</div>`:W.empty('Nenhuma especificação','Adicione produtos do marketplace para começar.','<a class="arq6-btn gold" href="explorar.html">Explorar marketplace</a>')}`;main.querySelectorAll('[data-remove]').forEach(b=>b.onclick=action('',async()=>{if(!confirm('Remover este item da especificação?'))return;const j=await W.api('portal_especificacao_remover',{id:b.dataset.remove,projetoId},'POST');A.toast(j.mensagem);if(j.sucesso)render();}));const q=$('#quoteSpecs');if(q)q.onclick=()=>{const ids=[...document.querySelectorAll('.specSel:checked')].map(x=>x.value);const body=A.modal('Solicitar orçamento',`<form id="quoteForm" class="arq6-form"><label>Cidade<input name="cidade" required></label><label>Prazo desejado<input name="prazo" placeholder="Ex.: 30 dias"></label><label class="full">Observações<textarea name="observacoes" rows="4"></textarea></label><div class="full arq6-actions"><button class="arq6-btn gold">Criar solicitações</button></div></form>`);body.querySelector('form').onsubmit=action('',async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));const j=await W.api('portal_especificacoes_cotar',{...d,projetoId,ids,loteId:'WEB-'+Date.now()},'POST');A.toast(j.mensagem);if(j.sucesso){document.getElementById('arq6Modal').hidden=true;setTimeout(()=>location.href='comparar-propostas.html?projectId='+encodeURIComponent(projectId),400);}});};}
 async function compare(){if(!W.requireAuth(['ARQUITETO','ADMIN','FORNECEDOR']))return;await initPicker(false);if(!projectId)return;busy();const r=await W.api('portal_propostas_comparar',{projetoId});if(!r.sucesso)return W.shellError(main,r.mensagem);const rows=r.propostas||[];W.setTitle('Comparar propostas','Preço, prazo, condição, reputação e status em uma única tela');main.innerHTML=rows.length?`${sectionHead('PROPOSTAS','Comparativo comercial')}<div class="arq6-table-wrap"><table class="arq6-table"><thead><tr><th>Fornecedor</th><th>Produto</th><th>Valor</th><th>Frete</th><th>Prazo</th><th>Pagamento</th><th>Reputação</th><th>Status</th><th>Ações</th></tr></thead><tbody>${rows.map(x=>`<tr><td><b>${esc(x.fornecedor)}</b></td><td>${esc(x.produto||'—')}</td><td><b>${brl(x.valorTotal)}</b></td><td>${brl(x.frete)}</td><td>${esc(x.prazo||'—')}</td><td>${esc(x.condicao||'—')}</td><td>${x.nota?`${esc(x.nota)} ★ · ${esc(x.avaliacoes)} aval.`:'—'}</td><td>${W.status(x.status)}</td><td><div class="arq6-actions"><a class="arq6-btn" href="propostas-portal.html?id=${encodeURIComponent(x.id)}">Detalhes</a>${W.role()!=='FORNECEDOR'&&['ACEITA','APROVADA','FECHADO','NEGÓCIO FECHADO','NEGOCIO FECHADO'].includes(String(x.status||'').toUpperCase())?`<button class="arq6-btn gold" data-order="${esc(x.id)}">Emitir pedido</button>`:''}</div></td></tr>`).join('')}</tbody></table></div>`:W.empty('Nenhuma proposta recebida','Quando fornecedores responderem às solicitações, o comparativo aparecerá aqui.');main.querySelectorAll('[data-order]').forEach(b=>b.onclick=action('',async()=>{const j=await W.api('portal_pedido_criar',{propostaId:b.dataset.order},'POST');A.toast(j.mensagem);if(j.sucesso)location.href='pedidos.html?projectId='+encodeURIComponent(projectId);}));}
 async function samples(){if(!W.requireAuth(['ANY']))return;await initPicker(true);busy();const r=await W.api('portal_amostras',projectId?{projetoId}:{});if(!r.sucesso)return W.shellError(main,r.mensagem);const rows=r.amostras||[];W.setTitle('Amostras','Solicitações físicas, catálogos e mostruários');main.innerHTML=rows.length?`${sectionHead('AMOSTRAS','Acompanhamento')}<div class="arq6-list">${rows.map(x=>`<div class="arq6-row"><span class="arq6-badge">${esc(x.STATUS||'SOLICITADA')}</span><span><b>${esc(x.PRODUTO||'Amostra')}</b><br><small>${esc([x['TIPO AMOSTRA'],x.CIDADE,x['FORNECEDOR NOME']].filter(Boolean).join(' · '))}</small><br><small>${x.RASTREIO?'Rastreio: '+esc(x.RASTREIO):''}</small></span><span>${esc(x.PREVISAO||date(x.DATA))}</span></div>`).join('')}</div>`:W.empty('Nenhuma amostra solicitada','Nos produtos compatíveis, use “Solicitar amostra”.','<a class="arq6-btn gold" href="explorar.html">Explorar produtos</a>');}
