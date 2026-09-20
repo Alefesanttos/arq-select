@@ -53,3 +53,4 @@
   }
   ensureAssets();
 })();
+(function(){"use strict";if(window.__ARQ_SW_590__)return;window.__ARQ_SW_590__=true;if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{}),{once:true});}})();
