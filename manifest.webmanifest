@@ -1,7 +1,7 @@
 {
   "name": "ARQSELECT — Arquitetura, especificação e negócios",
   "short_name": "ARQSELECT",
-  "description": "Ecossistema premium de arquitetura e construção com projetos, produtos, fornecedores, prestadores, busca inteligente, negócios e colaboração profissional.",
+  "description": "Ecossistema operacional de arquitetura e construção: projetos, produtos, fornecedores, prestadores, cotações, relacionamento, inteligência e negócios.",
   "lang": "pt-BR",
   "start_url": "./index.html",
   "scope": "./",
