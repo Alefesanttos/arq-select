@@ -1,4 +1,4 @@
-/* ARQSELECT Experience Layer 5.9.0 — motion, theme UI, accessibility, contrast, responsive runtime and progressive states */
+/* ARQSELECT Experience Layer 5.10.0 — motion, theme UI, accessibility, contrast, responsive runtime and progressive states */
 (function(){
   'use strict';
   if(window.__ARQ_EXPERIENCE_570__)return;window.__ARQ_EXPERIENCE_570__=true;
@@ -200,13 +200,91 @@
     addEventListener('orientationchange',()=>setTimeout(classify,120),{passive:true});
   }
 
+  const iconPaths={
+    home:'<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9 20v-6h6v6"/>',
+    search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+    project:'<path d="M4 5h16v14H4z"/><path d="M8 5V3h8v2"/><path d="M8 10h8M8 14h5"/>',
+    briefcase:'<rect x="3" y="7" width="18" height="12" rx="2"/><path d="M8 7V4h8v3M3 12h18"/>',
+    message:'<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',
+    user:'<circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>',
+    grid:'<rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/>',
+    bell:'<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/>',
+    check:'<path d="m5 12 4 4L19 6"/>',
+    alert:'<circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 17h.01"/>',
+    info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/>'
+  };
+  function iconSvg(name,cls=''){return '<svg class="arq-ui-icon '+cls+'" viewBox="0 0 24 24" aria-hidden="true">'+(iconPaths[name]||iconPaths.info)+'</svg>'}
+
+  function toastSystem(){
+    if(doc.getElementById('arq-global-toast-host'))return;
+    const host=doc.createElement('div');host.id='arq-global-toast-host';host.setAttribute('aria-live','polite');host.setAttribute('aria-atomic','false');doc.body.append(host);
+    function toast(message,options={}){
+      const tone=options.tone||'info',title=options.title||(tone==='success'?'Concluído':tone==='error'?'Não foi possível concluir':tone==='warning'?'Atenção':'ARQSELECT');
+      const el=doc.createElement('div');el.className='arq-global-toast';el.dataset.tone=tone;el.setAttribute('role',tone==='error'?'alert':'status');
+      const icon=tone==='success'?'check':tone==='error'||tone==='warning'?'alert':'info';
+      el.innerHTML='<span class="arq-global-toast__icon">'+iconSvg(icon,'sm')+'</span><div class="arq-global-toast__copy"><b>'+escapeHtml(title)+'</b><span>'+escapeHtml(message||'')+'</span></div><button class="arq-global-toast__close" type="button" aria-label="Fechar">×</button>';
+      const close=()=>{el.style.opacity='0';el.style.transform='translateY(8px)';setTimeout(()=>el.remove(),180)};
+      el.querySelector('button').addEventListener('click',close);host.append(el);setTimeout(close,Math.max(2500,Number(options.duration)||4200));return el;
+    }
+    window.ARQSELECT_UI=Object.assign(window.ARQSELECT_UI||{},{toast,icon:iconSvg});
+    window.addEventListener('arq:toast',event=>toast(event.detail?.message||event.detail?.text||'',event.detail||{}));
+  }
+  function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
+
+  function mobileNavigation(){
+    if(doc.querySelector('.arq-mobile-nav'))return;
+    const surface=doc.body.dataset.arqSurface||'',page=doc.body.dataset.arqPage||'';
+    if(!['workspace','dashboard','admin'].includes(surface)||page==='login')return;
+    const role=String(localStorage.getItem('ARQSELECT_PORTAL_TIPO')||'').toUpperCase();
+    if(!role)return;
+    const map={
+      ARQUITETO:[['ARQSELECT_DASHBOARD_ARQUITETO.html','home','Início'],['ARQSELECT_ARQUITETO_PROJETOS.html','project','Projetos'],['descobrir.html','search','Descobrir',true],['chat.html','message','Chat'],['ARQSELECT_ARQUITETO_PERFIL.html','user','Perfil']],
+      FORNECEDOR:[['ARQSELECT_DASHBOARD_FORNECEDOR.html','home','Início'],['oportunidades.html','briefcase','Leads'],['descobrir.html','search','Descobrir',true],['chat.html','message','Chat'],['ARQSELECT_FORNECEDOR_PERFIL.html','user','Perfil']],
+      PRESTADOR:[['dashboard-prestador.html','home','Início'],['oportunidades-servicos.html','briefcase','Oportunidades'],['descobrir.html','search','Descobrir',true],['chat.html','message','Chat'],['prestador-onboarding.html','user','Perfil']],
+      ADMIN:[['admin.html','grid','Admin'],['painel-negocios.html','briefcase','Negócios'],['descobrir.html','search','Descobrir',true],['chat.html','message','Chat'],['admin-prestadores.html','user','Rede']]
+    };
+    const items=map[role];if(!items)return;
+    const current=(location.pathname.split('/').pop()||'index.html').toLowerCase();
+    const nav=doc.createElement('nav');nav.className='arq-mobile-nav';nav.setAttribute('aria-label','Navegação principal mobile');
+    nav.innerHTML=items.map(([href,icon,label,primary])=>'<a href="'+href+'" '+((href.toLowerCase()===current)?'aria-current="page"':'')+' '+(primary?'data-primary="true"':'')+'>'+iconSvg(icon)+'<span>'+label+'</span></a>').join('');
+    doc.body.append(nav);
+  }
+
+  function modalAccessibility(){
+    const focusable='a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+    const dialogs=()=>[...doc.querySelectorAll('.modal.open,.home-modal.open,.arq-modal.open,.arq6-modal:not([hidden]),[role="dialog"]:not([hidden])')].filter(el=>getComputedStyle(el).display!=='none');
+    doc.querySelectorAll('.modal,.home-modal,.arq-modal,.arq6-modal,.modalbox,.modal-card,.modal-content,.dialog,.arq6-modal-card,.home-modal-card,.arq-dialog,.arq-modal__box').forEach(el=>{
+      if(el.matches('.modal,.home-modal,.arq-modal,.arq6-modal')){if(!el.hasAttribute('role'))el.setAttribute('role','dialog');el.setAttribute('aria-modal','true')}
+    });
+    doc.addEventListener('keydown',e=>{
+      const open=dialogs().at(-1);if(!open)return;
+      if(e.key==='Escape'){const close=open.querySelector('.close,.home-modal-close,.arq-modal__close,[data-close],[data-modal-close]');if(close){e.preventDefault();close.click()}return}
+      if(e.key!=='Tab')return;const list=[...open.querySelectorAll(focusable)].filter(x=>x.offsetParent!==null);if(!list.length)return;
+      const first=list[0],last=list.at(-1);if(e.shiftKey&&doc.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&doc.activeElement===last){e.preventDefault();first.focus()}
+    });
+  }
+
+  function mediaNormalization(){
+    doc.querySelectorAll('.arq-product-card img,.arq-supplier-card img,.arq-catalog-card img,.profile-card img,.srv-card img,.arq-feed-post img').forEach(img=>{
+      img.decoding='async';if(!img.closest('.hero,.arq-hero')&&!img.hasAttribute('loading'))img.loading='lazy';
+    });
+  }
+
+  function actionFeedback(){
+    doc.addEventListener('click',e=>{
+      const el=e.target.closest('button,a');if(!el)return;
+      if(el.matches('[aria-disabled="true"],:disabled')){e.preventDefault();return}
+      if(el.matches('[data-copy]')){const value=el.dataset.copy||'';navigator.clipboard?.writeText(value).then(()=>window.ARQSELECT_UI?.toast?.('Copiado para a área de transferência.',{tone:'success'})).catch(()=>{})}
+    });
+  }
+
   function observeDynamic(){
     if(!('MutationObserver'in window))return;
     let timer;new MutationObserver(()=>{clearTimeout(timer);timer=setTimeout(()=>{skeletons();cardLight();activeNavigation();scheduleContrastRepair(doc.body)},80)}).observe(doc.body,{childList:true,subtree:true});
   }
 
   ready(()=>{
-    markPage();responsiveRuntime();buildThemeControl();activeNavigation();progress();discovery();skeletons();reveal();cardLight();moveAccessibility();imageMotion();scheduleContrastRepair(doc.body);observeDynamic();
+    markPage();responsiveRuntime();buildThemeControl();toastSystem();mobileNavigation();modalAccessibility();activeNavigation();progress();discovery();skeletons();reveal();cardLight();moveAccessibility();mediaNormalization();actionFeedback();imageMotion();scheduleContrastRepair(doc.body);observeDynamic();
     window.addEventListener('arq-theme-change',()=>scheduleContrastRepair(doc.body));requestAnimationFrame(()=>root.dataset.themeMotion='ready');
   });
 })();
