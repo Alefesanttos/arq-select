@@ -8,7 +8,7 @@ const api=async(action,data={},method='GET')=>{
   if(window.ARQSELECT6?.api)return window.ARQSELECT6.api(action,{...data,token:data.token??token()},method);
   return {sucesso:false,mensagem:'API ARQSELECT indisponível.'};
 };
-function toast(msg){let el=document.getElementById('srvToast');if(!el){el=document.createElement('div');el.id='srvToast';el.className='srv-toast';document.body.append(el)}el.textContent=msg||'Operação concluída.';el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3200)}
+function toast(msg,options){if(window.ARQSELECT_UI?.toast)return window.ARQSELECT_UI.toast(msg||'Operação concluída.',options||{});let el=document.getElementById('srvToast');if(!el){el=document.createElement('div');el.id='srvToast';el.className='srv-toast';document.body.append(el)}el.textContent=msg||'Operação concluída.';el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3200)}
 function money(v){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v||0))}
 function score(v){return Math.round(Number(v||0))+'%'}
 function qs(sel,root=document){return root?.querySelector?.(sel)||null}
