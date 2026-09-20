@@ -1165,3 +1165,12 @@
   @media(max-width:980px){.arq-account-event{grid-template-columns:1fr 1fr 1fr}.arq-account-event>div{grid-column:1/-1}.arq-account-event select{grid-column:1/3}}
   @media(max-width:620px){.arq-account-event{grid-template-columns:1fr 1fr}.arq-account-event>div,.arq-account-event select,.arq-account-event button{grid-column:1/-1}.arq-account-complete{grid-template-columns:1fr}}
 }
+
+
+@layer arq.premium {
+  .arq-recently-viewed{margin:0 0 18px;padding:20px!important}
+  .arq-recently-viewed h2{margin:.35rem 0 1rem}
+  .arq-recent-list{display:flex;gap:9px;overflow-x:auto;padding-bottom:3px;scrollbar-width:thin}
+  .arq-recent-item{flex:0 0 min(280px,78vw);display:grid;gap:5px;padding:13px;border:1px solid var(--border-subtle);border-radius:14px;background:var(--surface-secondary);text-decoration:none}
+  .arq-recent-item b{color:var(--text-primary)}.arq-recent-item small{color:var(--text-muted);font-size:.72rem}
+}
