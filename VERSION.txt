@@ -1,2 +1,2 @@
-ARQSELECT 6.1.0 — Operational Core Completion
-Build: 2026-09-20.610-OPERATIONAL-CORE
+ARQSELECT 6.2.0 — Weekly Value
+Build: 2026-09-20.620-WEEKLY-VALUE
