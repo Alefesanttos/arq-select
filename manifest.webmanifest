@@ -1,7 +1,7 @@
 {
   "name": "ARQSELECT — Arquitetura, especificação e negócios",
   "short_name": "ARQSELECT",
-  "description": "Ecossistema profissional de arquitetura e construção com projetos, produtos, fornecedores, prestadores, networking, negócios, conteúdo e colaboração.",
+  "description": "Ecossistema profissional com projetos, marketplace, networking, CRM, agenda, importação, exportação, organizações e integrações para arquitetura e construção.",
   "lang": "pt-BR",
   "start_url": "./index.html",
   "scope": "./",
@@ -132,6 +132,17 @@
       "name": "Agenda",
       "short_name": "Agenda",
       "url": "./agenda.html",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Vistos recentemente",
+      "short_name": "Recentes",
+      "url": "./recentes.html",
       "icons": [
         {
           "src": "./icon-192.png",
