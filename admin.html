@@ -6,7 +6,7 @@
 <script id="arq-theme-boot">(()=>{try{const k="ARQSELECT_THEME",v=localStorage.getItem(k)||"auto",m=matchMedia("(prefers-color-scheme: dark)").matches,t=v==="auto"?(m?"dark":"light"):(v==="dark"?"dark":"light"),h=document.documentElement;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=["light","dark","auto"].includes(v)?v:"auto";h.style.colorScheme=t}catch(_){document.documentElement.dataset.theme="light"}})();</script>
 
 <meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'"><meta name="robots" content="noindex,nofollow">
-<script src="arq-config.js?v=5.10.0"></script>
+<script src="arq-config.js?v=6.0.0"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ARQSELECT | CRM 4.0</title>
 <link rel="icon" type="image/svg+xml" href="icon-master.svg">
@@ -119,8 +119,8 @@ select option{background:#171717;color:#f5f2e9}
 .modal-card,.modalbox,.modal-content,.dialog{background:linear-gradient(145deg,#1b1b1b,#0c0c0c);color:#f5f2e9;border:1px solid rgba(212,175,55,.18)}.modal-card h1,.modal-card h2,.modal-card h3,.modal-card h4,.modal-card b,.modal-card label,.modal-card td,.modal-card th{color:#f5f2e9}.modal-card .kv{background:rgba(255,255,255,.045);color:#f5f2e9;border:1px solid rgba(255,255,255,.08)}.modal-card input,.modal-card select,.modal-card textarea{background:#121212;color:#f5f2e9;border-color:rgba(255,255,255,.12)}.modal-card .muted{color:#aaa49a}.modal-card .btn.light{background:rgba(255,255,255,.07);color:#f5f2e9}.proposal-item{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:16px 4px;border-bottom:1px solid rgba(255,255,255,.07)}.proposal-item:last-child{border-bottom:0}.proposal-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
 }</style><style id="arqselect-final-contrast">@layer page {
 .modal-card,.modal-card *{color:var(--arq-text)}.modal-card{background:linear-gradient(145deg,#1b1b1b,#0c0c0c)}.modal-card .kv{background:rgba(255,255,255,.045);color:var(--arq-text);border:1px solid rgba(255,255,255,.09)}.latest-user:hover{background:rgba(255,255,255,.035)}.chat-conversation-item{cursor:pointer}
-}</style><link rel="stylesheet" href="arq-premium.css?v=5.7.0"><link rel="stylesheet" href="arq-ui-5.css?v=5.7.0"><link rel="stylesheet" href="arq-polish.css?v=5.7.0">
-<link rel="stylesheet" href="arq-design-system.css?v=5.10.0">
+}</style><link rel="stylesheet" href="arq-premium.css?v=6.0.0"><link rel="stylesheet" href="arq-ui-5.css?v=6.0.0"><link rel="stylesheet" href="arq-polish.css?v=6.0.0">
+<link rel="stylesheet" href="arq-design-system.css?v=6.0.0">
 </head>
 <body data-arq-page="admin" data-arq-surface="admin">
 <div id="login" class="login">
@@ -139,7 +139,7 @@ select option{background:#171717;color:#f5f2e9}
   <aside class="side">
     <div class="side-brand"><div class="logo">ARQ<span>SELECT</span></div><div class="ey arq-inline-75e773720">ADMIN</div><div class="admin-user"><div class="arq-inline-ce62031a4">Sessão</div><div class="arq-inline-1e4f6c757" id="adminName">Administrador</div></div></div>
     <div class="nav">
-      <button class="active" data-page="dashboard">Dashboard</button><button data-page="usuarios">Usuários</button><button data-page="arquitetos">Arquitetos</button><button data-page="fornecedores">Fornecedores</button><button data-page="produtos">Marketplace</button><button onclick="location.href='admin-catalogos.html'">Catálogos</button><button data-page="projetos">Projetos</button><button data-page="solicitacoes">Solicitações</button><button data-page="propostas">Propostas</button><button data-page="chat">Chat</button><button data-page="enviar-projeto">Distribuir projeto</button><button data-page="conexoes">Conexões</button><button data-page="comercial">Aprovação comercial</button><button data-page="negocios">Negócios</button><button data-page="avaliacoes">Avaliações</button><button data-page="ranking">Ranking</button><button data-page="suporte">Suporte</button><button data-page="relatorios">Relatórios</button><button data-page="configuracoes">Configurações</button><button data-page="seguranca">Segurança</button><button data-page="notificacoes">Notificações <span id="notifCount" class="badge gold arq-inline-4932d171a">0</span></button><button data-page="historico">Histórico</button><button id="logout">Sair</button>
+      <button class="active" data-page="dashboard">Dashboard</button><button data-page="usuarios">Usuários</button><button data-page="arquitetos">Arquitetos</button><button data-page="fornecedores">Fornecedores</button><button data-page="produtos">Marketplace</button><button onclick="location.href='admin-catalogos.html'">Catálogos</button><button data-page="projetos">Projetos</button><button data-page="solicitacoes">Solicitações</button><button data-page="propostas">Propostas</button><button data-page="chat">Chat</button><button data-page="enviar-projeto">Distribuir projeto</button><button data-page="conexoes">Conexões</button><button data-page="comercial">Aprovação comercial</button><button data-page="negocios">Negócios</button><button data-page="avaliacoes">Avaliações</button><button data-page="ranking">Ranking</button><button data-page="suporte">Suporte</button><button data-page="relatorios">Relatórios</button><button data-page="configuracoes">Configurações</button><button data-page="seguranca">Segurança</button><button data-page="notificacoes">Notificações <span id="notifCount" class="badge gold arq-inline-4932d171a">0</span></button><button data-page="historico">Histórico</button><button onclick="location.href='admin-qualidade.html'">Qualidade de dados</button><button id="logout">Sair</button>
     </div>
   </aside>
   <main class="main">
@@ -246,6 +246,6 @@ async function init(){if(!token)return;try{await api("sessao");await loadDashboa
 </script>
 <script src="admin-settings-4.js"></script>
 <script src="admin-3.js"></script>
-<script src="arq-premium.js?v=5.7.0"></script>
-<script src="arq-experience.js?v=5.10.0" defer></script>
+<script src="arq-premium.js?v=6.0.0"></script>
+<script src="arq-experience.js?v=6.0.0" defer></script>
 </body></html>
