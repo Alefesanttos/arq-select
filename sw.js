@@ -1,9 +1,9 @@
-/* ARQSELECT 6.1.0 — cache resiliente e responsivo para todos os dispositivos. */
-const CACHE='arqselect-6.1.0.20260920.610';
+/* ARQSELECT 6.2.0 — cache resiliente e responsivo para todos os dispositivos. */
+const CACHE='arqselect-6.2.0.20260920.620';
 const STATIC=[
   './offline.html','./arq-design-system.css','./arq-experience.js','./arq-config.js',
   './arqselect-6.css','./arqselect-6.js','./arq-services.css','./arq-services.js','./arq-performance.js','./arq-intelligence.js','./arq-business.js',
-  './arq-workspace-6.js','./arq-workspace-app-6.js','./login.html','./prestadores.html','./descobrir.html','./painel-negocios.html',
+  './arq-workspace-6.js','./arq-workspace-app-6.js','./login.html','./arq-content.js','./arq-profile-intelligence.js','./arq-onboarding.js','./arq-agenda.js','./arq-trends.js','./arq-network.js','./para-marcas.html','./para-prestadores.html','./para-fornecedores.html','./para-arquitetos.html','./eventos.html','./cases.html','./blog.html','./onboarding.html','./agenda.html','./em-alta.html','./networking.html','./prestadores.html','./descobrir.html','./painel-negocios.html',
   './ARQSELECT_LOGIN_PRESTADOR.html','./arq-admin-quality.js','./admin-qualidade.html','./arq-account.js','./arq-resilience.js','./arq-project-hub.js','./arq-rfq.js','./solicitar-orcamento.html','./arq-opportunities.js','./central-oportunidades.html','./sala-projeto.html','./404.html','./403.html','./500.html','./icon-192.png','./icon-512.png',
   './assets/ui/fallback-geral.svg','./assets/suppliers/identidade-pendente.svg'
 ];

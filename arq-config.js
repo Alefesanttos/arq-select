@@ -1,4 +1,4 @@
-/* ARQSELECT 6.1.0 — central configuration + theme runtime + harmony loader. */
+/* ARQSELECT 6.2.0 — central configuration + theme runtime + harmony loader. */
 (function(){
   "use strict";
   const DEFAULT_API_URL="https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
@@ -9,8 +9,8 @@
   const active=valid(stored)?stored:DEFAULT_API_URL;
   window.ARQSELECT_API_URL=active;
   window.ARQSELECT_CONFIG=Object.freeze({
-    version:"6.1.0",SYSTEM_NAME:"ARQSELECT",VERSION:"6.1.0",API_URL:active,WHATSAPP:"5519981655013",SITE_URL:"https://arqselect.com.br/",
-    systemName:"ARQSELECT",siteUrl:"https://arqselect.com.br/",mediaBaseUrl:"",build:"2026.09.20.610-OPERATIONAL-CORE",
+    version:"6.2.0",SYSTEM_NAME:"ARQSELECT",VERSION:"6.2.0",API_URL:active,WHATSAPP:"5519981655013",SITE_URL:"https://arqselect.com.br/",
+    systemName:"ARQSELECT",siteUrl:"https://arqselect.com.br/",mediaBaseUrl:"",build:"2026.09.20.620-WEEKLY-USE-GROWTH",
     apiUrl:active,defaultApiUrl:DEFAULT_API_URL,apiStorageKey:KEY,whatsapp:"5519981655013",
     setApiUrl(value){const url=clean(value);if(!valid(url))throw new Error("Informe uma URL válida do Web App terminando em /exec.");localStorage.setItem(KEY,url);return url;},
     clearApiUrl(){localStorage.removeItem(KEY);},isValidApiUrl:valid
@@ -34,8 +34,8 @@
 (function(){
   "use strict";if(window.__arq570Loader)return;window.__arq570Loader=true;
   function load(){
-    if(!document.querySelector('link[data-arq6]')){const l=document.createElement('link');l.rel='stylesheet';l.href='arqselect-6.css?v=6.1.0';l.dataset.arq6='1';document.head.append(l);}
-    if(!document.querySelector('script[data-arq6]')){const s=document.createElement('script');s.src='arqselect-6.js?v=6.1.0';s.defer=true;s.dataset.arq6='1';document.head.append(s);}
+    if(!document.querySelector('link[data-arq6]')){const l=document.createElement('link');l.rel='stylesheet';l.href='arqselect-6.css?v=6.2.0';l.dataset.arq6='1';document.head.append(l);}
+    if(!document.querySelector('script[data-arq6]')){const s=document.createElement('script');s.src='arqselect-6.js?v=6.2.0';s.defer=true;s.dataset.arq6='1';document.head.append(s);}
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',load,{once:true});else load();
 })();
@@ -46,11 +46,11 @@
   function ensureAssets(){
     const head=document.head||document.documentElement;
     let design=document.querySelector('link#arq-design-system,link[href*="arq-design-system.css"]');
-    if(!design){design=document.createElement('link');design.id='arq-design-system';design.rel='stylesheet';design.href='arq-design-system.css?v=6.1.0';head.append(design);}
-    else{if(!design.id)design.id='arq-design-system';design.href='arq-design-system.css?v=6.1.0';}
-    if(!document.querySelector('script[src*="arq-experience.js"]')){const experience=document.createElement('script');experience.src='arq-experience.js?v=6.1.0';experience.defer=true;experience.dataset.arqExperience='1';head.append(experience);}
-    if(!document.querySelector('script[src*="arq-performance.js"]')){const perf=document.createElement('script');perf.src='arq-performance.js?v=6.1.0';perf.defer=true;perf.dataset.arqPerformance='1';head.append(perf);}
-    if(!document.querySelector('script[src*="arq-resilience.js"]')){const resilience=document.createElement('script');resilience.src='arq-resilience.js?v=6.1.0';resilience.defer=true;resilience.dataset.arqResilience='1';head.append(resilience);}
+    if(!design){design=document.createElement('link');design.id='arq-design-system';design.rel='stylesheet';design.href='arq-design-system.css?v=6.2.0';head.append(design);}
+    else{if(!design.id)design.id='arq-design-system';design.href='arq-design-system.css?v=6.2.0';}
+    if(!document.querySelector('script[src*="arq-experience.js"]')){const experience=document.createElement('script');experience.src='arq-experience.js?v=6.2.0';experience.defer=true;experience.dataset.arqExperience='1';head.append(experience);}
+    if(!document.querySelector('script[src*="arq-performance.js"]')){const perf=document.createElement('script');perf.src='arq-performance.js?v=6.2.0';perf.defer=true;perf.dataset.arqPerformance='1';head.append(perf);}
+    if(!document.querySelector('script[src*="arq-resilience.js"]')){const resilience=document.createElement('script');resilience.src='arq-resilience.js?v=6.2.0';resilience.defer=true;resilience.dataset.arqResilience='1';head.append(resilience);}
   }
   ensureAssets();
 })();
