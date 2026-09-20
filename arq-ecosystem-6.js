@@ -78,6 +78,21 @@ function feedback(){
  });
  doc.body.append(b);
 }
+
+function firstAccess(){
+ const page=(location.pathname.split('/').pop()||'').toLowerCase();if(!/dashboard|admin/.test(page)||doc.getElementById('arq-first-access'))return;
+ const visits=new Set((read('VISITS',[])||[]).map(x=>x.file)),r=role();
+ const map={
+  ARQUITETO:[['ARQSELECT_ARQUITETO_PROJETOS.html','Projetos','Abra sua área de projetos'],['ARQSELECT_ARQUITETO_SOLICITAR.html','Cadastrar projeto','Crie ou apresente seu primeiro projeto'],['explorar.html','Explorar produtos','Descubra materiais e fornecedores'],['ARQSELECT_ARQUITETO_PERFIL.html','Perfil profissional','Revise como seu perfil é apresentado']],
+  FORNECEDOR:[['ARQSELECT_FORNECEDOR_PRODUTOS.html','Produtos','Revise seu catálogo'],['oportunidades.html','Oportunidades','Veja demandas compatíveis'],['ARQSELECT_FORNECEDOR_PERFIL.html','Showroom','Complete sua presença profissional'],['analytics-fornecedor.html','Analytics','Acompanhe interesse e conversão']],
+  PRESTADOR:[['prestador-onboarding.html','Perfil profissional','Complete especialidades e região'],['oportunidades-servicos.html','Oportunidades','Veja serviços compatíveis'],['portfolio-prestador.html','Portfólio','Apresente trabalhos realizados'],['agenda-prestador.html','Agenda','Organize visitas e follow-ups']],
+  ADMIN:[['admin.html','Operação','Acompanhe a plataforma'],['painel-negocios.html','Negócios','Revise conversão e comissão'],['admin-prestadores.html','Rede','Acompanhe prestadores'],['descobrir.html','Descoberta','Valide a experiência de busca']]
+ };
+ const tasks=map[r];if(!tasks)return;const done=tasks.filter(t=>visits.has(t[0].toLowerCase())).length;if(done===tasks.length)return;
+ const box=doc.createElement('section');box.id='arq-first-access';box.className='arq-first-access arq6-card';box.innerHTML='<div><div class="arq6-kicker">PRIMEIROS PASSOS</div><h2>Deixe a ARQSELECT pronta para o seu dia a dia.</h2><p>'+done+' de '+tasks.length+' áreas exploradas.</p></div><div class="arq-first-access-list">'+tasks.map(([href,title,desc])=>'<a href="'+href+'" class="'+(visits.has(href.toLowerCase())?'done':'')+'"><span>'+(visits.has(href.toLowerCase())?'✓':'→')+'</span><b>'+esc(title)+'</b><small>'+esc(desc)+'</small></a>').join('')+'</div>';
+ const main=doc.querySelector('main');if(main)main.prepend(box);
+}
+
 function recentWidget(){
  const file=(location.pathname.split('/').pop()||'').toLowerCase();if(!['descobrir.html','explorar.html'].includes(file)||doc.getElementById('arq-recent-widget'))return;
  const items=recentList().filter(x=>x.url!==location.pathname+location.search).slice(0,8);if(!items.length)return;
@@ -85,8 +100,8 @@ function recentWidget(){
  const main=doc.querySelector('main');if(main)main.append(section);
 }
 
-function enhanceDynamic(){autosave();privateDefaults();shareAffordance();recentWidget()}
-function init(){autosave();recent();pageVisits();share();retries();network();privateDefaults();shareAffordance();recentWidget();feedback();const mo=new MutationObserver(()=>{clearTimeout(init._t);init._t=setTimeout(enhanceDynamic,100)});mo.observe(doc.body,{childList:true,subtree:true});}
+function enhanceDynamic(){autosave();privateDefaults();shareAffordance();recentWidget();firstAccess()}
+function init(){autosave();recent();pageVisits();share();retries();network();privateDefaults();shareAffordance();recentWidget();feedback();firstAccess();const mo=new MutationObserver(()=>{clearTimeout(init._t);init._t=setTimeout(enhanceDynamic,100)});mo.observe(doc.body,{childList:true,subtree:true});}
 window.ARQSELECT_ECOSYSTEM={version:'6.0.0',role,token,canonicalStatus,projectStatus,leadStatus,toast,store,read,recentList,autosave,esc};
 doc.readyState==='loading'?doc.addEventListener('DOMContentLoaded',init,{once:true}):init();
 })();
