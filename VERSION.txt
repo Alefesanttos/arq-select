@@ -1,2 +1,2 @@
-ARQSELECT 5.10.3 — Light Hero Buttons Fix
-Build: 2026-09-20.5103-LIGHT-HERO-BUTTONS
+ARQSELECT 6.0.0 — Ecosystem Operating System
+Build: 2026-09-20.600-ECOSYSTEM-OS
