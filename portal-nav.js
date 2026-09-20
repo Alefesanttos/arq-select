@@ -4,6 +4,9 @@
   const nav=document.querySelector("nav"); if(!nav||nav.dataset.arqselect30)return; nav.dataset.arqselect30="true";
   const role=(localStorage.getItem("ARQSELECT_PORTAL_TIPO")||"").toUpperCase();
   const links=[
+    ["conexoes.html","Conexões"],
+    ["agenda.html","Agenda"],
+    ["notificacoes.html","Notificações"],
     ["central-oportunidades.html","Oportunidades"],
     ["propostas.html","Propostas"],["favoritos.html","Favoritos"],
     ...(role==="ARQUITETO"?[["boards.html","Minha seleção"],["comparar.html","Comparar"],["prestadores.html","Encontrar profissionais"],["criar-oportunidade-servico.html","Solicitar serviço"],["propostas-servicos.html","Propostas de serviços"]]:[]),
