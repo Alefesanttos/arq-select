@@ -6,7 +6,7 @@
 <script id="arq-theme-boot">(()=>{try{const k="ARQSELECT_THEME",v=localStorage.getItem(k)||"auto",m=matchMedia("(prefers-color-scheme: dark)").matches,t=v==="auto"?(m?"dark":"light"):(v==="dark"?"dark":"light"),h=document.documentElement;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=["light","dark","auto"].includes(v)?v:"auto";h.style.colorScheme=t}catch(_){document.documentElement.dataset.theme="light"}})();</script>
 
 <meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'"><meta name="robots" content="noindex,nofollow">
-<script src="arq-config.js?v=5.7.0"></script>
+<script src="arq-config.js?v=5.10.0"></script>
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ARQSELECT | Chat</title>
@@ -92,7 +92,7 @@ select option{background:#171717;color:#f5f2e9}
 
 }</style>
 <meta name="theme-color" content="#070807"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="arqselect-4.css"><link rel="stylesheet" href="arq-premium.css?v=5.7.0"><link rel="stylesheet" href="arq-ui-5.css?v=5.7.0"><link rel="stylesheet" href="arq-polish.css?v=5.7.0">
-<link rel="stylesheet" href="arq-design-system.css?v=5.7.0">
+<link rel="stylesheet" href="arq-design-system.css?v=5.10.0">
 </head>
 <body data-arq-page="chat" data-arq-surface="workspace">
 <header class="top">
@@ -275,6 +275,6 @@ if(auth()){(async()=>{await loadConvs({initial:true});const params=new URLSearch
 })();
 </script>
 <script src="arqselect-4.js"></script><script src="arq-premium.js?v=5.7.0"></script>
-<script src="arq-experience.js?v=5.7.0" defer></script>
+<script src="arq-experience.js?v=5.10.0" defer></script>
 </body>
 </html>
