@@ -3,7 +3,7 @@
 if(window.__ARQ_PROFILE_620__)return;window.__ARQ_PROFILE_620__=true;
 const A=()=>window.ARQSELECT6,$=s=>document.querySelector(s),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),token=()=>localStorage.getItem('ARQSELECT_PORTAL_TOKEN')||'';
 const api=(a,d={},m='GET')=>A()?.api?A().api(a,{...d,token:d.token??token()},m):Promise.resolve({sucesso:false});
-const type=String(document.body.dataset.profileType||document.body.dataset.servicePage==='provider'?'PRESTADOR':'').toUpperCase(),id=new URLSearchParams(location.search).get('id')||'';
+const type=String(document.body.dataset.profileType||(document.body.dataset.servicePage==='provider'?'PRESTADOR':'')).toUpperCase(),id=new URLSearchParams(location.search).get('id')||'';
 function toast(m,t='info'){window.ARQSELECT_UI?.toast?.(m,{tone:t})||A()?.toast?.(m)}
 function badge(label,tone=''){return '<span class="arq-trust-badge '+tone+'">'+esc(label)+'</span>'}
 function trust(r){
