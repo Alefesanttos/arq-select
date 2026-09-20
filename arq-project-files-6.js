@@ -1,0 +1,20 @@
+(function(){'use strict';
+const W=window.ARQSELECT_WORKSPACE,A=window.ARQSELECT6,$=s=>document.querySelector(s),esc=A?.esc||function(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))};
+function findUrls(value,path='',out=[]){if(value==null)return out;if(typeof value==='string'){if(/^https?:\/\//i.test(value.trim()))out.push({path,url:value.trim()});return out}if(Array.isArray(value)){value.forEach((v,i)=>findUrls(v,path+'['+i+']',out));return out}if(typeof value==='object')Object.entries(value).forEach(([k,v])=>findUrls(v,path?path+'.'+k:k,out));return out}
+function kind(path,url){const s=(path+' '+url).toLowerCase();if(/dwg|dxf|rvt|bim|skp|ifc/.test(s))return'ARQUIVO TÉCNICO';if(/pdf|manual|memorial|catalog/.test(s))return'DOCUMENTO';if(/jpg|jpeg|png|webp|avif|foto|imagem/.test(s))return'IMAGEM';return'LINK'}
+async function init(){
+ if(!W?.requireAuth?.(['ANY']))return;
+ const q=new URLSearchParams(location.search),projectId=q.get('projectId')||q.get('projetoId')||q.get('id');
+ const host=$('#projectFiles');if(!projectId){host.innerHTML=W.empty('Projeto não informado','Abra esta área a partir do Hub do Projeto.','<a class="arq6-btn gold" href="ARQSELECT_ARQUITETO_PROJETOS.html">Ver projetos</a>');return}
+ $('#backProject').href='projeto.html?projectId='+encodeURIComponent(projectId);$('#projectChat').href='chat.html?projetoId='+encodeURIComponent(projectId);
+ const r=await W.api('portal_sala_projeto',{projetoId});
+ if(!r.sucesso){W.shellError(host,r.mensagem);return}
+ const explicit=[...(r.arquivos||[]),...(r.files||[]),...(r.documentos||[])];
+ const inferred=findUrls(r.projeto||{}).map(x=>({TITULO:x.path||'Arquivo do projeto',URL:x.url,TIPO:kind(x.path,x.url)}));
+ const all=[...explicit,...inferred],seen=new Set(),rows=all.filter(x=>{const u=x.URL||x.url||x.LINK||x.link;if(!u||seen.has(u))return false;seen.add(u);x.__url=u;return true});
+ host.innerHTML='<nav class="arq-project-tabs" aria-label="Áreas do projeto"><a href="projeto.html?projectId='+encodeURIComponent(projectId)+'">Visão geral</a><a href="especificacoes.html?projectId='+encodeURIComponent(projectId)+'">Produtos</a><a href="matching.html?projectId='+encodeURIComponent(projectId)+'">Fornecedores</a><a href="prestadores.html?projectId='+encodeURIComponent(projectId)+'">Prestadores</a><a href="comparar-propostas.html?projectId='+encodeURIComponent(projectId)+'">Orçamentos</a><a href="#" aria-current="page">Arquivos</a><a href="chat.html?projetoId='+encodeURIComponent(projectId)+'">Chat</a><a href="projeto.html?projectId='+encodeURIComponent(projectId)+'#timeline">Timeline</a><a href="favoritos.html?projectId='+encodeURIComponent(projectId)+'">Favoritos</a><a href="clientes-projeto.html?projectId='+encodeURIComponent(projectId)+'">Equipe</a></nav>'+
+ (rows.length?'<div class="arq6-grid three">'+rows.map(x=>'<article class="arq6-card"><div class="arq6-kicker">'+esc(x.TIPO||x.tipo||kind('',x.__url))+'</div><h3>'+esc(x.TITULO||x.titulo||x.NOME||x.nome||'Arquivo')+'</h3><p class="arq6-muted">'+esc(x.DESCRICAO||x.descricao||'Documento vinculado ao projeto.')+'</p><div class="arq6-actions"><a class="arq6-btn gold" href="'+esc(x.__url)+'" target="_blank" rel="noopener">Abrir</a><button class="arq6-btn" data-copy="'+esc(x.__url)+'">Copiar link</button></div></article>').join('')+'</div>':W.empty('Nenhum arquivo identificado','Adicione plantas, imagens e documentos pelas áreas do projeto que suportam anexos. O Hub exibirá automaticamente os links vinculados.','<a class="arq6-btn gold" href="chat.html?projetoId='+encodeURIComponent(projectId)+'">Abrir chat do projeto</a>'));
+ host.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{try{await navigator.clipboard.writeText(b.dataset.copy);A.toast('Link copiado.',{tone:'success'})}catch(_){A.toast('Não foi possível copiar.',{tone:'error'})}});
+}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init,{once:true}):init();
+})();
