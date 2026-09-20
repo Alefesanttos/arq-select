@@ -1,0 +1,18 @@
+(function(){'use strict';if(window.__ARQ_OPS_610__)return;window.__ARQ_OPS_610__=true;
+const A=()=>window.ARQSELECT6,$=s=>document.querySelector(s),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),token=()=>localStorage.getItem('ARQSELECT_PORTAL_TOKEN')||'';
+const api=(a,d={},m='GET')=>A()?.api?A().api(a,{...d,token:d.token??token()},m):Promise.resolve({sucesso:false,mensagem:'API indisponível'});
+const stages=['NOVO','VISUALIZADO','CONTATO INICIADO','PROPOSTA ENVIADA','NEGOCIAÇÃO','FECHADO','PERDIDO'];let rows=[];
+function money(v){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v||0))}
+function toast(m,t='info'){window.ARQSELECT_UI?.toast?.(m,{tone:t})||A()?.toast?.(m)}
+function norm(v){return String(v||'').toUpperCase().replace(/[_-]+/g,' ').trim()}
+function render(){
+ const q=String($('#opsSearch').value||'').toLowerCase(),filter=norm($('#opsStatus').value);
+ const data=rows.filter(x=>(!filter||norm(x.status)===filter)&&(!q||[x.titulo,x.projeto,x.parceiro,x.categoria,x.tipo].join(' ').toLowerCase().includes(q)));
+ $('#opsKpis').innerHTML=[['Total',data.length],['Novas',data.filter(x=>norm(x.status)==='NOVO').length],['Negociação',data.filter(x=>norm(x.status)==='NEGOCIAÇÃO').length],['Fechadas',data.filter(x=>norm(x.status)==='FECHADO').length],['Potencial',money(data.reduce((s,x)=>s+Number(x.valorPotencial||0),0))]].map(([l,v])=>'<article class="arq-project-kpi"><span>'+l+'</span><strong>'+esc(v)+'</strong></article>').join('');
+ $('#opsBoard').innerHTML=stages.map(stage=>{const list=data.filter(x=>norm(x.status)===stage);return '<div class="arq-ops-column"><header><b>'+stage+'</b><span>'+list.length+'</span></header><div>'+list.map(card).join('')+'</div></div>'}).join('');
+ document.querySelectorAll('[data-stage]').forEach(sel=>sel.onchange=async()=>{sel.disabled=true;const r=await api('portal_oportunidade_status',{id:sel.dataset.id,tipo:sel.dataset.tipo,status:sel.value},'POST');toast(r.mensagem||'Status atualizado.',r.sucesso?'success':'error');if(r.sucesso){const row=rows.find(x=>String(x.id)===String(sel.dataset.id)&&String(x.tipo)===String(sel.dataset.tipo));if(row)row.status=sel.value;render()}else sel.disabled=false});
+}
+function card(x){const href=x.projetoId?'sala-projeto.html?projectId='+encodeURIComponent(x.projetoId):x.url||'#';return '<article class="arq-ops-card"><div class="arq6-kicker">'+esc(x.tipo||'OPORTUNIDADE')+'</div><h3>'+esc(x.titulo||x.categoria||'Oportunidade')+'</h3><p>'+esc(x.projeto||'')+'</p><small>'+esc([x.parceiro,x.cidade,x.estado].filter(Boolean).join(' · '))+'</small><div class="arq-ops-value">'+(Number(x.valorPotencial||0)>0?money(x.valorPotencial):'Valor a definir')+'</div><label>Próxima etapa<select data-stage data-id="'+esc(x.id)+'" data-tipo="'+esc(x.tipo)+'">'+stages.map(s=>'<option '+(norm(x.status)===s?'selected':'')+'>'+s+'</option>').join('')+'</select></label><div class="arq6-actions"><a class="arq6-btn" href="'+href+'">Abrir</a>'+(x.chatUrl?'<a class="arq6-btn" href="'+esc(x.chatUrl)+'">Chat</a>':'')+'</div></article>'}
+async function load(){if(!token()){location.href='login.html';return}const r=await api('portal_oportunidades_unificadas');if(!r.sucesso){$('#opsBoard').innerHTML='<div class="arq6-empty">'+esc(r.mensagem||'Não foi possível carregar.')+'</div>';return}rows=r.oportunidades||[];render()}
+document.addEventListener('DOMContentLoaded',()=>{$('#opsSearch').oninput=render;$('#opsStatus').onchange=render;load()},{once:true});
+})();
