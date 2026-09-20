@@ -6,7 +6,7 @@
 <script id="arq-theme-boot">(()=>{try{const k="ARQSELECT_THEME",v=localStorage.getItem(k)||"auto",m=matchMedia("(prefers-color-scheme: dark)").matches,t=v==="auto"?(m?"dark":"light"):(v==="dark"?"dark":"light"),h=document.documentElement;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=["light","dark","auto"].includes(v)?v:"auto";h.style.colorScheme=t}catch(_){document.documentElement.dataset.theme="light"}})();</script>
 
 <meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'"><meta name="robots" content="noindex,nofollow">
-<script src="arq-config.js?v=5.7.0"></script>
+<script src="arq-config.js?v=5.10.0"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ARQSELECT | CRM 4.0</title>
 <link rel="icon" type="image/svg+xml" href="icon-master.svg">
@@ -120,7 +120,7 @@ select option{background:#171717;color:#f5f2e9}
 }</style><style id="arqselect-final-contrast">@layer page {
 .modal-card,.modal-card *{color:var(--arq-text)}.modal-card{background:linear-gradient(145deg,#1b1b1b,#0c0c0c)}.modal-card .kv{background:rgba(255,255,255,.045);color:var(--arq-text);border:1px solid rgba(255,255,255,.09)}.latest-user:hover{background:rgba(255,255,255,.035)}.chat-conversation-item{cursor:pointer}
 }</style><link rel="stylesheet" href="arq-premium.css?v=5.7.0"><link rel="stylesheet" href="arq-ui-5.css?v=5.7.0"><link rel="stylesheet" href="arq-polish.css?v=5.7.0">
-<link rel="stylesheet" href="arq-design-system.css?v=5.7.0">
+<link rel="stylesheet" href="arq-design-system.css?v=5.10.0">
 </head>
 <body data-arq-page="admin" data-arq-surface="admin">
 <div id="login" class="login">
@@ -247,5 +247,5 @@ async function init(){if(!token)return;try{await api("sessao");await loadDashboa
 <script src="admin-settings-4.js"></script>
 <script src="admin-3.js"></script>
 <script src="arq-premium.js?v=5.7.0"></script>
-<script src="arq-experience.js?v=5.7.0" defer></script>
+<script src="arq-experience.js?v=5.10.0" defer></script>
 </body></html>

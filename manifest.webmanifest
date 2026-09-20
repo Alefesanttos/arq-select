@@ -1,14 +1,14 @@
 {
   "name": "ARQSELECT — Arquitetura, especificação e negócios",
   "short_name": "ARQSELECT",
-  "description": "Ecossistema profissional premium com busca inteligente, projetos, fornecedores, prestadores, negócios e conexões para arquitetura e construção.",
+  "description": "Ecossistema premium de arquitetura e construção com projetos, produtos, fornecedores, prestadores, busca inteligente, negócios e colaboração profissional.",
   "lang": "pt-BR",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#0b0c0c",
-  "theme_color": "#0b0c0c",
+  "background_color": "#0d100e",
+  "theme_color": "#0d100e",
   "categories": [
     "business",
     "productivity",

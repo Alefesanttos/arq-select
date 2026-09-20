@@ -6,7 +6,7 @@
   const token=()=>localStorage.getItem('ARQSELECT_PORTAL_TOKEN')||'';
   const role=()=>String(localStorage.getItem('ARQSELECT_PORTAL_TIPO')||'').toUpperCase();
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  function toast(message){let t=document.getElementById('arq6Toast');if(!t){t=document.createElement('div');t.id='arq6Toast';t.className='arq6-toast';document.body.append(t);}t.textContent=message||'';t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),3000);}
+  function toast(message,options){if(window.ARQSELECT_UI?.toast)return window.ARQSELECT_UI.toast(message||'',options||{});let t=document.getElementById('arq6Toast');if(!t){t=document.createElement('div');t.id='arq6Toast';t.className='arq6-toast';document.body.append(t);}t.textContent=message||'';t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),3000);}
   async function api(action,data={},method='GET'){
     if(window.ARQSELECT4?.api)return window.ARQSELECT4.api(action,data,method);
     const base=apiUrl();if(!base)return {sucesso:false,mensagem:'API indisponível.'};

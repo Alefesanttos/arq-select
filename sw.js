@@ -1,10 +1,10 @@
-/* ARQSELECT 5.9.0 — cache resiliente e responsivo para todos os dispositivos. */
-const CACHE='arqselect-5.9.0.20260919.590';
+/* ARQSELECT 5.10.0 — cache resiliente e responsivo para todos os dispositivos. */
+const CACHE='arqselect-5.10.0.20260919.5100';
 const STATIC=[
   './offline.html','./arq-design-system.css','./arq-experience.js','./arq-config.js',
   './arqselect-6.css','./arqselect-6.js','./arq-services.css','./arq-services.js','./arq-performance.js','./arq-intelligence.js','./arq-business.js',
   './arq-workspace-6.js','./arq-workspace-app-6.js','./login.html','./prestadores.html','./descobrir.html','./painel-negocios.html',
-  './ARQSELECT_LOGIN_PRESTADOR.html','./icon-192.png','./icon-512.png',
+  './ARQSELECT_LOGIN_PRESTADOR.html','./404.html','./403.html','./500.html','./icon-192.png','./icon-512.png',
   './assets/ui/fallback-geral.svg','./assets/suppliers/identidade-pendente.svg'
 ];
 self.addEventListener('install',event=>{
