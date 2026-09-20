@@ -1,0 +1,22 @@
+(function(){'use strict';if(window.__ARQ_NETWORK_620__)return;window.__ARQ_NETWORK_620__=true;
+const A=()=>window.ARQSELECT6,$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),token=()=>localStorage.getItem('ARQSELECT_PORTAL_TOKEN')||'';
+const api=(a,d={},m='GET')=>A()?.api?A().api(a,{...d,token:d.token??token()},m):Promise.resolve({sucesso:false,mensagem:'API indisponível'});let state={connections:[],requests:[],recommendations:[],tab:'connections'};
+function toast(m,t='info'){window.ARQSELECT_UI?.toast?.(m,{tone:t})||A()?.toast?.(m)}
+function profileUrl(x){const t=String(x.tipo||'').toUpperCase();return (t==='FORNECEDOR'?'fornecedor.html':t==='PRESTADOR'?'prestador.html':'arquiteto.html')+'?id='+encodeURIComponent(x.id||x.usuarioId||'')}
+function avatar(x){return '<img class="arq-network-avatar" src="'+esc(x.foto||x.logo||'icon-master.svg')+'" alt="" loading="lazy" decoding="async">'}
+function reasons(x){return (x.motivos||[]).slice(0,3).map(m=>'<span class="arq-network-reason">'+esc(m)+'</span>').join('')}
+function card(x,mode){const pending=mode==='request',connected=mode==='connection';return '<article class="arq-network-card">'+avatar(x)+'<div class="arq-network-card-copy"><div class="arq6-kicker">'+esc(x.tipo||'PROFISSIONAL')+(x.verificado?' · VERIFICADO':'')+'</div><h3>'+esc(x.nome||'Perfil')+'</h3><p>'+esc([x.empresa,x.especialidade,x.cidade,x.estado].filter(Boolean).join(' · '))+'</p><div class="arq-network-reasons">'+reasons(x)+'</div><div class="arq6-actions"><a class="arq6-btn" href="'+profileUrl(x)+'">Ver perfil</a>'+(pending?'<button class="arq6-btn gold" data-network-action="ACEITAR" data-id="'+esc(x.conexaoId||x.id)+'">Aceitar</button><button class="arq6-btn" data-network-action="RECUSAR" data-id="'+esc(x.conexaoId||x.id)+'">Recusar</button>':connected?'<button class="arq6-btn" data-network-action="REMOVER" data-id="'+esc(x.conexaoId||x.id)+'">Remover</button>':'<button class="arq6-btn gold" data-network-action="CONECTAR" data-id="'+esc(x.id)+'">Conectar</button>')+'</div></div></article>'}
+function render(){
+ const q=String($('#networkSearch').value||'').trim().toLowerCase(),type=$('#networkType').value;const src=state.tab==='requests'?state.requests:state.connections;
+ const filtered=src.filter(x=>(!type||String(x.tipo||'').toUpperCase()===type)&&(!q||[x.nome,x.empresa,x.especialidade,x.cidade,x.estado].join(' ').toLowerCase().includes(q)));
+ $('#networkConnections').innerHTML=filtered.length?filtered.map(x=>card(x,state.tab==='requests'?'request':'connection')).join(''):'<div class="arq6-empty"><b>Nenhum resultado.</b><p>Use Descobrir para ampliar sua rede profissional.</p></div>';
+ $('#networkRecommendations').innerHTML=state.recommendations.length?state.recommendations.slice(0,8).map(x=>card(x,'recommendation')).join(''):'<div class="arq6-empty">Nenhuma recomendação disponível agora.</div>';
+ $('#networkKpis').innerHTML=[['Conexões',state.connections.length],['Solicitações',state.requests.length],['Recomendações',state.recommendations.length]].map(([l,v])=>'<article class="arq-project-kpi"><span>'+l+'</span><strong>'+v+'</strong></article>').join('');
+ bind();
+}
+function bind(){
+ $$('[data-network-action]').forEach(b=>b.onclick=async()=>{b.disabled=true;const r=await api('portal_conexao_acao',{id:b.dataset.id,acao:b.dataset.networkAction},'POST');toast(r.mensagem||'Rede atualizada.',r.sucesso?'success':'error');if(r.sucesso)await load();else b.disabled=false});
+}
+async function load(){if(!token()){location.href='login.html';return}const [net,rec]=await Promise.all([api('portal_conexoes_rede'),api('portal_recomendacoes_rede')]);if(!net.sucesso){$('#networkConnections').innerHTML='<div class="arq6-empty">'+esc(net.mensagem||'Não foi possível carregar sua rede.')+'</div>';return}state.connections=net.conexoes||[];state.requests=net.solicitacoes||[];state.recommendations=rec.sucesso?(rec.recomendacoes||[]):[];render()}
+document.addEventListener('DOMContentLoaded',()=>{$('#networkSearch').oninput=render;$('#networkType').onchange=render;$('#tabConnections').onclick=()=>{state.tab='connections';$('#tabConnections').classList.add('active');$('#tabRequests').classList.remove('active');render()};$('#tabRequests').onclick=()=>{state.tab='requests';$('#tabRequests').classList.add('active');$('#tabConnections').classList.remove('active');render()};load()},{once:true});
+})();
