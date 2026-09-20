@@ -1,2 +1,2 @@
-ARQSELECT 6.0.0 — Operating System Core
-Build: 2026-09-20.600-OPERATING-SYSTEM-CORE
+ARQSELECT 6.1.0 — Operational Core Completion
+Build: 2026-09-20.610-OPERATIONAL-CORE
