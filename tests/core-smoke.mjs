@@ -21,6 +21,15 @@ required.push('arq-profile-intelligence.js');
 required.push('blog.html');
 required.push('cases.html');
 required.push('eventos.html');
+required.push('planos.html');
+required.push('indicacoes.html');
+required.push('organizacao.html');
+required.push('importar-catalogo.html');
+required.push('exportar.html');
+required.push('admin-webhooks.html');
+required.push('recentes.html');
+required.push('mapa.html');
+required.push('arq-product-intelligence.js');
 const fail=[];
 for(const f of required) if(!fs.existsSync(path.join(root,f))) fail.push('Arquivo ausente: '+f);
 
@@ -31,7 +40,7 @@ for(const f of jsFiles){
 }
 
 const version=fs.readFileSync('VERSION.txt','utf8');
-if(!version.includes('6.2.0'))fail.push('VERSION.txt não está em 6.2.0');
+if(!version.includes('6.3.0'))fail.push('VERSION.txt não está em 6.3.0');
 
 const hubJs=fs.readFileSync('arq-project-hub.js','utf8');
 for(const label of ['Visão geral','Produtos','Fornecedores','Prestadores','Orçamentos','Arquivos','Chat','Timeline','Favoritos','Equipe']){
@@ -54,16 +63,16 @@ const ops=fs.readFileSync('arq-opportunities.js','utf8');
 for(const action of ['portal_oportunidades_unificadas','portal_oportunidade_status'])if(!ops.includes(action))fail.push('Central de oportunidades sem ação: '+action);
 
 const cfg=fs.readFileSync('arq-config.js','utf8');
-if(!cfg.includes('6.2.0'))fail.push('Configuração não está em 6.2.0');
+if(!cfg.includes('6.3.0'))fail.push('Configuração não está em 6.3.0');
 
 const design=fs.readFileSync('arq-design-system.css','utf8');
 const opens=(design.match(/{/g)||[]).length,closes=(design.match(/}/g)||[]).length;
 if(opens!==closes)fail.push('CSS com chaves desbalanceadas');
-if(!design.includes('ARQSELECT 6.2 — OPERATIONAL CORE'))fail.push('Design System sem camada 6.2');
+if(!design.includes('ARQSELECT 6.3 — OPERATIONAL CORE'))fail.push('Design System sem camada 6.3');
 
 const audit=fs.readFileSync('docs/ARQSELECT_AUDITORIA_ROADMAP_6_1.md','utf8');
 const rows=(audit.match(/^\|\s*\d+\s*\|/gm)||[]).length;
 if(rows!==127)fail.push('Roadmap não contém os 127 itens: '+rows);
 
 if(fail.length){console.error(fail.join('\n'));process.exit(1)}
-console.log('ARQSELECT 6.2 operational core smoke: OK');
+console.log('ARQSELECT 6.3 operational core smoke: OK');
