@@ -1,1 +1,2 @@
-ARQSELECT 5.9.0 — Scale + Intelligence + Business + Real Performance\nBuild: 2026-09-19.590-SCALE-INTELLIGENCE\n
+ARQSELECT 5.10.0 — Premium Product Experience
+Build: 2026-09-19.5100-PREMIUM-PRODUCT-EXPERIENCE
