@@ -1,7 +1,7 @@
 {
   "name": "ARQSELECT — Arquitetura, especificação e negócios",
   "short_name": "ARQSELECT",
-  "description": "Sistema operacional profissional para projetos, produtos, fornecedores, prestadores, oportunidades, cotações, relacionamento e negócios em arquitetura e construção.",
+  "description": "Ecossistema profissional de arquitetura e construção com projetos, produtos, fornecedores, prestadores, networking, negócios, conteúdo e colaboração.",
   "lang": "pt-BR",
   "start_url": "./index.html",
   "scope": "./",
@@ -99,6 +99,39 @@
       "name": "Painel de negócios",
       "short_name": "Negócios",
       "url": "./painel-negocios.html",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Networking",
+      "short_name": "Rede",
+      "url": "./networking.html",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Em alta",
+      "short_name": "Em alta",
+      "url": "./em-alta.html",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Agenda",
+      "short_name": "Agenda",
+      "url": "./agenda.html",
       "icons": [
         {
           "src": "./icon-192.png",
