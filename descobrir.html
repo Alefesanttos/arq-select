@@ -1,0 +1,40 @@
+<!doctype html><html lang="pt-BR" class="arq-premium-ui"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0d100e">
+<title>Descobrir conexões | ARQSELECT</title><meta name="description" content="Busca inteligente ARQSELECT para encontrar produtos, fornecedores, prestadores e arquitetos por compatibilidade, região e reputação.">
+<link rel="icon" href="favicon.ico"><link rel="manifest" href="manifest.webmanifest">
+<script src="arq-config.js?v=5.9.0"></script>
+<link rel="stylesheet" href="arq-design-system.css?v=5.9.0">
+</head><body data-arq-page="discover" data-arq-surface="workspace">
+<main class="arq6-shell arq-discover-shell">
+<section class="arq-discover-hero">
+  <div class="arq6-kicker">INTELIGÊNCIA ARQSELECT</div>
+  <h1>Encontre a conexão certa para cada projeto.</h1>
+  <p>Pesquise materiais, fornecedores, arquitetos e prestadores. A recomendação explica por que cada resultado combina com sua busca.</p>
+  <form id="smartSearch" class="arq-discover-search" role="search">
+    <input id="smartQuery" type="search" autocomplete="off" placeholder="Ex.: marcenaria alto padrão em Campinas, piso cumaru, esquadrias..." aria-label="Buscar na ARQSELECT">
+    <select id="smartType" aria-label="Tipo de resultado"><option value="">Tudo</option><option value="PRODUTO">Produtos</option><option value="FORNECEDOR">Fornecedores</option><option value="PRESTADOR">Prestadores</option><option value="ARQUITETO">Arquitetos</option></select>
+    <button class="arq6-btn gold" type="submit">Buscar</button>
+  </form>
+  <div class="arq-discover-chips" id="smartSuggestions" aria-label="Sugestões rápidas"></div>
+</section>
+<section class="arq-discover-summary" id="smartSummary" aria-live="polite"></section>
+<section class="arq-discover-layout">
+  <aside class="arq6-card arq-discover-filters">
+    <h2>Refinar</h2>
+    <label>Cidade<input id="smartCity" placeholder="Campinas"></label>
+    <label>Estado<input id="smartState" maxlength="2" placeholder="SP"></label>
+    <label>Projeto<select id="smartProject"><option value="">Sem projeto específico</option></select></label>
+    <button class="arq6-btn" id="smartClear" type="button">Limpar filtros</button>
+  </aside>
+  <div>
+    <div class="arq-discover-tabs" id="smartTabs" role="tablist"></div>
+    <div class="arq-discover-results" id="smartResults"><div class="arq6-empty">Digite o que procura ou escolha uma sugestão.</div></div>
+  </div>
+</section>
+</main>
+<script src="catalogo-premium-data.js" defer></script>
+<script src="arq-premium.js" defer></script>
+<script src="arqselect-6.js?v=5.9.0" defer></script>
+<script src="arq-intelligence.js?v=5.9.0" defer></script>
+<script src="arq-experience.js?v=5.9.0" defer></script>
+</body></html>

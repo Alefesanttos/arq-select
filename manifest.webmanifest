@@ -1,15 +1,110 @@
 {
-  "name":"ARQSELECT — Arquitetura, especificação e negócios",
-  "short_name":"ARQSELECT",
-  "description":"Ecossistema profissional premium para arquitetos, fornecedores, prestadores, produtos, serviços, projetos, serviços, especificações, conexões e negócios.",
-  "lang":"pt-BR","start_url":"./index.html","scope":"./","display":"standalone","orientation":"any",
-  "background_color":"#0b0c0c","theme_color":"#0b0c0c","categories":["business","productivity","design"],
-  "icons":[{"src":"./icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},{"src":"./icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}],
-  "shortcuts":[
-    {"name":"Explorar marketplace","short_name":"Explorar","url":"./explorar.html","icons":[{"src":"./icon-192.png","sizes":"192x192"}]},
-    {"name":"Sala do projeto","short_name":"Projetos","url":"./ARQSELECT_ARQUITETO_PROJETOS.html","icons":[{"src":"./icon-192.png","sizes":"192x192"}]},
-    {"name":"Assistente ARQSELECT","short_name":"Assistente","url":"./assistente.html","icons":[{"src":"./icon-192.png","sizes":"192x192"}]},
-    {"name":"Feed profissional","short_name":"Feed","url":"./feed.html","icons":[{"src":"./icon-192.png","sizes":"192x192"}]},
-    {"name":"Encontrar profissionais","short_name":"Prestadores","url":"./prestadores.html","icons":[{"src":"./icon-192.png","sizes":"192x192"}]}
+  "name": "ARQSELECT — Arquitetura, especificação e negócios",
+  "short_name": "ARQSELECT",
+  "description": "Ecossistema profissional premium com busca inteligente, projetos, fornecedores, prestadores, negócios e conexões para arquitetura e construção.",
+  "lang": "pt-BR",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b0c0c",
+  "theme_color": "#0b0c0c",
+  "categories": [
+    "business",
+    "productivity",
+    "design"
+  ],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Explorar marketplace",
+      "short_name": "Explorar",
+      "url": "./explorar.html",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Sala do projeto",
+      "short_name": "Projetos",
+      "url": "./ARQSELECT_ARQUITETO_PROJETOS.html",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Assistente ARQSELECT",
+      "short_name": "Assistente",
+      "url": "./assistente.html",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Feed profissional",
+      "short_name": "Feed",
+      "url": "./feed.html",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Encontrar profissionais",
+      "short_name": "Prestadores",
+      "url": "./prestadores.html",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Descobrir conexões",
+      "short_name": "Descobrir",
+      "url": "./descobrir.html",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Painel de negócios",
+      "short_name": "Negócios",
+      "url": "./painel-negocios.html",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
   ]
 }

@@ -1,4 +1,4 @@
-/* ARQSELECT Experience Layer 5.8.2 — motion, theme UI, accessibility, contrast, responsive runtime and progressive states */
+/* ARQSELECT Experience Layer 5.9.0 — motion, theme UI, accessibility, contrast, responsive runtime and progressive states */
 (function(){
   'use strict';
   if(window.__ARQ_EXPERIENCE_570__)return;window.__ARQ_EXPERIENCE_570__=true;
@@ -31,6 +31,8 @@
     let page='generic',surface='content';
     if(file==='index.html'||b.classList.contains('arq-home')){page='home';surface='marketing'}
     else if(file==='feed.html'){page='feed';surface='workspace'}
+    else if(file==='descobrir.html'){page='discover';surface='workspace'}
+    else if(file==='painel-negocios.html'){page='business';surface='dashboard'}
     else if(file==='chat.html'||file==='mensagens.html'){page='chat';surface='workspace'}
     else if(file.includes('login')){page='login';surface='auth'}
     else if(file.startsWith('admin')){page='admin';surface='admin'}
