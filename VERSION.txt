@@ -1,2 +1,2 @@
-ARQSELECT 5.10.1 — Home Layout Hotfix
-Build: 2026-09-19.5101-HOME-HOTFIX
+ARQSELECT 5.10.2 — Hero Note Selection Fix
+Build: 2026-09-19.5102-HERO-NOTE-FIX
