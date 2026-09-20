@@ -27,7 +27,7 @@ EXISTE = funcionalidade operacional; PARCIAL/INCOMPLETO = base presente mas aind
 | 8 | Central de cotações | IMPLEMENTADO 6.1 | P0 | Comparador unificado com favoritar, revisão, chat, aceitar, recusar e arquivar. |
 | 9 | Marketplace inteligente | PARCIAL | P1 | Catálogo existe; contextualizar pelo projeto e intenção. |
 | 10 | Catálogo profissional | PARCIAL | P1 | Campos premium existem em parte; consolidar schema. |
-| 11 | Importação de catálogos | INCOMPLETO | P1 | Admin catálogo existe; falta pipeline PDF/XLS/CSV em massa. |
+| 11 | Importação de catálogos | IMPLEMENTADO 6.3 | P1 | CSV/JSON com prévia e importação em lote; PDF/XLS/XLSX entram em processamento controlado. |
 | 12 | Showroom digital | PARCIAL | P1 | Perfil fornecedor existe; completar história, marcas, certificações e CTAs. |
 | 13 | Perfil do arquiteto | PARCIAL 6.2 | P1 | Inteligência de confiança integrada; portfólio/publicações permanecem evolutivos. |
 | 14 | Conexões | IMPLEMENTADO 6.2 | P1 | Networking central com recomendações, conectar e salvar contato. |
@@ -51,10 +51,10 @@ EXISTE = funcionalidade operacional; PARCIAL/INCOMPLETO = base presente mas aind
 | 32 | Moodboard | EXISTE | P1 | Boards/moodboard já operam; integrar ao projeto. |
 | 33 | Lista de especificação | EXISTE | P0 | Especificações já existem; melhorar exportação e ambientes. |
 | 34 | Biblioteca técnica | EXISTE | P1 | Publicação técnica existe; integrar downloads/analytics. |
-| 35 | Downloads | INCOMPLETO | P2 | Arquivos existem; falta telemetria agregada por fornecedor. |
+| 35 | Downloads | IMPLEMENTADO | P2 | Downloads técnicos são rastreados e aparecem agregados no Analytics do fornecedor. |
 | 36 | Busca profissional | PARCIAL 6.1 | P0 | Descobrir permanece central e matching do projeto passa a expor razões; filtros avançados seguem P1. |
 | 37 | Busca semântica | PARCIAL | P1 | Busca por tokens/contexto; preparar camada semântica futura. |
-| 38 | Filtros avançados | INCOMPLETO | P1 | Filtros do marketplace não cobrem todo schema requerido. |
+| 38 | Filtros avançados | IMPLEMENTADO 6.3 | P1 | Descobrir envia localidade, categoria, material, estilo, aplicação, tipo e verificação ao matching. |
 | 39 | Recomendações | PARCIAL 6.2 | P1 | Networking e Em Alta ampliam recomendações; personalização comportamental segue evolutiva. |
 | 40 | IA ARQSELECT | PARCIAL | P2 | Assistente existe por atributos; falta raciocínio operacional completo. |
 | 41 | Assistente do projeto | PARCIAL | P1 | portal_assistente_projeto existe; ampliar pendências/prazos/tarefas. |
@@ -95,8 +95,8 @@ EXISTE = funcionalidade operacional; PARCIAL/INCOMPLETO = base presente mas aind
 | 76 | Call to Action | PARCIAL | P1 | Padronizar seis CTAs principais no Design System. |
 | 77 | Evitar páginas sem propósito | PARCIAL 6.1 | P0 | projeto.html consolidado no Hub; demais aliases legados continuam sendo reduzidos gradualmente. |
 | 78 | Empty states | EXISTE | P1 | Design System já orienta próxima ação; revisar módulos legados. |
-| 79 | Social proof | INCOMPLETO | P2 | Não usar números inventados; mostrar apenas casos/dados reais. |
-| 80 | Cases | AUSENTE | P2 | Criar quando houver casos reais autorizados. |
+| 79 | Social proof | PARCIAL 6.3 | P2 | Estrutura de cases/conteúdo existe e permanece vazia quando não houver dados reais; números e depoimentos nunca são inventados. |
+| 80 | Cases | IMPLEMENTADO 6.2 | P2 | Página e contrato de conteúdo criados; publicação depende de cases reais e autorizados. |
 | 81 | Métrica principal | PARCIAL | P0 | BI mede projetos/propostas/fechados; criar North Star explícita. |
 | 82 | Retenção | PARCIAL 6.2 | P1 | Agenda, Networking e Em Alta adicionam motivos recorrentes de retorno. |
 | 83 | E-mails transacionais | PARCIAL | P1 | Existem envios pontuais; padronizar templates/eventos. |
