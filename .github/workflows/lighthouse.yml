@@ -1,0 +1,33 @@
+name: Lighthouse & Core Web Quality
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "**.html"
+      - "**.css"
+      - "**.js"
+      - "lighthouserc.json"
+      - ".github/workflows/lighthouse.yml"
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli
+      - name: Audit production
+        continue-on-error: true
+        run: lhci autorun
+      - name: Preserve reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-arqselect
+          path: .lighthouseci
+          if-no-files-found: ignore
+          retention-days: 30
