@@ -762,7 +762,6 @@
   }
   html{font-size:16px}
   body{font-feature-settings:"kern" 1,"liga" 1;text-wrap:pretty}
-  :where(main,.arq6-shell,.arq4-shell,.srv-shell,.container,.wrap){container-type:inline-size}
   :where(main>section,.arq-section,.section){scroll-margin-top:90px}
   :where(h1,h2,h3,h4){font-weight:650}
   h1{font-size:var(--font-size-3xl);line-height:.98;letter-spacing:-.04em}
