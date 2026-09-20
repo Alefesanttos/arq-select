@@ -1,6 +1,6 @@
 (function(){
 'use strict';
-if(window.__ARQ_INTELLIGENCE_600__)return;window.__ARQ_INTELLIGENCE_600__=true;
+if(window.__ARQ_INTELLIGENCE_630__)return;window.__ARQ_INTELLIGENCE_630__=true;
 const $=s=>document.querySelector(s),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const token=()=>localStorage.getItem('ARQSELECT_PORTAL_TOKEN')||'';
 const api=async(action,data={})=>window.ARQSELECT6?.api?window.ARQSELECT6.api(action,{...data,token:data.token??token()}):{sucesso:false,mensagem:'API indisponível'};
@@ -23,9 +23,9 @@ async function projects(){
  if(!token())return;const r=await api('portal_projetos');if(!r.sucesso)return;$('#smartProject').innerHTML='<option value="">Sem projeto específico</option>'+(r.projetos||[]).map(p=>'<option value="'+esc(p.id)+'">'+esc(p.projeto||p.id)+'</option>').join('');
 }
 async function search(){
- const q=$('#smartQuery').value.trim(),city=$('#smartCity').value.trim(),stateUf=$('#smartState').value.trim(),projectId=$('#smartProject').value,type=$('#smartType').value;
+ const q=$('#smartQuery').value.trim(),city=$('#smartCity').value.trim(),stateUf=$('#smartState').value.trim(),projectId=$('#smartProject').value,type=$('#smartType').value,category=$('#smartCategory')?.value.trim()||'',material=$('#smartMaterial')?.value.trim()||'',style=$('#smartStyle')?.value.trim()||'',application=$('#smartApplication')?.value.trim()||'',verified=!!$('#smartVerified')?.checked;
  $('#smartResults').innerHTML='<div class="arq-loading-stack"><span class="arq-skeleton arq-skeleton-line w60"></span><span class="arq-skeleton arq-skeleton-card"></span></div>';
- const [remote]=await Promise.all([api('public_busca_inteligente',{token:token(),q,cidade:city,estado:stateUf,projetoId,tipo:type})]);
+ const [remote]=await Promise.all([api('public_busca_inteligente',{token:token(),q,cidade:city,estado:stateUf,projetoId,tipo:type,categoria:category,material,estilo:style,aplicacao:application,verificado:verified})]);
  const products=(!type||type==='PRODUTO')?localProducts(q):[];
  const remoteRows=remote.sucesso?(remote.resultados||[]):[];
  const map=new Map();[...products,...remoteRows].forEach(x=>map.set(x.tipo+'|'+x.id,x));
@@ -37,7 +37,7 @@ async function search(){
 function init(){
  $('#smartSuggestions').innerHTML=['Marcenaria alto padrão','Pisos de madeira','Esquadrias','Iluminação','Paisagismo','Automação residencial'].map(x=>'<button class="arq6-btn" type="button">'+x+'</button>').join('');
  $('#smartSuggestions').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('#smartQuery').value=b.textContent;search()});
- $('#smartSearch').onsubmit=e=>{e.preventDefault();search()};$('#smartClear').onclick=()=>{$('#smartQuery').value='';$('#smartCity').value='';$('#smartState').value='';$('#smartType').value='';state={type:'',rows:[]};render()};
+ $('#smartSearch').onsubmit=e=>{e.preventDefault();search()};$('#smartClear').onclick=()=>{$('#smartQuery').value='';$('#smartCity').value='';$('#smartState').value='';$('#smartType').value='';['smartCategory','smartMaterial','smartStyle','smartApplication'].forEach(id=>{const el=$('#'+id);if(el)el.value=''});if($('#smartVerified'))$('#smartVerified').checked=false;state={type:'',rows:[]};render()};
  const q=new URLSearchParams(location.search).get('q');if(q){$('#smartQuery').value=q;setTimeout(search,80)}projects();recent();
 }
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init,{once:true}):init();
