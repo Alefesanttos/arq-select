@@ -1,6 +1,6 @@
 (function(){
 'use strict';
-if(window.__ARQ_INTELLIGENCE_590__)return;window.__ARQ_INTELLIGENCE_590__=true;
+if(window.__ARQ_INTELLIGENCE_600__)return;window.__ARQ_INTELLIGENCE_600__=true;
 const $=s=>document.querySelector(s),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const token=()=>localStorage.getItem('ARQSELECT_PORTAL_TOKEN')||'';
 const api=async(action,data={})=>window.ARQSELECT6?.api?window.ARQSELECT6.api(action,{...data,token:data.token??token()}):{sucesso:false,mensagem:'API indisponível'};
@@ -18,6 +18,7 @@ function render(){
  $('#smartTabs').innerHTML=[['','Todos'],['PRODUTO','Produtos'],['FORNECEDOR','Fornecedores'],['PRESTADOR','Prestadores'],['ARQUITETO','Arquitetos']].map(([v,l])=>'<button class="arq6-btn '+(state.type===v?'active':'')+'" data-type="'+v+'" role="tab">'+l+' '+(v?'('+Number(counts[v]||0)+')':'')+'</button>').join('');
  document.querySelectorAll('[data-type]').forEach(b=>b.onclick=()=>{state.type=b.dataset.type;render()});
 }
+async function recent(){if(!token())return;const r=await api('portal_vistos_recentemente');const sec=$('#recentSection'),host=$('#recentItems');if(!r.sucesso||!(r.itens||[]).length||!sec||!host)return;sec.hidden=false;host.innerHTML=(r.itens||[]).slice(0,10).map(x=>'<a class="arq-recent-item" href="'+esc(x.URL||x.url||'#')+'"><span class="arq6-badge">'+esc(x.TIPO||x.tipo||'ITEM')+'</span><b>'+esc(x.TITULO||x.titulo||'Conteúdo ARQSELECT')+'</b><small>'+esc(x.DATA||x.data||'')+'</small></a>').join('')}
 async function projects(){
  if(!token())return;const r=await api('portal_projetos');if(!r.sucesso)return;$('#smartProject').innerHTML='<option value="">Sem projeto específico</option>'+(r.projetos||[]).map(p=>'<option value="'+esc(p.id)+'">'+esc(p.projeto||p.id)+'</option>').join('');
 }
@@ -37,7 +38,7 @@ function init(){
  $('#smartSuggestions').innerHTML=['Marcenaria alto padrão','Pisos de madeira','Esquadrias','Iluminação','Paisagismo','Automação residencial'].map(x=>'<button class="arq6-btn" type="button">'+x+'</button>').join('');
  $('#smartSuggestions').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('#smartQuery').value=b.textContent;search()});
  $('#smartSearch').onsubmit=e=>{e.preventDefault();search()};$('#smartClear').onclick=()=>{$('#smartQuery').value='';$('#smartCity').value='';$('#smartState').value='';$('#smartType').value='';state={type:'',rows:[]};render()};
- const q=new URLSearchParams(location.search).get('q');if(q){$('#smartQuery').value=q;setTimeout(search,80)}projects();
+ const q=new URLSearchParams(location.search).get('q');if(q){$('#smartQuery').value=q;setTimeout(search,80)}projects();recent();
 }
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init,{once:true}):init();
 })();

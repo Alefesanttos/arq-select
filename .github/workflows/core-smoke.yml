@@ -1,0 +1,28 @@
+name: ARQSELECT Core Smoke
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "sala-projeto.html"
+      - "arq-project-hub.js"
+      - "arq-resilience.js"
+      - "arq-account.js"
+      - "arq-admin-quality.js"
+      - "arq-config.js"
+      - "arq-design-system.css"
+      - "configuracoes.html"
+      - "ARQSELECT_ARQUITETO_PROJETOS.html"
+      - "tests/core-smoke.mjs"
+      - ".github/workflows/core-smoke.yml"
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate core
+        run: node tests/core-smoke.mjs
