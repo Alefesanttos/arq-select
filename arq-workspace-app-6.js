@@ -16,10 +16,11 @@ async function room(){
  busy('Abrindo o Hub do Projeto…');
  const r=await W.api('portal_sala_projeto',{projetoId});
  if(!r.sucesso)return W.shellError(main,r.mensagem);
- const p=r.projeto||{},m=r.metricas||{},timeline=r.timeline||r.historico||r.eventos||[];
+ let context={};try{const cx=await W.api('portal_projeto_contexto',{projetoId});if(cx&&cx.sucesso)context=cx;}catch(_){}
+ const ctx=context.contexto||{},p=r.projeto||{},m=r.metricas||{},timeline=context.timeline||r.timeline||r.historico||r.eventos||[];
  const title=p.projeto||p.nome||'Projeto';
  const enc=encodeURIComponent(projectId);
- const statusRaw=p.status||p.STATUS||p['STATUS DO PROJETO']||'NOVO';
+ const statusRaw=ctx.FASE||p.status||p.STATUS||p['STATUS DO PROJETO']||'NOVO';
  const status=window.ARQSELECT_ECOSYSTEM?.canonicalStatus?.(statusRaw,'project')||statusRaw;
  const detail=(label,...values)=>{const value=values.find(v=>v!==undefined&&v!==null&&String(v).trim()!=='');return value?'<div class="arq-project-fact"><span>'+esc(label)+'</span><b>'+esc(value)+'</b></div>':''};
  const tabs=[
@@ -55,12 +56,13 @@ async function room(){
    <div class="arq-project-facts">
      ${detail('Tipo',p.tipo,p['TIPO PROJETO'])}
      ${detail('Localização',[p.cidade,p.estado].filter(Boolean).join(' · '),p.localizacao)}
-     ${detail('Metragem',p.metragem,p.area,p['AREA M2'])}
-     ${detail('Fase',p.fase,status)}
+     ${detail('Metragem',ctx.METRAGEM,p.metragem,p.area,p['AREA M2'])}
+     ${detail('Fase',ctx.FASE,p.fase,status)}
      ${detail('Prazo',p.prazo,p['DATA ENTREGA'])}
-     ${detail('Orçamento estimado',p.orcamento,p['ORCAMENTO ESTIMADO'],p['DESCRIÇÃO / ORÇAMENTO'])}
-     ${detail('Cliente',p.cliente,p['CLIENTE NOME'])}
-     ${detail('Categorias',Array.isArray(p.categorias)?p.categorias.join(', '):p.categorias)}
+     ${detail('Orçamento estimado',ctx['ORCAMENTO ESTIMADO'],p.orcamento,p.investimento,p['INVESTIMENTO'],p['ORCAMENTO ESTIMADO'])}
+     ${detail('Cliente',ctx.CLIENTE,p.cliente,p['CLIENTE NOME'])}
+     ${detail('Categorias',ctx.CATEGORIAS,Array.isArray(p.categorias)?p.categorias.join(', '):p.categorias)}
+     ${detail('Privacidade',ctx.VISIBILIDADE||'PRIVADO')}
    </div>
  </section>
  <div class="arq6-grid arq-project-metrics">
