@@ -1218,3 +1218,11 @@
   @media(max-width:720px){.arq-network-grid{grid-template-columns:1fr}.arq-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.arq-profile-trust-facts,.arq-profile-facts{grid-template-columns:1fr 1fr}.arq-agenda-item{grid-template-columns:1fr}.arq-notification{grid-template-columns:10px minmax(0,1fr)}.arq-notification>.arq6-actions{grid-column:2}.arq-onboarding-actions{flex-direction:column}.arq-onboarding-actions .arq6-btn{width:100%}}
   @media(max-width:420px){.arq-choice-grid,.arq-profile-trust-facts,.arq-profile-facts{grid-template-columns:1fr}}
 }
+
+
+/* ARQSELECT 6.2 — ACQUISITION AND OPS */
+@layer arq.premium {
+  .arq-landing-shell{width:min(1240px,calc(100% - 28px));margin:auto;padding:clamp(36px,6vw,84px) 0 80px}.arq-landing-hero{padding:clamp(30px,5vw,62px);border:1px solid var(--border-subtle);border-radius:30px;background:radial-gradient(circle at 90% 0,color-mix(in srgb,var(--accent-primary) 15%,transparent),transparent 34%),linear-gradient(135deg,var(--surface-primary),var(--surface-secondary));box-shadow:var(--shadow-xl)}.arq-landing-hero h1{max-width:16ch;margin:.5rem 0 1rem}.arq-landing-hero p{max-width:70ch;font-size:1.05rem}.arq-landing-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}.arq-landing-grid>.arq6-card{padding:24px;min-height:190px}.arq-landing-cta{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:24px;border:1px solid var(--border-subtle);border-radius:22px;background:var(--surface-primary)}.arq-landing-cta h2{margin:.25rem 0 0}
+  .arq-import-preview{max-height:480px;overflow:auto}.arq-moderation-row{grid-template-columns:auto minmax(0,1fr) auto auto!important;align-items:start!important}
+  @media(max-width:760px){.arq-landing-grid{grid-template-columns:1fr}.arq-landing-cta{align-items:flex-start;flex-direction:column}.arq-moderation-row{grid-template-columns:1fr!important}.arq-moderation-row>.arq6-actions{width:100%}}
+}
