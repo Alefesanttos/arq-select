@@ -1,0 +1,36 @@
+name: ARQSELECT 6.0 Flow & Mobile Tests
+on:
+  push:
+    branches: [arqselect-6.0-operating-system-core]
+    paths:
+      - "tests/flow-smoke.mjs"
+      - ".github/workflows/flow-tests-6.yml"
+      - "sala-projeto.html"
+      - "arq-project-hub.js"
+      - "arq-design-system.css"
+      - "arq-workspace-app-6.js"
+      - "chat.html"
+      - "favoritos.html"
+      - "biblioteca-tecnica.html"
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Start static server
+        run: |
+          python3 -m http.server 4173 > /tmp/arq-http.log 2>&1 &
+          for i in {1..30}; do curl -fsS http://127.0.0.1:4173/index.html >/dev/null && exit 0; sleep 1; done
+          exit 1
+      - name: Run flow and responsive smoke tests
+        run: node tests/flow-smoke.mjs
