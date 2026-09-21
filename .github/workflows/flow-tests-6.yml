@@ -33,4 +33,4 @@ jobs:
           for i in {1..30}; do curl -fsS http://127.0.0.1:4173/index.html >/dev/null && exit 0; sleep 1; done
           exit 1
       - name: Run flow and responsive smoke tests
-        run: node tests/flow-smoke.mjs
+        run: timeout 240s node tests/flow-smoke.mjs
