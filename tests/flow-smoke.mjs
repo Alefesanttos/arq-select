@@ -52,35 +52,36 @@ async function setup(page,role='ARQUITETO'){
 }
 async function noOverflow(page,label,tolerance=6){const d=await page.evaluate(()=>({sw:document.documentElement.scrollWidth,iw:window.innerWidth}));if(d.sw>d.iw+tolerance)throw new Error(label+' overflow '+d.sw+'>'+d.iw)}
 const browser=await chromium.launch({headless:true});
+async function newPage(options){const p=await browser.newPage(options);p.setDefaultTimeout(5000);p.setDefaultNavigationTimeout(8000);return p}
 try{
  // Login
- try{const p=await browser.newPage({viewport:{width:1366,height:768}});await p.route('https://script.google.com/**',async r=>r.fulfill({status:200,contentType:'application/json',headers:{'Access-Control-Allow-Origin':'*'},body:JSON.stringify(responseFor(actionFrom(r.request()),r.request()))}));await p.goto(base+'ARQSELECT_LOGIN_ARQUITETO.html');await p.fill('#email','arq@test.local');await p.fill('#senha','senha123');await p.getByRole('button',{name:/ENTRAR NO PAINEL/i}).click();await p.waitForURL(/ARQSELECT_DASHBOARD_ARQUITETO\.html/,{timeout:5000});const tok=await p.evaluate(()=>localStorage.getItem('ARQSELECT_PORTAL_TOKEN'));if(tok!=='TOK-TEST')throw new Error('token não persistido');ok('login');await p.close()}catch(e){fail('login',e)}
+ try{const p=await newPage({viewport:{width:1366,height:768}});await p.route('https://script.google.com/**',async r=>r.fulfill({status:200,contentType:'application/json',headers:{'Access-Control-Allow-Origin':'*'},body:JSON.stringify(responseFor(actionFrom(r.request()),r.request()))}));await p.goto(base+'ARQSELECT_LOGIN_ARQUITETO.html');await p.fill('#email','arq@test.local');await p.fill('#senha','senha123');await p.getByRole('button',{name:/ENTRAR NO PAINEL/i}).click();await p.waitForURL(/ARQSELECT_DASHBOARD_ARQUITETO\.html/,{timeout:5000});const tok=await p.evaluate(()=>localStorage.getItem('ARQSELECT_PORTAL_TOKEN'));if(tok!=='TOK-TEST')throw new Error('token não persistido');ok('login');await p.close()}catch(e){fail('login',e)}
 
  // Project hub
- try{const p=await browser.newPage({viewport:{width:1366,height:768}});await setup(p);await p.goto(base+'sala-projeto.html?projectId=P1');await p.waitForFunction(()=>document.querySelector('#projectHubTitle')?.textContent.includes('Casa Campinas'));if(await p.locator('#projectTabs a').count()<10)throw new Error('abas incompletas');await noOverflow(p,'project desktop');ok('projeto/hub');await p.close()}catch(e){fail('projeto/hub',e)}
+ try{const p=await newPage({viewport:{width:1366,height:768}});await setup(p);await p.goto(base+'sala-projeto.html?projectId=P1');await p.waitForFunction(()=>document.querySelector('#projectHubTitle')?.textContent.includes('Casa Campinas'));if(await p.locator('#projectTabs a').count()<10)throw new Error('abas incompletas');await noOverflow(p,'project desktop');ok('projeto/hub');await p.close()}catch(e){fail('projeto/hub',e)}
 
  // Quotation
- try{const p=await browser.newPage({viewport:{width:1280,height:800}});await setup(p);await p.goto(base+'especificacoes.html?projectId=P1');await p.waitForFunction(()=>document.body.textContent.includes('Piso Carvalho Natural'));await p.locator('#quoteSpecs').click();await p.locator('#quoteForm input[name="cidade"]').fill('Campinas');await p.locator('#quoteForm input[name="prazo"]').fill('30 dias');await p.locator('#quoteForm button[type="submit"]').click();await p.waitForURL(/comparar-propostas\.html/,{timeout:5000});ok('cotação');await p.close()}catch(e){fail('cotação',e)}
+ try{const p=await newPage({viewport:{width:1280,height:800}});await setup(p);await p.goto(base+'especificacoes.html?projectId=P1');await p.waitForFunction(()=>document.body.textContent.includes('Piso Carvalho Natural'));await p.locator('#quoteSpecs').click();await p.locator('#quoteForm input[name="cidade"]').fill('Campinas');await p.locator('#quoteForm input[name="prazo"]').fill('30 dias');await p.locator('#quoteForm button[type="submit"]').click();await p.waitForURL(/comparar-propostas\.html/,{timeout:5000});ok('cotação');await p.close()}catch(e){fail('cotação',e)}
 
  // Matching
- try{const p=await browser.newPage({viewport:{width:1280,height:800}});await setup(p);await p.goto(base+'matching.html?projectId=P1');await p.waitForFunction(()=>document.body.textContent.includes('Fornecedor Teste'));if(!(await p.textContent('body')).includes('94%'))throw new Error('score não renderizado');ok('matching');await p.close()}catch(e){fail('matching',e)}
+ try{const p=await newPage({viewport:{width:1280,height:800}});await setup(p);await p.goto(base+'matching.html?projectId=P1');await p.waitForFunction(()=>document.body.textContent.includes('Fornecedor Teste'));if(!(await p.textContent('body')).includes('94%'))throw new Error('score não renderizado');ok('matching');await p.close()}catch(e){fail('matching',e)}
 
  // Proposal
- try{const p=await browser.newPage({viewport:{width:1280,height:800}});await setup(p);await p.goto(base+'comparar-propostas.html?projectId=P1');await p.waitForFunction(()=>document.body.textContent.includes('Fornecedor Teste'));await p.getByRole('button',{name:/Emitir pedido/i}).click();await p.waitForURL(/pedidos\.html/,{timeout:5000});ok('proposta/pedido');await p.close()}catch(e){fail('proposta/pedido',e)}
+ try{const p=await newPage({viewport:{width:1280,height:800}});await setup(p);await p.goto(base+'comparar-propostas.html?projectId=P1');await p.waitForFunction(()=>document.body.textContent.includes('Fornecedor Teste'));await p.getByRole('button',{name:/Emitir pedido/i}).click();await p.waitForURL(/pedidos\.html/,{timeout:5000});ok('proposta/pedido');await p.close()}catch(e){fail('proposta/pedido',e)}
 
  // Chat
- try{const p=await browser.newPage({viewport:{width:1280,height:800}});const errors=[];p.on('pageerror',e=>errors.push(e.message));await setup(p);await p.goto(base+'chat.html');await p.waitForSelector('#composerWrap');await noOverflow(p,'chat desktop',12);if(errors.length)throw new Error(errors.join('; '));ok('chat');await p.close()}catch(e){fail('chat',e)}
+ try{const p=await newPage({viewport:{width:1280,height:800}});const errors=[];p.on('pageerror',e=>errors.push(e.message));await setup(p);await p.goto(base+'chat.html');await p.waitForSelector('#composerWrap');await noOverflow(p,'chat desktop',12);if(errors.length)throw new Error(errors.join('; '));ok('chat');await p.close()}catch(e){fail('chat',e)}
 
  // Favorites
- try{const p=await browser.newPage({viewport:{width:1280,height:800}});await setup(p);await p.goto(base+'favoritos.html');await p.waitForLoadState('domcontentloaded');if(!(await p.textContent('body')).match(/favorit/i))throw new Error('conteúdo de favoritos ausente');ok('favoritos');await p.close()}catch(e){fail('favoritos',e)}
+ try{const p=await newPage({viewport:{width:1280,height:800}});await setup(p);await p.goto(base+'favoritos.html');await p.waitForLoadState('domcontentloaded');if(!(await p.textContent('body')).match(/favorit/i))throw new Error('conteúdo de favoritos ausente');ok('favoritos');await p.close()}catch(e){fail('favoritos',e)}
 
  // Upload
- try{const p=await browser.newPage({viewport:{width:1280,height:800}});await setup(p,'FORNECEDOR');await p.goto(base+'biblioteca-tecnica.html');await p.waitForSelector('#newDoc');await p.locator('#newDoc').click();const input=p.locator('input[type=file]');await input.setInputFiles({name:'ficha.pdf',mimeType:'application/pdf',buffer:Buffer.from('%PDF-1.4 test')});await p.locator('#docForm input[name="titulo"]').fill('Ficha técnica teste');await p.locator('#docForm input[name="direitos"]').check();await p.locator('#docForm button[type="submit"]').click();await p.waitForTimeout(350);ok('upload');await p.close()}catch(e){fail('upload',e)}
+ try{const p=await newPage({viewport:{width:1280,height:800}});await setup(p,'FORNECEDOR');await p.goto(base+'biblioteca-tecnica.html');await p.waitForSelector('#newDoc');await p.locator('#newDoc').click();const input=p.locator('input[type=file]');await input.setInputFiles({name:'ficha.pdf',mimeType:'application/pdf',buffer:Buffer.from('%PDF-1.4 test')});await p.locator('#docForm input[name="titulo"]').fill('Ficha técnica teste');await p.locator('#docForm input[name="direitos"]').check();await p.locator('#docForm button[type="submit"]').click();await p.waitForTimeout(350);ok('upload');await p.close()}catch(e){fail('upload',e)}
 
  // Mobile key pages
  for(const [w,h] of [[360,800],[390,844],[768,1024]]){
   for(const target of ['index.html','sala-projeto.html?projectId=P1','chat.html','explorar.html']){
-   const name='mobile '+w+' '+target.split('?')[0];try{const p=await browser.newPage({viewport:{width:w,height:h}});await setup(p);await p.goto(base+target);await p.waitForLoadState('domcontentloaded');await p.waitForTimeout(300);await noOverflow(p,name,14);ok(name);await p.close()}catch(e){fail(name,e)}
+   const name='mobile '+w+' '+target.split('?')[0];try{const p=await newPage({viewport:{width:w,height:h}});await setup(p);await p.goto(base+target);await p.waitForLoadState('domcontentloaded');await p.waitForTimeout(300);await noOverflow(p,name,14);ok(name);await p.close()}catch(e){fail(name,e)}
   }
  }
 }finally{await browser.close()}
