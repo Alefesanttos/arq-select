@@ -1,0 +1,30 @@
+name: ARQSELECT 6.0 Contract Validation
+on:
+  push:
+    branches: [arqselect-6.0-operating-system-core]
+    paths:
+      - "**.html"
+      - "**.js"
+      - "backend-contracts-6.0.json"
+      - "scripts/validate-contracts.mjs"
+      - ".github/workflows/validate-6.yml"
+  workflow_dispatch:
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate frontend-backend contracts
+        run: node scripts/validate-contracts.mjs
+      - name: Upload contract report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: arqselect-6-contracts
+          path: reports/contracts-6.0.json
+          if-no-files-found: error
+          retention-days: 30
