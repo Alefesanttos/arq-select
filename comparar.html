@@ -6,7 +6,7 @@
 <script id="arq-theme-boot">(()=>{try{const k="ARQSELECT_THEME",v=localStorage.getItem(k)||"auto",m=matchMedia("(prefers-color-scheme: dark)").matches,t=v==="auto"?(m?"dark":"light"):(v==="dark"?"dark":"light"),h=document.documentElement;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=["light","dark","auto"].includes(v)?v:"auto";h.style.colorScheme=t}catch(_){document.documentElement.dataset.theme="light"}})();</script>
 
 <meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'"><meta name="robots" content="noindex,nofollow">
-<script src="arq-config.js?v=5.7.0"></script>
+<script src="arq-config.js?v=6.0.0"></script>
   <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#070807">
   <meta name="description" content="Compare produtos e soluções disponíveis no marketplace ARQSELECT.">
   <title>Comparar produtos | ARQSELECT</title>
@@ -14,8 +14,8 @@
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="arqselect-4.css">
-<link rel="stylesheet" href="arq-premium.css?v=5.7.0"><link rel="stylesheet" href="arq-ui-5.css?v=5.7.0"><link rel="stylesheet" href="arq-polish.css?v=5.7.0">
-<link rel="stylesheet" href="arq-design-system.css?v=5.7.0">
+<link rel="stylesheet" href="arq-premium.css?v=6.0.0"><link rel="stylesheet" href="arq-ui-5.css?v=6.0.0"><link rel="stylesheet" href="arq-polish.css?v=6.0.0">
+<link rel="stylesheet" href="arq-design-system.css?v=6.0.0">
 </head>
 <body data-arq-page="marketplace" data-arq-surface="marketplace">
   <header class="top arq-inline-f79901cd0"><a class="brand" href="index.html">ARQ<span>SELECT</span></a><nav class="nav"><a class="btn light" href="explorar.html">Explorar</a><a class="btn light" href="boards.html">Minha seleção</a></nav></header>
@@ -27,6 +27,6 @@
   <script>
   (()=>{const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));let ids=ARQSELECT4.compareIds();const fields=[['Fornecedor','FORNECEDOR NOME'],['Marca','MARCA'],['Modelo','MODELO'],['Categoria','CATEGORIA'],['Material','MATERIAL'],['Acabamento','ACABAMENTO'],['Cor','COR'],['Dimensões','DIMENSOES'],['Preço / faixa','PRECO'],['Prazo','PRAZO'],['Disponibilidade','DISPONIBILIDADE'],['Região','REGIAO'],['Características','CARACTERISTICAS']];async function load(){if(!ids.length){document.getElementById('compare').innerHTML='<div class="arq4-card empty"><b>Nenhum produto selecionado.</b><span>Abra o marketplace e use o botão “Comparar” nos produtos desejados.</span><a class="btn gold" href="explorar.html">Explorar marketplace</a></div>';return;}const results=await Promise.all(ids.map(id=>ARQSELECT4.api('portal_produto',{id})));const products=results.filter(x=>x.sucesso&&x.produto).map(x=>x.produto);if(!products.length){document.getElementById('compare').innerHTML='<div class="arq4-card empty">Os produtos selecionados não estão mais disponíveis.</div>';return;}document.getElementById('compare').innerHTML=`<div class="table-wrap arq4-compare-table"><table><thead><tr><th>Critério</th>${products.map(p=>`<th><div>${esc(p.NOME||'Produto')}</div><button class="btn danger" onclick="removeProduct('${esc(p.ID)}')">Remover</button></th>`).join('')}</tr></thead><tbody><tr><td>Produto</td>${products.map(p=>{const img=String(p.FOTOS||'').split(/\n/).filter(Boolean)[0];return `<td>${img?`<img class="arq4-product-image" src="${esc(img)}" alt="${esc(p.NOME||'Produto')}">`:''}<h3>${esc(p.NOME||'Produto')}</h3><a class="btn gold" href="produto.html?id=${encodeURIComponent(p.ID)}">Ver produto</a></td>`}).join('')}</tr>${fields.map(([label,key])=>`<tr><td>${label}</td>${products.map(p=>`<td>${esc(p[key]||'Não informado')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;}window.removeProduct=id=>{ids=ids.filter(x=>x!==id);localStorage.setItem('ARQSELECT_COMPARE_IDS',JSON.stringify(ids));load();};document.getElementById('share').onclick=()=>ARQSELECT4.shareCurrent('Comparação de produtos ARQSELECT');load();})();
   </script>
-<script src="arq-premium.js?v=5.7.0"></script>
-<script src="arq-experience.js?v=5.7.0" defer></script>
+<script src="arq-premium.js?v=6.0.0"></script>
+<script src="arq-experience.js?v=6.0.0" defer></script>
 </body></html>
