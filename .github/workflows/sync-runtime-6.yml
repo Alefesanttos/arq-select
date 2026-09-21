@@ -1,0 +1,34 @@
+name: ARQSELECT 6.0 Runtime Sync
+on:
+  push:
+    branches: [arqselect-6.0-operating-system-core]
+    paths:
+      - "scripts/sync-runtime-6.mjs"
+      - ".github/workflows/sync-runtime-6.yml"
+permissions:
+  contents: write
+jobs:
+  sync:
+    if: ${{ !contains(github.event.head_commit.message, '[runtime-sync]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: arqselect-6.0-operating-system-core
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Synchronize legacy runtime references
+        run: node scripts/sync-runtime-6.mjs
+      - name: Commit synchronized pages
+        run: |
+          if git diff --quiet; then
+            echo "No runtime changes required."
+            exit 0
+          fi
+          git config user.name "ARQSELECT Automation"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "ARQSELECT 6.0: sincroniza páginas legadas [runtime-sync]"
+          git push
