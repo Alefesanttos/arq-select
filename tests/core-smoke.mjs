@@ -29,7 +29,10 @@ required.push('exportar.html');
 required.push('admin-webhooks.html');
 required.push('recentes.html');
 required.push('mapa.html');
-required.push('arq-product-intelligence.js');\nrequired.push('app-mobile.html');\nrequired.push('arq-mobile-app.css');\nrequired.push('arq-mobile-app.js');
+required.push('arq-product-intelligence.js');
+required.push('app-mobile.html');
+required.push('arq-mobile-app.css');
+required.push('arq-mobile-app.js');
 const fail=[];
 for(const f of required) if(!fs.existsSync(path.join(root,f))) fail.push('Arquivo ausente: '+f);
 
