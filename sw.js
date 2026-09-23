@@ -1,6 +1,7 @@
 /* ARQSELECT 6.3.0 — cache resiliente e responsivo para todos os dispositivos. */
 const CACHE='arqselect-mobile-1.0.0.20260923';
-const STATIC=[\n  './app-mobile.html','./arq-mobile-app.css','./arq-mobile-app.js',
+const STATIC=[
+  './app-mobile.html','./arq-mobile-app.css','./arq-mobile-app.js',
   './offline.html','./arq-design-system.css','./arq-experience.js','./arq-config.js',
   './arqselect-6.css','./arqselect-6.js','./arq-services.css','./arq-services.js','./arq-performance.js','./arq-intelligence.js','./arq-business.js',
   './arq-workspace-6.js','./arq-workspace-app-6.js','./login.html','./arq-product-intelligence.js','./arq-map.js','./arq-recent.js','./arq-webhooks.js','./arq-export.js','./arq-catalog-import.js','./arq-organization.js','./arq-referrals.js','./arq-plans.js','./mapa.html','./recentes.html','./admin-webhooks.html','./exportar.html','./importar-catalogo.html','./organizacao.html','./indicacoes.html','./planos.html','./arq-content.js','./arq-profile-intelligence.js','./arq-onboarding.js','./arq-agenda.js','./arq-trends.js','./arq-network.js','./para-marcas.html','./para-prestadores.html','./para-fornecedores.html','./para-arquitetos.html','./eventos.html','./cases.html','./blog.html','./onboarding.html','./agenda.html','./em-alta.html','./networking.html','./prestadores.html','./descobrir.html','./painel-negocios.html',
