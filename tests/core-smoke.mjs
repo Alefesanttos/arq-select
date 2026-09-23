@@ -30,10 +30,13 @@ required.push('admin-webhooks.html');
 required.push('recentes.html');
 required.push('mapa.html');
 required.push('arq-product-intelligence.js');
+required.push('app-mobile.html');
+required.push('arq-mobile-app.css');
+required.push('arq-mobile-app.js');
 const fail=[];
 for(const f of required) if(!fs.existsSync(path.join(root,f))) fail.push('Arquivo ausente: '+f);
 
-const jsFiles=['arq-config.js','arq-experience.js','arqselect-6.js','arq-project-hub.js','arq-resilience.js','arq-account.js','arq-admin-quality.js','arq-intelligence.js','arq-services.js','arq-rfq.js','arq-opportunities.js','arq-workspace-app-6.js','arq-network.js','arq-trends.js','arq-agenda.js','arq-onboarding.js','arq-profile-intelligence.js','arq-content.js','arq-plans.js','arq-referrals.js','arq-organization.js','arq-catalog-import.js','arq-export.js','arq-webhooks.js','arq-recent.js','arq-map.js','arq-product-intelligence.js','sw.js'];
+const jsFiles=['arq-config.js','arq-experience.js','arqselect-6.js','arq-project-hub.js','arq-resilience.js','arq-account.js','arq-admin-quality.js','arq-intelligence.js','arq-services.js','arq-rfq.js','arq-opportunities.js','arq-workspace-app-6.js','arq-network.js','arq-trends.js','arq-agenda.js','arq-onboarding.js','arq-profile-intelligence.js','arq-content.js','arq-plans.js','arq-referrals.js','arq-organization.js','arq-catalog-import.js','arq-export.js','arq-webhooks.js','arq-recent.js','arq-map.js','arq-product-intelligence.js','arq-mobile-app.js','sw.js'];
 for(const f of jsFiles){
   try{new vm.Script(fs.readFileSync(path.join(root,f),'utf8'),{filename:f});}
   catch(e){fail.push('JS inválido '+f+': '+e.message);}
@@ -61,6 +64,18 @@ for(const action of ['FAVORITAR','SOLICITAR_REVISAO','ABRIR_CHAT','ACEITAR','REC
 
 const ops=fs.readFileSync('arq-opportunities.js','utf8');
 for(const action of ['portal_oportunidades_unificadas','portal_oportunidade_status'])if(!ops.includes(action))fail.push('Central de oportunidades sem ação: '+action);
+
+const mobileHtml=fs.readFileSync('app-mobile.html','utf8');
+if(!mobileHtml.includes('rel="manifest"'))fail.push('App móvel sem manifesto PWA');
+if(!mobileHtml.includes('arq-mobile-app.js'))fail.push('App móvel sem controlador de navegação');
+const mobileManifest=JSON.parse(fs.readFileSync('manifest.webmanifest','utf8'));
+if(mobileManifest.start_url!=='./app-mobile.html')fail.push('Manifesto não abre o app móvel');
+if(mobileManifest.scope!=='./')fail.push('Manifesto PWA sem escopo da plataforma');
+for(const route of ['ARQSELECT_LOGIN_ARQUITETO.html','ARQSELECT_LOGIN_FORNECEDOR.html','ARQSELECT_LOGIN_PRESTADOR.html','ARQSELECT_DASHBOARD_ARQUITETO.html','ARQSELECT_DASHBOARD_FORNECEDOR.html','dashboard-prestador.html','admin-commerce.html','admin-qualidade.html','solicitar-orcamento.html','comparar-propostas.html','chat.html','explorar.html','feed.html','networking.html','agenda.html','notificacoes.html','suporte.html']){
+  if(!fs.existsSync(path.join(root,route)))fail.push('App móvel referencia página ausente: '+route);
+}
+const mobileSw=fs.readFileSync('sw.js','utf8');
+for(const asset of ['./app-mobile.html','./arq-mobile-app.css','./arq-mobile-app.js'])if(!mobileSw.includes(asset))fail.push('Service worker sem recurso do app: '+asset);
 
 const cfg=fs.readFileSync('arq-config.js','utf8');
 if(!cfg.includes('6.3.0'))fail.push('Configuração não está em 6.3.0');

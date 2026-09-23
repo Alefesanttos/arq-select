@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt-BR" class="arq-premium-ui">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#10110f">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="ARQSELECT no celular: projetos, produtos, fornecedores, prestadores, cotações e negócios em um só lugar.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ARQSELECT">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="stylesheet" href="./arq-mobile-app.css?v=1.0.0">
+  <title>ARQSELECT • App</title>
+  <script src="./arq-config.js?v=6.3.0" defer></script>
+  <script src="./arq-mobile-app.js?v=1.0.0" defer></script>
+</head>
+<body class="mobile-app">
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+  <header class="app-header">
+    <a class="app-brand" href="./app-mobile.html" aria-label="ARQSELECT, início">
+      <span class="brand-mark" aria-hidden="true">A</span>
+      <span>ARQ<span>SELECT</span></span>
+    </a>
+    <div class="header-actions">
+      <span class="connection-pill" id="connectionStatus" role="status">Verificando conexão</span>
+      <button class="icon-button" id="themeToggle" type="button" aria-label="Alterar tema">◐</button>
+    </div>
+  </header>
+
+  <main id="conteudo" class="app-main">
+    <section class="welcome-panel" aria-labelledby="welcomeTitle">
+      <div class="welcome-copy">
+        <p class="eyebrow">Seu espaço de trabalho</p>
+        <h1 id="welcomeTitle">Projetos melhores começam com as conexões certas.</h1>
+        <p class="welcome-text">Encontre soluções, organize cotações e acompanhe cada etapa da arquitetura à execução.</p>
+        <div class="welcome-actions">
+          <a class="button button-primary" id="mainAction" href="./explorar.html">Explorar a ARQSELECT</a>
+          <button class="button button-secondary" id="installButton" type="button" hidden>Instalar app</button>
+        </div>
+      </div>
+      <div class="welcome-art" aria-hidden="true">
+        <span class="art-ring ring-one"></span>
+        <span class="art-ring ring-two"></span>
+        <span class="art-monogram">A</span>
+        <span class="art-caption">ARQUITETURA · CONEXÕES · NEGÓCIOS</span>
+      </div>
+    </section>
+
+    <section class="role-section" aria-labelledby="roleTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Acesso por perfil</p>
+          <h2 id="roleTitle">O que você precisa fazer hoje?</h2>
+        </div>
+        <a class="text-link" href="./login.html">Já tenho acesso <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="role-switch" id="roleSwitch" role="group" aria-label="Selecionar perfil">
+        <button type="button" data-role="ARQUITETO" aria-pressed="true"><span aria-hidden="true">⌂</span> Arquiteto</button>
+        <button type="button" data-role="FORNECEDOR" aria-pressed="false"><span aria-hidden="true">▧</span> Fornecedor</button>
+        <button type="button" data-role="PRESTADOR" aria-pressed="false"><span aria-hidden="true">⌁</span> Prestador</button>
+      </div>
+      <div class="session-card" id="sessionCard" hidden>
+        <span class="session-icon" aria-hidden="true">✓</span>
+        <div><strong id="sessionTitle">Perfil identificado</strong><p id="sessionDescription">Continue no painel da sua conta.</p></div>
+        <a id="sessionLink" href="./login.html" aria-label="Abrir painel">Abrir <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section class="modules-section" aria-labelledby="modulesTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow" id="moduleEyebrow">ARQUITETO</p>
+          <h2 id="modulesTitle">Acesse seus módulos</h2>
+        </div>
+        <span class="module-count" id="moduleCount"></span>
+      </div>
+      <div class="module-grid" id="moduleGrid"></div>
+    </section>
+
+    <section class="discover-section" aria-labelledby="discoverTitle">
+      <div class="discover-copy">
+        <p class="eyebrow">Continue explorando</p>
+        <h2 id="discoverTitle">Tudo conectado ao contexto do seu projeto.</h2>
+        <p>Marketplace, inspiração, rede profissional e suporte ficam a um toque de distância.</p>
+      </div>
+      <div class="discover-links">
+        <a href="./explorar.html"><span aria-hidden="true">⌕</span><span><b>Marketplace</b><small>Produtos e soluções</small></span><span aria-hidden="true">→</span></a>
+        <a href="./feed.html"><span aria-hidden="true">▤</span><span><b>Inspiração</b><small>Conteúdo e referências</small></span><span aria-hidden="true">→</span></a>
+        <a href="./networking.html"><span aria-hidden="true">◎</span><span><b>Networking</b><small>Conexões profissionais</small></span><span aria-hidden="true">→</span></a>
+        <a href="./suporte.html"><span aria-hidden="true">?</span><span><b>Suporte</b><small>Fale com a ARQSELECT</small></span><span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+    <p class="app-footnote">A disponibilidade de cada módulo depende do seu perfil e das permissões da sua conta.</p>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Navegação do app">
+    <a class="is-active" href="./app-mobile.html" aria-current="page"><span aria-hidden="true">⌂</span><small>Início</small></a>
+    <a href="./explorar.html"><span aria-hidden="true">⌕</span><small>Explorar</small></a>
+    <a id="projectsNav" href="./ARQSELECT_ARQUITETO_PROJETOS.html"><span aria-hidden="true">▦</span><small>Projetos</small></a>
+    <a id="accountNav" href="./login.html"><span aria-hidden="true">○</span><small>Conta</small></a>
+  </nav>
+
+  <dialog class="install-dialog" id="installHelp" aria-labelledby="installHelpTitle">
+    <form method="dialog" class="dialog-card">
+      <button class="icon-button dialog-close" aria-label="Fechar">×</button>
+      <p class="eyebrow">Instale a ARQSELECT</p>
+      <h2 id="installHelpTitle">Tenha o app na tela inicial</h2>
+      <p id="installHelpText">No menu do navegador, escolha “Adicionar à tela inicial” para abrir a ARQSELECT em tela cheia.</p>
+      <button class="button button-primary dialog-ok">Entendi</button>
+    </form>
+  </dialog>
+</body>
+</html>
