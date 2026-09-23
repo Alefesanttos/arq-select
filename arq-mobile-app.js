@@ -98,6 +98,6 @@ const installButton=$("#installButton"),help=$("#installHelp");
 let installPrompt;
 window.addEventListener("beforeinstallprompt",event=>{event.preventDefault();installPrompt=event;if(installButton)installButton.hidden=false});
 installButton?.addEventListener("click",async()=>{if(installPrompt){installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;installButton.hidden=true;return}if(help?.showModal)help.showModal()});
-if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&!storage("ARQSELECT_IOS_INSTALL_HINT_SEEN")){setTimeout(()=>{if(help?.showModal)help.showModal();try{localStorage.setItem("ARQSELECT_IOS_INSTALL_HINT_SEEN","1")}catch(_){ }},900)}
+if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&installButton){installButton.hidden=false;installButton.textContent="Adicionar à tela inicial"}
 document.addEventListener("DOMContentLoaded",()=>{if("serviceWorker"in navigator&&location.protocol==="https:")navigator.serviceWorker.register("./sw.js",{scope:"./"}).catch(()=>{})});
 })();
