@@ -1,5 +1,5 @@
 /* ARQSELECT 6.3.0 — cache resiliente e responsivo para todos os dispositivos. */
-const CACHE='arqselect-6.3.0.20260920.630';
+const CACHE='arqselect-6.3.0.20260924.631';
 const STATIC=[
   './offline.html','./arq-design-system.css','./arq-experience.js','./arq-config.js',
   './arqselect-6.css','./arqselect-6.js','./arq-services.css','./arq-services.js','./arq-performance.js','./arq-intelligence.js','./arq-business.js',
@@ -22,6 +22,13 @@ self.addEventListener('fetch',event=>{
   if(request.method!=='GET')return;
   const url=new URL(request.url);
   if(url.origin!==self.location.origin||url.searchParams.has('token'))return;
+  // Administrative code and pages must never fall back to an obsolete offline copy.
+  const adminResource=/\/(?:admin(?:-[\w-]+)?\.html|admin(?:-[\w-]+)?\.js)$/i.test(url.pathname);
+  const adminReferrer=/\/admin(?:-[\w-]+)?\.html$/i.test(new URL(request.referrer||self.location.origin).pathname);
+  if(adminResource||adminReferrer){
+    event.respondWith(fetch(request,{cache:'no-store'}));
+    return;
+  }
   const save=response=>{
     if(response&&response.ok)event.waitUntil(caches.open(CACHE).then(cache=>cache.put(request,response.clone())).catch(()=>{}));
     return response;

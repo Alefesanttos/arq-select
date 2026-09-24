@@ -2,6 +2,8 @@
 (function(){
   "use strict";
   const DEFAULT_API_URL="https://script.google.com/macros/s/AKfycbz_jLzNa87U_himraaCczzqGpQdq63AyIVogQ9-YGnqXuQYl3OSJfV4E7xYfPdnv8-d/exec";
+  // The administrator login must never use a URL supplied by a page parameter or local storage.
+  window.ARQSELECT_ADMIN_API_URL=DEFAULT_API_URL;
   const KEY="ARQSELECT_API_URL";
   const clean=value=>String(value||"").trim().replace(/\/+$/,"");
   const valid=value=>/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/i.test(clean(value));
