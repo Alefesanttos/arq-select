@@ -169,6 +169,50 @@
     controls.style.marginTop = "14px";
     controls.innerHTML = `<div class="section-head"><div><div class="ey">ACESSO E MODERAÇÃO</div><h3>Controle administrativo</h3></div><div>${badge(user.STATUS)} ${badge(user["STATUS APROVACAO"] || "PENDENTE")}</div></div><div class="two"><label>Status de acesso<select id="userStatus3"><option ${String(user.STATUS).toUpperCase() === "ATIVO" ? "selected" : ""}>ATIVO</option><option ${String(user.STATUS).toUpperCase() === "INATIVO" ? "selected" : ""}>INATIVO</option><option ${String(user.STATUS).toUpperCase() === "BLOQUEADO" ? "selected" : ""}>BLOQUEADO</option></select></label><label>Status de aprovação<select id="userApproval3"><option ${String(user["STATUS APROVACAO"]).toUpperCase() === "PENDENTE" ? "selected" : ""}>PENDENTE</option><option ${String(user["STATUS APROVACAO"]).toUpperCase() === "APROVADO" ? "selected" : ""}>APROVADO</option><option ${String(user["STATUS APROVACAO"]).toUpperCase() === "RECUSADO" ? "selected" : ""}>RECUSADO</option></select></label></div><p class="muted" style="margin:12px 0 0">O status controla o login. A aprovação controla a visibilidade e a validação do cadastro.</p><div id="userControlFeedback3" class="muted" role="status" aria-live="polite" style="margin-top:10px"></div><button id="saveUserControl3" class="btn gold" style="margin-top:12px" onclick="updateUser3('${esc(user.ID)}','${esc(user.TIPO)}')">Salvar controle</button>`;
     body.appendChild(controls);
+    const buttons = document.createElement("div");
+    buttons.className = "actions";
+    buttons.style.marginTop = "14px";
+    const preview = document.createElement("button");
+    preview.className = "btn light";
+    preview.type = "button";
+    preview.textContent = "Ver painel do usuário (leitura)";
+    preview.onclick = async () => {
+      preview.disabled = true;
+      try {
+        const result = await api("admin_usuario_painel", {id:user.ID, tipo:user.TIPO});
+        const cards = (list, label, title) => `<section class="card"><h3>${label}</h3><div class="muted">${list.length} registro(s) exibido(s)</div>${list.map(item => `<div class="kv"><b>${esc(item[title] || item.id || "Registro")}</b>${esc(item.status || "")}</div>`).join("") || '<p class="muted">Nenhum registro.</p>'}</section>`;
+        modal("Visão administrativa — " + (user.EMPRESA || user.NOME || user.ID),
+          '<p class="muted">Consulta somente leitura. Você continua identificado como administrador; nenhuma sessão do usuário é criada.</p>' +
+          `<div class="grid"><div class="card"><b>Projetos</b><div class="stat-value">${Number(result.totalProjetos || 0)}</div></div><div class="card"><b>Produtos</b><div class="stat-value">${Number(result.totalProdutos || 0)}</div></div><div class="card"><b>Catálogos</b><div class="stat-value">${Number(result.totalCatalogos || 0)}</div></div></div>` +
+          `<div class="section">${cards(result.projetos || [], "Projetos", "nome")}${cards(result.produtos || [], "Produtos", "nome")}${cards(result.catalogos || [], "Catálogos", "titulo")}</div>`);
+        if (user.TIPO === "FORNECEDOR") {
+          const link = document.createElement("a");
+          link.className = "btn gold";
+          link.textContent = "Gerenciar catálogos deste fornecedor";
+          link.href = "admin-catalogos.html?fornecedorId=" + encodeURIComponent(user.ID);
+          $("modalBody").appendChild(link);
+        }
+      } catch (error) {
+        toast(error.message || "Não foi possível abrir a visão administrativa. Confira a instalação do Apps Script build 633.");
+      } finally {preview.disabled = false;}
+    };
+    const archive = document.createElement("button");
+    archive.className = "btn danger";
+    archive.type = "button";
+    archive.textContent = "Excluir acesso (arquivar)";
+    archive.title = "Bloqueia o login e remove a aprovação; preserva projetos e histórico para permitir restauração.";
+    archive.onclick = async () => {
+      if (!confirm("Arquivar " + (user.EMPRESA || user.NOME || user.ID) + "? O acesso será bloqueado e a aprovação revogada. Projetos e histórico serão preservados.")) return;
+      $("userStatus3").value = "BLOQUEADO";
+      $("userApproval3").value = "RECUSADO";
+      await window.updateUser3(user.ID, user.TIPO);
+    };
+    buttons.append(preview, archive);
+    controls.appendChild(buttons);
+    const note = document.createElement("p");
+    note.className = "muted";
+    note.textContent = "Para restaurar o acesso, escolha ATIVO e APROVADO e salve. A exclusão definitiva de dados vinculados exige tratamento separado.";
+    controls.appendChild(note);
   };
 
   loadPageData = loadExtended;
