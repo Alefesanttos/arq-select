@@ -5,7 +5,7 @@
 <meta name="color-scheme" content="light dark">
 <script id="arq-theme-boot">(()=>{try{const k="ARQSELECT_THEME",v=localStorage.getItem(k)||"auto",m=matchMedia("(prefers-color-scheme: dark)").matches,t=v==="auto"?(m?"dark":"light"):(v==="dark"?"dark":"light"),h=document.documentElement;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=["light","dark","auto"].includes(v)?v:"auto";h.style.colorScheme=t}catch(_){document.documentElement.dataset.theme="light"}})();</script>
 
-<meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'">
+<meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob: https://thumb.wikimedia.org; object-src 'none'; base-uri 'self'">
 <script src="arq-config.js?v=6.0.0"></script>
   
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -49,35 +49,124 @@
     .container{width:min(var(--max),92vw);margin:auto}
     .glass{background:rgba(9,9,9,.68);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line)}
 
-    /* Faixa editorial de marcas — referências do setor, sem alegação de parceria */
-    .sector-brands{position:relative;z-index:4;border-bottom:1px solid var(--border-subtle,var(--line));background:var(--surface-primary,#0b0b0b);background:color-mix(in srgb,var(--surface-primary,#0b0b0b) 94%,transparent);color:var(--text-primary,var(--text));overflow:hidden}
-    .sector-brands-row{min-height:112px;display:grid;grid-template-columns:minmax(210px,285px) minmax(0,1fr);align-items:center;gap:clamp(18px,3vw,40px);padding-block:16px}
-    .sector-brands-copy{min-width:0}
-    .sector-brands-kicker{display:block;margin-bottom:3px;color:var(--accent-primary,var(--gold2));font-size:10px;font-weight:950;letter-spacing:.16em;text-transform:uppercase}
-    .sector-brands-title{display:block;color:var(--text-primary,var(--text));font-size:13px;font-weight:850;line-height:1.25}
-    .sector-brands-note{display:block;margin-top:4px;color:var(--text-muted,var(--muted));font-size:10px;line-height:1.35}
-    .sector-brands-viewport{position:relative;min-width:0;overflow:hidden;border-inline:1px solid color-mix(in srgb,var(--border-subtle,var(--line)) 75%,transparent);border-radius:16px;outline:none;mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
-    .sector-brands-viewport:focus-visible{outline:2px solid var(--accent-primary,var(--gold));outline-offset:3px}
-    .sector-brands-track{--brand-gap:12px;display:flex;width:max-content;gap:var(--brand-gap);padding:8px 14px;animation:sectorBrandsMarquee 42s linear infinite;will-change:transform}
-    .sector-brands-set{display:flex;align-items:stretch;gap:var(--brand-gap);flex:none}
-    .sector-brand{display:flex;min-width:142px;height:54px;flex-direction:column;align-items:center;justify-content:center;padding:8px 16px;border:1px solid var(--border-subtle,var(--line));border-color:color-mix(in srgb,var(--border-subtle,var(--line)) 86%,transparent);border-radius:13px;background:var(--surface-secondary,#121212);background:color-mix(in srgb,var(--surface-secondary,#121212) 86%,transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,.025);white-space:nowrap}
-    .sector-brand b{color:var(--text-primary,var(--text));font-size:13px;font-weight:900;letter-spacing:.025em;line-height:1}
-    .sector-brand small{margin-top:5px;color:var(--text-muted,var(--muted));font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
-    .sector-brands-viewport:hover .sector-brands-track,.sector-brands-viewport:focus .sector-brands-track,.sector-brands-viewport:focus-within .sector-brands-track{animation-play-state:paused}
-    @keyframes sectorBrandsMarquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(-50% - 6px),0,0)}}
+    /* Premium logo stream — logos only, no visible copy */
+    .brand-stream{
+      position:relative;
+      z-index:6;
+      height:76px;
+      display:flex;
+      align-items:center;
+      overflow:hidden;
+      border-bottom:1px solid color-mix(in srgb,var(--border-subtle,var(--line)) 78%,transparent);
+      background:
+        linear-gradient(180deg,color-mix(in srgb,var(--surface-primary,#0b0b0b) 92%,transparent),color-mix(in srgb,var(--surface-secondary,#0f0f0f) 86%,transparent));
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+    }
+    .brand-stream::before,.brand-stream::after{
+      content:"";
+      position:absolute;
+      top:0;
+      bottom:0;
+      width:min(11vw,150px);
+      z-index:3;
+      pointer-events:none;
+    }
+    .brand-stream::before{
+      left:0;
+      background:linear-gradient(90deg,var(--surface-primary,#0b0b0b),transparent);
+    }
+    .brand-stream::after{
+      right:0;
+      background:linear-gradient(270deg,var(--surface-primary,#0b0b0b),transparent);
+    }
+    .brand-stream__viewport{
+      width:100%;
+      overflow:hidden;
+      outline:none;
+    }
+    .brand-stream__viewport:focus-visible{
+      outline:2px solid var(--accent-primary,var(--gold));
+      outline-offset:-4px;
+    }
+    .brand-stream__track{
+      --brand-gap:64px;
+      display:flex;
+      align-items:center;
+      width:max-content;
+      gap:var(--brand-gap);
+      padding:0 34px;
+      animation:brandStreamMove 38s linear infinite;
+      will-change:transform;
+    }
+    .brand-stream__group{
+      display:flex;
+      align-items:center;
+      gap:var(--brand-gap);
+      flex:none;
+    }
+    .brand-stream__item{
+      flex:0 0 auto;
+      display:grid;
+      place-items:center;
+      width:148px;
+      height:54px;
+      padding:6px 10px;
+      opacity:.78;
+      transform:translateZ(0);
+      transition:opacity .24s ease,transform .24s ease;
+    }
+    .brand-stream__item img{
+      display:block;
+      width:auto;
+      height:auto;
+      max-width:128px;
+      max-height:31px;
+      object-fit:contain;
+    }
+    .brand-stream__item.is-wide{width:186px}
+    .brand-stream__item.is-wide img{max-width:170px}
+    .brand-stream__item.is-tall img{max-height:36px}
+    .brand-stream__item:hover{
+      opacity:1;
+      transform:translateY(-1px) scale(1.025);
+    }
+    .brand-stream__viewport:hover .brand-stream__track,
+    .brand-stream__viewport:focus .brand-stream__track,
+    .brand-stream__viewport:focus-within .brand-stream__track{
+      animation-play-state:paused;
+    }
+    @keyframes brandStreamMove{
+      from{transform:translate3d(0,0,0)}
+      to{transform:translate3d(calc(-50% - 32px),0,0)}
+    }
     @media(max-width:760px){
-      .sector-brands-row{min-height:0;grid-template-columns:1fr;gap:10px;padding-block:13px}
-      .sector-brands-copy{padding-inline:1px}
-      .sector-brands-note{max-width:52ch}
-      .sector-brands-viewport{overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;mask-image:none;-webkit-mask-image:none;border-inline:0;border-radius:0;scrollbar-width:thin}
-      .sector-brands-track{animation:none!important;will-change:auto;padding:4px 1px 9px}
-      .sector-brands-set[aria-hidden="true"]{display:none}
-      .sector-brand{min-width:136px;scroll-snap-align:start}
+      .brand-stream{height:64px}
+      .brand-stream::before,.brand-stream::after{display:none}
+      .brand-stream__viewport{
+        overflow-x:auto;
+        overscroll-behavior-inline:contain;
+        scrollbar-width:none;
+        -webkit-overflow-scrolling:touch;
+      }
+      .brand-stream__viewport::-webkit-scrollbar{display:none}
+      .brand-stream__track{
+        --brand-gap:34px;
+        animation:none!important;
+        transform:none!important;
+        will-change:auto;
+        padding:0 18px;
+      }
+      .brand-stream__group[aria-hidden="true"]{display:none}
+      .brand-stream__item{width:126px;height:50px;padding:6px}
+      .brand-stream__item.is-wide{width:158px}
+      .brand-stream__item img{max-width:112px;max-height:27px}
+      .brand-stream__item.is-wide img{max-width:146px}
     }
     @media(prefers-reduced-motion:reduce){
-      .sector-brands-viewport{overflow-x:auto;mask-image:none;-webkit-mask-image:none}
-      .sector-brands-track{animation:none!important;transform:none!important;will-change:auto}
-      .sector-brands-set[aria-hidden="true"]{display:none}
+      .brand-stream__viewport{overflow-x:auto}
+      .brand-stream__track{animation:none!important;transform:none!important;will-change:auto}
+      .brand-stream__group[aria-hidden="true"]{display:none}
     }
     .topbar{position:sticky;top:0;z-index:100;border-bottom:1px solid var(--line);background:rgba(5,5,5,.76);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
     .nav{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:22px}
@@ -151,55 +240,37 @@
     </div>
   </header>
 
-  <nav class="home-menu" id="home-menu" aria-label="Menu móvel">
-    <a href="#como-funciona">Como funciona</a><a href="#categorias">Categorias</a><a href="descobrir.html">Descobrir</a><a href="explorar.html">Marketplace</a><a href="prestadores.html">Prestadores</a><a href="feed.html">Inspiração</a><a href="assistente.html">Assistente</a><a href="#arquitetos">Para arquitetos</a><a href="#fornecedores">Para fornecedores</a><button type="button" data-open-access>Acessar a plataforma</button>
-  </nav>
-
-  <section class="sector-brands" aria-labelledby="sector-brands-title">
-    <div class="container sector-brands-row">
-      <div class="sector-brands-copy">
-        <span class="sector-brands-kicker">Referências do setor</span>
-        <strong class="sector-brands-title" id="sector-brands-title">Marcas presentes no universo da construção</strong>
-        <small class="sector-brands-note">Referências de mercado. A exibição não implica parceria, patrocínio ou cadastro na ARQSELECT.</small>
-      </div>
-      <div class="sector-brands-viewport" tabindex="0" role="region" aria-label="Marcas de referência do setor. Passe o mouse ou use o foco do teclado para pausar o movimento.">
-        <div class="sector-brands-track">
-          <div class="sector-brands-set" role="list" aria-label="Marcas de referência">
-          <span class="sector-brand" role="listitem" aria-label="Deca, Louças e metais"><b>Deca</b><small>Louças e metais</small></span>
-          <span class="sector-brand" role="listitem" aria-label="Docol, Metais e soluções"><b>Docol</b><small>Metais e soluções</small></span>
-          <span class="sector-brand" role="listitem" aria-label="Tigre, Tubos e conexões"><b>Tigre</b><small>Tubos e conexões</small></span>
-          <span class="sector-brand" role="listitem" aria-label="Portobello, Pisos e revestimentos"><b>Portobello</b><small>Pisos e revestimentos</small></span>
-          <span class="sector-brand" role="listitem" aria-label="Suvinil, Tintas e acabamentos"><b>Suvinil</b><small>Tintas e acabamentos</small></span>
-          <span class="sector-brand" role="listitem" aria-label="Coral, Tintas e acabamentos"><b>Coral</b><small>Tintas e acabamentos</small></span>
-          <span class="sector-brand" role="listitem" aria-label="Quartzolit, Argamassas e sistemas"><b>Quartzolit</b><small>Argamassas e sistemas</small></span>
-          <span class="sector-brand" role="listitem" aria-label="Gerdau, Aço e construção"><b>Gerdau</b><small>Aço e construção</small></span>
-          <span class="sector-brand" role="listitem" aria-label="Votorantim Cimentos, Cimentos e materiais"><b>Votorantim Cimentos</b><small>Cimentos e materiais</small></span>
-          <span class="sector-brand" role="listitem" aria-label="Bosch, Ferramentas e equipamentos"><b>Bosch</b><small>Ferramentas e equipamentos</small></span>
-          <span class="sector-brand" role="listitem" aria-label="Makita, Ferramentas elétricas"><b>Makita</b><small>Ferramentas elétricas</small></span>
-          <span class="sector-brand" role="listitem" aria-label="Tramontina, Ferramentas e soluções"><b>Tramontina</b><small>Ferramentas e soluções</small></span>
-          <span class="sector-brand" role="listitem" aria-label="Duratex, Madeira e painéis"><b>Duratex</b><small>Madeira e painéis</small></span>
-          <span class="sector-brand" role="listitem" aria-label="Eucatex, Painéis e acabamentos"><b>Eucatex</b><small>Painéis e acabamentos</small></span>
-          </div>
-          <div class="sector-brands-set" aria-hidden="true">
-          <span class="sector-brand"><b>Deca</b><small>Louças e metais</small></span>
-          <span class="sector-brand"><b>Docol</b><small>Metais e soluções</small></span>
-          <span class="sector-brand"><b>Tigre</b><small>Tubos e conexões</small></span>
-          <span class="sector-brand"><b>Portobello</b><small>Pisos e revestimentos</small></span>
-          <span class="sector-brand"><b>Suvinil</b><small>Tintas e acabamentos</small></span>
-          <span class="sector-brand"><b>Coral</b><small>Tintas e acabamentos</small></span>
-          <span class="sector-brand"><b>Quartzolit</b><small>Argamassas e sistemas</small></span>
-          <span class="sector-brand"><b>Gerdau</b><small>Aço e construção</small></span>
-          <span class="sector-brand"><b>Votorantim Cimentos</b><small>Cimentos e materiais</small></span>
-          <span class="sector-brand"><b>Bosch</b><small>Ferramentas e equipamentos</small></span>
-          <span class="sector-brand"><b>Makita</b><small>Ferramentas elétricas</small></span>
-          <span class="sector-brand"><b>Tramontina</b><small>Ferramentas e soluções</small></span>
-          <span class="sector-brand"><b>Duratex</b><small>Madeira e painéis</small></span>
-          <span class="sector-brand"><b>Eucatex</b><small>Painéis e acabamentos</small></span>
-          </div>
+  <section class="brand-stream" aria-label="Marcas de referência do universo da construção. A presença visual não indica parceria, patrocínio ou cadastro na ARQSELECT.">
+    <span class="sr-only">Marcas de referência do setor apresentadas apenas como repertório visual.</span>
+    <div class="brand-stream__viewport" tabindex="0" aria-label="Faixa de marcas do setor. Passe o mouse ou use o foco do teclado para pausar.">
+      <div class="brand-stream__track">
+        <div class="brand-stream__group" role="list" aria-label="Marcas de referência">
+        <span class="brand-stream__item is-wide" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Logotipo_da_Suvinil.svg/960px-Logotipo_da_Suvinil.svg.png" alt="Suvinil" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
+        <span class="brand-stream__item " role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Gerdau_logo_%282011%29.svg/330px-Gerdau_logo_%282011%29.svg.png" alt="Gerdau" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
+        <span class="brand-stream__item is-wide" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Bosch-logo.svg/960px-Bosch-logo.svg.png" alt="Bosch" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
+        <span class="brand-stream__item is-wide" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Makita_Logo.svg/3840px-Makita_Logo.svg.png" alt="Makita" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
+        <span class="brand-stream__item is-wide" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Logotipo_da_Tramontina_%282025%29.svg/960px-Logotipo_da_Tramontina_%282025%29.svg.png" alt="Tramontina" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
+        <span class="brand-stream__item is-wide is-tall" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dc/Logotipo_da_Votorantim_Cimentos.svg/3840px-Logotipo_da_Votorantim_Cimentos.svg.png" alt="Votorantim Cimentos" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
+        <span class="brand-stream__item is-wide" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Logotipo_da_Dexco.svg/3840px-Logotipo_da_Dexco.svg.png" alt="Dexco" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
+        <span class="brand-stream__item is-wide" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/AkzoNobel.svg/330px-AkzoNobel.svg.png" alt="AkzoNobel" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
+        </div>
+        <div class="brand-stream__group" aria-hidden="true">
+        <span class="brand-stream__item is-wide"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Logotipo_da_Suvinil.svg/960px-Logotipo_da_Suvinil.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
+        <span class="brand-stream__item "><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Gerdau_logo_%282011%29.svg/330px-Gerdau_logo_%282011%29.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
+        <span class="brand-stream__item is-wide"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Bosch-logo.svg/960px-Bosch-logo.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
+        <span class="brand-stream__item is-wide"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Makita_Logo.svg/3840px-Makita_Logo.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
+        <span class="brand-stream__item is-wide"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Logotipo_da_Tramontina_%282025%29.svg/960px-Logotipo_da_Tramontina_%282025%29.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
+        <span class="brand-stream__item is-wide is-tall"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dc/Logotipo_da_Votorantim_Cimentos.svg/3840px-Logotipo_da_Votorantim_Cimentos.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
+        <span class="brand-stream__item is-wide"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Logotipo_da_Dexco.svg/3840px-Logotipo_da_Dexco.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
+        <span class="brand-stream__item is-wide"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/AkzoNobel.svg/330px-AkzoNobel.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
         </div>
       </div>
     </div>
   </section>
+
+  <nav class="home-menu" id="home-menu" aria-label="Menu móvel">
+    <a href="#como-funciona">Como funciona</a><a href="#categorias">Categorias</a><a href="descobrir.html">Descobrir</a><a href="explorar.html">Marketplace</a><a href="prestadores.html">Prestadores</a><a href="feed.html">Inspiração</a><a href="assistente.html">Assistente</a><a href="#arquitetos">Para arquitetos</a><a href="#fornecedores">Para fornecedores</a><button type="button" data-open-access>Acessar a plataforma</button>
+  </nav>
 
   <main>
     <section class="hero">
