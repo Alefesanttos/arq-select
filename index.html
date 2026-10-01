@@ -48,6 +48,37 @@
     a{text-decoration:none;color:inherit}
     .container{width:min(var(--max),92vw);margin:auto}
     .glass{background:rgba(9,9,9,.68);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line)}
+
+    /* Faixa editorial de marcas — referências do setor, sem alegação de parceria */
+    .sector-brands{position:relative;z-index:4;border-bottom:1px solid var(--border-subtle,var(--line));background:color-mix(in srgb,var(--surface-primary,#0b0b0b) 94%,transparent);color:var(--text-primary,var(--text));overflow:hidden}
+    .sector-brands-row{min-height:112px;display:grid;grid-template-columns:minmax(210px,285px) minmax(0,1fr);align-items:center;gap:clamp(18px,3vw,40px);padding-block:16px}
+    .sector-brands-copy{min-width:0}
+    .sector-brands-kicker{display:block;margin-bottom:3px;color:var(--accent-primary,var(--gold2));font-size:10px;font-weight:950;letter-spacing:.16em;text-transform:uppercase}
+    .sector-brands-title{display:block;color:var(--text-primary,var(--text));font-size:13px;font-weight:850;line-height:1.25}
+    .sector-brands-note{display:block;margin-top:4px;color:var(--text-muted,var(--muted));font-size:10px;line-height:1.35}
+    .sector-brands-viewport{position:relative;min-width:0;overflow:hidden;border-inline:1px solid color-mix(in srgb,var(--border-subtle,var(--line)) 75%,transparent);border-radius:16px;outline:none;mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+    .sector-brands-viewport:focus-visible{outline:2px solid var(--accent-primary,var(--gold));outline-offset:3px}
+    .sector-brands-track{--brand-gap:12px;display:flex;width:max-content;gap:var(--brand-gap);padding:8px 14px;animation:sectorBrandsMarquee 42s linear infinite;will-change:transform}
+    .sector-brands-set{display:flex;align-items:stretch;gap:var(--brand-gap);flex:none}
+    .sector-brand{display:flex;min-width:142px;height:54px;flex-direction:column;align-items:center;justify-content:center;padding:8px 16px;border:1px solid color-mix(in srgb,var(--border-subtle,var(--line)) 86%,transparent);border-radius:13px;background:color-mix(in srgb,var(--surface-secondary,#121212) 86%,transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,.025);white-space:nowrap}
+    .sector-brand b{color:var(--text-primary,var(--text));font-size:13px;font-weight:900;letter-spacing:.025em;line-height:1}
+    .sector-brand small{margin-top:5px;color:var(--text-muted,var(--muted));font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .sector-brands-viewport:hover .sector-brands-track,.sector-brands-viewport:focus .sector-brands-track,.sector-brands-viewport:focus-within .sector-brands-track{animation-play-state:paused}
+    @keyframes sectorBrandsMarquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(-50% - (var(--brand-gap) / 2)),0,0)}}
+    @media(max-width:760px){
+      .sector-brands-row{min-height:0;grid-template-columns:1fr;gap:10px;padding-block:13px}
+      .sector-brands-copy{padding-inline:1px}
+      .sector-brands-note{max-width:52ch}
+      .sector-brands-viewport{overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;mask-image:none;-webkit-mask-image:none;border-inline:0;border-radius:0;scrollbar-width:thin}
+      .sector-brands-track{animation:none!important;will-change:auto;padding:4px 1px 9px}
+      .sector-brands-set[aria-hidden="true"]{display:none}
+      .sector-brand{min-width:136px;scroll-snap-align:start}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .sector-brands-viewport{overflow-x:auto;mask-image:none;-webkit-mask-image:none}
+      .sector-brands-track{animation:none!important;transform:none!important;will-change:auto}
+      .sector-brands-set[aria-hidden="true"]{display:none}
+    }
     .topbar{position:sticky;top:0;z-index:100;border-bottom:1px solid var(--line);background:rgba(5,5,5,.76);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
     .nav{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:22px}
     .brand{font-weight:950;letter-spacing:.15em;font-size:24px;white-space:nowrap}.brand span{color:var(--gold2)}
@@ -123,6 +154,52 @@
   <nav class="home-menu" id="home-menu" aria-label="Menu móvel">
     <a href="#como-funciona">Como funciona</a><a href="#categorias">Categorias</a><a href="descobrir.html">Descobrir</a><a href="explorar.html">Marketplace</a><a href="prestadores.html">Prestadores</a><a href="feed.html">Inspiração</a><a href="assistente.html">Assistente</a><a href="#arquitetos">Para arquitetos</a><a href="#fornecedores">Para fornecedores</a><button type="button" data-open-access>Acessar a plataforma</button>
   </nav>
+
+  <section class="sector-brands" aria-labelledby="sector-brands-title">
+    <div class="container sector-brands-row">
+      <div class="sector-brands-copy">
+        <span class="sector-brands-kicker">Referências do setor</span>
+        <strong class="sector-brands-title" id="sector-brands-title">Marcas presentes no universo da construção</strong>
+        <small class="sector-brands-note">Referências de mercado. A exibição não implica parceria, patrocínio ou cadastro na ARQSELECT.</small>
+      </div>
+      <div class="sector-brands-viewport" tabindex="0" role="region" aria-label="Marcas de referência do setor. Passe o mouse ou use o foco do teclado para pausar o movimento.">
+        <div class="sector-brands-track">
+          <div class="sector-brands-set" role="list" aria-label="Marcas de referência">
+          <span class="sector-brand" role="listitem" aria-label="Deca, Louças e metais"><b>Deca</b><small>Louças e metais</small></span>
+          <span class="sector-brand" role="listitem" aria-label="Docol, Metais e soluções"><b>Docol</b><small>Metais e soluções</small></span>
+          <span class="sector-brand" role="listitem" aria-label="Tigre, Tubos e conexões"><b>Tigre</b><small>Tubos e conexões</small></span>
+          <span class="sector-brand" role="listitem" aria-label="Portobello, Pisos e revestimentos"><b>Portobello</b><small>Pisos e revestimentos</small></span>
+          <span class="sector-brand" role="listitem" aria-label="Suvinil, Tintas e acabamentos"><b>Suvinil</b><small>Tintas e acabamentos</small></span>
+          <span class="sector-brand" role="listitem" aria-label="Coral, Tintas e acabamentos"><b>Coral</b><small>Tintas e acabamentos</small></span>
+          <span class="sector-brand" role="listitem" aria-label="Quartzolit, Argamassas e sistemas"><b>Quartzolit</b><small>Argamassas e sistemas</small></span>
+          <span class="sector-brand" role="listitem" aria-label="Gerdau, Aço e construção"><b>Gerdau</b><small>Aço e construção</small></span>
+          <span class="sector-brand" role="listitem" aria-label="Votorantim Cimentos, Cimentos e materiais"><b>Votorantim Cimentos</b><small>Cimentos e materiais</small></span>
+          <span class="sector-brand" role="listitem" aria-label="Bosch, Ferramentas e equipamentos"><b>Bosch</b><small>Ferramentas e equipamentos</small></span>
+          <span class="sector-brand" role="listitem" aria-label="Makita, Ferramentas elétricas"><b>Makita</b><small>Ferramentas elétricas</small></span>
+          <span class="sector-brand" role="listitem" aria-label="Tramontina, Ferramentas e soluções"><b>Tramontina</b><small>Ferramentas e soluções</small></span>
+          <span class="sector-brand" role="listitem" aria-label="Duratex, Madeira e painéis"><b>Duratex</b><small>Madeira e painéis</small></span>
+          <span class="sector-brand" role="listitem" aria-label="Eucatex, Painéis e acabamentos"><b>Eucatex</b><small>Painéis e acabamentos</small></span>
+          </div>
+          <div class="sector-brands-set" aria-hidden="true">
+          <span class="sector-brand"><b>Deca</b><small>Louças e metais</small></span>
+          <span class="sector-brand"><b>Docol</b><small>Metais e soluções</small></span>
+          <span class="sector-brand"><b>Tigre</b><small>Tubos e conexões</small></span>
+          <span class="sector-brand"><b>Portobello</b><small>Pisos e revestimentos</small></span>
+          <span class="sector-brand"><b>Suvinil</b><small>Tintas e acabamentos</small></span>
+          <span class="sector-brand"><b>Coral</b><small>Tintas e acabamentos</small></span>
+          <span class="sector-brand"><b>Quartzolit</b><small>Argamassas e sistemas</small></span>
+          <span class="sector-brand"><b>Gerdau</b><small>Aço e construção</small></span>
+          <span class="sector-brand"><b>Votorantim Cimentos</b><small>Cimentos e materiais</small></span>
+          <span class="sector-brand"><b>Bosch</b><small>Ferramentas e equipamentos</small></span>
+          <span class="sector-brand"><b>Makita</b><small>Ferramentas elétricas</small></span>
+          <span class="sector-brand"><b>Tramontina</b><small>Ferramentas e soluções</small></span>
+          <span class="sector-brand"><b>Duratex</b><small>Madeira e painéis</small></span>
+          <span class="sector-brand"><b>Eucatex</b><small>Painéis e acabamentos</small></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <main>
     <section class="hero">
