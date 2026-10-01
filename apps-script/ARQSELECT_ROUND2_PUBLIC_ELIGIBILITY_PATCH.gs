@@ -154,6 +154,12 @@ function arqR2PublicStats_() {
   var users = arqR2CentralUsers_().filter(function(u){ return arqR2UserEligible_(u); });
   payload.estatisticas.arquitetos = users.filter(function(u){ return arqR2Norm_(u.TIPO)==="ARQUITETO"; }).length;
   payload.estatisticas.fornecedores = users.filter(function(u){ return arqR2Norm_(u.TIPO)==="FORNECEDOR"; }).length;
+  try {
+    var products=lerAbaComoObjetos(garantirAbaV4(ARQSELECT_4_SHEETS.PRODUTOS,ARQSELECT_4_HEADERS.PRODUTOS))
+      .filter(function(p){return ["APROVADO","PUBLICADO","ATIVO"].indexOf(arqR2Norm_(p.STATUS))>=0;})
+      .filter(arqR2ProductSupplierEligible_);
+    payload.estatisticas.produtos=products.length;
+  } catch (_) {}
   return arqR2Reply_(payload);
 }
 
