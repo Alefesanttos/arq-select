@@ -53,7 +53,7 @@
     .brand-stream{
       position:relative;
       z-index:6;
-      height:76px;
+      height:70px;
       display:flex;
       align-items:center;
       overflow:hidden;
@@ -123,13 +123,22 @@
       max-width:128px;
       max-height:31px;
       object-fit:contain;
+      filter:grayscale(1) brightness(2.15) contrast(1.04);
+      transition:filter .26s ease,opacity .26s ease;
+    }
+    html[data-theme="light"] .brand-stream__item img,
+    html[data-arq-theme="light"] .brand-stream__item img{
+      filter:grayscale(1) brightness(.42) contrast(1.14);
     }
     .brand-stream__item.is-wide{width:186px}
     .brand-stream__item.is-wide img{max-width:170px}
     .brand-stream__item.is-tall img{max-height:36px}
-    .brand-stream__item:hover{
-      opacity:1;
-      transform:translateY(-1px) scale(1.025);
+    @media(hover:hover) and (pointer:fine){
+      .brand-stream__item:hover{
+        opacity:1;
+        transform:translateY(-1px) scale(1.025);
+      }
+      .brand-stream__item:hover img{filter:none}
     }
     .brand-stream__viewport:hover .brand-stream__track,
     .brand-stream__viewport:focus .brand-stream__track,
@@ -248,7 +257,6 @@
         <span class="brand-stream__item is-wide" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Logotipo_da_Suvinil.svg/960px-Logotipo_da_Suvinil.svg.png" alt="Suvinil" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
         <span class="brand-stream__item " role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Gerdau_logo_%282011%29.svg/330px-Gerdau_logo_%282011%29.svg.png" alt="Gerdau" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
         <span class="brand-stream__item is-wide" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Bosch-logo.svg/960px-Bosch-logo.svg.png" alt="Bosch" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
-        <span class="brand-stream__item is-wide" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Makita_Logo.svg/3840px-Makita_Logo.svg.png" alt="Makita" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
         <span class="brand-stream__item is-wide" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Logotipo_da_Tramontina_%282025%29.svg/960px-Logotipo_da_Tramontina_%282025%29.svg.png" alt="Tramontina" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
         <span class="brand-stream__item is-wide is-tall" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dc/Logotipo_da_Votorantim_Cimentos.svg/3840px-Logotipo_da_Votorantim_Cimentos.svg.png" alt="Votorantim Cimentos" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
         <span class="brand-stream__item is-wide" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Logotipo_da_Dexco.svg/3840px-Logotipo_da_Dexco.svg.png" alt="Dexco" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
@@ -258,7 +266,6 @@
         <span class="brand-stream__item is-wide"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Logotipo_da_Suvinil.svg/960px-Logotipo_da_Suvinil.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
         <span class="brand-stream__item "><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Gerdau_logo_%282011%29.svg/330px-Gerdau_logo_%282011%29.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
         <span class="brand-stream__item is-wide"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Bosch-logo.svg/960px-Bosch-logo.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
-        <span class="brand-stream__item is-wide"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Makita_Logo.svg/3840px-Makita_Logo.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
         <span class="brand-stream__item is-wide"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Logotipo_da_Tramontina_%282025%29.svg/960px-Logotipo_da_Tramontina_%282025%29.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
         <span class="brand-stream__item is-wide is-tall"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dc/Logotipo_da_Votorantim_Cimentos.svg/3840px-Logotipo_da_Votorantim_Cimentos.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
         <span class="brand-stream__item is-wide"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Logotipo_da_Dexco.svg/3840px-Logotipo_da_Dexco.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
