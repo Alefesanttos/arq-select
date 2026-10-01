@@ -158,21 +158,95 @@ function arqR2PublicStats_() {
 }
 
 function arqR2PublicReviews_(dados) {
-  var raw = publicReviewsARQ4(dados.limite);
+  try {
+    var maximo = Math.max(1,Math.min(12,Number(dados.limite||6)));
+    var users = arqR2CentralUsers_(), map = {};
+    users.forEach(function(u){
+      if (arqR2UserEligible_(u)) map[arqR2Text_(u.ID)] = u;
+    });
+    var rows = (typeof arq3Registros==="function" ? arq3Registros("AVALIACOES") : [])
+      .filter(function(r){
+        var id=arqR2Text_(r["AVALIADO ID"]);
+        return arqR2Norm_(r.STATUS)==="PUBLICADA" && arqR2Text_(r.COMENTARIO) && !!map[id];
+      })
+      .sort(function(a,b){return new Date(b.DATA||0)-new Date(a.DATA||0);})
+      .slice(0,maximo)
+      .map(function(r){
+        var u=map[arqR2Text_(r["AVALIADO ID"])]||{};
+        return {
+          id:r.ID,
+          nome:u.EMPRESA||u.NOME||"Profissional verificado",
+          tipo:r["AVALIADO TIPO"]||u.TIPO||"PROFISSIONAL",
+          nota:Number(r["NOTA GERAL"]||0),
+          comentario:arqR2Text_(r.COMENTARIO).slice(0,600),
+          data:r.DATA
+        };
+      });
+    return arqR2Reply_({sucesso:true,avaliacoes:rows,total:rows.length});
+  } catch (e) {
+    return arqR2Reply_({sucesso:false,mensagem:"Não foi possível carregar as avaliações públicas."});
+  }
+}
+
+/* ---------- marketplace / produtos ---------- */
+
+function arqR2ProductSupplierEligible_(p) {
+  var sid = arqR2Text_(p && (p["FORNECEDOR ID"] || p.FORNECEDOR_ID || p.fornecedorId));
+  if (!sid) return true; // curadoria/legado sem fornecedor associado
+  return arqR2TargetEligible_("FORNECEDOR",sid);
+}
+
+function arqR2Products_(dados) {
+  var raw = listarProdutosARQ(dados.token,{
+    q:dados.q,categoria:dados.categoria,marca:dados.marca,regiao:dados.regiao,
+    disponibilidade:dados.disponibilidade,fornecedor:dados.fornecedor,ordenacao:dados.ordenacao
+  });
   var payload = arqR2Payload_(raw);
   if (!payload) return raw;
-  var eligible = {};
-  arqR2CentralUsers_().forEach(function(u){
-    if (arqR2UserEligible_(u)) eligible[arqR2Text_(u.ID)] = true;
-  });
-  payload.avaliacoes = (payload.avaliacoes || []).filter(function(r) {
-    var id = arqR2Text_(r.avaliadoId || r["AVALIADO ID"] || r.usuarioId || r.idUsuario);
-    // versões antigas não expõem avaliadoId no payload; nesses casos a filtragem
-    // completa deve ser feita na função original. Não removemos dados sem referência.
-    return !id || !!eligible[id];
-  });
-  payload.total = payload.avaliacoes.length;
+  var actor = null;
+  try { actor = typeof arq3Ator==="function" ? arq3Ator(dados.token) : null; } catch (_) {}
+  if (!(actor && actor.admin)) {
+    payload.produtos = (payload.produtos || []).filter(arqR2ProductSupplierEligible_);
+  }
   return arqR2Reply_(payload);
+}
+
+function arqR2Product_(dados) {
+  var raw = obterProdutoARQ(dados.token,dados.id), payload = arqR2Payload_(raw);
+  if (!payload || !payload.sucesso || !payload.produto) return raw;
+  var actor = null;
+  try { actor = typeof arq3Ator==="function" ? arq3Ator(dados.token) : null; } catch (_) {}
+  if (!(actor && actor.admin) && !arqR2ProductSupplierEligible_(payload.produto)) {
+    return arqR2Reply_({sucesso:false,mensagem:"Produto indisponível."});
+  }
+  return arqR2Reply_(payload);
+}
+
+function arqR2Contacts_(dados) {
+  var raw = listarContatosARQ(dados.token), payload = arqR2Payload_(raw);
+  if (!payload) return raw;
+  var actor = null;
+  try { actor = typeof arq3Ator==="function" ? arq3Ator(dados.token) : null; } catch (_) {}
+  if (!(actor && actor.admin)) {
+    payload.contatos = (payload.contatos || []).filter(function(x){
+      return arqR2TargetEligible_(x.TIPO||x.tipo,x.ID||x.id);
+    });
+    payload.total = payload.contatos.length;
+  }
+  return arqR2Reply_(payload);
+}
+
+function arqR2ConversationCreate_(dados) {
+  var actor = typeof arq3Ator==="function" ? arq3Ator(dados.token) : null;
+  if (!actor) return arqR2Reply_({sucesso:false,autorizado:false,mensagem:"Sessão inválida ou expirada."});
+  if (!actor.admin) {
+    var a=arqR2Text_(dados.participanteAId),b=arqR2Text_(dados.participanteBId),other=a===actor.id?b:a;
+    var target=arqR2CentralUser_(other,"");
+    if (!target || !arqR2UserEligible_(target)) {
+      return arqR2Reply_({sucesso:false,autorizado:false,mensagem:"O contato está indisponível."});
+    }
+  }
+  return criarConversaARQ(dados.token,dados);
 }
 
 /* ---------- busca inteligente / rede / mapa ---------- */
@@ -252,8 +326,41 @@ function arqR2Feed_(dados) {
     var id = arqR2Text_(p["AUTOR ID"] || p.autorId || p.usuarioId);
     if (tipo === "ADMIN") return true;
     return arqR2TargetEligible_(tipo,id);
+  }).map(function(p){
+    if (Array.isArray(p.comentarios)) {
+      p.comentarios = p.comentarios.filter(function(c){
+        var tipo=arqR2Norm_(c["USUARIO TIPO"]||c.usuarioTipo||c.tipoUsuario);
+        var id=arqR2Text_(c["USUARIO ID"]||c.usuarioId);
+        return tipo==="ADMIN" || arqR2TargetEligible_(tipo,id);
+      });
+      p.comentariosTotal = p.comentarios.length;
+    }
+    return p;
   });
   payload.total = payload.posts.length;
+  return arqR2Reply_(payload);
+}
+
+function arqR2Trending_(dados) {
+  if (typeof a10Trending!=="function") return null;
+  var raw=a10Trending(dados),payload=arqR2Payload_(raw);
+  if(!payload)return raw;
+  payload.itens=(payload.itens||[]).filter(function(x){
+    var tipo=arqR2Norm_(x.tipo||x.TIPO),id=arqR2Text_(x.id||x.ID);
+    return ["ARQUITETO","FORNECEDOR","PRESTADOR"].indexOf(tipo)<0 || arqR2TargetEligible_(tipo,id);
+  });
+  return arqR2Reply_(payload);
+}
+
+function arqR2Recent_(dados) {
+  if (typeof arq9RecentList!=="function") return null;
+  var raw=arq9RecentList(dados.token,dados.limite),payload=arqR2Payload_(raw);
+  if(!payload)return raw;
+  payload.itens=(payload.itens||[]).filter(function(x){
+    var tipo=arqR2Norm_(x.TIPO||x.tipo),id=arqR2Text_(x["REGISTRO ID"]||x.registroId||x.id);
+    return ["ARQUITETO","FORNECEDOR","PRESTADOR"].indexOf(tipo)<0 || arqR2TargetEligible_(tipo,id);
+  });
+  payload.total=payload.itens.length;
   return arqR2Reply_(payload);
 }
 
@@ -319,6 +426,15 @@ function rotearARQSELECTRound2(acao,dados,method) {
   method = arqR2Norm_(method || "GET");
 
   switch (acao) {
+    case "portal_produtos":
+      return arqR2Products_(dados);
+    case "portal_produto":
+      return arqR2Product_(dados);
+    case "portal_contatos":
+      return arqR2Contacts_(dados);
+    case "portal_conversa_criar":
+      if (method !== "POST") return arqR2Reply_({sucesso:false,mensagem:"Use POST para criar conversas."});
+      return arqR2ConversationCreate_(dados);
     case "arq4_public_profile":
       return arqR2PublicProfile_(dados);
     case "arq4_busca_global":
@@ -331,6 +447,10 @@ function rotearARQSELECTRound2(acao,dados,method) {
       return arqR2SmartSearch_(dados);
     case "public_mapa_rede":
       return arqR2Map_(dados);
+    case "public_em_alta":
+      return arqR2Trending_(dados);
+    case "portal_vistos_recentes":
+      return arqR2Recent_(dados);
     case "portal_rede_recomendacoes":
       return arqR2Recommendations_(dados);
     case "public_perfil_inteligencia":
