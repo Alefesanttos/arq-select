@@ -50,7 +50,7 @@
     .glass{background:rgba(9,9,9,.68);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line)}
 
     /* Faixa editorial de marcas — referências do setor, sem alegação de parceria */
-    .sector-brands{position:relative;z-index:4;border-bottom:1px solid var(--border-subtle,var(--line));background:color-mix(in srgb,var(--surface-primary,#0b0b0b) 94%,transparent);color:var(--text-primary,var(--text));overflow:hidden}
+    .sector-brands{position:relative;z-index:4;border-bottom:1px solid var(--border-subtle,var(--line));background:var(--surface-primary,#0b0b0b);background:color-mix(in srgb,var(--surface-primary,#0b0b0b) 94%,transparent);color:var(--text-primary,var(--text));overflow:hidden}
     .sector-brands-row{min-height:112px;display:grid;grid-template-columns:minmax(210px,285px) minmax(0,1fr);align-items:center;gap:clamp(18px,3vw,40px);padding-block:16px}
     .sector-brands-copy{min-width:0}
     .sector-brands-kicker{display:block;margin-bottom:3px;color:var(--accent-primary,var(--gold2));font-size:10px;font-weight:950;letter-spacing:.16em;text-transform:uppercase}
@@ -60,11 +60,11 @@
     .sector-brands-viewport:focus-visible{outline:2px solid var(--accent-primary,var(--gold));outline-offset:3px}
     .sector-brands-track{--brand-gap:12px;display:flex;width:max-content;gap:var(--brand-gap);padding:8px 14px;animation:sectorBrandsMarquee 42s linear infinite;will-change:transform}
     .sector-brands-set{display:flex;align-items:stretch;gap:var(--brand-gap);flex:none}
-    .sector-brand{display:flex;min-width:142px;height:54px;flex-direction:column;align-items:center;justify-content:center;padding:8px 16px;border:1px solid color-mix(in srgb,var(--border-subtle,var(--line)) 86%,transparent);border-radius:13px;background:color-mix(in srgb,var(--surface-secondary,#121212) 86%,transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,.025);white-space:nowrap}
+    .sector-brand{display:flex;min-width:142px;height:54px;flex-direction:column;align-items:center;justify-content:center;padding:8px 16px;border:1px solid var(--border-subtle,var(--line));border-color:color-mix(in srgb,var(--border-subtle,var(--line)) 86%,transparent);border-radius:13px;background:var(--surface-secondary,#121212);background:color-mix(in srgb,var(--surface-secondary,#121212) 86%,transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,.025);white-space:nowrap}
     .sector-brand b{color:var(--text-primary,var(--text));font-size:13px;font-weight:900;letter-spacing:.025em;line-height:1}
     .sector-brand small{margin-top:5px;color:var(--text-muted,var(--muted));font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
     .sector-brands-viewport:hover .sector-brands-track,.sector-brands-viewport:focus .sector-brands-track,.sector-brands-viewport:focus-within .sector-brands-track{animation-play-state:paused}
-    @keyframes sectorBrandsMarquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(-50% - (var(--brand-gap) / 2)),0,0)}}
+    @keyframes sectorBrandsMarquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(-50% - 6px),0,0)}}
     @media(max-width:760px){
       .sector-brands-row{min-height:0;grid-template-columns:1fr;gap:10px;padding-block:13px}
       .sector-brands-copy{padding-inline:1px}
