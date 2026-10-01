@@ -228,7 +228,15 @@ function arqR2Connections_(dados) {
   var raw = a10Connections(actor), payload = arqR2Payload_(raw);
   if (!payload) return raw;
   payload.conexoes = (payload.conexoes || []).filter(function(x) {
-    return arqR2TargetEligible_(x.TIPO || x.tipo, x["ALVO ID"] || x.alvoId || x.ID_ALVO || x.idAlvo || x.id);
+    var tipo = x.TIPO || x.tipo;
+    var alvo = x["ALVO ID"] || x.alvoId || x.ID_ALVO || x.idAlvo || "";
+    if (!alvo && x.URL) {
+      var m = String(x.URL).match(/[?&]id=([^&#]+)/i);
+      if (m) {
+        try { alvo = decodeURIComponent(m[1]); } catch (_) { alvo = m[1]; }
+      }
+    }
+    return alvo ? arqR2TargetEligible_(tipo,alvo) : true;
   });
   return arqR2Reply_(payload);
 }
