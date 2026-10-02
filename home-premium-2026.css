@@ -36,19 +36,19 @@ body.arq-home::before{background:radial-gradient(circle at 50% 12%,rgba(214,179,
 
 /* HEADER */
 .hp-header{position:sticky;top:0;z-index:1000;background:rgba(7,8,7,.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--hp-line-soft)}
-.hp-nav{min-height:76px;display:flex;align-items:center;gap:26px}
+.hp-nav{min-height:76px;display:flex;align-items:center;gap:18px}
 .hp-brand{display:flex;align-items:center;gap:11px;min-width:max-content}
-.hp-brand-mark{width:44px;height:44px;border-radius:11px}
+.hp-brand-mark{width:44px;height:44px;border-radius:11px;display:block;object-fit:contain;box-shadow:0 0 0 1px rgba(214,179,106,.14)}
 .hp-brand-copy{display:grid;line-height:1}
-.hp-brand-name{font-size:19px;letter-spacing:.18em;font-weight:760}
+.hp-brand-name{font-size:18px;letter-spacing:.17em;font-weight:760;white-space:nowrap}
 .hp-brand-name b{color:var(--hp-gold-2);font-weight:760}
 .hp-brand-tag{margin-top:7px;font-size:7px;letter-spacing:.26em;color:#8f918f;text-transform:uppercase}
-.hp-navlinks{display:flex;align-items:center;gap:2px;margin-left:auto}
-.hp-navlinks a{padding:10px 9px;color:#d5d4cf;font-size:11px;font-weight:680;border-radius:8px}
+.hp-navlinks{display:flex;align-items:center;gap:1px;margin-left:auto;min-width:0}
+.hp-navlinks a{padding:10px 7px;color:#d5d4cf;font-size:11px;font-weight:680;border-radius:8px;white-space:nowrap}
 .hp-navlinks a:hover{color:#fff;background:rgba(255,255,255,.045)}
-.hp-actions{display:flex;gap:8px;align-items:center}
-.hp-actions .hp-btn{min-height:44px;padding:0 16px}
-.hp-menu-toggle{display:none;width:44px;height:44px;border-radius:10px;border:1px solid var(--hp-line-soft);background:#0b0c0b;color:white;font-size:20px}
+.hp-actions{display:flex;gap:8px;align-items:center;flex:none}
+.hp-actions .hp-btn{min-height:44px;padding:0 16px;white-space:nowrap}
+.hp-menu-toggle{display:grid;place-items:center;flex:none;width:44px;height:44px;border-radius:10px;border:1px solid var(--hp-line-soft);background:#0b0c0b;color:white;font-size:20px}
 #home-menu.hp-mobile-menu{position:fixed;inset:76px 12px auto 12px;z-index:999;display:none;padding:14px;border:1px solid var(--hp-line);border-radius:18px;background:rgba(10,11,10,.98);box-shadow:var(--hp-shadow)}
 #home-menu.hp-mobile-menu.open{display:grid;gap:5px}
 #home-menu.hp-mobile-menu a,#home-menu.hp-mobile-menu button{padding:13px 14px;border:0;border-radius:10px;background:transparent;color:#eee;text-align:left;font-weight:750}
@@ -63,8 +63,8 @@ body.arq-home::before{background:radial-gradient(circle at 50% 12%,rgba(214,179,
 .hp-brand-track{display:flex;width:max-content;will-change:transform}
 .hp-brand-group{display:flex;align-items:center;gap:34px;padding:0 18px;flex:none}
 .hp-brand-item{width:118px;height:40px;display:flex;align-items:center;justify-content:center;opacity:.88}
-.hp-brand-item img{max-width:110px;max-height:25px;width:auto;height:auto;object-fit:contain;filter:grayscale(1) brightness(0) invert(1);opacity:.9;transition:.22s}
-.hp-brand-item:hover img{filter:none;opacity:1;transform:scale(1.04)}
+.hp-brand-item img{max-width:110px;max-height:25px;width:auto;height:auto;object-fit:contain;opacity:.9;transition:.22s}
+.hp-brand-item:hover img{opacity:1;transform:scale(1.04)}
 .hp-brand-count{position:absolute;right:24px;z-index:5;display:flex;align-items:center;gap:7px;padding:9px 13px;border:1px solid rgba(214,179,106,.25);border-radius:999px;background:rgba(13,15,14,.92);color:#d8d6d0;font-size:11px;white-space:nowrap}
 .hp-brand-count b{color:var(--hp-gold-2)}
 
@@ -241,3 +241,19 @@ html[data-theme="light"] .hp-footer a{color:#555854}
 .hp-reveal-ready{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
 .hp-reveal-ready.hp-reveal-in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.hp-reveal-ready{opacity:1;transform:none}}
+
+/* audit fixes 2026-10-02 */
+.hp-brand-symbol{width:92px;height:28px;display:block;fill:#d9d9d5;color:#d9d9d5;overflow:visible}
+.hp-brand-symbol *{fill:currentColor!important}
+.hp-brand-item-symbol{color:#d9d9d5}
+.hp-brand-item-image img{filter:grayscale(1);opacity:.88}
+.hp-brand-item-image:hover img{filter:grayscale(0)}
+.hp-brand-item[aria-label="Schneider Electric"] .hp-brand-symbol{width:104px}
+.hp-brand-item[aria-label="Home Assistant"] .hp-brand-symbol{width:42px}
+.hp-brand-item[aria-label="Autodesk"] .hp-brand-symbol,.hp-brand-item[aria-label="SketchUp"] .hp-brand-symbol{width:64px}
+.hp-brand-item[aria-label="3M"] .hp-brand-symbol{width:52px}
+.hp-header .hp-container{max-width:1500px}
+.hp-hero-copy{padding-right:12px}
+.hp-hero h1{max-width:760px}
+@media(max-width:1450px){.hp-navlinks a{font-size:10px;padding-inline:6px}.hp-brand-tag{display:none}.hp-actions .hp-btn{padding-inline:14px}}
+@media(max-width:1280px){.hp-navlinks{display:none}}
