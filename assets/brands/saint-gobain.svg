@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 220" role="img" aria-label="Saint-Gobain logo">
+  <rect width="620" height="220" rx="20" fill="#ffffff"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="10">
+    <path d="M112 102c34-46 86-65 142-65 54 0 106 21 140 65" stroke="#2f80ed"/>
+    <path d="M152 102c28-26 62-39 102-39s75 13 103 39" stroke="#00a86b"/>
+    <path d="M196 102c17-12 36-18 58-18s42 6 58 18" stroke="#f2c94c"/>
+  </g>
+  <text x="310" y="155" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="800" fill="#1f4f9a">SAINT-GOBAIN</text>
+</svg>
