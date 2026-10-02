@@ -5,7 +5,7 @@
 <meta name="color-scheme" content="light dark">
 <script id="arq-theme-boot">(()=>{try{const k="ARQSELECT_THEME",v=localStorage.getItem(k)||"auto",m=matchMedia("(prefers-color-scheme: dark)").matches,t=v==="auto"?(m?"dark":"light"):(v==="dark"?"dark":"light"),h=document.documentElement;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=["light","dark","auto"].includes(v)?v:"auto";h.style.colorScheme=t}catch(_){document.documentElement.dataset.theme="light"}})();</script>
 
-<meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob: https://thumb.wikimedia.org; object-src 'none'; base-uri 'self'">
+<meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'">
 <script src="arq-config.js?v=6.0.0"></script>
   
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -90,7 +90,7 @@
       outline-offset:-4px;
     }
     .brand-stream__track{
-      --brand-gap:64px;
+      --brand-gap:52px;
       display:flex;
       align-items:center;
       width:max-content;
@@ -109,28 +109,38 @@
       flex:0 0 auto;
       display:grid;
       place-items:center;
-      width:148px;
+      width:132px;
       height:54px;
       padding:6px 10px;
       opacity:.78;
       transform:translateZ(0);
       transition:opacity .24s ease,transform .24s ease;
     }
-    .brand-stream__item img{
+    .brand-stream__wordmark{
       display:block;
-      width:auto;
-      height:auto;
-      max-width:128px;
-      max-height:31px;
-      object-fit:contain;
-      filter:grayscale(1) brightness(2.15) contrast(1.04);
-      transition:filter .26s ease,opacity .26s ease;
+      color:var(--text-primary,var(--text));
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+      font-size:18px;
+      font-weight:850;
+      line-height:1;
+      letter-spacing:.015em;
+      white-space:nowrap;
+      opacity:.9;
+      text-rendering:geometricPrecision;
+      -webkit-font-smoothing:antialiased;
+      transition:color .24s ease,opacity .24s ease,letter-spacing .24s ease;
     }
-    html[data-theme="light"] .brand-stream__item img,
-    html[data-arq-theme="light"] .brand-stream__item img{
-      filter:grayscale(1) brightness(.42) contrast(1.14);
-    }
-    .brand-stream__item.is-wide{width:186px}
+    .brand-stream__item[data-brand="GERDAU"] .brand-stream__wordmark{font-weight:900;letter-spacing:.02em}
+    .brand-stream__item[data-brand="BOSCH"] .brand-stream__wordmark{font-weight:950;letter-spacing:.055em}
+    .brand-stream__item[data-brand="TRAMONTINA"] .brand-stream__wordmark{font-weight:800;letter-spacing:.045em}
+    .brand-stream__item[data-brand="VOTORANTIM"] .brand-stream__wordmark{font-weight:900;letter-spacing:-.015em}
+    .brand-stream__item[data-brand="DEXCO"] .brand-stream__wordmark{font-size:21px;font-weight:700;letter-spacing:.09em}
+    .brand-stream__item[data-brand="SUVINIL"] .brand-stream__wordmark{font-weight:900;letter-spacing:.025em}
+    .brand-stream__item[data-brand="PORTOBELLO"] .brand-stream__wordmark{font-weight:850;letter-spacing:.01em}
+    .brand-stream__item[data-brand="DECA"] .brand-stream__wordmark{font-weight:900;letter-spacing:.08em}
+    .brand-stream__item[data-brand="DOCOL"] .brand-stream__wordmark{font-weight:850;letter-spacing:.04em}
+    .brand-stream__item[data-brand="TIGRE"] .brand-stream__wordmark{font-weight:900;letter-spacing:.04em}
+    .brand-stream__item.is-wide{width:172px}
     .brand-stream__item.is-wide img{max-width:170px}
     .brand-stream__item.is-tall img{max-height:36px}
     @media(hover:hover) and (pointer:fine){
@@ -138,7 +148,11 @@
         opacity:1;
         transform:translateY(-1px) scale(1.025);
       }
-      .brand-stream__item:hover img{filter:none}
+      .brand-stream__item:hover .brand-stream__wordmark{
+        color:var(--accent-primary,var(--gold2));
+        opacity:1;
+        letter-spacing:.055em;
+      }
     }
     .brand-stream__viewport:hover .brand-stream__track,
     .brand-stream__viewport:focus .brand-stream__track,
@@ -169,8 +183,8 @@
       .brand-stream__group[aria-hidden="true"]{display:none}
       .brand-stream__item{width:126px;height:50px;padding:6px}
       .brand-stream__item.is-wide{width:158px}
-      .brand-stream__item img{max-width:112px;max-height:27px}
-      .brand-stream__item.is-wide img{max-width:146px}
+      .brand-stream__wordmark{font-size:16px}
+      .brand-stream__item[data-brand="DEXCO"] .brand-stream__wordmark{font-size:18px}
     }
     @media(prefers-reduced-motion:reduce){
       .brand-stream__viewport{overflow-x:auto}
@@ -250,26 +264,32 @@
   </header>
 
   <section class="brand-stream" aria-label="Marcas de referência do universo da construção. A presença visual não indica parceria, patrocínio ou cadastro na ARQSELECT.">
-    <span class="sr-only">Marcas de referência do setor apresentadas apenas como repertório visual.</span>
+    <span class="sr-only">Referências visuais do setor da construção.</span>
     <div class="brand-stream__viewport" tabindex="0" aria-label="Faixa de marcas do setor. Passe o mouse ou use o foco do teclado para pausar.">
       <div class="brand-stream__track">
         <div class="brand-stream__group" role="list" aria-label="Marcas de referência">
-        <span class="brand-stream__item is-wide" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Logotipo_da_Suvinil.svg/960px-Logotipo_da_Suvinil.svg.png" alt="Suvinil" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
-        <span class="brand-stream__item " role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Gerdau_logo_%282011%29.svg/330px-Gerdau_logo_%282011%29.svg.png" alt="Gerdau" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
-        <span class="brand-stream__item is-wide" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Bosch-logo.svg/960px-Bosch-logo.svg.png" alt="Bosch" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
-        <span class="brand-stream__item is-wide" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Logotipo_da_Tramontina_%282025%29.svg/960px-Logotipo_da_Tramontina_%282025%29.svg.png" alt="Tramontina" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
-        <span class="brand-stream__item is-wide is-tall" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dc/Logotipo_da_Votorantim_Cimentos.svg/3840px-Logotipo_da_Votorantim_Cimentos.svg.png" alt="Votorantim Cimentos" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
-        <span class="brand-stream__item is-wide" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Logotipo_da_Dexco.svg/3840px-Logotipo_da_Dexco.svg.png" alt="Dexco" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
-        <span class="brand-stream__item is-wide" role="listitem"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/AkzoNobel.svg/330px-AkzoNobel.svg.png" alt="AkzoNobel" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
+        <span class="brand-stream__item " data-brand="DECA" role="listitem"><span class="brand-stream__wordmark">DECA</span></span>
+        <span class="brand-stream__item " data-brand="DOCOL" role="listitem"><span class="brand-stream__wordmark">DOCOL</span></span>
+        <span class="brand-stream__item " data-brand="TIGRE" role="listitem"><span class="brand-stream__wordmark">TIGRE</span></span>
+        <span class="brand-stream__item is-wide" data-brand="PORTOBELLO" role="listitem"><span class="brand-stream__wordmark">PORTOBELLO</span></span>
+        <span class="brand-stream__item " data-brand="SUVINIL" role="listitem"><span class="brand-stream__wordmark">SUVINIL</span></span>
+        <span class="brand-stream__item " data-brand="GERDAU" role="listitem"><span class="brand-stream__wordmark">GERDAU</span></span>
+        <span class="brand-stream__item " data-brand="BOSCH" role="listitem"><span class="brand-stream__wordmark">BOSCH</span></span>
+        <span class="brand-stream__item is-wide" data-brand="TRAMONTINA" role="listitem"><span class="brand-stream__wordmark">TRAMONTINA</span></span>
+        <span class="brand-stream__item is-wide" data-brand="VOTORANTIM" role="listitem"><span class="brand-stream__wordmark">VOTORANTIM</span></span>
+        <span class="brand-stream__item " data-brand="DEXCO" role="listitem"><span class="brand-stream__wordmark">DEXCO</span></span>
         </div>
         <div class="brand-stream__group" aria-hidden="true">
-        <span class="brand-stream__item is-wide"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Logotipo_da_Suvinil.svg/960px-Logotipo_da_Suvinil.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
-        <span class="brand-stream__item "><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Gerdau_logo_%282011%29.svg/330px-Gerdau_logo_%282011%29.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
-        <span class="brand-stream__item is-wide"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Bosch-logo.svg/960px-Bosch-logo.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
-        <span class="brand-stream__item is-wide"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Logotipo_da_Tramontina_%282025%29.svg/960px-Logotipo_da_Tramontina_%282025%29.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
-        <span class="brand-stream__item is-wide is-tall"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dc/Logotipo_da_Votorantim_Cimentos.svg/3840px-Logotipo_da_Votorantim_Cimentos.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
-        <span class="brand-stream__item is-wide"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Logotipo_da_Dexco.svg/3840px-Logotipo_da_Dexco.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
-        <span class="brand-stream__item is-wide"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/AkzoNobel.svg/330px-AkzoNobel.svg.png" alt="" width="170" height="36" decoding="async" fetchpriority="low" referrerpolicy="no-referrer"></span>
+        <span class="brand-stream__item " data-brand="DECA"><span class="brand-stream__wordmark" aria-hidden="true">DECA</span></span>
+        <span class="brand-stream__item " data-brand="DOCOL"><span class="brand-stream__wordmark" aria-hidden="true">DOCOL</span></span>
+        <span class="brand-stream__item " data-brand="TIGRE"><span class="brand-stream__wordmark" aria-hidden="true">TIGRE</span></span>
+        <span class="brand-stream__item is-wide" data-brand="PORTOBELLO"><span class="brand-stream__wordmark" aria-hidden="true">PORTOBELLO</span></span>
+        <span class="brand-stream__item " data-brand="SUVINIL"><span class="brand-stream__wordmark" aria-hidden="true">SUVINIL</span></span>
+        <span class="brand-stream__item " data-brand="GERDAU"><span class="brand-stream__wordmark" aria-hidden="true">GERDAU</span></span>
+        <span class="brand-stream__item " data-brand="BOSCH"><span class="brand-stream__wordmark" aria-hidden="true">BOSCH</span></span>
+        <span class="brand-stream__item is-wide" data-brand="TRAMONTINA"><span class="brand-stream__wordmark" aria-hidden="true">TRAMONTINA</span></span>
+        <span class="brand-stream__item is-wide" data-brand="VOTORANTIM"><span class="brand-stream__wordmark" aria-hidden="true">VOTORANTIM</span></span>
+        <span class="brand-stream__item " data-brand="DEXCO"><span class="brand-stream__wordmark" aria-hidden="true">DEXCO</span></span>
         </div>
       </div>
     </div>
