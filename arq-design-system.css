@@ -1234,3 +1234,20 @@
   @media(max-width:1000px){.arq-export-grid{grid-template-columns:1fr 1fr}.arq-map-layout{grid-template-columns:1fr}.arq-map-filter{grid-template-columns:1fr 1fr}}
   @media(max-width:620px){.arq-export-grid,.arq-map-filter{grid-template-columns:1fr}.arq-product-intelligence{width:calc(100% - 20px)}}
 }
+
+@layer arq.components {
+  .hp-brand[aria-current="page"]{background:transparent!important;color:var(--hp-text)!important}
+}
+
+/* Floating utilities must never cover navigation or an open dialog. */
+@layer arq.components {
+  .arq-discovery{content-visibility:visible;contain-intrinsic-size:none}
+  body:has(.arq-mobile-nav) .arq4-bottom-nav{display:none!important}
+  .arq4-bottom-nav{z-index:1100}
+  body:has(.home-modal.open,.arq-modal.open,.arq4-command.open,.modal.open) :is(.arq-global-wa,.arq4-dock,.arq4-bottom-nav,.arq-mobile-nav,#arq-theme-control){visibility:hidden}
+  @media(max-width:760px){
+    html.arq-premium-ui body .arq-global-wa{bottom:calc(84px + env(safe-area-inset-bottom))!important;right:14px!important;padding:14px!important;width:52px;height:52px;justify-content:center}
+    html.arq-premium-ui body .arq-global-wa span{display:none!important}
+    html.arq-premium-ui body .arq4-dock{bottom:calc(84px + env(safe-area-inset-bottom))!important;right:78px!important;z-index:1100}
+  }
+}

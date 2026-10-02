@@ -1,7 +1,7 @@
 <!doctype html><html lang="pt-BR" class="arq-premium-ui" data-arq-build="5.5.1"><head>
 <meta charset="utf-8">
 <meta name="color-scheme" content="light dark">
-<script id="arq-theme-boot">(()=>{try{const k="ARQSELECT_THEME",v=localStorage.getItem(k)||"auto",m=matchMedia("(prefers-color-scheme: dark)").matches,t=v==="auto"?(m?"dark":"light"):(v==="dark"?"dark":"light"),h=document.documentElement;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=["light","dark","auto"].includes(v)?v:"auto";h.style.colorScheme=t}catch(_){document.documentElement.dataset.theme="light"}})();</script>
+<script id="arq-theme-boot">(()=>{let p="auto";try{const v=localStorage.getItem("ARQSELECT_THEME");if(["light","dark","auto"].includes(v))p=v}catch(_){}const h=document.documentElement,t=p==="auto"?(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"):p;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=p;h.style.colorScheme=t})();</script>
 
 <meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b0c0c">
@@ -12,9 +12,9 @@
 <link rel="apple-touch-icon" href="icon-192.png"><meta name="description" content="Explore pisos, portas, revestimentos, madeira, marcenaria, pedras, iluminação, móveis e outras soluções premium selecionadas pela ARQSELECT.">
 <meta property="og:title" content="Marketplace Premium | ARQSELECT"><meta property="og:description" content="Curadoria de produtos e fornecedores para projetos de arquitetura de alto padrão."><meta property="og:type" content="website">
 <link rel="manifest" href="manifest.webmanifest">
-<script src="arq-config.js?v=5.10.0" data-arq-optional="config"></script>
+<script src="arq-config.js?v=6.3.1" data-arq-optional="config"></script>
 
-<link rel="stylesheet" href="marketplace-premium.css?v=6.0.0"><link rel="stylesheet" href="arq-premium.css?v=6.0.0"><link rel="stylesheet" href="arq-ui-5.css?v=6.0.0"><link rel="stylesheet" href="arq-polish.css?v=6.0.0"><link rel="stylesheet" href="arq-marketplace-fix.css?v=6.0.0"><link rel="stylesheet" href="arq-design-system.css?v=5.10.0">
+<link rel="stylesheet" href="marketplace-premium.css?v=6.0.0"><link rel="stylesheet" href="arq-premium.css?v=6.0.0"><link rel="stylesheet" href="arq-ui-5.css?v=6.0.0"><link rel="stylesheet" href="arq-polish.css?v=6.0.0"><link rel="stylesheet" href="arq-marketplace-fix.css?v=6.0.0"><link rel="stylesheet" href="arq-design-system.css?v=6.3.1">
 </head><body class="marketplace-page" data-arq-page="marketplace" data-arq-surface="marketplace">
 <header class="arq-market-header">
   <div class="arq-market-header__top"><a class="arq-logo" href="index.html">ARQ<span>SELECT</span><small>ARQUITETURA QUE CONECTA</small></a>
@@ -37,5 +37,5 @@
 <script src="arq-premium.js?v=6.0.0" defer></script>
 <script src="arq-commerce.js?v=6.0.0" defer></script>
 <script src="marketplace-premium.js?v=6.0.0" defer></script>
-<script src="arq-experience.js?v=5.10.0" defer></script>
+<script src="arq-experience.js?v=6.3.1" defer></script>
 </body></html>

@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="color-scheme" content="light dark">
-<script id="arq-theme-boot">(()=>{try{const k="ARQSELECT_THEME",v=localStorage.getItem(k)||"auto",m=matchMedia("(prefers-color-scheme: dark)").matches,t=v==="auto"?(m?"dark":"light"):(v==="dark"?"dark":"light"),h=document.documentElement;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=["light","dark","auto"].includes(v)?v:"auto";h.style.colorScheme=t}catch(_){document.documentElement.dataset.theme="light"}})();</script>
+<script id="arq-theme-boot">(()=>{let p="auto";try{const v=localStorage.getItem("ARQSELECT_THEME");if(["light","dark","auto"].includes(v))p=v}catch(_){}const h=document.documentElement,t=p==="auto"?(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"):p;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=p;h.style.colorScheme=t})();</script>
 
 <meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'">
-<script src="arq-config.js?v=6.0.0"></script>
-  
+<script src="arq-config.js?v=6.3.1"></script>
+
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>ARQSELECT | Arquitetos, fornecedores e prestadores conectados</title>
 <link rel="icon" type="image/svg+xml" href="icon-master.svg">
@@ -195,7 +195,7 @@
     @media(max-width:1000px){.navlinks a{display:none}.nav-toggle{display:block}.nav-actions>.btn-gold{display:none}.steps{grid-template-columns:repeat(2,1fr)}.categories{grid-template-columns:repeat(3,1fr)}.numbers{grid-template-columns:repeat(3,1fr)}.footer-grid{grid-template-columns:1fr 1fr}.story-intro{grid-template-columns:1fr;gap:18px}.story-principles{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:760px){.hero{min-height:720px}.hero-content{padding:105px 0 140px}.hero-bg{background-position:62% center}.steps,.benefits,.curation,.ecosystem,.testimonials,.access-grid,.concierge-layout{grid-template-columns:1fr}.access-card{min-height:145px}.categories{grid-template-columns:repeat(2,1fr)}.numbers{grid-template-columns:repeat(2,1fr)}.nav{min-height:70px}.brand{font-size:21px}.nav-access{padding:10px 12px}.btn{width:auto}.cta-box{padding:35px 22px}.footer-grid{grid-template-columns:1fr}.eco-plus{transform:rotate(90deg)}.story-grid{display:grid;grid-template-columns:1fr;grid-auto-rows:360px}.story-frame:first-child,.story-frame:nth-child(2),.story-frame:nth-child(3){grid-column:auto;grid-row:auto}.story-frame:first-child{min-height:500px} }
     @media(max-width:520px){.container{width:min(94vw,var(--max))}.categories{grid-template-columns:1fr 1fr}.hero-actions{display:grid;grid-template-columns:1fr}.hero-actions .btn{width:100%}.section,.editorial-story{padding:82px 0}.story-principles{grid-template-columns:1fr}.story-grid{grid-auto-rows:320px}.story-frame:first-child{min-height:430px}.story-caption{padding:21px}.whatsapp-concierge{width:100%}}
-  
+
 }</style>
   <script type="application/ld+json">
   {
@@ -208,8 +208,9 @@
   }
   </script>
 <link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="arqselect-4.css"><link rel="stylesheet" href="arq-premium.css?v=5.7.0"><link rel="stylesheet" href="marketplace-premium.css?v=5.7.0"><link rel="stylesheet" href="arq-ui-5.css?v=5.7.0"><link rel="stylesheet" href="arq-polish.css?v=5.7.0">
-<link rel="stylesheet" href="arq-design-system.css?v=6.0.0">
-<link rel="stylesheet" href="home-premium-2026.css?v=1.0.0">\n</head>
+<link rel="stylesheet" href="arq-design-system.css?v=6.3.1">
+<link rel="stylesheet" href="home-premium-2026.css?v=1.1.0">
+</head>
 <body class="arq-home" data-arq-page="home" data-arq-surface="marketing">
 <header class="hp-header">
   <div class="hp-container hp-nav">
@@ -223,20 +224,44 @@
     </nav>
     <div class="hp-actions">
       <button class="hp-btn hp-btn-dark" type="button" data-open-access>ACESSAR</button>
-      <a class="hp-btn hp-btn-primary" href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">ENVIAR PROJETO</a>
+      <a class="hp-btn hp-btn-primary" data-arq-no-auto-contrast href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">ENVIAR PROJETO</a>
       <button class="hp-menu-toggle" type="button" data-home-menu aria-label="Abrir menu" aria-expanded="false">☰</button>
     </div>
   </div>
 </header>
 
-<section class="hp-brands" aria-label="Marcas de referência do universo da construção">
-  <div class="hp-brand-viewport">
+<section class="hp-brands" aria-label="Marcas de referência do setor, sem vínculo de parceria" aria-describedby="brand-disclaimer">
+  <div class="hp-brand-viewport" tabindex="0" role="region" aria-label="24 logos. Use as setas ou arraste para explorar.">
     <div class="hp-brand-track">
-      <div class="hp-brand-group" role="list" aria-label="24 marcas de referência"><span class="hp-brand-item hp-brand-item-symbol" role="listitem" aria-label="Bosch"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-bosch"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol" role="listitem" aria-label="Siemens"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-siemens"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol" role="listitem" aria-label="Schneider Electric"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-schneiderelectric"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol" role="listitem" aria-label="3M"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-3m"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol" role="listitem" aria-label="IKEA"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-ikea"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol" role="listitem" aria-label="LG"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-lg"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol" role="listitem" aria-label="Samsung"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-samsung"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol" role="listitem" aria-label="Panasonic"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-panasonic"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol" role="listitem" aria-label="Toshiba"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-toshiba"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol" role="listitem" aria-label="Hitachi"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-hitachi"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol" role="listitem" aria-label="Caterpillar"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-caterpillar"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol" role="listitem" aria-label="Volvo"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-volvo"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol" role="listitem" aria-label="Autodesk"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-autodesk"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol" role="listitem" aria-label="SketchUp"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-sketchup"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol" role="listitem" aria-label="Xiaomi"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-xiaomi"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol" role="listitem" aria-label="Home Assistant"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-homeassistant"></use></svg></span><span class="hp-brand-item hp-brand-item-image" role="listitem"><img src="assets/brands/makita.svg" alt="Makita" decoding="async"></span><span class="hp-brand-item hp-brand-item-image" role="listitem"><img src="assets/brands/tramontina.svg" alt="Tramontina" decoding="async"></span><span class="hp-brand-item hp-brand-item-image" role="listitem"><img src="assets/brands/gerdau.svg" alt="Gerdau" decoding="async"></span><span class="hp-brand-item hp-brand-item-image" role="listitem"><img src="assets/brands/dexco.svg" alt="Dexco" decoding="async"></span><span class="hp-brand-item hp-brand-item-image" role="listitem"><img src="assets/brands/saint-gobain.svg" alt="Saint-Gobain" decoding="async"></span><span class="hp-brand-item hp-brand-item-image" role="listitem"><img src="assets/brands/grohe.svg" alt="Grohe" decoding="async"></span><span class="hp-brand-item hp-brand-item-image" role="listitem"><img src="assets/brands/asian-paints.svg" alt="Asian Paints" decoding="async"></span><span class="hp-brand-item hp-brand-item-image" role="listitem"><img src="assets/brands/havells.svg" alt="Havells" decoding="async"></span></div>
-      <div class="hp-brand-group" aria-hidden="true"><span class="hp-brand-item hp-brand-item-symbol"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-bosch"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-siemens"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-schneiderelectric"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-3m"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-ikea"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-lg"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-samsung"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-panasonic"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-toshiba"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-hitachi"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-caterpillar"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-volvo"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-autodesk"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-sketchup"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-xiaomi"></use></svg></span><span class="hp-brand-item hp-brand-item-symbol"><svg class="hp-brand-symbol" aria-hidden="true"><use href="assets/brands/reference-sprite.svg#brand-homeassistant"></use></svg></span><span class="hp-brand-item hp-brand-item-image"><img src="assets/brands/makita.svg" alt="" aria-hidden="true" decoding="async"></span><span class="hp-brand-item hp-brand-item-image"><img src="assets/brands/tramontina.svg" alt="" aria-hidden="true" decoding="async"></span><span class="hp-brand-item hp-brand-item-image"><img src="assets/brands/gerdau.svg" alt="" aria-hidden="true" decoding="async"></span><span class="hp-brand-item hp-brand-item-image"><img src="assets/brands/dexco.svg" alt="" aria-hidden="true" decoding="async"></span><span class="hp-brand-item hp-brand-item-image"><img src="assets/brands/saint-gobain.svg" alt="" aria-hidden="true" decoding="async"></span><span class="hp-brand-item hp-brand-item-image"><img src="assets/brands/grohe.svg" alt="" aria-hidden="true" decoding="async"></span><span class="hp-brand-item hp-brand-item-image"><img src="assets/brands/asian-paints.svg" alt="" aria-hidden="true" decoding="async"></span><span class="hp-brand-item hp-brand-item-image"><img src="assets/brands/havells.svg" alt="" aria-hidden="true" decoding="async"></span></div>
+      <div class="hp-brand-group" role="list" aria-label="24 marcas de referência">
+        <span class="hp-brand-item" role="listitem" data-brand="tramontina"><img src="assets/brands/color/tramontina.svg" alt="Tramontina" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="gerdau"><img src="assets/brands/color/gerdau.svg" alt="Gerdau" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="dexco"><img src="assets/brands/color/dexco.svg" alt="Dexco" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="hilti"><img src="assets/brands/color/hilti.svg" alt="Hilti" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="bosch"><img src="assets/brands/color/bosch.svg" alt="Bosch" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="makita-1"><img src="assets/brands/color/makita-1.svg" alt="Makita" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="docol"><img src="assets/brands/color/docol.svg" alt="Docol" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="legrand-1"><img src="assets/brands/color/legrand-1.svg" alt="Legrand" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="schneider-electric-2007-1"><img src="assets/brands/color/schneider-electric-2007-1.svg" alt="Schneider Electric" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="siemens"><img src="assets/brands/color/siemens.svg" alt="Siemens" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="saint-gobain-logo"><img src="assets/brands/color/saint-gobain-logo.svg" alt="Saint-Gobain" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="stanley"><img src="assets/brands/color/stanley.svg" alt="Stanley" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="dewalt-1"><img src="assets/brands/color/dewalt-1.svg" alt="DeWalt" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="daikin-1"><img src="assets/brands/color/daikin-1.svg" alt="Daikin" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="carrier"><img src="assets/brands/color/carrier.svg" alt="Carrier" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="abb"><img src="assets/brands/color/abb.svg" alt="ABB" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="philips"><img src="assets/brands/color/philips.svg" alt="Philips" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="osram"><img src="assets/brands/color/osram.svg" alt="OSRAM" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="stihl"><img src="assets/brands/color/stihl.svg" alt="STIHL" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="grohe"><img src="assets/brands/color/grohe.svg" alt="Grohe" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="asian-paints"><img src="assets/brands/color/asian-paints.svg" alt="Asian Paints" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="havells"><img src="assets/brands/color/havells.svg" alt="Havells" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="panasonic"><img src="assets/brands/color/panasonic.svg" alt="Panasonic" width="156" height="44" decoding="async" loading="eager"></span>
+        <span class="hp-brand-item" role="listitem" data-brand="mitsubishi-electric"><img src="assets/brands/color/mitsubishi-electric.svg" alt="Mitsubishi Electric" width="156" height="44" decoding="async" loading="eager"></span>
+      </div>
     </div>
   </div>
-  <div class="hp-brand-count"><b>99+</b> referências do setor <span aria-hidden="true">→</span></div>
+  <div class="hp-brand-controls"><span class="hp-brand-count"><b>99+</b><span> referências do setor</span></span><button class="hp-brand-pause" type="button" aria-label="Pausar movimento dos logos" aria-pressed="false">Ⅱ</button></div>
 </section>
 
 <nav class="hp-mobile-menu" id="home-menu" aria-label="Menu completo">
@@ -247,7 +272,7 @@
 </nav>
 
 <main>
-  <section class="hp-hero">
+  <section class="hp-hero" data-arq-no-auto-contrast>
     <div class="hp-hero-bg" aria-hidden="true"></div>
     <div class="hp-container hp-hero-grid">
       <div class="hp-hero-copy">
@@ -255,7 +280,7 @@
         <h1>Projetos que <span class="hp-em">ganham vida</span> com as conexões certas.</h1>
         <p class="hp-hero-lead">A ARQSELECT conecta arquitetos, profissionais, fornecedores, produtos e prestadores em uma jornada organizada para transformar intenção de projeto em decisões, propostas e execução.</p>
         <div class="hp-hero-actions">
-          <a class="hp-btn hp-btn-primary" href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">↥ ENVIAR PROJETO <span aria-hidden="true">→</span></a>
+          <a class="hp-btn hp-btn-primary" data-arq-no-auto-contrast href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">↥ ENVIAR PROJETO <span aria-hidden="true">→</span></a>
           <a class="hp-btn hp-btn-dark" href="fornecedores.html">⌕ ENCONTRAR FORNECEDORES <span aria-hidden="true">→</span></a>
           <a class="hp-btn hp-btn-silver" href="prestadores.html">♙ PRESTADORES DE SERVIÇOS <span aria-hidden="true">→</span></a>
         </div>
@@ -272,15 +297,15 @@
     <div class="hp-container">
       <div class="hp-section-head"><div><div class="hp-kicker">Caminhos principais</div><h2>Uma experiência para cada parte do projeto.</h2></div></div>
       <div class="hp-audience-grid">
-        <article class="hp-audience-card" id="arquitetos">
+        <article class="hp-audience-card" data-arq-no-auto-contrast id="arquitetos">
           <img src="arquitetura-editorial-interior-v1.webp" alt="Interior contemporâneo de alto padrão" width="900" height="650" loading="lazy">
           <div class="hp-audience-body"><h3>Para<br>Arquitetos</h3><p>Conecte-se a fornecedores, produtos e prestadores mantendo o contexto do projeto organizado.</p><a href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">EXPLORAR PARA ARQUITETOS →</a></div>
         </article>
-        <article class="hp-audience-card" id="fornecedores">
+        <article class="hp-audience-card" data-arq-no-auto-contrast id="fornecedores">
           <img src="materiais-curadoria-v1.webp" alt="Curadoria de materiais e acabamentos" width="900" height="650" loading="lazy">
           <div class="hp-audience-body"><h3>Para<br>Fornecedores</h3><p>Apresente produtos e soluções a profissionais com demandas reais e relacionamento contextualizado.</p><a href="ARQSELECT_LOGIN_FORNECEDOR.html#cadastro">QUERO SER FORNECEDOR →</a></div>
         </article>
-        <article class="hp-audience-card" id="prestadores">
+        <article class="hp-audience-card" data-arq-no-auto-contrast id="prestadores">
           <img src="logistica-madeira-v1.webp" alt="Execução e fornecimento para projetos" width="900" height="650" loading="lazy">
           <div class="hp-audience-body"><h3>Para Prestadores<br>de Serviços</h3><p>Encontre oportunidades compatíveis com sua especialidade, região e disponibilidade.</p><a href="ARQSELECT_LOGIN_PRESTADOR.html">CADASTRAR MEU SERVIÇO →</a></div>
         </article>
@@ -292,14 +317,14 @@
     <div class="hp-container">
       <div class="hp-section-head"><div><div class="hp-kicker">Curadoria visual</div><h2>Categorias em destaque</h2></div><a class="hp-link" href="explorar.html">Ver todas as categorias →</a></div>
       <div class="hp-category-grid">
-        <a class="hp-category-card" href="explorar.html"><img src="assets/catalog/revestimentos/lux-013-painel-ripado-de-madeira-macica-card.webp" alt="" loading="lazy"><span>Revestimentos</span></a>
-        <a class="hp-category-card" href="explorar.html"><img src="assets/catalog/loucas/lux-061-cuba-esculpida-de-apoio-premium-card.webp" alt="" loading="lazy"><span>Metais e Louças</span></a>
-        <a class="hp-category-card" href="explorar.html"><img src="assets/catalog/iluminacao/lux-043-pendente-escultural-de-design-card.webp" alt="" loading="lazy"><span>Iluminação</span></a>
-        <a class="hp-category-card" href="explorar.html"><img src="assets/catalog/marcenaria/lux-025-cozinha-planejada-premium-card.webp" alt="" loading="lazy"><span>Móveis Planejados</span></a>
-        <a class="hp-category-card" href="explorar.html"><img src="assets/catalog/pisos/lux-007-assoalho-de-carvalho-europeu-card.webp" alt="" loading="lazy"><span>Pisos e Acabamentos</span></a>
-        <a class="hp-category-card" href="explorar.html"><img src="assets/catalog/construcao/lux-079-fachada-ventilada-premium-card.webp" alt="" loading="lazy"><span>Construção e Estrutura</span></a>
-        <a class="hp-category-card" href="explorar.html"><img src="assets/catalog/automacao/lux-055-sistema-de-automacao-residencial-integrada-card.webp" alt="" loading="lazy"><span>Automação</span></a>
-        <a class="hp-category-card" href="explorar.html"><img src="assets/catalog/paisagismo/lux-091-jardim-vertical-natural-automatizado-card.webp" alt="" loading="lazy"><span>Área Externa</span></a>
+        <a class="hp-category-card" href="explorar.html?categoria=Revestimentos"><img src="assets/catalog/revestimentos/lux-013-painel-ripado-de-madeira-macica-card.webp" alt="" loading="lazy"><span>Revestimentos</span></a>
+        <a class="hp-category-card" href="explorar.html?categoria=Lou%C3%A7as"><img src="assets/catalog/loucas/lux-061-cuba-esculpida-de-apoio-premium-card.webp" alt="" loading="lazy"><span>Metais e Louças</span></a>
+        <a class="hp-category-card" href="explorar.html?categoria=Ilumina%C3%A7%C3%A3o"><img src="assets/catalog/iluminacao/lux-043-pendente-escultural-de-design-card.webp" alt="" loading="lazy"><span>Iluminação</span></a>
+        <a class="hp-category-card" href="explorar.html?categoria=Marcenaria"><img src="assets/catalog/marcenaria/lux-025-cozinha-planejada-premium-card.webp" alt="" loading="lazy"><span>Móveis Planejados</span></a>
+        <a class="hp-category-card" href="explorar.html?categoria=Pisos"><img src="assets/catalog/pisos/lux-007-assoalho-de-carvalho-europeu-card.webp" alt="" loading="lazy"><span>Pisos e Acabamentos</span></a>
+        <a class="hp-category-card" href="explorar.html?categoria=Constru%C3%A7%C3%A3o"><img src="assets/catalog/construcao/lux-079-fachada-ventilada-premium-card.webp" alt="" loading="lazy"><span>Construção e Estrutura</span></a>
+        <a class="hp-category-card" href="explorar.html?categoria=Automa%C3%A7%C3%A3o"><img src="assets/catalog/automacao/lux-055-sistema-de-automacao-residencial-integrada-card.webp" alt="" loading="lazy"><span>Automação</span></a>
+        <a class="hp-category-card" href="explorar.html?categoria=Paisagismo"><img src="assets/catalog/paisagismo/lux-091-jardim-vertical-natural-automatizado-card.webp" alt="" loading="lazy"><span>Área Externa</span></a>
       </div>
     </div>
   </section>
@@ -313,9 +338,10 @@
 
   <section class="hp-section" id="sobre" data-hp-reveal>
     <div class="hp-container">
-      <div class="hp-section-head"><div><div class="hp-kicker">Repertório de mercado</div><h2>Referências do setor</h2><p>Marcas exibidas como referências visuais do universo de arquitetura e construção; a presença não implica parceria, patrocínio ou cadastro na ARQSELECT.</p></div><a class="hp-link" href="explorar.html">Conhecer soluções →</a></div>
+      <div class="hp-section-head"><div><div class="hp-kicker">Repertório de mercado</div><h2>Referências do setor</h2><p id="brand-disclaimer">Marcas exibidas como referências visuais do universo de arquitetura e construção; a presença não implica parceria, patrocínio ou cadastro na ARQSELECT.</p></div><a class="hp-link" href="explorar.html">Conhecer soluções →</a></div>
+
       <div class="hp-reference-grid">
-        <div class="hp-reference"><img src="assets/brands/bosch.svg" alt="BOSCH" loading="lazy"></div><div class="hp-reference"><img src="assets/brands/makita.svg" alt="MAKITA" loading="lazy"></div><div class="hp-reference"><img src="assets/brands/tramontina.svg" alt="TRAMONTINA" loading="lazy"></div><div class="hp-reference"><img src="assets/brands/gerdau.svg" alt="GERDAU" loading="lazy"></div><div class="hp-reference"><img src="assets/brands/dexco.svg" alt="DEXCO" loading="lazy"></div><div class="hp-reference"><img src="assets/brands/hilti.svg" alt="HILTI" loading="lazy"></div><div class="hp-reference"><img src="assets/brands/deca.svg" alt="DECA" loading="lazy"></div><div class="hp-reference"><img src="assets/brands/legrand.svg" alt="LEGRAND" loading="lazy"></div>
+        <div class="hp-reference"><img src="assets/brands/bosch.svg" alt="BOSCH" loading="lazy"></div><div class="hp-reference"><img src="assets/brands/color/makita-1.svg" alt="MAKITA" loading="lazy"></div><div class="hp-reference"><img src="assets/brands/color/tramontina.svg" alt="TRAMONTINA" loading="lazy"></div><div class="hp-reference"><img src="assets/brands/gerdau.svg" alt="GERDAU" loading="lazy"></div><div class="hp-reference"><img src="assets/brands/dexco.svg" alt="DEXCO" loading="lazy"></div><div class="hp-reference"><img src="assets/brands/hilti.svg" alt="HILTI" loading="lazy"></div><div class="hp-reference"><img src="assets/brands/color/docol.svg" alt="Docol" loading="lazy"></div><div class="hp-reference"><img src="assets/brands/color/legrand-1.svg" alt="LEGRAND" loading="lazy"></div>
       </div>
     </div>
   </section>
@@ -351,10 +377,10 @@
     </div>
   </section>
 
-  <section class="hp-final-cta" id="contato">
+  <section class="hp-final-cta" data-arq-no-auto-contrast id="contato">
     <div class="hp-container hp-final-cta-inner">
       <div><div class="hp-kicker">Você projeta. Nós conectamos.</div><h2>Sua ideia, os melhores parceiros, em um só lugar.</h2><p>Da descoberta à execução, mantenha o contexto do seu projeto conectado a produtos, fornecedores, prestadores e propostas.</p></div>
-      <div class="hp-hero-actions"><a class="hp-btn hp-btn-primary" href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">↥ ENVIAR MEU PROJETO →</a><a class="hp-btn hp-btn-dark" href="https://wa.me/5519981655013?text=Vim%20pelo%20site%20da%20ARQSELECT%20e%20gostaria%20de%20saber%20mais%20sobre%20a%20plataforma." target="_blank" rel="noopener">FALAR COM A ARQSELECT</a></div>
+      <div class="hp-hero-actions"><a class="hp-btn hp-btn-primary" data-arq-no-auto-contrast href="ARQSELECT_LOGIN_ARQUITETO.html#cadastro">↥ ENVIAR MEU PROJETO →</a><a class="hp-btn hp-btn-dark" href="https://wa.me/5519981655013?text=Vim%20pelo%20site%20da%20ARQSELECT%20e%20gostaria%20de%20saber%20mais%20sobre%20a%20plataforma." target="_blank" rel="noopener">FALAR COM A ARQSELECT</a></div>
     </div>
   </section>
 </main>
@@ -386,7 +412,7 @@
 <script src="catalogo-premium-data.js?v=5.7.0"></script>
 <script src="arq-commerce.js?v=5.7.0"></script>
 <script src="home-4.js?v=5.7.0"></script>
-<script src="arq-experience.js?v=6.0.0" defer></script>
-<script src="home-premium-2026.js?v=1.0.0" defer></script>
+<script src="arq-experience.js?v=6.3.1" defer></script>
+<script src="home-premium-2026.js?v=1.1.0" defer></script>
 </body>
 </html>

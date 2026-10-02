@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="color-scheme" content="light dark">
-<script id="arq-theme-boot">(()=>{try{const k="ARQSELECT_THEME",v=localStorage.getItem(k)||"auto",m=matchMedia("(prefers-color-scheme: dark)").matches,t=v==="auto"?(m?"dark":"light"):(v==="dark"?"dark":"light"),h=document.documentElement;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=["light","dark","auto"].includes(v)?v:"auto";h.style.colorScheme=t}catch(_){document.documentElement.dataset.theme="light"}})();</script>
+<script id="arq-theme-boot">(()=>{let p="auto";try{const v=localStorage.getItem("ARQSELECT_THEME");if(["light","dark","auto"].includes(v))p=v}catch(_){}const h=document.documentElement,t=p==="auto"?(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"):p;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=p;h.style.colorScheme=t})();</script>
 
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -14,10 +14,10 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
-<script src="arq-config.js?v=6.0.0"></script>
+<script src="arq-config.js?v=6.3.1"></script>
 <link rel="stylesheet" href="arqselect-4.css?v=6.0.0"><link rel="stylesheet" href="arq-premium.css?v=6.0.0"><link rel="stylesheet" href="arq-ui-5.css?v=6.0.0"><link rel="stylesheet" href="arq-polish.css?v=6.0.0"><link rel="stylesheet" href="arqselect-6.css?v=6.0.0" data-arq6>
 
-<link rel="stylesheet" href="arq-design-system.css?v=6.0.0">
+<link rel="stylesheet" href="arq-design-system.css?v=6.3.1">
 </head>
 <body data-module="docs" data-arq-page="docs" data-arq-surface="workspace">
 <header class="top arq-inline-8bb46041b"><a class="brand" href="index.html">ARQ<span>SELECT</span></a><nav class="nav"><a class="btn light" href="explorar.html">Marketplace</a><a class="btn light" href="feed.html">Inspiração</a><a class="btn light" href="portal.html">Meu painel</a></nav></header>
@@ -27,5 +27,5 @@
 </main>
 <script src="arqselect-4.js?v=6.0.0"></script><script src="arqselect-6.js?v=6.0.0" data-arq6></script><script src="arq-workspace-6.js?v=6.0.0"></script><script src="arq-workspace-app-6.js?v=6.0.0"></script>
 
-<script src="arq-experience.js?v=6.0.0" defer></script>
+<script src="arq-experience.js?v=6.3.1" defer></script>
 </body></html>

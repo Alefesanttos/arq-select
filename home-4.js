@@ -47,8 +47,9 @@
 
   function setupExperience() {
     const modal = document.getElementById("access-modal");
-    const close = () => { if (!modal) return; modal.classList.remove("open"); modal.setAttribute("aria-hidden","true"); document.body.style.overflow = ""; };
-    const open = () => { if (!modal) return; modal.classList.add("open"); modal.setAttribute("aria-hidden","false"); document.body.style.overflow = "hidden"; modal.querySelector("[data-close-access]")?.focus(); };
+    let accessOpener=null;
+    const close = () => { if (!modal || !modal.classList.contains("open")) return; modal.classList.remove("open"); modal.setAttribute("aria-hidden","true"); document.body.style.overflow = ""; accessOpener?.focus(); };
+    const open = () => { if (!modal) return; accessOpener=document.activeElement; modal.classList.add("open"); modal.setAttribute("aria-hidden","false"); document.body.style.overflow = "hidden"; modal.querySelector("[data-close-access]")?.focus(); };
     document.querySelectorAll("[data-open-access]").forEach(button => button.addEventListener("click", event => { event.preventDefault(); open(); }));
     document.querySelectorAll("[data-close-access]").forEach(button => button.addEventListener("click", close));
     modal?.addEventListener("click", event => { if (event.target === modal) close(); });
@@ -76,6 +77,9 @@
     const menu = document.getElementById("home-menu");
     const toggle = document.querySelector("[data-home-menu]");
     toggle?.addEventListener("click", () => { const opened = menu?.classList.toggle("open") || false; toggle.setAttribute("aria-expanded",String(opened)); });
+    const closeMenu=()=>{menu?.classList.remove("open");toggle?.setAttribute("aria-expanded","false")};
+    document.addEventListener("keydown",e=>{if(e.key==="Escape"&&menu?.classList.contains("open")){closeMenu();toggle?.focus()}});
+    document.addEventListener("click",e=>{if(!menu?.contains(e.target)&&!toggle?.contains(e.target))closeMenu()});
     menu?.querySelectorAll("a,button").forEach(item => item.addEventListener("click", () => { menu.classList.remove("open"); toggle?.setAttribute("aria-expanded","false"); }));
   }
 

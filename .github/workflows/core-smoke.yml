@@ -29,3 +29,6 @@ jobs:
           node-version: "22"
       - name: Validate core
         run: node tests/core-smoke.mjs
+
+      - name: Validate JavaScript and inline scripts
+        run: node tests/source-audit.cjs

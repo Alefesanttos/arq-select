@@ -18,11 +18,16 @@
     doc.body.append(host);
     const trigger=host.querySelector('#arq-theme-trigger'),menu=host.querySelector('#arq-theme-menu');
     function sync(){const api=themeApi(),pref=api?.getPreference?.()||root.dataset.themePreference||'auto',resolved=api?.getResolved?.()||root.dataset.theme||'light';trigger.textContent=icon(resolved);trigger.title=`Tema ${resolved==='dark'?'escuro':'claro'} · preferência ${pref==='auto'?'do sistema':pref}`;menu.querySelectorAll('[data-theme-choice]').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.themeChoice===pref)))}
-    function close(){menu.hidden=true;trigger.setAttribute('aria-expanded','false')}
+    function close(restore=false){menu.hidden=true;trigger.setAttribute('aria-expanded','false');if(restore)trigger.focus()}
     trigger.addEventListener('click',()=>{const open=menu.hidden;menu.hidden=!open;trigger.setAttribute('aria-expanded',String(open));if(open)menu.querySelector('[aria-checked="true"]')?.focus()});
-    menu.addEventListener('click',e=>{const b=e.target.closest('[data-theme-choice]');if(!b)return;themeApi()?.set?.(b.dataset.themeChoice,true);sync();close()});
+    menu.addEventListener('click',e=>{const b=e.target.closest('[data-theme-choice]');if(!b)return;themeApi()?.set?.(b.dataset.themeChoice,true);sync();close(true)});
     doc.addEventListener('click',e=>{if(!host.contains(e.target))close()});
-    doc.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+    host.addEventListener('keydown',e=>{
+      if(e.key==='Escape'&&!menu.hidden){e.preventDefault();close(true);return}
+      if(menu.hidden||!['ArrowDown','ArrowUp','Home','End'].includes(e.key))return;
+      e.preventDefault();const options=[...menu.querySelectorAll('button')],i=options.indexOf(doc.activeElement);
+      options[e.key==='Home'?0:e.key==='End'?options.length-1:(i+(e.key==='ArrowDown'?1:-1)+options.length)%options.length].focus();
+    });
     window.addEventListener('arq-theme-change',sync);sync();
   }
 
@@ -157,7 +162,7 @@
     const selector='h1,h2,h3,h4,h5,h6,p,span,a,button,label,small,li,td,th,input,textarea,select,strong,b';
     let fixed=0;
     scope.querySelectorAll(selector).forEach(el=>{
-      if(el.closest('[data-arq-no-auto-contrast],.hero,.hero-content,.hero-bg,.arq-hero,.arq-hero-media,.arq-market-hero,.product-hero'))return;
+      if(el.closest('[data-arq-no-auto-contrast],.hero,.hp-hero,.hp-audience-card,.hp-final-cta,.hp-btn-primary,.gold,.btn-gold,.btn-primary,.arq-btn--gold,.premium,.btn-premium,.arq-market-search-submit,.arq-search button,.hp-brand-item,.hero-content,.hero-bg,.arq-hero,.arq-hero-media,.arq-market-hero,.product-hero'))return;
       if(el.children.length>0&&!el.matches('a,button,label'))return;
       const s=getComputedStyle(el);
       if(s.display==='none'||s.visibility==='hidden'||Number(s.opacity)===0)return;

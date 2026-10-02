@@ -1,14 +1,14 @@
 <!doctype html><html lang="pt-BR" class="arq-premium-ui" data-arq-build="5.5.1"><head>
 <meta charset="utf-8">
 <meta name="color-scheme" content="light dark">
-<script id="arq-theme-boot">(()=>{try{const k="ARQSELECT_THEME",v=localStorage.getItem(k)||"auto",m=matchMedia("(prefers-color-scheme: dark)").matches,t=v==="auto"?(m?"dark":"light"):(v==="dark"?"dark":"light"),h=document.documentElement;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=["light","dark","auto"].includes(v)?v:"auto";h.style.colorScheme=t}catch(_){document.documentElement.dataset.theme="light"}})();</script>
+<script id="arq-theme-boot">(()=>{let p="auto";try{const v=localStorage.getItem("ARQSELECT_THEME");if(["light","dark","auto"].includes(v))p=v}catch(_){}const h=document.documentElement,t=p==="auto"?(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"):p;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=p;h.style.colorScheme=t})();</script>
 
 <meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b0c0c"><title>Produto | ARQSELECT</title>
 <link rel="icon" type="image/svg+xml" href="icon-master.svg">
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png"><meta name="description" content="Conheça detalhes, materiais, aplicações e solicite orçamento de produtos selecionados pela ARQSELECT."><link rel="manifest" href="manifest.webmanifest"><script src="arq-config.js?v=5.10.0" data-arq-optional="config"></script>
-<link rel="stylesheet" href="marketplace-premium.css?v=6.0.0"><link rel="stylesheet" href="arq-premium.css?v=6.0.0"><link rel="stylesheet" href="arq-ui-5.css?v=6.0.0"><link rel="stylesheet" href="arq-polish.css?v=6.0.0"><link rel="stylesheet" href="arq-marketplace-fix.css?v=6.0.0"><link rel="stylesheet" href="arq-design-system.css?v=5.10.0">
+<link rel="apple-touch-icon" href="icon-192.png"><meta name="description" content="Conheça detalhes, materiais, aplicações e solicite orçamento de produtos selecionados pela ARQSELECT."><link rel="manifest" href="manifest.webmanifest"><script src="arq-config.js?v=6.3.1" data-arq-optional="config"></script>
+<link rel="stylesheet" href="marketplace-premium.css?v=6.0.0"><link rel="stylesheet" href="arq-premium.css?v=6.0.0"><link rel="stylesheet" href="arq-ui-5.css?v=6.0.0"><link rel="stylesheet" href="arq-polish.css?v=6.0.0"><link rel="stylesheet" href="arq-marketplace-fix.css?v=6.0.0"><link rel="stylesheet" href="arq-design-system.css?v=6.3.1">
 </head><body class="marketplace-page" data-arq-page="product" data-arq-surface="marketplace">
 <header class="arq-market-header"><div class="arq-market-header__top"><a class="arq-logo" href="index.html">ARQ<span>SELECT</span><small>ARQUITETURA QUE CONECTA</small></a><form class="arq-search" action="explorar.html"><input name="q" type="search" placeholder="Buscar produtos, materiais, categorias..." aria-label="Buscar produtos"><button>Buscar</button></form><nav class="arq-header-actions"><a href="favoritos.html">♡ <span>Favoritos</span></a><a href="explorar.html">▦ <span>Marketplace</span></a><a href="portal.html">◉ <span>Minha conta</span></a></nav></div></header>
 <main id="productRoot" class="arq-product-page"><div class="arq-empty">Consulte os produtos da curadoria ARQSELECT. <a href="explorar.html">Abrir marketplace</a></div></main>
@@ -18,5 +18,5 @@
 <script src="arq-premium.js?v=6.0.0" defer></script>
 <script src="arq-commerce.js?v=6.0.0" defer></script>
 <script src="produto-premium.js?v=6.0.0" defer></script>
-<script src="arq-experience.js?v=5.10.0" defer></script>
+<script src="arq-experience.js?v=6.3.1" defer></script>
 <script src="arq-product-intelligence.js?v=6.3.0" defer></script></body></html>

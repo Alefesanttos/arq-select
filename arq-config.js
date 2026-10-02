@@ -30,8 +30,8 @@
   function apply(pref,persist){preference=valid(pref)?pref:"auto";const resolved=resolve(preference);root.dataset.theme=resolved;root.dataset.arqTheme=resolved;root.dataset.themePreference=preference;root.style.colorScheme=resolved;if(persist){try{localStorage.setItem(KEY,preference)}catch(_){}}const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.setAttribute("content",metaColor(resolved));try{window.dispatchEvent(new CustomEvent("arq-theme-change",{detail:{preference,resolved}}))}catch(_){window.dispatchEvent(new Event("arq-theme-change"))}return resolved}
   apply(preference,false);
   window.ARQSELECT_THEME=Object.freeze({set(value,persist=true){return apply(value,persist)},getPreference(){return preference},getResolved(){return resolve(preference)},resolve});
-  if(media.addEventListener)media.addEventListener("change",()=>{if(preference==="auto")apply("auto",false)});
-  window.addEventListener("storage",event=>{if(event.key===KEY)apply(valid(event.newValue)?event.newValue:"auto",false)});
+  const onSystemChange=()=>{if(preference==="auto")apply("auto",false)};if(media.addEventListener)media.addEventListener("change",onSystemChange);else if(media.addListener)media.addListener(onSystemChange);
+  window.addEventListener("storage",event=>{if(event.key===KEY||event.key===null)apply(valid(event.newValue)?event.newValue:"auto",false)});
 })();
 (function(){
   "use strict";if(window.__arq570Loader)return;window.__arq570Loader=true;
@@ -48,9 +48,9 @@
   function ensureAssets(){
     const head=document.head||document.documentElement;
     let design=document.querySelector('link#arq-design-system,link[href*="arq-design-system.css"]');
-    if(!design){design=document.createElement('link');design.id='arq-design-system';design.rel='stylesheet';design.href='arq-design-system.css?v=6.3.0';head.append(design);}
-    else{if(!design.id)design.id='arq-design-system';design.href='arq-design-system.css?v=6.3.0';}
-    if(!document.querySelector('script[src*="arq-experience.js"]')){const experience=document.createElement('script');experience.src='arq-experience.js?v=6.3.0';experience.defer=true;experience.dataset.arqExperience='1';head.append(experience);}
+    if(!design){design=document.createElement('link');design.id='arq-design-system';design.rel='stylesheet';design.href='arq-design-system.css?v=6.3.1';head.append(design);}
+    else{if(!design.id)design.id='arq-design-system';design.href='arq-design-system.css?v=6.3.1';}
+    if(!document.querySelector('script[src*="arq-experience.js"]')){const experience=document.createElement('script');experience.src='arq-experience.js?v=6.3.1';experience.defer=true;experience.dataset.arqExperience='1';head.append(experience);}
     if(!document.querySelector('script[src*="arq-performance.js"]')){const perf=document.createElement('script');perf.src='arq-performance.js?v=6.3.0';perf.defer=true;perf.dataset.arqPerformance='1';head.append(perf);}
     if(!document.querySelector('script[src*="arq-resilience.js"]')){const resilience=document.createElement('script');resilience.src='arq-resilience.js?v=6.3.0';resilience.defer=true;resilience.dataset.arqResilience='1';head.append(resilience);}
   }

@@ -120,7 +120,7 @@ body.arq-home .arq-product-card:hover{border-color:rgba(214,179,106,.35)!importa
 /* REFERENCE LOGOS */
 .hp-reference-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:10px}
 .hp-reference{height:70px;border:1px solid var(--hp-line-soft);border-radius:10px;background:#0e100f;display:grid;place-items:center;padding:13px}
-.hp-reference img{max-width:120px;max-height:28px;filter:grayscale(1) brightness(0) invert(1);opacity:.92}
+.hp-reference img{max-width:120px;max-height:28px;filter:none;opacity:1}
 
 /* PROJECTS + CONTENT */
 .hp-content-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.75fr);gap:22px;align-items:start}
@@ -242,18 +242,112 @@ html[data-theme="light"] .hp-footer a{color:#555854}
 .hp-reveal-ready.hp-reveal-in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.hp-reveal-ready{opacity:1;transform:none}}
 
-/* audit fixes 2026-10-02 */
-.hp-brand-symbol{width:92px;height:28px;display:block;fill:#d9d9d5;color:#d9d9d5;overflow:visible}
-.hp-brand-symbol *{fill:currentColor!important}
-.hp-brand-item-symbol{color:#d9d9d5}
-.hp-brand-item-image img{filter:grayscale(1);opacity:.88}
-.hp-brand-item-image:hover img{filter:grayscale(0)}
-.hp-brand-item[aria-label="Schneider Electric"] .hp-brand-symbol{width:104px}
-.hp-brand-item[aria-label="Home Assistant"] .hp-brand-symbol{width:42px}
-.hp-brand-item[aria-label="Autodesk"] .hp-brand-symbol,.hp-brand-item[aria-label="SketchUp"] .hp-brand-symbol{width:64px}
-.hp-brand-item[aria-label="3M"] .hp-brand-symbol{width:52px}
 .hp-header .hp-container{max-width:1500px}
 .hp-hero-copy{padding-right:12px}
 .hp-hero h1{max-width:760px}
 @media(max-width:1450px){.hp-navlinks a{font-size:10px;padding-inline:6px}.hp-brand-tag{display:none}.hp-actions .hp-btn{padding-inline:14px}}
 @media(max-width:1280px){.hp-navlinks{display:none}}
+
+/* 2026-10-02: reference logos, responsive layout and complete light surfaces. */
+body.arq-home{--hp-shadow:0 16px 48px rgba(0,0,0,.18)}
+.hp-container{width:min(var(--hp-max),calc(100% - 64px))}
+.hp-nav{gap:20px}
+.hp-brand{background:transparent!important;padding:0!important}
+.hp-brand-tag{font-size:8px;letter-spacing:.11em;color:var(--hp-muted)}
+.hp-header .hp-brand-name{letter-spacing:.15em}
+.hp-header .hp-brand-mark{width:46px;height:46px}
+.hp-navlinks a{font-size:12px;font-weight:650}
+.hp-menu-toggle{cursor:pointer}
+#home-menu.hp-mobile-menu{max-height:calc(100dvh - 100px);overflow-y:auto}
+.hp-brands{height:88px;background:var(--hp-bg-soft);border-block:1px solid var(--hp-line-soft);isolation:isolate}
+.hp-brands::before{width:40px;background:linear-gradient(90deg,var(--hp-bg-soft),transparent)}
+.hp-brands::after{width:36px;right:210px;background:linear-gradient(270deg,var(--hp-bg-soft),transparent)}
+.hp-brand-viewport{min-width:0;padding:0;overflow:hidden;touch-action:pan-y;cursor:grab;scroll-behavior:auto;scrollbar-width:none}
+.hp-brand-viewport:active{cursor:grabbing}
+.hp-brand-viewport::-webkit-scrollbar{display:none}
+.hp-brand-track{display:flex;transform:none!important;will-change:auto}
+.hp-brand-group{gap:38px;padding:0 19px}
+.hp-brand-item{flex:0 0 164px;width:164px;height:58px;opacity:1;padding:8px}
+.hp-brand-item img{display:block;width:auto;height:auto;max-width:148px;max-height:38px;object-fit:contain;filter:none!important;opacity:1;user-select:none;pointer-events:none}
+.hp-brand-item:hover img{transform:none}
+.hp-brand-item[data-brand="dexco"]{background:#171918;border-radius:5px}
+.hp-brand-item[data-brand="gerdau"],.hp-brand-item[data-brand="docol"],.hp-brand-item[data-brand="legrand-1"],.hp-brand-item[data-brand="siemens"],.hp-brand-item[data-brand="dewalt-1"],.hp-brand-item[data-brand="carrier"],.hp-brand-item[data-brand="mitsubishi-electric"],.hp-brand-item[data-brand="grohe"]{background:#fff;border-radius:5px}
+.hp-brand-item[data-brand="abb"] img{max-width:88px}
+.hp-brand-controls{display:flex;align-items:center;gap:12px;align-self:stretch;flex:none;width:210px;justify-content:center;background:var(--hp-bg-soft);z-index:4;border-left:1px solid var(--hp-line-soft)}
+.hp-brand-count{position:static;display:block;border:0;border-radius:0;padding:0;background:none;font-size:10px;color:var(--hp-muted);line-height:1.6}
+.hp-brand-count b{font-size:17px;font-weight:650;color:var(--hp-gold)}
+.hp-brand-count span{display:block}
+.hp-brand-pause{width:36px;height:36px;display:grid;place-items:center;border:1px solid var(--hp-line-soft);border-radius:50%;background:var(--hp-panel);color:var(--hp-text);cursor:pointer}
+.hp-brand-disclaimer{font-size:12px;color:var(--hp-muted);max-width:720px;margin:0 0 22px}
+.hp-reference{background:#fff!important}
+.hp-reference img{width:auto;height:auto;max-width:100%;max-height:38px;object-fit:contain;filter:none!important;opacity:1}
+.hp-reference:has(img[src$="dexco.svg"]){background:#171918!important}
+.hp-hero{min-height:650px}
+.hp-hero-grid{grid-template-columns:minmax(0,1.35fr) minmax(250px,.55fr);gap:70px;padding:76px 0 110px}
+.hp-hero h1{font-size:clamp(46px,5.4vw,78px);line-height:1.03;max-width:860px;text-wrap:balance}
+.hp-hero-lead{font-size:16px;max-width:610px}
+.hp-hero-actions .hp-btn{min-width:0;padding-inline:18px;font-size:12px}
+.hp-hero-aside{padding:24px;margin-bottom:0}
+.hp-hero-lower .hp-container{flex-wrap:wrap;justify-content:flex-start;gap:16px 38px}
+.hp-audience-body{min-height:310px;color:#f8f5ee}
+.hp-audience-body h3,.hp-final-cta h2{color:#f8f5ee}
+.hp-footer a.hp-brand{display:flex}
+.hp-footer-copy,.hp-copyright{color:var(--hp-muted)}
+.hp-btn-primary{color:#21180e!important}
+.hp-btn-silver{color:#f4f1ea}
+.hp-kicker,.hp-link,.hp-footer h4{color:var(--hp-gold)}
+.hp-project{background:var(--hp-panel)}
+.hp-project-body b,.hp-article h3{color:var(--hp-text)}
+.hp-final-cta .hp-btn-silver{color:#f4f1ea}
+html[data-theme="light"] body.arq-home{--hp-gold:#81591f;--hp-gold-2:#81591f;--hp-line:rgba(129,89,31,.23);--hp-shadow:0 16px 48px rgba(58,45,23,.08)}
+html[data-theme="light"] .hp-brands{background:var(--hp-bg-soft)}
+html[data-theme="light"] .hp-hero,html[data-theme="light"] .hp-audience-card,html[data-theme="light"] .hp-final-cta{--hp-gold-2:#f0cf8d;--hp-text:#f4f1ea}
+html[data-theme="light"] .hp-actions .hp-btn-dark,html[data-theme="light"] .hp-menu-toggle{background:#fff;color:#24251f;border-color:var(--hp-line-soft)}
+html[data-theme="light"] #home-menu.hp-mobile-menu{background:#fff;border-color:var(--hp-line-soft)}
+html[data-theme="light"] #home-menu.hp-mobile-menu :is(a,button){color:#24251f}
+html[data-theme="light"] .hp-link:hover,html[data-theme="light"] .hp-footer a:hover{color:#634214}
+html[data-theme="light"] body.arq-home .arq-product-card{background:var(--hp-panel)!important}
+html[data-theme="light"] #home-products .arq4-skeleton{background:var(--hp-bg-soft)}
+html[data-theme="light"] #public-results.hp-stats,html[data-theme="light"] #home-stats .num,html[data-theme="light"] #home-reviews.testimonials .quote{background:var(--hp-panel)}
+@media(min-width:1500px){.hp-brand-tag{display:block}}
+@media(max-width:1360px){.hp-navlinks{display:none}.hp-actions{margin-left:auto}}
+@media(max-width:860px){
+ .hp-container{width:calc(100% - 40px)}
+ .hp-hero-grid{grid-template-columns:1fr;padding:65px 0 105px}
+ .hp-hero{min-height:640px}
+ .hp-hero h1{font-size:clamp(45px,7.4vw,66px);max-width:720px}
+ .hp-brand-group{gap:28px;padding:0 14px}
+ .hp-brand-item{flex-basis:144px;width:144px}
+ .hp-brand-item img{max-width:130px;max-height:34px}
+ .hp-brand-controls{width:150px;gap:8px}
+ .hp-brands::after{right:150px}
+}
+@media(max-width:620px){
+ .hp-container{width:calc(100% - 32px)}
+ .hp-nav{gap:10px;min-height:72px}
+ .hp-brand{gap:8px;min-width:0}
+ .hp-header .hp-brand-mark{width:38px;height:38px}
+ .hp-brand-name{font-size:14px;letter-spacing:.1em}
+ .hp-actions{gap:8px}
+ .hp-actions .hp-btn-primary{display:none}
+ .hp-brands{height:76px}
+ .hp-brand-controls{width:84px;flex-direction:column;gap:0}
+ .hp-brand-count b{font-size:12px}
+ .hp-brand-count span{display:none}
+ .hp-brand-pause{width:32px;height:32px}
+ .hp-brands::before{width:18px}.hp-brands::after{right:84px;width:18px}
+ .hp-hero{min-height:0}
+ .hp-hero-grid{padding:52px 0 112px}
+ .hp-hero h1{font-size:clamp(39px,10.8vw,58px);line-height:1.04}
+ .hp-hero-lead{font-size:15px;margin:22px 0}
+ .hp-hero-lower .hp-container{gap:10px 16px;padding:14px 0}
+ .hp-hero-lower span{font-size:8px;white-space:normal}
+ .hp-hero-actions .hp-btn{min-height:46px}
+ .hp-audience-body{min-height:280px;padding:24px}
+ .hp-section{padding:56px 0}
+ .hp-reference{height:78px}
+ .hp-footer{padding-bottom:95px}
+}
+
+.hp-brand-item img{width:148px;height:38px}
+@media(max-width:860px){.hp-brand-item img{width:130px;height:34px}}
