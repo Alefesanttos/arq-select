@@ -1,0 +1,161 @@
+name: Build Standalone ALE Agent APK
+on:
+  push:
+    branches: [ale999999-narracao-temp]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.10.2'
+      - name: Create standalone Android project
+        shell: bash
+        run: |
+          rm -rf /tmp/ale-agent-android
+          mkdir -p /tmp/ale-agent-android/app/src/main/java/com/aleagent/app
+          mkdir -p /tmp/ale-agent-android/app/src/main/res/values /tmp/ale-agent-android/app/src/main/res/xml
+          cat > /tmp/ale-agent-android/settings.gradle.kts <<'EOF'
+          pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal() } }
+          dependencyResolutionManagement { repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS); repositories { google(); mavenCentral() } }
+          rootProject.name = "ALEAgent"
+          include(":app")
+          EOF
+          cat > /tmp/ale-agent-android/build.gradle.kts <<'EOF'
+          plugins {
+              id("com.android.application") version "8.7.3" apply false
+              id("org.jetbrains.kotlin.android") version "2.0.21" apply false
+          }
+          EOF
+          cat > /tmp/ale-agent-android/gradle.properties <<'EOF'
+          org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
+          android.useAndroidX=true
+          kotlin.code.style=official
+          EOF
+          cat > /tmp/ale-agent-android/app/build.gradle.kts <<'EOF'
+          plugins { id("com.android.application"); id("org.jetbrains.kotlin.android") }
+          android {
+              namespace = "com.aleagent.app"
+              compileSdk = 35
+              defaultConfig {
+                  applicationId = "com.aleagent.app"
+                  minSdk = 26
+                  targetSdk = 35
+                  versionCode = 1
+                  versionName = "1.0.0"
+              }
+          }
+          dependencies {}
+          EOF
+          cat > /tmp/ale-agent-android/app/src/main/res/values/strings.xml <<'EOF'
+          <resources><string name="app_name">ALE Agent</string><string name="service_channel">ALE Agent ativo</string></resources>
+          EOF
+          cat > /tmp/ale-agent-android/app/src/main/res/values/themes.xml <<'EOF'
+          <resources><style name="Theme.ALEAgent" parent="android:style/Theme.Material.NoActionBar"><item name="android:fontFamily">sans</item><item name="android:colorAccent">#C19A53</item><item name="android:navigationBarColor">#08090B</item><item name="android:statusBarColor">#08090B</item></style></resources>
+          EOF
+          cat > /tmp/ale-agent-android/app/src/main/res/xml/network_security_config.xml <<'EOF'
+          <network-security-config><base-config cleartextTrafficPermitted="true" /></network-security-config>
+          EOF
+          cat > /tmp/ale-agent-android/app/src/main/AndroidManifest.xml <<'EOF'
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+              <uses-permission android:name="android.permission.INTERNET" />
+              <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+              <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+              <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+              <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+              <application android:theme="@style/Theme.ALEAgent" android:label="ALE Agent" android:usesCleartextTraffic="true" android:networkSecurityConfig="@xml/network_security_config">
+                  <activity android:name=".MainActivity" android:exported="true">
+                      <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
+                  </activity>
+                  <service android:name=".AgentService" android:exported="false" android:foregroundServiceType="specialUse">
+                      <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="Persistent user-visible AI companion control surface with ongoing notification" />
+                  </service>
+                  <service android:name=".AgentTileService" android:label="ALE Agent" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" android:exported="true">
+                      <intent-filter><action android:name="android.service.quicksettings.action.QS_TILE"/></intent-filter>
+                  </service>
+                  <receiver android:name=".BootReceiver" android:enabled="true" android:exported="true">
+                      <intent-filter><action android:name="android.intent.action.BOOT_COMPLETED"/></intent-filter>
+                  </receiver>
+              </application>
+          </manifest>
+          EOF
+          cat > /tmp/ale-agent-android/app/src/main/java/com/aleagent/app/MainActivity.kt <<'EOF'
+          package com.aleagent.app
+          import android.Manifest
+          import android.content.pm.PackageManager
+          import android.os.Build
+          import android.os.Bundle
+          import android.webkit.WebChromeClient
+          import android.webkit.WebView
+          import android.webkit.WebViewClient
+          import android.widget.Button
+          import android.widget.EditText
+          import android.widget.LinearLayout
+          import android.widget.TextView
+          class MainActivity : android.app.Activity() {
+              private lateinit var web: WebView
+              private lateinit var urlInput: EditText
+              override fun onCreate(savedInstanceState: Bundle?) {
+                  super.onCreate(savedInstanceState)
+                  requestNotificationPermission()
+                  val prefs = getSharedPreferences("ale", MODE_PRIVATE)
+                  val root = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(24,24,24,24) }
+                  val title = TextView(this).apply { text = "ALE Agent"; textSize = 26f }
+                  urlInput = EditText(this).apply { hint = "https://seu-servidor.com"; setText(prefs.getString("url", "http://10.0.2.2:8787")) }
+                  val save = Button(this).apply { text = "Salvar e ativar" }
+                  web = WebView(this).apply { settings.javaScriptEnabled = true; settings.domStorageEnabled = true; webViewClient = WebViewClient(); webChromeClient = WebChromeClient() }
+                  root.addView(title); root.addView(urlInput); root.addView(save); root.addView(web, LinearLayout.LayoutParams(-1,0,1f)); setContentView(root)
+                  save.setOnClickListener { val url=urlInput.text.toString().trim().ifBlank{"http://10.0.2.2:8787"}; prefs.edit().putString("url",url).putBoolean("service_enabled",true).apply(); AgentService.start(this); web.loadUrl(url) }
+                  val initial=prefs.getString("url","http://10.0.2.2:8787")!!; web.loadUrl(initial)
+                  if(prefs.getBoolean("service_enabled",false)) runCatching { AgentService.start(this) }
+              }
+              private fun requestNotificationPermission(){ if(Build.VERSION.SDK_INT>=33 && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)!=PackageManager.PERMISSION_GRANTED) requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS),7) }
+          }
+          EOF
+          cat > /tmp/ale-agent-android/app/src/main/java/com/aleagent/app/AgentService.kt <<'EOF'
+          package com.aleagent.app
+          import android.app.*
+          import android.content.Context
+          import android.content.Intent
+          import android.os.Build
+          import android.os.IBinder
+          class AgentService : Service() {
+              companion object { const val CHANNEL="ale_agent_active"; fun start(context:Context){ val i=Intent(context,AgentService::class.java); if(Build.VERSION.SDK_INT>=26) context.startForegroundService(i) else context.startService(i) } }
+              override fun onCreate(){ super.onCreate(); if(Build.VERSION.SDK_INT>=26){ val c=NotificationChannel(CHANNEL,"ALE Agent ativo",NotificationManager.IMPORTANCE_LOW); getSystemService(NotificationManager::class.java).createNotificationChannel(c) } }
+              override fun onStartCommand(intent:Intent?,flags:Int,startId:Int):Int {
+                  val open=PendingIntent.getActivity(this,0,Intent(this,MainActivity::class.java).apply{this.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP},PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+                  val n=Notification.Builder(this,CHANNEL).setSmallIcon(android.R.drawable.ic_dialog_info).setContentTitle("ALE Agent ativo").setContentText("Toque para abrir o agente").setOngoing(true).setContentIntent(open).addAction(Notification.Action.Builder(android.R.drawable.ic_menu_view,"Abrir agente",open).build()).build()
+                  startForeground(1001,n); return START_STICKY
+              }
+              override fun onBind(intent:Intent?):IBinder?=null
+          }
+          EOF
+          cat > /tmp/ale-agent-android/app/src/main/java/com/aleagent/app/BootReceiver.kt <<'EOF'
+          package com.aleagent.app
+          import android.content.BroadcastReceiver
+          import android.content.Context
+          import android.content.Intent
+          class BootReceiver:BroadcastReceiver(){ override fun onReceive(context:Context,intent:Intent){ if(intent.action==Intent.ACTION_BOOT_COMPLETED){ val enabled=context.getSharedPreferences("ale",Context.MODE_PRIVATE).getBoolean("service_enabled",false); if(enabled) runCatching{AgentService.start(context)} } } }
+          EOF
+          cat > /tmp/ale-agent-android/app/src/main/java/com/aleagent/app/AgentTileService.kt <<'EOF'
+          package com.aleagent.app
+          import android.app.PendingIntent
+          import android.content.Intent
+          import android.os.Build
+          import android.service.quicksettings.TileService
+          class AgentTileService:TileService(){ override fun onClick(){ super.onClick(); val i=Intent(this,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); if(Build.VERSION.SDK_INT>=34){ val p=PendingIntent.getActivity(this,0,i,PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT); startActivityAndCollapse(p) } else { @Suppress("DEPRECATION") startActivityAndCollapse(i) } } }
+          EOF
+      - name: Build APK
+        run: gradle -p /tmp/ale-agent-android :app:assembleDebug --stacktrace
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ALE-Agent-APK
+          path: /tmp/ale-agent-android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 1
