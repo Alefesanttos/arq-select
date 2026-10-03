@@ -14,10 +14,10 @@
       <button type="button" role="menuitemradio" data-theme-choice="light">☀ <span>Claro</span></button>
       <button type="button" role="menuitemradio" data-theme-choice="dark">☾ <span>Escuro</span></button>
       <button type="button" role="menuitemradio" data-theme-choice="auto">◐ <span>Sistema</span></button>
-    </div><button id="arq-theme-trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Alterar tema"></button>`;
+    </div><button id="arq-theme-trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Alterar tema"><span class="arq-theme-trigger__icon" aria-hidden="true"></span><span class="arq-theme-trigger__label"></span></button>`;
     doc.body.append(host);
     const trigger=host.querySelector('#arq-theme-trigger'),menu=host.querySelector('#arq-theme-menu');
-    function sync(){const api=themeApi(),pref=api?.getPreference?.()||root.dataset.themePreference||'auto',resolved=api?.getResolved?.()||root.dataset.theme||'light';trigger.textContent=icon(resolved);trigger.title=`Tema ${resolved==='dark'?'escuro':'claro'} · preferência ${pref==='auto'?'do sistema':pref}`;menu.querySelectorAll('[data-theme-choice]').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.themeChoice===pref)))}
+    function sync(){const api=themeApi(),pref=api?.getPreference?.()||root.dataset.themePreference||'auto',resolved=api?.getResolved?.()||root.dataset.theme||'light',names={light:'Claro',dark:'Escuro',auto:'Sistema'},label=names[pref]||names.auto;trigger.querySelector('.arq-theme-trigger__icon').textContent=icon(pref==='auto'?resolved:pref);trigger.querySelector('.arq-theme-trigger__label').textContent=label;trigger.setAttribute('aria-label',`Tema ativo: ${label}. Abrir opções de tema`);trigger.title=`Tema ativo: ${label} · aparência ${resolved==='dark'?'escura':'clara'}`;menu.querySelectorAll('[data-theme-choice]').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.themeChoice===pref)))}
     function close(restore=false){menu.hidden=true;trigger.setAttribute('aria-expanded','false');if(restore)trigger.focus()}
     trigger.addEventListener('click',()=>{const open=menu.hidden;menu.hidden=!open;trigger.setAttribute('aria-expanded',String(open));if(open)menu.querySelector('[aria-checked="true"]')?.focus()});
     menu.addEventListener('click',e=>{const b=e.target.closest('[data-theme-choice]');if(!b)return;themeApi()?.set?.(b.dataset.themeChoice,true);sync();close(true)});

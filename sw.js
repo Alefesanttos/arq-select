@@ -1,5 +1,5 @@
 /* ARQSELECT 6.3.0 — cache resiliente e responsivo para todos os dispositivos. */
-const CACHE='arqselect-6.3.0.20261002.632';
+const CACHE='arqselect-6.3.0.20261003.633';
 const STATIC=[
   './offline.html','./arq-design-system.css','./arq-experience.js','./arq-config.js',
   './arqselect-6.css','./arqselect-6.js','./arq-services.css','./arq-services.js','./arq-performance.js','./arq-intelligence.js','./arq-business.js',

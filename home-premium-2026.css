@@ -260,8 +260,8 @@ body.arq-home{--hp-shadow:0 16px 48px rgba(0,0,0,.18)}
 .hp-menu-toggle{cursor:pointer}
 #home-menu.hp-mobile-menu{max-height:calc(100dvh - 100px);overflow-y:auto}
 .hp-brands{height:88px;background:var(--hp-bg-soft);border-block:1px solid var(--hp-line-soft);isolation:isolate}
-.hp-brands::before{width:40px;background:linear-gradient(90deg,var(--hp-bg-soft),transparent)}
-.hp-brands::after{width:36px;right:210px;background:linear-gradient(270deg,var(--hp-bg-soft),transparent)}
+.hp-brands::before{width:104px;background:linear-gradient(90deg,var(--hp-bg-soft),transparent)}
+.hp-brands::after{width:96px;right:210px;background:linear-gradient(270deg,var(--hp-bg-soft),transparent)}
 .hp-brand-viewport{min-width:0;padding:0;overflow:hidden;touch-action:pan-y;cursor:grab;scroll-behavior:auto;scrollbar-width:none}
 .hp-brand-viewport:active{cursor:grabbing}
 .hp-brand-viewport::-webkit-scrollbar{display:none}
@@ -335,7 +335,7 @@ html[data-theme="light"] #public-results.hp-stats,html[data-theme="light"] #home
  .hp-brand-count b{font-size:12px}
  .hp-brand-count span{display:none}
  .hp-brand-pause{width:32px;height:32px}
- .hp-brands::before{width:18px}.hp-brands::after{right:84px;width:18px}
+ .hp-brands::before{width:34px}.hp-brands::after{right:84px;width:28px}
  .hp-hero{min-height:0}
  .hp-hero-grid{padding:52px 0 112px}
  .hp-hero h1{font-size:clamp(39px,10.8vw,58px);line-height:1.04}

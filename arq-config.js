@@ -48,9 +48,9 @@
   function ensureAssets(){
     const head=document.head||document.documentElement;
     let design=document.querySelector('link#arq-design-system,link[href*="arq-design-system.css"]');
-    if(!design){design=document.createElement('link');design.id='arq-design-system';design.rel='stylesheet';design.href='arq-design-system.css?v=6.3.1';head.append(design);}
-    else{if(!design.id)design.id='arq-design-system';design.href='arq-design-system.css?v=6.3.1';}
-    if(!document.querySelector('script[src*="arq-experience.js"]')){const experience=document.createElement('script');experience.src='arq-experience.js?v=6.3.1';experience.defer=true;experience.dataset.arqExperience='1';head.append(experience);}
+    if(!design){design=document.createElement('link');design.id='arq-design-system';design.rel='stylesheet';design.href='arq-design-system.css?v=6.3.2';head.append(design);}
+    else{if(!design.id)design.id='arq-design-system';design.href='arq-design-system.css?v=6.3.2';}
+    if(!document.querySelector('script[src*="arq-experience.js"]')){const experience=document.createElement('script');experience.src='arq-experience.js?v=6.3.2';experience.defer=true;experience.dataset.arqExperience='1';head.append(experience);}
     if(!document.querySelector('script[src*="arq-performance.js"]')){const perf=document.createElement('script');perf.src='arq-performance.js?v=6.3.0';perf.defer=true;perf.dataset.arqPerformance='1';head.append(perf);}
     if(!document.querySelector('script[src*="arq-resilience.js"]')){const resilience=document.createElement('script');resilience.src='arq-resilience.js?v=6.3.0';resilience.defer=true;resilience.dataset.arqResilience='1';head.append(resilience);}
   }

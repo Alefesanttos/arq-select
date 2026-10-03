@@ -35,7 +35,7 @@
     if (!root) return;
     const result = await ARQSELECT4.api("arq4_public_reviews", {limite:3});
     const rows = result.sucesso ? result.avaliacoes || [] : [];
-    root.innerHTML = rows.length ? rows.map(item => `<article class="quote"><div class="badge green">Avaliação publicada · ${Number(item.nota || 0).toFixed(1)} ★</div><p>“${esc(item.comentario)}”</p><footer>${esc(item.nome)} · ${esc(item.tipo)}</footer></article>`).join("") : '<div class="quote empty" style="grid-column:1/-1"><b>As avaliações verificadas aparecerão aqui.</b><span>Somente experiências reais, publicadas após moderação, são exibidas.</span></div>';
+    root.innerHTML = rows.length ? rows.map(item => `<article class="quote"><div class="badge green">Avaliação publicada · ${Number(item.nota || 0).toFixed(1)} ★</div><p>“${esc(item.comentario)}”</p><footer>${esc(item.nome)} · ${esc(item.tipo)}</footer></article>`).join("") : `<div class="quote empty" style="grid-column:1/-1"><b>${result.sucesso ? "Ainda não há avaliações publicadas." : "As avaliações não estão disponíveis agora."}</b></div>`;
   }
 
   async function loadProducts() {

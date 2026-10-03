@@ -4,7 +4,7 @@
 <script id="arq-theme-boot">(()=>{let p="auto";try{const v=localStorage.getItem("ARQSELECT_THEME");if(["light","dark","auto"].includes(v))p=v}catch(_){}const h=document.documentElement,t=p==="auto"?(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"):p;h.dataset.theme=t;h.dataset.arqTheme=t;h.dataset.themePreference=p;h.style.colorScheme=t})();</script>
 
 <meta http-equiv="Content-Security-Policy" content="img-src 'self' data: blob:; object-src 'none'; base-uri 'self'">
-<script src="arq-config.js?v=6.3.1"></script><meta name="viewport" content="width=device-width,initial-scale=1"><title>ARQSELECT | Conexões</title>
+<script src="arq-config.js?v=6.3.2"></script><meta name="viewport" content="width=device-width,initial-scale=1"><title>ARQSELECT | Conexões</title>
 <link rel="icon" type="image/svg+xml" href="icon-master.svg">
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -72,7 +72,7 @@ select option{background:#171717;color:#f5f2e9}
 
 }</style>
 <meta name="theme-color" content="#070807"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="arqselect-4.css"><link rel="stylesheet" href="arq-premium.css?v=5.7.0"><link rel="stylesheet" href="arq-ui-5.css?v=5.7.0"><link rel="stylesheet" href="arq-polish.css?v=5.7.0">
-<link rel="stylesheet" href="arq-design-system.css?v=6.3.1">
+<link rel="stylesheet" href="arq-design-system.css?v=6.3.2">
 </head><body data-arq-page="conexoes" data-arq-surface="workspace"><header class="top"><div class="brand">ARQ<span>SELECT</span></div><nav class="nav"><a class="btn light" href="explorar.html">Explorar</a><a class="btn gold" href="chat.html">Chat</a></nav></header><main class="wrap"><section class="hero"><div class="ey">REDE PROFISSIONAL</div><h1>Minhas conexões</h1><div class="muted">Centralize contatos que já interagiram com seus projetos.</div></section><div id="app" class="grid"><div class="card">Carregando...</div></div></main><script>const API=(window.ARQSELECT_API_URL||window.ARQSELECT_CONFIG.apiUrl),token=localStorage.getItem('ARQSELECT_PORTAL_TOKEN');function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}async function load(){const u=new URL(API);u.searchParams.set('acao','portal_conexoes');u.searchParams.set('token',token||'');const j=await fetch(u).then(r=>r.json());const d=j.conexoes||[];document.getElementById('app').innerHTML=d.length?d.map(x=>`<article class="card"><div class="ey">${esc(x['USUARIO A TIPO']||'')} ↔ ${esc(x['USUARIO B TIPO']||'')}</div><h3>${esc(x['USUARIO A ID']===localStorage.getItem('ARQSELECT_PORTAL_ID')?x['USUARIO B ID']:x['USUARIO A ID'])}</h3><div class="muted">Status: ${esc(x.STATUS)} · Última interação: ${esc(x['ULTIMA INTERACAO'])}</div><a class="btn gold" href="chat.html">Abrir chat</a></article>`).join(''):'<div class="card">Você ainda não possui conexões.</div>'}load().catch(()=>{document.getElementById('app').innerHTML='<div class="card" role="alert">Não foi possível carregar as conexões. Verifique sua conexão e <a href="conexoes.html">tente novamente</a>.</div>'});</script>
 <script id="arqselect-role-nav">
 (function(){
@@ -87,5 +87,5 @@ select option{background:#171717;color:#f5f2e9}
 })();
 </script>
 <script src="arqselect-4.js"></script><script src="arq-premium.js?v=5.7.0"></script>
-<script src="arq-experience.js?v=6.3.1" defer></script>
+<script src="arq-experience.js?v=6.3.2" defer></script>
 </body></html>
