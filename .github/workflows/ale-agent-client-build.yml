@@ -1,0 +1,80 @@
+name: Build ALE Agent Client APK
+on:
+  push:
+    branches: [ale999999-narracao-temp]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.10.2'
+      - name: Create Android project
+        run: |
+          mkdir -p /tmp/ale/app/src/main/java/com/aleagent/app /tmp/ale/app/src/main/res/values /tmp/ale/app/src/main/res/xml
+          cat >/tmp/ale/settings.gradle.kts <<'EOF'
+          pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal() } }
+          dependencyResolutionManagement { repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS); repositories { google(); mavenCentral() } }
+          rootProject.name="ALEAgent"
+          include(":app")
+          EOF
+          cat >/tmp/ale/build.gradle.kts <<'EOF'
+          plugins { id("com.android.application") version "8.7.3" apply false }
+          EOF
+          cat >/tmp/ale/app/build.gradle.kts <<'EOF'
+          plugins { id("com.android.application") }
+          android {
+            namespace="com.aleagent.app"
+            compileSdk=35
+            defaultConfig { applicationId="com.aleagent.app"; minSdk=26; targetSdk=35; versionCode=1; versionName="1.0.0" }
+            compileOptions { sourceCompatibility=JavaVersion.VERSION_17; targetCompatibility=JavaVersion.VERSION_17 }
+          }
+          EOF
+          cat >/tmp/ale/app/src/main/res/values/themes.xml <<'EOF'
+          <resources><style name="Theme.ALEAgent" parent="android:style/Theme.Material.NoActionBar"><item name="android:colorAccent">#C19A53</item></style></resources>
+          EOF
+          cat >/tmp/ale/app/src/main/res/xml/network_security_config.xml <<'EOF'
+          <network-security-config><base-config cleartextTrafficPermitted="true"/></network-security-config>
+          EOF
+          cat >/tmp/ale/app/src/main/AndroidManifest.xml <<'EOF'
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <application android:theme="@style/Theme.ALEAgent" android:label="ALE Agent" android:usesCleartextTraffic="true" android:networkSecurityConfig="@xml/network_security_config">
+              <activity android:name=".MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity>
+            </application>
+          </manifest>
+          EOF
+          cat >/tmp/ale/app/src/main/java/com/aleagent/app/MainActivity.java <<'EOF'
+          package com.aleagent.app;
+          import android.app.Activity;
+          import android.os.Bundle;
+          import android.webkit.WebView;
+          import android.webkit.WebViewClient;
+          import android.widget.*;
+          public class MainActivity extends Activity {
+            @Override public void onCreate(Bundle b){
+              super.onCreate(b);
+              var p=getSharedPreferences("ale",MODE_PRIVATE);
+              var root=new LinearLayout(this); root.setOrientation(LinearLayout.VERTICAL); root.setPadding(24,24,24,24);
+              var title=new TextView(this); title.setText("ALE Agent"); title.setTextSize(26f);
+              var input=new EditText(this); input.setHint("https://seu-servidor.com"); input.setText(p.getString("url","http://10.0.2.2:8787"));
+              var button=new Button(this); button.setText("Abrir agente");
+              var web=new WebView(this); web.getSettings().setJavaScriptEnabled(true); web.getSettings().setDomStorageEnabled(true); web.setWebViewClient(new WebViewClient());
+              root.addView(title); root.addView(input); root.addView(button); root.addView(web,new LinearLayout.LayoutParams(-1,0,1f)); setContentView(root);
+              button.setOnClickListener(v->{var u=input.getText().toString().trim(); if(u.isEmpty())u="http://10.0.2.2:8787"; p.edit().putString("url",u).apply(); web.loadUrl(u);});
+              web.loadUrl(p.getString("url","http://10.0.2.2:8787"));
+            }
+          }
+          EOF
+      - name: Build APK
+        run: gradle -p /tmp/ale :app:assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ALE-Agent-Client-APK
+          path: /tmp/ale/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 1
